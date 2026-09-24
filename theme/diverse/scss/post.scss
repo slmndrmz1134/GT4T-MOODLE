@@ -58,6 +58,12 @@ body.pagelayout-mycourses #page {
     --#{$prefix}btn-active-border-color: #{$diverse-ink};
 }
 
+// Buttons attached to form controls (e.g. the password "show" toggle) keep the input's
+// corner radius instead of the pill shape, so they join the field cleanly.
+.input-group > .btn {
+    --#{$prefix}btn-border-radius: #{$input-border-radius};
+}
+
 // Cards: neutral hairline border.
 .card {
     --#{$prefix}card-border-color: #{$diverse-border};
