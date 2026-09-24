@@ -1,0 +1,42 @@
+{{!
+    @template theme_moove/login
+
+    GT4T login — centred sign-in card.
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="gt4t-login-wrapper">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    <div id="page" class="gt4t-login-page">
+        <div class="gt4t-login-bg{{#loginbackgroundurl}} gt4t-login-bg--tenant{{/loginbackgroundurl}}" aria-hidden="true"{{#loginbackgroundurl}} style="background-image: url('{{{loginbackgroundurl}}}');"{{/loginbackgroundurl}}></div>
+
+        <a href="{{wwwroot}}/" class="gt4t-login-back">
+            <span aria-hidden="true">&larr;</span> {{#str}}home, core{{/str}}
+        </a>
+
+        <div class="gt4t-login-shell">
+            <main class="gt4t-login-main" id="region-main">
+                <div class="login-wrapper">
+                    <div class="login-container">
+                        {{{ output.main_content }}}
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        {{> theme_moove/moove/loginfooter }}
+    </div>
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

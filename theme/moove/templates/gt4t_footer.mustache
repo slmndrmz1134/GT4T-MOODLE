@@ -1,0 +1,76 @@
+{{!
+    @template theme_moove/gt4t_footer
+
+    GT4T front page footer.
+}}
+<footer id="gt4t-footer" class="gt4t-footer">
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-12 col-lg-4">
+                <a href="#gt4t-hero" class="gt4t-footer-brand gt4t-nav-scroll d-inline-flex align-items-center mb-3">
+                    <img src="{{gt4tlogourl}}" alt="GT4T" class="gt4t-footer-logo me-2" width="40" height="40" loading="lazy" decoding="async">
+                    <span class="gt4t-footer-sitename">GreenTech4Transformation</span>
+                </a>
+                <p class="gt4t-footer-tagline">{{#str}}gt4tfootertagline, theme_moove{{/str}}</p>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+                <h3 class="gt4t-footer-title">{{#str}}gt4tfooternav, theme_moove{{/str}}</h3>
+                <ul class="gt4t-footer-links list-unstyled mb-0">
+                    {{#gt4t_frontpage_nav}}
+                        <li><a href="#{{id}}" class="gt4t-nav-scroll" data-gt4t-section="{{id}}">{{label}}</a></li>
+                    {{/gt4t_frontpage_nav}}
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-2">
+                <h3 class="gt4t-footer-title">{{#str}}gt4tfooterexplore, theme_moove{{/str}}</h3>
+                <ul class="gt4t-footer-links list-unstyled mb-0">
+                    <li><a href="{{config.wwwroot}}/course/">{{#str}}gt4tfootercourses, theme_moove{{/str}}</a></li>
+                    <li><a href="{{config.wwwroot}}/login/index.php">{{#str}}gt4tfooterlogin, theme_moove{{/str}}</a></li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4">
+                {{#hasfootercontact}}
+                    <h3 class="gt4t-footer-title">{{#str}}contactus, theme_moove{{/str}}</h3>
+                    <ul class="gt4t-footer-social list-unstyled mb-3">
+                        {{#website}}
+                            <li><a href="{{{website}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-globe"></i></a></li>
+                        {{/website}}
+                        {{#mail}}
+                            <li><a href="mailto:{{{mail}}}" class="gt4t-footer-icon"><i class="fa fa-envelope"></i></a></li>
+                        {{/mail}}
+                        {{#mobile}}
+                            <li><a href="tel:{{{mobile}}}" class="gt4t-footer-icon"><i class="fa fa-phone"></i></a></li>
+                        {{/mobile}}
+                    </ul>
+                {{/hasfootercontact}}
+
+                {{#hasfootersocial}}
+                    <h3 class="gt4t-footer-title">{{#str}}followus, theme_moove{{/str}}</h3>
+                    <ul class="gt4t-footer-social list-unstyled mb-0">
+                        {{#linkedin}}<li><a href="{{{linkedin}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-linkedin"></i></a></li>{{/linkedin}}
+                        {{#youtube}}<li><a href="{{{youtube}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-youtube"></i></a></li>{{/youtube}}
+                        {{#twitter}}<li><a href="{{{twitter}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-twitter"></i></a></li>{{/twitter}}
+                        {{#facebook}}<li><a href="{{{facebook}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-facebook"></i></a></li>{{/facebook}}
+                        {{#instagram}}<li><a href="{{{instagram}}}" target="_blank" rel="noopener" class="gt4t-footer-icon"><i class="fa fa-instagram"></i></a></li>{{/instagram}}
+                    </ul>
+                {{/hasfootersocial}}
+
+                {{# output.supportemail }}
+                    <div class="gt4t-footer-support mt-3">{{{ output.supportemail }}}</div>
+                {{/ output.supportemail }}
+            </div>
+        </div>
+
+        <div class="gt4t-footer-bottom row align-items-center mt-4 pt-4">
+            <div class="col-12 col-md text-center text-md-start">
+                <p class="mb-0 gt4t-footer-copy">{{#str}}gt4tfootercopyright, theme_moove, {{gt4t_footer_year}}{{/str}}</p>
+            </div>
+            <div class="col-12 col-md-auto text-center text-md-end">
+                <span class="gt4t-footer-moodle">{{#str}}poweredbymoodle, core{{/str}}</span>
+            </div>
+        </div>
+    </div>
+</footer>

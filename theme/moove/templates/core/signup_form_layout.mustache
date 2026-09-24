@@ -1,0 +1,44 @@
+{{!
+    @template core/signup_form_layout
+
+    GT4T signup card (theme_moove override).
+}}
+<div class="gt4t-signin-panel gt4t-signup-panel signupform">
+    <header class="gt4t-signin-header">
+        {{#logourl}}
+            <img class="gt4t-signin-logo" src="{{logourl}}" alt="{{sitename}}">
+        {{/logourl}}
+        <p class="gt4t-signin-eyebrow">GT4T · GreenTech4Transformation</p>
+        <h1 class="gt4t-signin-title">{{#str}} newaccount, core {{/str}}</h1>
+        <p class="gt4t-signin-subtitle">{{#str}}gt4tsignupsubtitle, theme_moove{{/str}}</p>
+    </header>
+
+    <div class="gt4t-signin-body gt4t-signup-body">
+        {{{formhtml}}}
+    </div>
+
+    <div class="gt4t-signin-signup gt4t-signin-signup--loginlink text-center mb-0">
+        <a class="gt4t-login-link" href="{{loginurl}}">{{#str}}alreadyhaveaccount, theme_moove{{/str}}</a>
+    </div>
+</div>
+{{#js}}
+require(['theme_moove/login_password_toggle'], function(Toggle) {
+    Toggle.initSignup();
+});
+require(['theme_moove/login_role_toggle'], function(RoleToggle) {
+    RoleToggle.init({ page: 'signup' });
+});
+
+(function() {
+    const email1 = document.getElementById('id_email');
+    const email2 = document.getElementById('id_email2');
+    if (email1 && email2) {
+        const syncEmail = () => {
+            email2.value = email1.value;
+        };
+        email1.addEventListener('input', syncEmail);
+        email1.addEventListener('change', syncEmail);
+        syncEmail();
+    }
+})();
+{{/js}}

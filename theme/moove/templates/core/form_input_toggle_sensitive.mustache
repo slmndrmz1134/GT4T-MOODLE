@@ -1,0 +1,11 @@
+{{!
+    @template core/form_input_toggle_sensitive
+
+    GT4T password visibility toggle (theme_moove override).
+}}
+<div class="gt4t-password-toggle toggle-sensitive-wrapper {{#smallscreensonly}}small-screens-only{{/smallscreensonly}}">
+    {{{sensitiveinput}}}
+    <button class="toggle-sensitive-btn gt4t-password-toggle-btn" type="button" aria-label="{{#str}}togglesensitive, form{{/str}}">
+        {{#pix}}t/show, core{{/pix}}
+    </button>
+</div>

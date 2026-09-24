@@ -1,0 +1,166 @@
+// GT4T Dark Theme Variables
+$brand-primary: #1DC71D !default;
+$green: #1DC71D !default;
+$gold: #00C8E8 !default;
+$background: #f0f7f0;
+
+// GT4T Dark palette
+$gt4t-dark: #0a0a0a;
+$gt4t-dark-card: #141414;
+$gt4t-dark-surface: #1a1a1a;
+$gt4t-bg-deep: #0a0a0a;
+$gt4t-bg-mid: #0d1117;
+$gt4t-bg-elevated: #111827;
+$gt4t-bg-soft: #0f1419;
+
+// Front page: vertical section flow (each section ends where the next begins).
+$gt4t-fp-hero-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-deep 0%,
+    $gt4t-bg-mid 28%,
+    $gt4t-bg-elevated 52%,
+    $gt4t-bg-mid 72%,
+    $gt4t-bg-deep 100%
+);
+$gt4t-fp-features-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-deep 0%,
+    $gt4t-bg-mid 22%,
+    $gt4t-bg-elevated 48%,
+    $gt4t-bg-mid 78%,
+    $gt4t-bg-mid 100%
+);
+$gt4t-fp-collaborate-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-mid 0%,
+    $gt4t-bg-elevated 30%,
+    $gt4t-bg-soft 55%,
+    $gt4t-bg-mid 80%,
+    $gt4t-bg-deep 100%
+);
+$gt4t-fp-impact-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-deep 0%,
+    $gt4t-bg-mid 35%,
+    $gt4t-bg-elevated 62%,
+    $gt4t-bg-mid 88%,
+    $gt4t-bg-mid 100%
+);
+$gt4t-fp-faq-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-mid 0%,
+    $gt4t-bg-deep 30%,
+    $gt4t-bg-mid 60%,
+    $gt4t-bg-elevated 85%,
+    $gt4t-bg-deep 100%
+);
+$gt4t-fp-courses-bg: linear-gradient(
+    180deg,
+    $gt4t-bg-deep 0%,
+    $gt4t-bg-mid 40%,
+    $gt4t-bg-deep 100%
+);
+
+@mixin gt4t-card-surface {
+    background: linear-gradient(
+        165deg,
+        rgba(20, 20, 20, 0.97) 0%,
+        rgba(15, 20, 25, 0.94) 42%,
+        rgba(13, 17, 23, 0.98) 100%
+    );
+}
+
+@mixin gt4t-fp-section-base {
+    position: relative;
+    isolation: isolate;
+
+    > .container {
+        position: relative;
+        z-index: 1;
+    }
+}
+$gt4t-accent-green: #00e676;
+$gt4t-accent-cyan: #00C8E8;
+$gt4t-text-primary: #ffffff;
+$gt4t-text-secondary: #b0b0b0;
+$gt4t-border-glow: rgba(29, 199, 29, 0.3);
+
+// Scrollbar (GT4T green/cyan on dark track).
+@mixin gt4t-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(29, 199, 29, 0.55) $gt4t-dark;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $gt4t-dark;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(29, 199, 29, 0.85), rgba(0, 200, 232, 0.75));
+        border-radius: 6px;
+        border: 2px solid $gt4t-dark;
+
+        &:hover {
+            background: linear-gradient(180deg, $green, $gold);
+        }
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: $gt4t-dark;
+    }
+}
+
+// Fonts
+$gt4t-font-body: 'Montserrat', sans-serif;
+$gt4t-font-heading: 'Montserrat', sans-serif;
+
+$secondary-menu-color: $brand-primary !default;
+
+$moodle-color: #f98012 !default;
+$facebook-color: #4167B2 !default;
+$twitter-color: #55acee !default;
+$youtube-color: #cc181e !default;
+$linkedin-color: #007bb5 !default;
+$instagram-color: #8a3ab9 !default;
+$whatsapp-color: #25d366 !default;
+$telegram-color: #0088cc !default;
+$tiktok-color: #000 !default;
+$pinterest-color: #e60023 !default;
+
+// "GreenTech4Transformation" (25 chars) in Montserrat — fit one line in container.
+$gt4t-brand-title-scale: 19 !default;
+
+@mixin gt4t-brand-title-line($max-size: 3.5rem) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: visible;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    box-sizing: border-box;
+    text-overflow: unset;
+
+    @supports (width: 1cqw) {
+        font-size: min(#{$max-size}, calc(100cqw / #{$gt4t-brand-title-scale})) !important;
+    }
+
+    @supports not (width: 1cqw) {
+        font-size: clamp(0.65rem, calc(100vw / #{$gt4t-brand-title-scale}), #{$max-size}) !important;
+    }
+}
+
+// Global GT4T Theme Color Variables
+$gt4t-green: #1DC71D;
+$gt4t-dark-bg: #0b0f17;
+$gt4t-card-bg: #1e293b;
+$gt4t-input-bg: #0f172a;
+$gt4t-border-color: #334155;
+$gt4t-text-muted: #94a3b8;

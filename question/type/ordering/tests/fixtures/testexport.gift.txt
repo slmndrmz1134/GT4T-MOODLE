@@ -1,0 +1,14 @@
+// question: 123  name: Moodle
+// [id:myid]
+<<<<<<< HEAD
+::Moodle::[html]Put these words in order.{>2 ALL HORIZONTAL RELATIVE_ALL_PREVIOUS_AND_NEXT SHOW none
+=======
+::Moodle::[html]Put these words in order.{>2     none
+>>>>>>> 0517ab19fe5dbb8690415d61d4284d5fb2e7a72c
+Modular
+Object
+Oriented
+Dynamic
+Learning
+Environment
+}

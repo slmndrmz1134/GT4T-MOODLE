@@ -1,0 +1,72 @@
+{{!
+    @template theme_moove/navbar_frontpage
+
+    Front page navbar with in-page section links (smooth scroll).
+}}
+<nav class="navbar fixed-top navbar-expand border-bottom px-2 gt4t-frontpage-navbar" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+    <button type="button" id="gt4t-navbar-toggler" class="navbar-toggler aabtn d-block d-lg-none px-2 my-1 border-0 gt4t-navbar-toggler" aria-controls="gt4t-mobile-menu" aria-expanded="false" aria-label="{{#str}}sidepanel, core{{/str}}">
+        <span class="navbar-toggler-icon"></span>
+        <span class="sr-only">{{#str}}sidepanel, core{{/str}}</span>
+    </button>
+
+    <a href="#gt4t-hero" class="navbar-brand d-none d-md-flex align-items-center m-0 me-3 p-0 aabtn gt4t-nav-scroll">
+        <img src="{{gt4tlogourl}}" class="logo me-1" alt="{{sitename}}" width="40" height="40" loading="lazy" decoding="async">
+    </a>
+
+    {{#has_gt4t_frontpage_nav}}
+        <ul class="gt4t-frontpage-nav navbar-nav d-none d-lg-flex flex-grow-1 justify-content-center my-0" role="menubar">
+            {{#gt4t_frontpage_nav}}
+                <li class="nav-item" role="none">
+                    <a class="nav-link gt4t-nav-scroll px-3" href="#{{id}}" data-gt4t-section="{{id}}" role="menuitem">{{label}}</a>
+                </li>
+            {{/gt4t_frontpage_nav}}
+        </ul>
+    {{/has_gt4t_frontpage_nav}}
+
+    {{^has_gt4t_frontpage_nav}}
+        {{#primarymoremenu}}
+            <div class="primary-navigation">
+                {{> core/moremenu}}
+            </div>
+        {{/primarymoremenu}}
+    {{/has_gt4t_frontpage_nav}}
+
+    <ul class="navbar-nav d-none d-md-flex my-1 px-1">
+        {{{ output.page_heading_menu }}}
+    </ul>
+
+    <div id="usernavigation" class="navbar-nav ms-auto h-100 flex-shrink-0 align-items-center">
+        {{# output.search_box }}
+            {{{ output.search_box }}}
+            <div class="divider border-start h-75 align-self-center mx-1"></div>
+        {{/output.search_box}}
+        {{#langmenu}}
+            {{> theme_boost/language_menu }}
+            <div class="divider border-start h-75 align-self-center mx-1"></div>
+        {{/langmenu}}
+        {{{ output.navbar_plugin_output }}}
+        
+        {{#is_logged_in}}
+            <div class="d-flex align-items-stretch usermenu-container" data-region="usermenu">
+                {{#usermenu}}
+                    {{> core/user_menu }}
+                {{/usermenu}}
+            </div>
+        {{/is_logged_in}}
+        {{^is_logged_in}}
+            <a href="{{login_url}}" class="btn gt4t-btn gt4t-btn-primary gt4t-nav-login-btn px-4 py-2 ms-2">
+                {{#str}}login, core{{/str}}
+            </a>
+        {{/is_logged_in}}
+        
+        {{{ output.edit_switch }}}
+    </div>
+</nav>
+
+{{#secondarymoremenu}}
+    <div class="secondary-navigation d-print-none moove">
+        <div class="moove-container-fluid">
+            {{> core/moremenu}}
+        </div>
+    </div>
+{{/secondarymoremenu}}

@@ -1,0 +1,63 @@
+{{!
+    @template theme_moove/frontpage_drawer
+
+    Mobile drawer for the GT4T front page (section links + standard primary nav).
+}}
+{{< theme_boost/drawer }}
+    {{$id}}theme_boost-drawers-primary{{/id}}
+    {{$drawerclasses}}drawer drawer-left drawer-primary gt4t-frontpage-drawer{{/drawerclasses}}
+    {{$drawercloseonresize}}1{{/drawercloseonresize}}
+    {{$drawerheading}}
+        <a
+            href="#gt4t-hero"
+            title="{{{ sitename }}}"
+            class="aabtn text-reset d-flex align-items-center py-1 h-100 gt4t-nav-scroll"
+            data-gt4t-section="gt4t-hero"
+        >
+            <img src="{{gt4tlogourl}}" class="logo py-1 gt4t-drawer-logo" alt="{{sitename}}">
+        </a>
+    {{/drawerheading}}
+    {{$drawercontent}}
+        {{#has_gt4t_frontpage_nav}}
+            <div class="list-group gt4t-drawer-section-nav mb-2">
+                {{#gt4t_frontpage_nav}}
+                    <a
+                        href="#{{id}}"
+                        class="list-group-item list-group-item-action gt4t-nav-scroll"
+                        data-gt4t-section="{{id}}"
+                    >{{label}}</a>
+                {{/gt4t_frontpage_nav}}
+            </div>
+        {{/has_gt4t_frontpage_nav}}
+        <div class="list-group">
+            {{#mobileprimarynav}}
+                {{#haschildren}}
+                <a id="drop-down-{{sort}}" href="#" class="list-group-item list-group-item-action icons-collapse-expand {{^isopen}}collapsed {{/isopen}}d-flex" data-bs-toggle="collapse" data-bs-target="#drop-down-menu-{{sort}}" aria-expanded="{{#isopen}}true{{/isopen}}{{^isopen}}false{{/isopen}}" aria-controls="drop-down-menu-{{sort}}">
+                    {{{text}}}
+                    <span class="ms-auto expanded-icon icon-no-margin mx-2">
+                        {{#pix}} t/expanded, core {{/pix}}
+                        <span class="visually-hidden">{{#str}} collapse, core {{/str}}</span>
+                    </span>
+                    <span class="ms-auto collapsed-icon icon-no-margin mx-2">
+                        {{#pix}} t/collapsed, core {{/pix}}
+                        <span class="visually-hidden">{{#str}} expand, core {{/str}}</span>
+                    </span>
+                </a>
+                <div class="collapse {{#isopen}}show {{/isopen}}list-group-item p-0 border-0" role="menu" id="drop-down-menu-{{sort}}" aria-labelledby="drop-down-{{sort}}">
+                    {{#children}}
+                        {{^divider}}
+                             <a href="{{{url}}}" class="ps-5 {{^isactive}}bg-light{{/isactive}}{{#isactive}}active{{/isactive}} list-group-item list-group-item-action">{{{text}}}</a>
+                        {{/divider}}
+                    {{/children}}
+                </div>
+                {{/haschildren}}
+                {{^haschildren}}
+                <a href="{{{url}}}" class="list-group-item list-group-item-action {{#isactive}}active{{/isactive}} {{#classes}}{{.}} {{/classes}}" {{#isactive}}aria-current="true"{{/isactive}}>
+                    {{{text}}}
+                </a>
+                {{/haschildren}}
+            {{/mobileprimarynav}}
+        </div>
+    {{/drawercontent}}
+    {{$drawerstate}}show-drawer-primary{{/drawerstate}}
+{{/ theme_boost/drawer}}

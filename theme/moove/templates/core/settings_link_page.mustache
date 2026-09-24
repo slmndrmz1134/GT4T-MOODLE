@@ -1,0 +1,168 @@
+{{!
+    GT4T Moodle - Awwwwards-Grade Administration Hub Cards Layout
+}}
+<div class="admin-bg-blobs-wrapper" aria-hidden="true">
+    <div class="admin-bg-blob admin-bg-blob-1"></div>
+    <div class="admin-bg-blob admin-bg-blob-2"></div>
+</div>
+
+{{^secondarynavigation}}
+    <ul class="nav nav-tabs admin-custom-tabs" role="tablist">
+        <!-- First the top most node and immediate children -->
+        <li class="nav-item">
+            <a class="nav-link active" href="#link{{node.key}}" data-bs-toggle="tab" role="tab" aria-selected="true">{{node.text}}</a>
+        </li>
+        <!-- Now the first level children with sub nodes -->
+        {{#node.children}}
+            {{#children.count}}
+                {{#display}}
+                    {{^is_short_branch}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#link{{key}}" data-bs-toggle="tab" role="tab" aria-selected="false" tabindex="-1">{{text}}</a>
+                        </li>
+                    {{/is_short_branch}}
+                {{/display}}
+            {{/children.count}}
+        {{/node.children}}
+    </ul>
+{{/secondarynavigation}}
+
+<div class="tab-content admin-custom-tab-content mt-3">
+    <!-- Root Node Settings -->
+    <div class="tab-pane active" id="link{{node.key}}" {{^secondarynavigation}}role="tabpanel"{{/secondarynavigation}}>
+        <div class="container-fluid">
+            <div class="admin-card-grid pt-2">
+                <!-- Root settings card -->
+                <div class="admin-glass-card card-interactive" data-card-key="general_root">
+                    <div class="card-glow-overlay"></div>
+                    <div class="card-header-wrapper d-flex align-items-center mb-3">
+                        <div class="card-icon-container me-3 text-cyan" data-icon-key="general_root"></div>
+                        <div class="card-title-container">
+                            <h4 class="mb-0 card-title">{{node.text}} Overview</h4>
+                        </div>
+                    </div>
+                    <div class="card-description mb-4 text-muted small" data-tagline-key="general_root"></div>
+                    <div class="card-actions-wrapper">
+                        <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                            {{#node.children}}
+                                {{^children.count}}
+                                    {{#display}}
+                                        <li><a href="{{{action}}}" class="action-chip">{{text}}</a></li>
+                                    {{/display}}
+                                {{/children.count}}
+                            {{/node.children}}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Short Branches under root -->
+                {{#node.children}}
+                    {{#display}}
+                        {{#children.count}}
+                            {{#is_short_branch}}
+                                <div class="admin-glass-card card-interactive" data-card-key="{{key}}">
+                                    <div class="card-glow-overlay"></div>
+                                    <div class="card-header-wrapper d-flex align-items-center mb-3">
+                                        <div class="card-icon-container me-3 text-blue" data-icon-key="{{key}}"></div>
+                                        <div class="card-title-container">
+                                            <h4 class="mb-0 card-title">
+                                                {{#action}}
+                                                    <a href="{{action}}" class="card-title-link">{{text}}</a>
+                                                {{/action}}
+                                                {{^action}}
+                                                    {{text}}
+                                                {{/action}}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    <div class="card-description mb-4 text-muted small" data-tagline-key="{{key}}"></div>
+                                    <div class="card-actions-wrapper">
+                                        <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                                            {{#children}}
+                                                {{> core/settings_link_page_single }}
+                                            {{/children}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {{/is_short_branch}}
+                        {{/children.count}}
+                    {{/display}}
+                {{/node.children}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sub-Branches Tabs -->
+    {{#node.children}}
+        {{#children.count}}
+            <div class="tab-pane" id="link{{key}}" {{^secondarynavigation}}role="tabpanel"{{/secondarynavigation}}>
+                <div class="container-fluid">
+                    <div class="admin-card-grid pt-2">
+                        <!-- Main sub-branch header overview card, if it has a direct action link -->
+                        {{#action}}
+                            <div class="admin-glass-card card-interactive" data-card-key="{{key}}_overview">
+                                <div class="card-glow-overlay"></div>
+                                <div class="card-header-wrapper d-flex align-items-center mb-3">
+                                    <div class="card-icon-container me-3 text-green" data-icon-key="{{key}}_overview"></div>
+                                    <div class="card-title-container">
+                                        <h4 class="mb-0 card-title"><a href="{{action}}" class="card-title-link">{{text}} Overview</a></h4>
+                                    </div>
+                                </div>
+                                <div class="card-description mb-4 text-muted small" data-tagline-key="{{key}}_overview"></div>
+                                <div class="card-actions-wrapper">
+                                    <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                                        {{#children}}
+                                            {{#display}}
+                                                {{^children.count}}
+                                                    <li><a href="{{{action}}}" class="action-chip">{{text}}</a></li>
+                                                {{/children.count}}
+                                            {{/display}}
+                                        {{/children}}
+                                    </ul>
+                                </div>
+                            </div>
+                        {{/action}}
+
+                        <!-- Sub-branches rendered as high-end cards -->
+                        {{#children}}
+                            {{#display}}
+                                {{#children.count}}
+                                    <div class="admin-glass-card card-interactive" data-card-key="{{key}}">
+                                        <div class="card-glow-overlay"></div>
+                                        <div class="card-header-wrapper d-flex align-items-center mb-3">
+                                            <div class="card-icon-container me-3" data-icon-key="{{key}}"></div>
+                                            <div class="card-title-container">
+                                                <h4 class="mb-0 card-title">
+                                                    {{#action}}
+                                                        <a href="{{action}}" class="card-title-link">{{text}}</a>
+                                                    {{/action}}
+                                                    {{^action}}
+                                                        {{text}}
+                                                    {{/action}}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                        <div class="card-description mb-4 text-muted small" data-tagline-key="{{key}}"></div>
+                                        <div class="card-actions-wrapper">
+                                            <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                                                {{#children}}
+                                                    {{> core/settings_link_page_single }}
+                                                {{/children}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {{/children.count}}
+                            {{/display}}
+                        {{/children}}
+                    </div>
+                </div>
+            </div>
+        {{/children.count}}
+    {{/node.children}}
+</div>
+
+{{#js}}
+require(['theme_moove/admin_cards_interactive'], function(Cards) {
+    Cards.init();
+});
+{{/js}}

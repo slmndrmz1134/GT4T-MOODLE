@@ -1,0 +1,1133 @@
+// ===================================================
+// GT4T SIMPLE & ELEGANT LOGIN / SIGNUP PAGES
+// ===================================================
+
+$gt4t-green: #1DC71D;
+$gt4t-dark-bg: #0b0f17;
+$gt4t-card-bg: #1e293b;
+$gt4t-input-bg: #0f172a;
+$gt4t-border-color: #334155;
+$gt4t-text-muted: #94a3b8;
+
+body.pagelayout-login {
+    font-family: $gt4t-font-body;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #030712 !important;
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(29, 199, 29, 0.09) 0%, transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(0, 191, 255, 0.11) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 70%) !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+    transition: background-image 0.4s ease;
+
+    &:has(.gt4t-theme--academician) {
+        background-image: 
+            radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 55%),
+            radial-gradient(circle at 85% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+            radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 70%) !important;
+    }
+
+    &::before {
+        background-image: 
+            radial-gradient(1px 1px at 8% 12%, rgba(255, 255, 255, 0.95), transparent),
+            radial-gradient(1.5px 1.5px at 18% 32%, rgba(255, 255, 255, 0.85), transparent),
+            radial-gradient(1px 1px at 28% 52%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1.5px 1.5px at 38% 18%, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(2px 2px at 48% 68%, rgba(255, 255, 255, 0.95), transparent),
+            radial-gradient(1px 1px at 58% 38%, rgba(255, 255, 255, 0.75), transparent),
+            radial-gradient(1.5px 1.5px at 68% 88%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1px 1px at 78% 22%, rgba(255, 255, 255, 0.85), transparent),
+            radial-gradient(2px 2px at 88% 52%, rgba(255, 255, 255, 0.95), transparent),
+            radial-gradient(1px 1px at 98% 32%, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(1.5px 1.5px at 12% 72%, rgba(255, 255, 255, 0.85), transparent),
+            radial-gradient(1px 1px at 32% 82%, rgba(255, 255, 255, 0.7), transparent),
+            radial-gradient(2px 2px at 52% 92%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1px 1px at 72% 62%, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(1.5px 1.5px at 92% 77%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1px 1px at 22% 57%, rgba(255, 255, 255, 0.85), transparent),
+            radial-gradient(2px 2px at 42% 42%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1px 1px at 62% 12%, rgba(255, 255, 255, 0.75), transparent),
+            radial-gradient(1.5px 1.5px at 82% 7%, rgba(255, 255, 255, 0.8), transparent);
+        background-size: 100% 100%;
+        animation: gt4t-twinkle-1 9s infinite ease-in-out;
+    }
+
+    &::after {
+        background-image: 
+            radial-gradient(1.5px 1.5px at 4% 82%, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(2px 2px at 14% 14%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1px 1px at 24% 60%, rgba(255, 255, 255, 0.75), transparent),
+            radial-gradient(1.5px 1.5px at 34% 30%, rgba(255, 255, 255, 0.85), transparent),
+            radial-gradient(2.5px 2.5px at 44% 80%, rgba(255, 255, 255, 0.95), transparent),
+            radial-gradient(1px 1px at 54% 40%, rgba(255, 255, 255, 0.7), transparent),
+            radial-gradient(2px 2px at 64% 94%, rgba(255, 255, 255, 0.9), transparent),
+            radial-gradient(1.5px 1.5px at 74% 24%, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(2.5px 2.5px at 84% 64%, rgba(255, 255, 255, 0.95), transparent),
+            radial-gradient(1px 1px at 94% 44%, rgba(255, 255, 255, 0.85), transparent);
+        background-size: 100% 100%;
+        animation: gt4t-twinkle-2 13s infinite ease-in-out;
+    }
+}
+
+body.pagelayout-login #page {
+    background: transparent !important;
+    background-image: none !important;
+    background-color: transparent !important;
+}
+
+.pagelayout-login {
+    background: transparent !important;
+
+    #page-wrapper,
+    #page-wrapper.gt4t-login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: transparent !important;
+    }
+
+    #page,
+    #page.gt4t-login-page {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 2rem 1.25rem;
+        box-sizing: border-box;
+    }
+
+    #page-content,
+    #region-main-box,
+    #region-main {
+        background: transparent !important;
+        border: 0;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .gt4t-login-bg {
+        display: none !important; // Hide complex glowing blobs
+    }
+
+    // Clean, modern floating back to home button
+    .gt4t-login-back {
+        position: absolute;
+        top: 1.5rem;
+        left: 1.5rem;
+        z-index: 10;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.5rem 1rem;
+        font-family: $gt4t-font-body;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid $gt4t-border-color;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            color: $gt4t-green;
+            border-color: $gt4t-green;
+            text-decoration: none;
+            background: rgba(30, 41, 59, 1);
+        }
+    }
+
+    .gt4t-login-shell {
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+    }
+
+    .gt4t-login-main {
+        width: 100%;
+    }
+
+    .login-wrapper,
+    .login-container {
+        width: 100% !important;
+        margin: 0;
+        padding: 0;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    // Simple, solid premium card
+    .gt4t-signin-panel {
+        width: 100%;
+        background: $gt4t-card-bg;
+        border: 1px solid $gt4t-border-color;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        overflow: visible;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .gt4t-role-toggle-wrapper {
+        position: relative;
+        display: flex;
+        width: 280px;
+        height: 38px;
+        background: rgba(8, 10, 16, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 19px;
+        padding: 2px;
+        box-sizing: border-box;
+        margin-bottom: 1.5rem;
+        z-index: 5;
+        overflow: hidden;
+
+        .gt4t-role-btn {
+            position: relative;
+            flex: 0 0 50%;
+            height: 100%;
+            background: transparent;
+            border: 0;
+            outline: none;
+            color: #94a3b8;
+            font-family: $gt4t-font-body;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.25s ease;
+
+            &.active {
+                color: #fff;
+            }
+        }
+
+        .gt4t-role-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(50% - 2px);
+            height: calc(100% - 4px);
+            border-radius: 17px;
+            background: $gt4t-green;
+            z-index: 1;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+        }
+    }
+
+    // Role-specific theme overrides on the card
+    .gt4t-signin-panel {
+        transition: border-color 0.4s ease, box-shadow 0.4s ease;
+
+        &.gt4t-theme--academician {
+            border-color: rgba(245, 158, 11, 0.4) !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(245, 158, 11, 0.15) !important;
+
+            .gt4t-role-slider {
+                background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            }
+
+            .gt4t-btn-primary {
+                background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+                color: #000 !important;
+
+                &:hover, &:focus {
+                    background: #d97706 !important;
+                    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25) !important;
+                }
+            }
+
+            .gt4t-forgot-link {
+                color: #f59e0b !important;
+            }
+
+            .gt4t-field-input:focus,
+            .dropdown-toggle[aria-expanded="true"] {
+                border-color: #f59e0b !important;
+                box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15) !important;
+            }
+        }
+    }
+
+    .gt4t-signin-header {
+        text-align: center;
+        padding: 2.25rem 2rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gt4t-signin-logo {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        margin-bottom: 1.25rem;
+    }
+
+    .gt4t-signin-title {
+        margin: 0 0 0.5rem;
+        font-family: $gt4t-font-heading;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .gt4t-signin-subtitle {
+        margin: 0;
+        font-family: $gt4t-font-body;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: $gt4t-text-muted;
+    }
+
+    .gt4t-signin-body {
+        padding: 0 2rem 2rem;
+    }
+
+    .gt4t-signin-form {
+        margin: 0;
+    }
+
+    .gt4t-field {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .gt4t-field-label {
+        font-family: $gt4t-font-body;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    // Password field + visibility toggle (core/togglesensitive).
+    .gt4t-password-toggle {
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+        gap: 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+        background: rgba(8, 10, 16, 0.85);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus-within {
+            border-color: $gt4t-green;
+            box-shadow: 0 0 0 4px rgba(29, 199, 29, 0.2);
+        }
+
+        input.form-control,
+        input.gt4t-field-input,
+        input[type="password"],
+        input[type="text"] {
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            min-height: 3rem;
+            margin: 0;
+            border: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            background: transparent !important;
+
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+
+        .gt4t-password-toggle-btn,
+        .toggle-sensitive-btn {
+            flex: 0 0 3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            min-height: 3rem;
+            border: 0;
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 0;
+            background: rgba(255, 255, 255, 0.06);
+            color: $gt4t-green;
+
+            &:hover,
+            &:focus {
+                background: rgba(29, 199, 29, 0.15);
+                color: #fff;
+                box-shadow: none;
+            }
+
+            .icon {
+                margin: 0;
+                width: 1.15rem;
+                height: 1.15rem;
+            }
+        }
+    }
+
+    .gt4t-field--password .gt4t-field-input {
+        // Before togglesensitive wraps the input.
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .gt4t-field-input {
+        display: block;
+        width: 100%;
+        min-height: 2.75rem;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        color: #fff;
+        background: $gt4t-input-bg;
+        border: 1px solid $gt4t-border-color;
+        border-radius: 8px;
+        box-sizing: border-box;
+        transition: all 0.2s ease;
+
+        &::placeholder {
+            color: #475569;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: $gt4t-green;
+            box-shadow: 0 0 0 3px rgba(29, 199, 29, 0.15);
+            background: $gt4t-input-bg;
+        }
+    }
+
+    // Classic right-aligned password eye toggle sitting perfectly inside the input field
+    .toggle-sensitive-wrapper:not(.gt4t-password-toggle) {
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+
+        .gt4t-field-input,
+        input.form-control {
+            padding-right: 3rem !important; // Add spacing so characters don't collide with the eye icon
+        }
+
+        .toggle-sensitive-btn {
+            position: absolute !important;
+            right: 8px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 10 !important;
+            background: transparent !important;
+            border: none !important;
+            color: #64748b !important; // slate-500
+            padding: 0.375rem 0.5rem !important;
+            min-height: auto !important;
+            height: auto !important;
+            box-shadow: none !important;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px !important;
+            cursor: pointer !important;
+
+            &:hover, &:focus {
+                color: $gt4t-green !important;
+                background: rgba(255, 255, 255, 0.08) !important;
+            }
+
+            .icon {
+                margin: 0 !important;
+                font-size: 1.1rem !important;
+                color: inherit !important;
+                width: auto !important;
+                height: auto !important;
+            }
+        }
+    }
+
+    // Site Selector inside card
+    .gt4t-tenant-select-container {
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .moodle-actionmenu,
+        .menubar,
+        .action-menu-trigger,
+        .dropdown {
+            width: 100%;
+        }
+
+        .dropdown-toggle {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 2.75rem;
+            padding: 0.65rem 1rem !important;
+            font-family: $gt4t-font-body;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #fff !important;
+            background: $gt4t-input-bg !important;
+            border: 1px solid $gt4t-border-color !important;
+            border-radius: 8px !important;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            text-decoration: none !important;
+
+            &::after {
+                display: none !important;
+            }
+
+            .caret {
+                display: inline-block;
+                width: 0;
+                height: 0;
+                margin-left: 0.5rem;
+                vertical-align: middle;
+                border-top: 5px solid #fff;
+                border-right: 5px solid transparent;
+                border-left: 5px solid transparent;
+                transition: transform 0.2s ease;
+            }
+
+            &:hover, &:focus {
+                border-color: rgba(255, 255, 255, 0.25) !important;
+            }
+
+            &[aria-expanded="true"] {
+                border-color: $gt4t-green !important;
+                box-shadow: 0 0 0 3px rgba(29, 199, 29, 0.15) !important;
+
+                .caret {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .dropdown-menu {
+            width: 100%;
+            background: $gt4t-card-bg !important;
+            border: 1px solid $gt4t-border-color !important;
+            border-radius: 8px !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3) !important;
+            padding: 0.5rem 0 !important;
+            margin-top: 0.25rem !important;
+            max-height: 350px !important;
+            overflow-y: auto !important;
+
+            .gt4t-partner-search-wrapper {
+                padding: 0.5rem 0.75rem;
+                position: sticky;
+                top: 0;
+                background: $gt4t-card-bg;
+                z-index: 10;
+                border-bottom: 1px solid $gt4t-border-color;
+                margin-bottom: 0.25rem;
+            }
+
+            .gt4t-partner-search {
+                width: 100%;
+                min-height: auto;
+                height: 2.2rem;
+                padding: 0.25rem 0.75rem;
+                font-family: $gt4t-font-body;
+                font-size: 0.85rem;
+                color: #fff;
+                background: $gt4t-input-bg;
+                border: 1px solid $gt4t-border-color;
+                border-radius: 6px;
+                box-sizing: border-box;
+                transition: all 0.2s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $gt4t-green;
+                    box-shadow: 0 0 0 2px rgba(29, 199, 29, 0.15);
+                    background: $gt4t-input-bg;
+                }
+
+                &::placeholder {
+                    color: #475569;
+                }
+            }
+
+            .dropdown-item {
+                font-family: $gt4t-font-body;
+                font-size: 0.9rem;
+                color: #e2e8f0 !important;
+                padding: 0.65rem 1rem !important;
+                transition: all 0.15s ease !important;
+                background: transparent !important;
+                text-decoration: none !important;
+
+                &:hover, &:focus {
+                    background: rgba(29, 199, 29, 0.1) !important;
+                    color: $gt4t-green !important;
+                }
+            }
+        }
+    }
+
+    .gt4t-signin-options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1.25rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+    }
+
+    .gt4t-checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        margin: 0;
+
+        input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .gt4t-checkbox-indicator {
+            position: relative;
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid $gt4t-border-color;
+            border-radius: 4px;
+            background: $gt4t-input-bg;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 2px;
+                border-radius: 2px;
+                background: $gt4t-green;
+                opacity: 0;
+                transform: scale(0);
+                transition: all 0.15s ease;
+            }
+        }
+
+        input[type="checkbox"]:checked + .gt4t-checkbox-indicator {
+            border-color: $gt4t-green;
+
+            &::after {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .gt4t-checkbox-label {
+            color: $gt4t-text-muted;
+            font-weight: 500;
+        }
+    }
+
+    .gt4t-forgot-link {
+        color: $gt4t-green;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .gt4t-signin-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .gt4t-signin-submit {
+        width: 100%;
+        min-height: 3rem;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+        text-transform: none;
+        border-radius: 12px;
+    }
+
+    .gt4t-signin-secondary,
+    .gt4t-signin-signupbtn {
+        width: 100%;
+        min-height: 2.75rem;
+        text-transform: none;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    .gt4t-signin-signupbtn {
+        border-width: 2px;
+        color: $gt4t-green !important;
+
+        &:hover,
+        &:focus {
+            color: #000 !important;
+            background: linear-gradient(135deg, $gt4t-green, $gt4t-accent-cyan);
+            border-color: transparent;
+        }
+    }
+
+    .gt4t-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.75rem;
+        padding: 0.65rem 1.5rem;
+        font-family: $gt4t-font-body;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-decoration: none !important;
+
+        &.gt4t-btn-primary {
+            background: $gt4t-green;
+            color: #000 !important;
+
+            &:hover, &:focus {
+                background: #17b317;
+                color: #000 !important;
+            }
+        }
+
+        &.gt4t-btn-outline {
+            background: transparent;
+            color: #fff !important;
+            border: 1px solid $gt4t-border-color;
+
+            &:hover, &:focus {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: #fff;
+                color: #fff !important;
+            }
+        }
+
+        &.gt4t-btn-ghost {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border: 1px solid $gt4t-border-color;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: #fff;
+            }
+        }
+    }
+
+    .gt4t-signin-signup-promo {
+        margin-bottom: 1.25rem;
+    }
+
+    .gt4t-signin-divider {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 1.5rem 0 1rem;
+        color: $gt4t-text-muted;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        &::before,
+        &::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: $gt4t-border-color;
+        }
+    }
+
+    .login-identityprovider-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid $gt4t-border-color;
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+    }
+
+    .gt4t-signin-aside {
+        margin-top: 1.5rem;
+        padding: 1rem 1.25rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid $gt4t-border-color;
+        border-radius: 8px;
+    }
+
+    .gt4t-signin-aside-title {
+        margin: 0 0 0.5rem;
+        font-family: $gt4t-font-heading;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .gt4t-signin-aside-text,
+    .gt4t-signin-aside-text p {
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: $gt4t-text-muted;
+    }
+
+    .gt4t-signin-guest {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid $gt4t-border-color;
+    }
+
+    .gt4t-signin-guest-label {
+        margin: 0 0 0.75rem;
+        font-size: 0.85rem;
+        color: $gt4t-text-muted;
+        text-align: center;
+    }
+
+    .gt4t-signin-footer {
+        padding: 1rem 2rem;
+        background: rgba(0, 0, 0, 0.15);
+        border-top: 1px solid $gt4t-border-color;
+        display: flex;
+        justify-content: center;
+    }
+
+    .gt4t-signin-cookies {
+        font-size: 0.8rem !important;
+        background: transparent;
+        border: none;
+        color: $gt4t-text-muted;
+        cursor: pointer;
+
+        &:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+    }
+
+    // Hide Moodle's duplicate floating button menu
+    &.path-login {
+        .login-container .float-end {
+            display: none !important;
+        }
+    }
+
+    // Completely hide standard popover question mark help button and release footer for clean visual
+    #page-footer.footer-popover {
+        display: none !important;
+    }
+}
+
+// ===================================================
+// GT4T SIGNUP — DARK BG + COMPACT SQUARE LAYOUT
+// ===================================================
+
+// Nuclear-force dark background on signup body (Boost #region-main{background:#fff} is overridden)
+body#page-login-signup.pagelayout-login {
+    background-color: #030712 !important;
+    background-image:
+        radial-gradient(circle at 15% 20%, rgba(29, 199, 29, 0.09) 0%, transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(0, 191, 255, 0.11) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 70%) !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
+}
+
+// Wipe every container between body and the card — no white leaks through
+body#page-login-signup.pagelayout-login {
+    #page-wrapper, #page,
+    .gt4t-login-shell, #region-main,
+    .login-wrapper, .login-container,
+    #page-content, #region-main-box {
+        background: transparent !important;
+        background-color: transparent !important;
+        background-image: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+}
+
+// Signup card
+#page-login-signup {
+    .gt4t-signup-panel {
+        max-width: 640px;
+        width: 100%;
+        box-sizing: border-box;
+
+        // Compact header
+        .gt4t-signin-header {
+            padding: 1.5rem 2rem 0.5rem;
+
+            .gt4t-signin-logo {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 0.75rem;
+            }
+
+            .gt4t-signin-title {
+                font-size: 1.35rem;
+                margin: 0 0 0.25rem;
+            }
+
+            .gt4t-signin-subtitle {
+                font-size: 0.8rem;
+            }
+        }
+
+        .gt4t-signup-body {
+            padding: 0 2rem 1.25rem;
+        }
+
+        fieldset {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            legend {
+                display: none !important;
+            }
+        }
+
+        hr {
+            display: none !important;
+        }
+
+        .mform {
+            // ===================================
+            // Section headers (compact)
+            // ===================================
+            .fitem {
+                margin-bottom: 0.65rem !important;
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+
+                &.row {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: stretch;
+
+                    > .col-md-3, > .col-md-9 {
+                        flex: 0 0 100% !important;
+                        max-width: 100% !important;
+                        width: 100% !important;
+                        padding: 0 !important;
+                    }
+                }
+
+                .col-form-label {
+                    font-family: $gt4t-font-body;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    color: #f1f5f9 !important;
+                    text-align: left !important;
+                    padding-bottom: 0.2rem !important;
+                    padding-top: 0 !important;
+
+                    label {
+                        margin: 0 !important;
+                    }
+                }
+
+                .form-control, select.custom-select {
+                    display: block;
+                    width: 100%;
+                    min-height: 2.35rem;
+                    padding: 0.45rem 1rem;
+                    font-size: 0.88rem;
+                    color: #fff !important;
+                    background: $gt4t-input-bg !important;
+                    border: 1px solid $gt4t-border-color !important;
+                    border-radius: 8px !important;
+                    box-sizing: border-box;
+                    transition: all 0.2s ease;
+
+                    &:focus {
+                        outline: none !important;
+                        border-color: $gt4t-green !important;
+                        box-shadow: 0 0 0 3px rgba(29, 199, 29, 0.15) !important;
+                        background: $gt4t-input-bg !important;
+                    }
+                }
+
+                select.custom-select {
+                    appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
+                    background-repeat: no-repeat !important;
+                    background-position: right 1rem center !important;
+                    background-size: 1.15rem !important;
+                    padding-right: 2.5rem !important;
+                }
+
+                .form-control-feedback {
+                    color: #ef4444 !important;
+                    font-size: 0.75rem;
+                    font-weight: 500;
+                    margin-top: 0.15rem;
+                }
+            }
+
+            .gt4t-password-toggle {
+                border-radius: 10px;
+
+                input.form-control,
+                input[type="password"],
+                input[type="text"] {
+                    min-height: 46px;
+                }
+
+                .toggle-sensitive-btn {
+                    min-height: 46px;
+                }
+            }
+
+            #fitem_id_tenantid,
+            #fitem_id_tenantid_display {
+                margin-bottom: 1.25rem;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            #fgroup_id_buttonar {
+                margin-top: 0.75rem !important;
+                margin-bottom: 0 !important;
+
+                .col-md-9 {
+                    padding: 0 !important;
+                }
+
+                .d-flex.flex-wrap {
+                    display: flex;
+                    flex-direction: column !important;
+                    gap: 0.75rem;
+                }
+
+                .fitem {
+                    width: 100% !important;
+                    margin-bottom: 0 !important;
+                }
+
+                #id_submitbutton {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 3rem !important;
+                    padding: 0.75rem 1.5rem !important;
+                    font-family: $gt4t-font-body;
+                    font-size: 1rem !important;
+                    font-weight: 700;
+                    border-radius: 12px !important;
+                    border: none;
+                    cursor: pointer;
+                    transition: all 0.15s ease;
+                    width: 100% !important;
+                    background: $gt4t-green !important;
+                    color: #000 !important;
+
+                    &:hover, &:focus {
+                        background: #17b317 !important;
+                        color: #000 !important;
+                        box-shadow: 0 0 0 3px rgba(29, 199, 29, 0.25) !important;
+                    }
+                }
+
+                #id_cancel {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 3rem !important;
+                    padding: 0.75rem 1.5rem !important;
+                    font-family: $gt4t-font-body;
+                    font-size: 1rem !important;
+                    font-weight: 600;
+                    border-radius: 12px !important;
+                    cursor: pointer;
+                    transition: all 0.15s ease;
+                    width: 100% !important;
+                    background: transparent !important;
+                    color: #fff !important;
+                    border: 1px solid $gt4t-border-color !important;
+
+                    &:hover, &:focus {
+                        background: rgba(255, 255, 255, 0.05) !important;
+                        border-color: #fff !important;
+                        color: #fff !important;
+                        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15) !important;
+                    }
+                }
+            }
+
+            .form-control.is-invalid,
+            .form-control.form-control-danger {
+                border-color: #ef4444 !important;
+                box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+            }
+        }
+
+        // Compact bottom link
+        .gt4t-signin-forgot {
+            padding-bottom: 1rem;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    #page-login-signup {
+        .gt4t-signup-panel .mform #fgroup_id_buttonar {
+            .d-flex.flex-wrap {
+                flex-direction: column !important;
+            }
+        }
+
+        .gt4t-signin-body {
+            padding: 1.25rem 1.35rem 1rem;
+        }
+
+        .gt4t-signin-title {
+            font-size: 1.5rem;
+        }
+    }
+}

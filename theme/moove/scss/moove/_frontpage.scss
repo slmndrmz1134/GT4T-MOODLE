@@ -1,0 +1,1575 @@
+// ===================================================
+// GT4T FRONTPAGE STYLES (fonts loaded via core_renderer)
+// ===================================================
+
+// ===================================================
+// HERO SECTION
+// ===================================================
+#gt4t-hero,
+#gt4t-features,
+#gt4t-collaborate,
+#gt4t-impact,
+#gt4t-faq {
+    scroll-margin-top: 78px;
+}
+
+#gt4t-hero {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse 70% 45% at 50% 32%, rgba(29, 199, 29, 0.09) 0%, transparent 70%),
+        $gt4t-fp-hero-bg;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 120px 20px 60px;
+
+    // Subtle grid pattern
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        background-image:
+            linear-gradient(rgba(29, 199, 29, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(29, 199, 29, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+    }
+
+    // Soft fade into the features section
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 140px;
+        z-index: 0;
+        background: linear-gradient(180deg, transparent 0%, $gt4t-bg-deep 100%);
+        pointer-events: none;
+    }
+}
+
+.gt4t-hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(29, 199, 29, 0.3), transparent),
+        radial-gradient(2px 2px at 40% 70%, rgba(0, 200, 232, 0.2), transparent),
+        radial-gradient(1px 1px at 60% 20%, rgba(255, 255, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 80% 60%, rgba(29, 199, 29, 0.2), transparent),
+        radial-gradient(1px 1px at 10% 80%, rgba(0, 200, 232, 0.15), transparent),
+        radial-gradient(1px 1px at 90% 10%, rgba(255, 255, 255, 0.15), transparent);
+    animation: gt4t-particles-drift 20s ease-in-out infinite;
+}
+
+@keyframes gt4t-particles-drift {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-10px) translateX(5px); }
+    50% { transform: translateY(-5px) translateX(-5px); }
+    75% { transform: translateY(-15px) translateX(3px); }
+}
+
+.gt4t-hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: min(900px, 100%);
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+    container-type: inline-size;
+    container-name: gt4t-hero;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+.gt4t-hero-logo {
+    align-self: center;
+    margin: 0 0 2rem;
+    background: transparent;
+    animation: gt4t-logo-float 4s ease-in-out infinite;
+
+    img {
+        width: 120px;
+        height: 120px;
+        display: block;
+        margin: 0;
+        background: transparent;
+        filter: drop-shadow(0 0 30px rgba(29, 199, 29, 0.4));
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+@keyframes gt4t-logo-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.gt4t-hero-title {
+    font-family: $gt4t-font-heading;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+
+    .gt4t-hero-line,
+    .gt4t-brand-title-line {
+        @include gt4t-brand-title-line;
+        font-family: $gt4t-font-heading;
+        font-weight: 800;
+        text-transform: none;
+    }
+
+    .gt4t-hero-acronym {
+        display: block;
+        font-size: clamp(0.85rem, 3vw, 1.25rem);
+        letter-spacing: 0.5px;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .gt4t-text-green {
+        background: linear-gradient(135deg, #1DC71D, #00C8E8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+.gt4t-hero-subtitle {
+    font-family: $gt4t-font-body;
+    font-size: clamp(0.95rem, 2.8vw, 1.2rem);
+    font-weight: 300;
+    color: #b0b0b0;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+// Hero buttons
+.gt4t-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.gt4t-btn {
+    font-family: $gt4t-font-body;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    display: inline-block;
+    cursor: pointer;
+
+    &.gt4t-btn-primary {
+        background: linear-gradient(135deg, #1DC71D, #00C8E8);
+        color: #000;
+        border: none;
+        box-shadow: 0 4px 20px rgba(29, 199, 29, 0.3);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(29, 199, 29, 0.5);
+            color: #000;
+            text-decoration: none;
+        }
+    }
+
+    &.gt4t-btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(29, 199, 29, 0.5);
+
+        &:hover {
+            border-color: #1DC71D;
+            background: rgba(29, 199, 29, 0.1);
+            transform: translateY(-2px);
+            color: #fff;
+            text-decoration: none;
+        }
+    }
+}
+
+// Hero stats
+.gt4t-hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.gt4t-stat {
+    text-align: center;
+
+    .gt4t-stat-number {
+        display: block;
+        font-family: $gt4t-font-heading;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #1DC71D, #00C8E8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .gt4t-stat-label {
+        font-family: $gt4t-font-body;
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: #888;
+        letter-spacing: 1px;
+    }
+}
+
+.gt4t-stat-divider {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, rgba(29, 199, 29, 0.3), transparent);
+}
+
+// Scroll indicator
+.gt4t-hero-scroll {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.85;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    span {
+        font-family: $gt4t-font-body;
+        font-size: 0.75rem;
+        color: #666;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .gt4t-scroll-arrow {
+        width: 20px;
+        height: 20px;
+        margin: 0 auto;
+        border-right: 2px solid rgba(29, 199, 29, 0.5);
+        border-bottom: 2px solid rgba(29, 199, 29, 0.5);
+        transform: rotate(45deg);
+        animation: gt4t-scroll-bounce 2s ease-in-out infinite;
+    }
+}
+
+@keyframes gt4t-scroll-bounce {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: 0.5; }
+    50% { transform: rotate(45deg) translate(5px, 5px); opacity: 1; }
+}
+
+// ===================================================
+// SHARED SECTION HEADERS (all GT4T sections)
+// ===================================================
+#gt4t-features,
+#gt4t-collaborate,
+#gt4t-impact,
+#gt4t-faq {
+    @include gt4t-fp-section-base;
+
+    .gt4t-section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .gt4t-section-title {
+        font-family: $gt4t-font-heading;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+        letter-spacing: 0.3px;
+    }
+
+    .gt4t-section-desc {
+        font-family: $gt4t-font-body;
+        color: #b0b0b0 !important;
+        font-size: 1.1rem;
+        max-width: 720px;
+        margin: 0 auto;
+        line-height: 1.7;
+
+        p,
+        li {
+            color: #b0b0b0 !important;
+        }
+    }
+}
+
+// ===================================================
+// FEATURES SECTION
+// ===================================================
+#gt4t-features {
+    background: $gt4t-fp-features-bg;
+    padding: 6rem 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(180deg, $gt4t-bg-deep 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(0deg, $gt4t-bg-mid 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .gt4t-section-header {
+        margin-bottom: 4rem;
+    }
+}
+
+.gt4t-feature-card {
+    position: relative;
+    @include gt4t-card-surface;
+    border: 1px solid rgba(29, 199, 29, 0.1);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: translateY(-8px);
+        border-color: rgba(29, 199, 29, 0.4);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+
+        .gt4t-feature-glow {
+            opacity: 1;
+        }
+
+        .gt4t-feature-icon img {
+            transform: scale(1.1);
+        }
+    }
+
+    .gt4t-feature-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(29, 199, 29, 0.1);
+        border-radius: 12px;
+
+        img {
+            max-width: 36px;
+            max-height: 36px;
+            transition: transform 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+    }
+
+    .gt4t-feature-title {
+        font-family: $gt4t-font-body;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #fff !important;
+        margin-bottom: 0.75rem;
+    }
+
+    .gt4t-feature-desc {
+        font-family: $gt4t-font-body;
+        font-size: 0.95rem;
+        color: #b0b0b0 !important;
+        line-height: 1.6;
+        margin-bottom: 0;
+
+        p,
+        li,
+        span,
+        a {
+            color: #b0b0b0 !important;
+        }
+
+        a:hover {
+            color: #1DC71D !important;
+        }
+    }
+
+    .gt4t-feature-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #1DC71D, #00C8E8, transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+}
+
+// ===================================================
+// HOW WE COLLABORATE
+// ===================================================
+#gt4t-collaborate {
+    background: $gt4t-fp-collaborate-bg;
+    padding: 5rem 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(180deg, $gt4t-bg-mid 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(0deg, $gt4t-bg-deep 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .gt4t-collab-grid {
+        margin-top: 2rem;
+    }
+
+    .gt4t-collab-item {
+        @include gt4t-card-surface;
+        border: 1px solid rgba(29, 199, 29, 0.15);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        color: #fff;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+            border-color: rgba(0, 200, 232, 0.4);
+            transform: translateY(-2px);
+        }
+    }
+
+    .gt4t-collab-footer {
+        margin-top: 2rem;
+        color: #ffffff !important;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+
+        p,
+        span,
+        li,
+        a,
+        strong,
+        em {
+            color: #ffffff !important;
+        }
+    }
+}
+
+// ===================================================
+// LONG-TERM IMPACT
+// ===================================================
+#gt4t-impact {
+    background: $gt4t-fp-impact-bg;
+    padding: 5rem 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(180deg, $gt4t-bg-deep 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(0deg, $gt4t-bg-mid 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .gt4t-impact-card {
+        @include gt4t-card-surface;
+        border: 1px solid rgba(29, 199, 29, 0.12);
+        border-radius: 14px;
+        padding: 2rem;
+        height: 100%;
+        transition: all 0.3s ease;
+
+        h4 {
+            font-family: $gt4t-font-heading;
+            color: #1DC71D;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        p,
+        li,
+        span {
+            color: #ffffff !important;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        &:hover {
+            border-color: rgba(29, 199, 29, 0.35);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(29, 199, 29, 0.08);
+        }
+    }
+}
+
+// ===================================================
+// COURSE LIST / TOPOFSCROLL
+// ===================================================
+#page-site-index {
+    #topofscroll {
+        background: $gt4t-fp-courses-bg;
+        padding: 4rem 0;
+        position: relative;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, $gt4t-bg-deep 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        #page-content,
+        #region-main {
+            background: transparent;
+            color: #fff;
+        }
+
+        #page-content {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 0;
+        }
+
+        #frontpage-available-course-list {
+            h2 {
+                font-family: $gt4t-font-heading;
+                color: #fff;
+                text-align: center;
+                letter-spacing: 1px;
+            }
+        }
+
+        // Style course cards in dark mode
+        .coursebox {
+            @include gt4t-card-surface;
+            border: 1px solid rgba(29, 199, 29, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                border-color: rgba(29, 199, 29, 0.3);
+                transform: translateY(-4px);
+            }
+        }
+    }
+}
+
+// ===================================================
+// FAQ SECTION
+// ===================================================
+#gt4t-faq {
+    background: $gt4t-fp-faq-bg;
+    padding: 6rem 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 0;
+        background: linear-gradient(180deg, $gt4t-bg-mid 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .gt4t-section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .gt4t-section-title {
+        font-family: $gt4t-font-heading;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+
+    .accordion {
+        max-width: 800px;
+        margin: 0 auto;
+
+        .accordion-item {
+            @include gt4t-card-surface;
+            border: 1px solid rgba(29, 199, 29, 0.15);
+            border-radius: 12px !important;
+            overflow: hidden;
+
+            .accordion-button {
+                font-family: $gt4t-font-body;
+                font-weight: 500;
+                background: transparent;
+                color: #fff;
+                border: none;
+                box-shadow: none;
+
+                &:not(.collapsed) {
+                    background: linear-gradient(135deg, rgba(29, 199, 29, 0.15), rgba(0, 200, 232, 0.1));
+                    color: #1DC71D;
+                }
+
+                &::after {
+                    filter: brightness(0) invert(1);
+                }
+
+                &:not(.collapsed)::after {
+                    filter: brightness(0) saturate(100%) invert(65%) sepia(74%) saturate(409%) hue-rotate(82deg) brightness(95%) contrast(96%);
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 2px rgba(29, 199, 29, 0.2);
+                }
+            }
+
+            .accordion-body {
+                font-family: $gt4t-font-body;
+                color: #b0b0b0 !important;
+                background: transparent;
+                line-height: 1.7;
+
+                p,
+                li {
+                    color: #b0b0b0 !important;
+                }
+            }
+        }
+    }
+}
+
+// ===================================================
+// GLOBAL PAGE OVERRIDES FOR FRONTPAGE
+// ===================================================
+body.pagelayout-frontpage {
+    font-family: $gt4t-font-body;
+    background: #0a0a0a !important;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    height: auto !important;
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    @include gt4t-scrollbar;
+
+    // Toast is fixed-top; never block navbar / popover clicks.
+    .toast-wrapper {
+        pointer-events: none !important;
+
+        .toast {
+            pointer-events: auto;
+        }
+    }
+}
+
+html:has(body.pagelayout-frontpage) {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    height: auto !important;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    @include gt4t-scrollbar;
+}
+
+// Boost sticky-footer flex keeps #gt4t-footer pinned to the viewport; use normal document flow.
+body.pagelayout-frontpage #page-wrapper {
+    display: block !important;
+    height: auto !important;
+    min-height: 0;
+    flex-direction: unset !important;
+}
+
+body.pagelayout-frontpage #page.drawers {
+    display: block !important;
+    flex: none !important;
+    height: auto !important;
+    min-height: 0;
+    overflow-y: visible !important;
+}
+
+body.pagelayout-frontpage::-webkit-scrollbar:horizontal {
+    height: 0;
+}
+
+#page-site-index {
+    overflow-x: hidden;
+    max-width: 100%;
+
+    #page-wrapper {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    #page {
+        max-width: 100%;
+        width: 100% !important;
+        overflow-x: hidden;
+        overflow-y: visible;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    #page.drawers {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        max-width: 100%;
+        background: linear-gradient(
+            180deg,
+            $gt4t-bg-deep 0%,
+            $gt4t-bg-mid 18%,
+            $gt4t-bg-elevated 32%,
+            $gt4t-bg-mid 48%,
+            $gt4t-bg-deep 58%,
+            $gt4t-bg-mid 72%,
+            $gt4t-bg-elevated 86%,
+            $gt4t-bg-deep 100%
+        ) !important;
+    }
+
+    .drawers {
+        background: transparent !important;
+    }
+
+    // Single centred logo in hero — not duplicated in the navbar.
+    .navbar.fixed-top .navbar-brand .logo {
+        display: none !important;
+    }
+
+    #gt4t-hero {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    // Visible hamburger on dark navbar.
+    .navbar.fixed-top .navbar-toggler {
+        border: 1px solid rgba(29, 199, 29, 0.55);
+
+        .navbar-toggler-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 2px rgba(29, 199, 29, 0.35);
+        }
+    }
+
+    // Override Boost default dark text only inside Moodle card widgets (not GT4T copy).
+    #gt4t-features,
+    #gt4t-collaborate,
+    #gt4t-impact,
+    #gt4t-faq {
+        .card .card-body,
+        .dashboard-card .card-body {
+            color: inherit;
+        }
+    }
+}
+
+// ===================================================
+// ORIGINAL FRONTPAGE CARD STYLES (preserved)
+// ===================================================
+.pagelayout-frontpage,
+.pagelayout-coursecategory {
+    .dashboard-card {
+        position: relative;
+        @include gt4t-card-surface;
+        width: calc(33.33% - 2rem) !important;
+        max-width: calc(33.33% - 2rem) !important;
+        margin: 1rem;
+
+        &.dimmed .card-img::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(0,0,0,0.5);
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            border-top-left-radius: .5rem;;
+            border-top-right-radius: .5rem;;
+        }
+
+        .card-img.dashboard-card-img {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .dashboard-card-footer {
+            border-radius: .5rem;
+        }
+
+        .card-body {
+            padding: .8rem;
+        }
+
+        .customfields {
+            .customfield {
+                font-size: 80%;
+                margin-bottom: .25rem;
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+
+                .customfieldname,
+                .customfieldseparator {
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .enrolmenticons {
+            position: absolute;
+            bottom: 8px;
+            right: 0;
+
+            .enrolmenticon {
+                padding: 4px 8px;
+                background-color: #fff;
+                color: $brand-primary;
+                border-radius: .5rem;
+                margin: 0 4px;
+
+                .icon {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .course-contacts {
+            padding: 0 0.8rem 0.8rem 0.8rem;
+
+            .contact {
+                display: flex;
+
+                &:not(:first-of-type) {
+                    margin-top: .4rem;
+                }
+
+                img {
+                    width: 48px;
+                    height: 48px;
+                    border: 1px solid $gray-300;
+                }
+
+                p {
+                    margin-left: .4rem;
+                    margin-bottom: 0;
+
+                    &.role {
+                        color: $gray-900;
+                        font-size: 80%;
+                    }
+                }
+            }
+        }
+
+        .dashboard-card-footer {
+            padding: 0 .8rem .8rem .8rem;
+        }
+    }
+}
+
+// ===================================================
+// RESPONSIVE
+// ===================================================
+@include media-breakpoint-down(lg) {
+    #gt4t-hero {
+        min-height: auto;
+        padding: 100px 16px 48px;
+    }
+
+    #gt4t-features,
+    #gt4t-collaborate,
+    #gt4t-impact,
+    #gt4t-faq {
+        padding: 4rem 0;
+
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .gt4t-section-title {
+            font-size: 1.75rem;
+        }
+    }
+
+    .gt4t-hero-subtitle {
+        font-size: 1.05rem;
+        padding: 0 0.5rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    #gt4t-hero {
+        padding: 88px 12px 40px;
+    }
+
+    .gt4t-hero-title {
+        word-break: break-word;
+        hyphens: auto;
+    }
+
+    .gt4t-hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .gt4t-hero-stats {
+        gap: 1.5rem;
+    }
+
+    .gt4t-stat .gt4t-stat-number {
+        font-size: 2rem;
+    }
+
+    .gt4t-stat-divider {
+        display: none;
+    }
+
+    #gt4t-features,
+    #gt4t-collaborate,
+    #gt4t-impact,
+    #gt4t-faq {
+        padding: 3rem 0;
+
+        .gt4t-section-title {
+            font-size: 1.5rem;
+        }
+
+        .gt4t-section-desc {
+            font-size: 1rem;
+            padding: 0 0.25rem;
+        }
+    }
+
+    .gt4t-feature-card {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .pagelayout-frontpage .dashboard-card,
+    .pagelayout-coursecategory .dashboard-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 1rem 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+// Mobile: full-width shell, no side gaps, stable under pinch-zoom lock (viewport meta).
+@media (max-width: 767.98px) {
+    html:has(body.pagelayout-frontpage),
+    html:has(body.pagelayout-frontpage),
+    body.pagelayout-frontpage {
+        overscroll-behavior-x: none;
+    }
+
+    body.pagelayout-frontpage {
+        position: relative;
+        min-width: 0;
+    }
+
+    #page-site-index {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+
+        #page-wrapper,
+        #page,
+        #page.drawers {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        #gt4t-hero,
+        #gt4t-features,
+        #gt4t-collaborate,
+        #gt4t-impact,
+        #gt4t-faq,
+        #gt4t-footer {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .row {
+            --bs-gutter-x: 0.75rem;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    .gt4t-frontpage-navbar {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        padding-left: max(0.5rem, env(safe-area-inset-left, 0px)) !important;
+        padding-right: max(0.5rem, env(safe-area-inset-right, 0px)) !important;
+
+        #usernavigation {
+            min-width: 0;
+            flex-shrink: 1;
+        }
+    }
+
+    #gt4t-footer.gt4t-footer .container {
+        padding-left: max(1rem, env(safe-area-inset-left, 0px));
+        padding-right: max(1rem, env(safe-area-inset-right, 0px));
+    }
+}
+
+@media (max-width: 576px) {
+    #gt4t-hero {
+        min-height: auto;
+        padding: 76px max(1rem, env(safe-area-inset-left, 0px)) 32px max(1rem, env(safe-area-inset-right, 0px));
+    }
+
+    .gt4t-hero-content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .gt4t-hero-title {
+        .gt4t-hero-line {
+            white-space: normal !important;
+            overflow-wrap: break-word;
+            word-break: normal;
+            font-size: clamp(1.05rem, 6.2vw, 1.65rem) !important;
+            line-height: 1.2;
+        }
+
+        .gt4t-hero-acronym {
+            font-size: 0.95rem;
+        }
+    }
+
+    .gt4t-hero-logo img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .gt4t-hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .gt4t-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .gt4t-hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .gt4t-hero-scroll {
+        display: none;
+    }
+
+    #gt4t-features,
+    #gt4t-collaborate,
+    #gt4t-impact,
+    #gt4t-faq {
+        padding: 2.5rem 0;
+
+        .container {
+            padding-left: max(1rem, env(safe-area-inset-left, 0px));
+            padding-right: max(1rem, env(safe-area-inset-right, 0px));
+        }
+
+        .gt4t-section-title {
+            font-size: 1.25rem;
+        }
+    }
+
+    .gt4t-collab-footer {
+        font-size: 0.95rem;
+        padding: 0;
+    }
+
+    #gt4t-faq .accordion {
+        padding: 0;
+    }
+
+    .pagelayout-frontpage .dashboard-card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+// ===================================================
+// FRONTPAGE NAVBAR — section scroll links
+// ===================================================
+.gt4t-frontpage-navbar {
+    background-color: rgba(10, 10, 10, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom-color: rgba(29, 199, 29, 0.1) !important;
+    position: fixed;
+    z-index: 1060 !important;
+    flex-wrap: nowrap;
+
+    #gt4t-navbar-toggler,
+    .gt4t-navbar-toggler {
+        position: relative;
+        z-index: 1070 !important;
+        pointer-events: auto !important;
+        flex-shrink: 0;
+        min-width: 44px;
+        min-height: 44px;
+        touch-action: manipulation;
+        cursor: pointer;
+    }
+
+    #usernavigation,
+    .usermenu-container,
+    .usermenu,
+    .popover-region {
+        position: relative;
+        z-index: 1080 !important;
+        flex-shrink: 0;
+        pointer-events: auto !important;
+    }
+
+    .popover-region-toggle,
+    .usermenu .dropdown-toggle,
+    #user-menu-toggle {
+        pointer-events: auto !important;
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+
+    .popover-region-container {
+        z-index: 1090 !important;
+    }
+
+    // Centre nav links only — empty flex space must not steal clicks from the right cluster.
+    .gt4t-frontpage-nav {
+        pointer-events: none;
+
+        .nav-link {
+            pointer-events: auto;
+            font-family: $gt4t-font-body;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75) !important;
+            background: transparent !important;
+            transition: color 0.2s ease;
+
+            &:hover,
+            &:focus,
+            &:focus-visible {
+                color: $green !important;
+                background: transparent !important;
+                box-shadow: none;
+            }
+
+            &.active {
+                color: $green !important;
+                font-weight: 600;
+                background: transparent !important;
+            }
+        }
+    }
+
+    .navbar-brand .logo {
+        max-height: 40px;
+    }
+}
+
+// ===================================================
+// GT4T FRONTPAGE FOOTER
+// ===================================================
+#gt4t-footer.gt4t-footer {
+    display: block !important;
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100%;
+    flex-shrink: unset;
+    z-index: auto;
+    background: linear-gradient(180deg, $gt4t-bg-deep 0%, $gt4t-bg-mid 50%, $gt4t-bg-deep 100%);
+    border-top: 1px solid rgba(29, 199, 29, 0.2);
+    color: $gt4t-text-secondary;
+    font-family: $gt4t-font-body;
+    padding: 3.5rem 0 2rem;
+    margin-top: 0;
+
+    a:not(.btn) {
+        color: $gt4t-text-secondary;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $green;
+        }
+    }
+
+    .gt4t-footer-logo {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 12px rgba(29, 199, 29, 0.25));
+    }
+
+    .gt4t-footer-sitename {
+        font-family: $gt4t-font-heading;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #fff;
+    }
+
+    .gt4t-footer-tagline {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 320px;
+        margin: 0;
+        color: $gt4t-text-secondary;
+    }
+
+    .gt4t-footer-title {
+        font-family: $gt4t-font-heading;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #fff;
+        margin-bottom: 1rem;
+    }
+
+    .gt4t-footer-links li {
+        margin-bottom: 0.5rem;
+
+        a.active {
+            color: $green;
+        }
+    }
+
+    .gt4t-footer-social {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        li {
+            display: inline-block;
+        }
+    }
+
+    .gt4t-footer-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(29, 199, 29, 0.3);
+        color: #fff !important;
+
+        &:hover {
+            background: rgba(29, 199, 29, 0.15);
+            border-color: $green;
+            color: $green !important;
+        }
+    }
+
+    .gt4t-footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .gt4t-footer-copy,
+    .gt4t-footer-moodle {
+        font-size: 0.85rem;
+        color: #888;
+    }
+
+    .gt4t-footer-support a {
+        color: $green !important;
+    }
+}
+
+body.pagelayout-frontpage #page-footer {
+    display: none !important;
+}
+
+// Mobile drawer (hamburger menu) — dark theme, section links.
+// GT4T mobile menu (hamburger) — does not use Boost drawers.
+body.gt4t-mobile-menu-open {
+    overflow: hidden;
+}
+
+.gt4t-mobile-menu {
+    position: fixed;
+    inset: 0;
+    visibility: hidden;
+    pointer-events: none !important;
+    z-index: -1;
+}
+
+body.gt4t-mobile-menu-open .gt4t-mobile-menu {
+    visibility: visible;
+    pointer-events: auto !important;
+    z-index: 1055;
+}
+
+.gt4t-mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.gt4t-mobile-menu-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(300px, 88vw);
+    max-width: 100%;
+    height: 100%;
+    height: 100dvh;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, $gt4t-bg-deep 0%, $gt4t-bg-mid 100%);
+    border-right: 1px solid rgba(29, 199, 29, 0.2);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    overflow-y: auto;
+
+    body.gt4t-mobile-menu-open & {
+        transform: translateX(0);
+    }
+}
+
+.gt4t-mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem 0.75rem;
+    border-bottom: 1px solid rgba(29, 199, 29, 0.15);
+}
+
+.gt4t-mobile-menu-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.gt4t-mobile-menu-close {
+    color: #fff !important;
+    font-size: 1.75rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+    text-decoration: none;
+}
+
+.gt4t-mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 0 1.5rem;
+}
+
+.gt4t-mobile-menu-link {
+    display: block;
+    padding: 0.85rem 1.25rem;
+    font-family: $gt4t-font-body;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff !important;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+
+    &:hover,
+    &:focus {
+        background: rgba(29, 199, 29, 0.1);
+        color: $green !important;
+    }
+
+    &.active {
+        color: $green !important;
+        border-left-color: $green;
+        background: rgba(29, 199, 29, 0.12);
+    }
+}
+
+.gt4t-mobile-menu-divider {
+    height: 1px;
+    margin: 0.5rem 1.25rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.gt4t-frontpage-drawer.drawer {
+    background: $gt4t-bg-mid;
+
+    .gt4t-drawer-logo {
+        max-height: 40px;
+    }
+
+    .drawerheader {
+        background: $gt4t-bg-deep;
+        border-bottom: 1px solid rgba(29, 199, 29, 0.15);
+    }
+
+    .drawercontent {
+        background: $gt4t-bg-mid;
+    }
+
+    .gt4t-drawer-section-nav .list-group-item {
+        font-family: $gt4t-font-body;
+        background: transparent;
+        color: #fff;
+        border-color: rgba(255, 255, 255, 0.08);
+
+        &:hover,
+        &:focus {
+            background: rgba(29, 199, 29, 0.12);
+            color: $green;
+        }
+
+        &.active {
+            background: rgba(29, 199, 29, 0.2);
+            color: $green;
+            border-color: rgba(29, 199, 29, 0.3);
+        }
+    }
+}

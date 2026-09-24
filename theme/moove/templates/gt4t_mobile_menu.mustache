@@ -1,0 +1,28 @@
+{{!
+    @template theme_moove/gt4t_mobile_menu
+
+    GT4T front page mobile menu (replaces Boost primary drawer on the landing page).
+}}
+<div id="gt4t-mobile-menu" class="gt4t-mobile-menu" aria-hidden="true" hidden>
+    <button type="button" class="gt4t-mobile-menu-backdrop" aria-label="{{#str}}closebuttontitle, core{{/str}}"></button>
+    <div class="gt4t-mobile-menu-panel" role="dialog" aria-modal="true" aria-label="{{#str}}sitemenubar, admin{{/str}}">
+        <div class="gt4t-mobile-menu-header">
+            <a href="#gt4t-hero" class="gt4t-nav-scroll gt4t-mobile-menu-brand" data-gt4t-section="gt4t-hero">
+                <img src="{{gt4tlogourl}}" alt="GT4T" class="gt4t-mobile-menu-logo" width="40" height="40">
+            </a>
+            <button type="button" class="gt4t-mobile-menu-close btn btn-link" aria-label="{{#str}}closebuttontitle, core{{/str}}">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <nav class="gt4t-mobile-menu-nav">
+            {{#has_gt4t_frontpage_nav}}
+                {{#gt4t_frontpage_nav}}
+                    <a href="#{{id}}" class="gt4t-mobile-menu-link gt4t-nav-scroll" data-gt4t-section="{{id}}">{{label}}</a>
+                {{/gt4t_frontpage_nav}}
+            {{/has_gt4t_frontpage_nav}}
+            <div class="gt4t-mobile-menu-divider"></div>
+            <a href="{{config.wwwroot}}/course/" class="gt4t-mobile-menu-link">{{#str}}gt4tfootercourses, theme_moove{{/str}}</a>
+            <a href="{{config.wwwroot}}/login/index.php" class="gt4t-mobile-menu-link">{{#str}}gt4tfooterlogin, theme_moove{{/str}}</a>
+        </nav>
+    </div>
+</div>

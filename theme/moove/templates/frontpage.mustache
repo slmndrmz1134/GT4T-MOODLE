@@ -1,0 +1,241 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_moove/drawers
+
+    Boost drawer template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * courseindexopen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "courseindexopen": true,
+        "navdraweropen": false,
+        "blockdraweropen": true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false,
+        "addblockbutton": ""
+    }
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{! Fallback when theme CSS fails to compile/load (e.g. PHP merge conflict on server). }}
+<style id="gt4t-frontpage-critical">
+    #gt4t-mobile-menu[hidden] { display: none !important; }
+    .gt4t-mobile-menu-logo { max-height: 40px; width: auto; height: auto; }
+    #gt4t-hero .gt4t-hero-logo img { width: 120px; height: auto; max-width: 100%; }
+    body.pagelayout-frontpage { background-color: #0a0a0a; color: #e5e7eb; }
+</style>
+<div id="page-wrapper" class="d-print-block">
+
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_moove/navbar_frontpage }}
+    {{> theme_moove/gt4t_mobile_menu }}
+
+    <div id="page" data-region="mainpage" data-usertour="scroller" class="drawers drag-container">
+
+        {{! ==================== GT4T HERO SECTION ==================== }}
+        <section id="gt4t-hero">
+            <div class="gt4t-hero-particles"></div>
+            <div class="gt4t-hero-content">
+                <div class="gt4t-hero-logo">
+                    <img src="{{gt4tlogourl}}" alt="GT4T Logo" width="120" height="120" fetchpriority="high" decoding="async">
+                </div>
+                <h1 class="gt4t-hero-title">
+                    <span class="gt4t-text-green gt4t-hero-line">GreenTech4Transformation</span>
+                    <span class="gt4t-hero-acronym">(GT4T)</span>
+                </h1>
+                <p class="gt4t-hero-subtitle">A project funded by the EIT Higher Education Initiative and coordinated by Satakunta University of Applied Sciences (SAMK, Finland). GT4T strengthens universities' role in the green and digital transition by connecting higher education with industry and innovation ecosystems.</p>
+                <div class="gt4t-hero-buttons">
+                    <a href="{{config.wwwroot}}/login/index.php" class="gt4t-btn gt4t-btn-primary">Get Started</a>
+                </div>
+                <div class="gt4t-hero-stats">
+                    <div class="gt4t-stat">
+                        <span class="gt4t-stat-number">{{{numbersusers}}}</span>
+                        <span class="gt4t-stat-label">Active Learners</span>
+                    </div>
+                    <div class="gt4t-stat-divider"></div>
+                    <div class="gt4t-stat">
+                        <span class="gt4t-stat-number">{{{numberscourses}}}</span>
+                        <span class="gt4t-stat-label">Courses Available</span>
+                    </div>
+                    <div class="gt4t-stat-divider"></div>
+                    <div class="gt4t-stat">
+                        <span class="gt4t-stat-number">{{{numberspartners}}}</span>
+                        <span class="gt4t-stat-label">Partner Universities</span>
+                    </div>
+                </div>
+            </div>
+            <a href="#{{gt4t_scroll_target}}" class="gt4t-hero-scroll gt4t-nav-scroll" aria-label="{{#str}}next_section, theme_moove{{/str}}">
+                <span>Scroll Down</span>
+                <div class="gt4t-scroll-arrow"></div>
+            </a>
+        </section>
+
+        {{! ==================== FEATURES SECTION ==================== }}
+        {{#displaymarketingbox}}
+            <section id="gt4t-features">
+                <div class="container">
+                    <div class="gt4t-section-header">
+                        <h2 class="gt4t-section-title">{{{marketingheading}}}</h2>
+                        <div class="gt4t-section-desc">{{{marketingcontent}}}</div>
+                    </div>
+                    <div class="row g-4 justify-content-center">
+                        {{#marketingboxes}}
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="gt4t-feature-card">
+                                    <div class="gt4t-feature-icon">
+                                        <img src="{{{icon}}}" alt="">
+                                    </div>
+                                    <h4 class="gt4t-feature-title">{{{heading}}}</h4>
+                                    <div class="gt4t-feature-desc">{{{content}}}</div>
+                                    <div class="gt4t-feature-glow"></div>
+                                </div>
+                            </div>
+                        {{/marketingboxes}}
+                    </div>
+                </div>
+            </section>
+        {{/displaymarketingbox}}
+
+        {{! ==================== HOW WE COLLABORATE ==================== }}
+        <section id="gt4t-collaborate">
+            <div class="container">
+                <div class="gt4t-section-header">
+                    <h2 class="gt4t-section-title">How We Collaborate</h2>
+                    <p class="gt4t-section-desc">Partner universities deliver joint training and hands-on innovation projects. Mixed, cross-border teams work on real challenges from companies and regional ecosystems, combining:</p>
+                </div>
+                <div class="row g-3 gt4t-collab-grid">
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="gt4t-collab-item">Innovation methodologies</div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="gt4t-collab-item">Idea validation</div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="gt4t-collab-item">Value proposition development</div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="gt4t-collab-item">Pitching preparation</div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="gt4t-collab-item">Early-stage commercialisation awareness</div>
+                    </div>
+                </div>
+                <p class="gt4t-collab-footer">GT4T creates repeatable cooperation models including shared training formats, common toolkits and methodologies, and transferable delivery approaches.</p>
+            </div>
+        </section>
+
+        {{! ==================== LONG-TERM IMPACT ==================== }}
+        <section id="gt4t-impact">
+            <div class="container">
+                <div class="gt4t-section-header">
+                    <h2 class="gt4t-section-title">Long-Term Impact</h2>
+                    <p class="gt4t-section-desc">GT4T promotes structured collaboration between universities and ecosystems through pilots, cross-border research-to-business connections, and systematic entrepreneurship education.</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-4">
+                        <div class="gt4t-impact-card">
+                            <h4>Pilots &amp; Proof-of-Concepts</h4>
+                            <p>Testing and validating sustainable solutions with industry and regional partners.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="gt4t-impact-card">
+                            <h4>Research-to-Business</h4>
+                            <p>Cross-border connections that turn academic research into real-world impact.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="gt4t-impact-card">
+                            <h4>Venture Science Center</h4>
+                            <p>Permanent hubs for training, prototyping, and ecosystem engagement—ensuring long-term impact and scalability.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{! ==================== FAQ SECTION ==================== }}
+        {{#faqenabled}}
+            <section id="gt4t-faq">
+                <div class="container">
+                    <div class="gt4t-section-header">
+                        <h2 class="gt4t-section-title">{{#str}}faq, theme_moove{{/str}}</h2>
+                    </div>
+                    <div class="accordion" id="accordion-faq">
+                        {{#faq}}
+                            <div class="accordion-item mb-2">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button {{^active}}collapsed{{/active}}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{{id}}}" aria-expanded="true" aria-controls="collapse-{{{id}}}">
+                                        {{{question}}}
+                                    </button>
+                                </h2>
+                                <div id="collapse-{{{id}}}" class="accordion-collapse collapse {{#active}}show{{/active}}" data-bs-parent="#accordion-faq">
+                                    <div class="accordion-body">
+                                        {{{answer}}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/faq}}
+                    </div>
+                </div>
+            </section>
+        {{/faqenabled}}
+
+    </div>
+
+    {{{ output.standard_after_main_region_html }}}
+</div>
+
+{{> theme_moove/gt4t_footer }}
+
+{{> core/local/toast/wrapper}}
+
+{{{ output.standard_end_of_body_html }}}
+</body>
+</html>
+{{#js}}
+    M.util.js_pending('theme_boost/loader');
+    require(['theme_boost/loader', 'theme_moove/frontpage_drawer', 'theme_moove/frontpage_nav', 'theme_moove/frontpage_navbar'],
+        function(Loader, FrontpageDrawer, FrontpageNav, FrontpageNavbar) {
+            FrontpageDrawer.init();
+            FrontpageNav.init(FrontpageDrawer);
+            FrontpageNavbar.init();
+            M.util.js_complete('theme_boost/loader');
+        });
+{{/js}}

@@ -1,0 +1,274 @@
+{{!
+    @template core/loginform
+
+    GT4T sign-in card (theme_moove override) - Simple version.
+}}
+<div class="gt4t-signin-panel loginform">
+
+    <header class="gt4t-signin-header">
+        {{#logourl}}
+            <img class="gt4t-signin-logo" src="{{logourl}}" alt="{{sitename}}">
+        {{/logourl}}
+        <h1 class="gt4t-signin-title">{{#str}}login, core{{/str}}</h1>
+        <p class="gt4t-signin-subtitle">{{#str}}gt4tloginsubtitle, theme_moove{{/str}}</p>
+    </header>
+
+    {{#maintenance}}
+        <div class="alert alert-danger login-maintenance" role="alert">{{{maintenance}}}</div>
+    {{/maintenance}}
+    {{#error}}
+        <a href="#" id="loginerrormessage" class="visually-hidden">{{error}}</a>
+        <div class="alert alert-danger loginerrormessage" role="alert">{{error}}</div>
+    {{/error}}
+    {{#info}}
+        <a href="#" id="logininfomessage" class="visually-hidden">{{info}}</a>
+        <div class="alert alert-info" role="alert">{{info}}</div>
+    {{/info}}
+    {{#showsignupbutton}}
+        <a href="{{signupurl}}" class="visually-hidden">{{#str}} tocreatenewaccount {{/str}}</a>
+    {{/showsignupbutton}}
+
+    <div class="gt4t-signin-body">
+        {{#tenantselect}}
+            <div class="gt4t-tenant-select-container"
+                 {{#activetenantidnumber}}data-active-tenant-idnumber="{{activetenantidnumber}}"{{/activetenantidnumber}}
+                 {{#activetenantname}}data-active-tenant-name="{{activetenantname}}"{{/activetenantname}}>
+                <label class="gt4t-field-label">Select Partner</label>
+                {{{tenantselect}}}
+            </div>
+        {{/tenantselect}}
+
+        {{#showsignupbutton}}
+            <div class="gt4t-signin-signup-promo">
+                <a class="btn gt4t-btn gt4t-btn-outline gt4t-signin-signupbtn w-100" href="{{signupurl}}">
+                    {{#str}}gt4tloginsignupbtn, theme_moove{{/str}}
+                </a>
+            </div>
+        {{/showsignupbutton}}
+
+        {{#showloginform}}
+            <form class="login-form gt4t-signin-form" action="{{loginurl}}" method="post" id="login" novalidate>
+                <input id="anchor" type="hidden" name="anchor" value="">
+                <script>document.getElementById('anchor').value = location.hash;</script>
+                <input type="hidden" name="logintoken" value="{{logintoken}}">
+
+                <div class="gt4t-field">
+                    <label class="gt4t-field-label" for="username">
+                        {{^canloginbyemail}}{{#str}}username{{/str}}{{/canloginbyemail}}
+                        {{#canloginbyemail}}{{#str}}usernameemail{{/str}}{{/canloginbyemail}}
+                    </label>
+                    <input type="text" name="username" id="username" class="gt4t-field-input"
+                        placeholder="Enter your username"
+                        value="{{username}}" autocomplete="username" required>
+                </div>
+
+                <div class="gt4t-field gt4t-field--password">
+                    <label class="gt4t-field-label" for="password">{{#str}}password{{/str}}</label>
+                    <input type="password" name="password" id="password" class="gt4t-field-input"
+                        placeholder="Enter your password"
+                        autocomplete="current-password" required>
+                </div>
+
+                {{#recaptcha}}
+                    <div class="gt4t-field gt4t-field-recaptcha">{{{recaptcha}}}</div>
+                {{/recaptcha}}
+
+                <div class="gt4t-signin-options">
+                    <label class="gt4t-checkbox">
+                        <input type="checkbox" name="rememberusername" id="rememberusername" value="1" {{#username}}checked="checked"{{/username}}>
+                        <span class="gt4t-checkbox-indicator"></span>
+                        <span class="gt4t-checkbox-label">Remember username</span>
+                    </label>
+                    <a class="gt4t-forgot-link" href="{{forgotpasswordurl}}">{{#str}}forgotaccount{{/str}}</a>
+                </div>
+
+                <div class="gt4t-signin-actions">
+                    <button class="btn gt4t-btn gt4t-btn-primary" type="submit" id="loginbtn">
+                        {{#str}}login{{/str}}
+                    </button>
+                </div>
+            </form>
+        {{/showloginform}}
+
+        {{#hasidentityproviders}}
+            <div class="gt4t-signin-divider">
+                <span>{{#str}}potentialidps, auth{{/str}}</span>
+            </div>
+            <div class="login-identityproviders gt4t-idp-list">
+                {{#identityproviders}}
+                    <a class="btn login-identityprovider-btn w-100" href="{{url}}">
+                        {{#iconurl}}<img src="{{iconurl}}" alt="" width="20" height="20" class="mr-2"/>{{/iconurl}}
+                        {{name}}
+                    </a>
+                {{/identityproviders}}
+            </div>
+        {{/hasidentityproviders}}
+
+        {{#hasinstructions}}
+            <aside class="gt4t-signin-aside">
+                <h2 class="gt4t-signin-aside-title">{{#str}}firsttime{{/str}}</h2>
+                <div class="gt4t-signin-aside-text login-instructions">{{{instructions}}}</div>
+            </aside>
+        {{/hasinstructions}}
+
+        {{#canloginasguest}}
+            <div class="gt4t-signin-guest">
+                <p class="gt4t-signin-guest-label">{{#str}}someallowguest{{/str}}</p>
+                <form action="{{loginurl}}" method="post" id="guestlogin">
+                    <input type="hidden" name="logintoken" value="{{logintoken}}">
+                    <input type="hidden" name="username" value="guest">
+                    <input type="hidden" name="password" value="guest">
+                    <button class="btn gt4t-btn gt4t-btn-ghost w-100" type="submit" id="loginguestbtn">
+                        Access as a guest
+                    </button>
+                </form>
+            </div>
+        {{/canloginasguest}}
+    </div>
+
+</div>
+
+{{#js}}
+    {{^error}}
+        {{#autofocusform}}
+            require(['core_form/events'], function(FormEvent) {
+                function autoFocus() {
+                    const userNameField = document.getElementById('username');
+                    if (userNameField.value.length == 0) {
+                        userNameField.focus();
+                    } else {
+                        document.getElementById('password').focus();
+                    }
+                }
+                autoFocus();
+                window.addEventListener(FormEvent.eventTypes.fieldStructureChanged, autoFocus);
+            });
+        {{/autofocusform}}
+    {{/error}}
+    {{#error}}
+        document.getElementById('loginerrormessage').focus();
+    {{/error}}
+    require(['theme_moove/login_password_toggle'], function(Toggle) {
+        Toggle.initLogin();
+    });
+    require(['theme_moove/login_role_toggle'], function(RoleToggle) {
+        RoleToggle.init({ page: 'login' });
+    });
+    require(['core_form/submit'], function(Submit) {
+        Submit.init("loginbtn");
+        {{#canloginasguest}}
+            Submit.init("loginguestbtn");
+        {{/canloginasguest}}
+    });
+    // Enhanced Searchable Partner Dropdown
+    (function() {
+        const container = document.querySelector('.gt4t-tenant-select-container');
+        if (!container) return;
+
+        // Auto-update trigger text based on active tenant URL parameter or PHP context
+        const trigger = container.querySelector('.dropdown-toggle');
+        const activeTenantName = container.getAttribute('data-active-tenant-name');
+        const activeTenantIdnumber = container.getAttribute('data-active-tenant-idnumber');
+        const items = container.querySelectorAll('.dropdown-item');
+
+        if (activeTenantName && trigger) {
+            trigger.textContent = activeTenantName;
+        } else {
+            const params = new URLSearchParams(window.location.search);
+            const tenantParam = params.get('tenant');
+            if (tenantParam && trigger) {
+                let selectedName = null;
+                items.forEach(function(item) {
+                    const href = item.getAttribute('href');
+                    if (href) {
+                        try {
+                            const url = new URL(href, window.location.origin);
+                            if (url.searchParams.get('tenant') === tenantParam) {
+                                selectedName = item.textContent.trim();
+                            }
+                        } catch (e) {
+                            if (href.includes('tenant=' + tenantParam)) {
+                                selectedName = item.textContent.trim();
+                            }
+                        }
+                    }
+                });
+                if (selectedName) {
+                    trigger.textContent = selectedName;
+                }
+            }
+        }
+
+        const dropdownMenu = container.querySelector('.dropdown-menu');
+        if (!dropdownMenu) return;
+
+        // Show search if we have more than 5 partners
+        if (items.length > 5) {
+            const searchWrapper = document.createElement('div');
+            searchWrapper.className = 'gt4t-partner-search-wrapper';
+
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'gt4t-partner-search';
+            searchInput.placeholder = 'Search partner...';
+
+            searchWrapper.appendChild(searchInput);
+            dropdownMenu.insertBefore(searchWrapper, dropdownMenu.firstChild);
+
+            searchWrapper.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+
+            const trigger = container.querySelector('.dropdown-toggle');
+            if (trigger) {
+                trigger.addEventListener('click', function() {
+                    setTimeout(() => searchInput.focus(), 150);
+                });
+            }
+
+            searchInput.addEventListener('input', function() {
+                const query = searchInput.value.toLowerCase().trim();
+                items.forEach(function(item) {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.setProperty('display', 'block', 'important');
+                    } else {
+                        item.style.setProperty('display', 'none', 'important');
+                    }
+                });
+            });
+        }
+    })();
+
+    // Require partner selection on login
+    (function() {
+        const container = document.querySelector('.gt4t-tenant-select-container');
+        const loginForm = document.getElementById('login');
+        if (!container || !loginForm) return;
+
+        loginForm.addEventListener('submit', function(e) {
+            const activeTenantIdnumber = container.getAttribute('data-active-tenant-idnumber');
+            const trigger = container.querySelector('.dropdown-toggle');
+            // Check active tenant from PHP context or URL search param
+            const params = new URLSearchParams(window.location.search);
+            const tenantParam = params.get('tenant');
+            const isTenantSelected = !!(activeTenantIdnumber || tenantParam);
+            if (!isTenantSelected) {
+                e.preventDefault();
+                const existingError = container.querySelector('.gt4t-tenant-error');
+                if (!existingError) {
+                    const error = document.createElement('div');
+                    error.className = 'gt4t-tenant-error';
+                    error.style.cssText = 'color:#ef4444;font-size:0.8rem;margin-top:0.35rem;font-weight:500;';
+                    error.textContent = 'Please select your partner before signing in.';
+                    container.appendChild(error);
+                }
+                container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (trigger) {
+                    trigger.style.borderColor = '#ef4444';
+                    trigger.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.25)';
+                }
+            }
+        });
+    })();
+{{/js}}

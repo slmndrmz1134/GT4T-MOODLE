@@ -1,0 +1,160 @@
+// ===================================================
+// GT4T DARK DASHBOARD CARDS
+// ===================================================
+
+.dashboard-card {
+    border: 1px solid $gt4t-border-color;
+    border-radius: 16px;
+    background: linear-gradient(165deg, rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.96)) !important;
+    box-shadow:
+        0 10px 25px -5px rgba(0, 0, 0, 0.3),
+        0 8px 10px -6px rgba(0, 0, 0, 0.3);
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-4px);
+        border-color: rgba(29, 199, 29, 0.4);
+        box-shadow:
+            0 25px 50px rgba(0, 0, 0, 0.55),
+            0 0 30px rgba(29, 199, 29, 0.08);
+    }
+
+    &.dimmed {
+        opacity: 0.55;
+
+        a {
+            color: $gt4t-text-muted;
+        }
+
+        .coursename a {
+            color: $gt4t-text-muted !important;
+        }
+    }
+
+    .dashboard-card-img {
+        padding: .5rem;
+        position: relative;
+        height: 10rem !important;
+        background-position: center;
+        background-size: cover;
+        border-radius: 12px 12px 0 0;
+
+        .course-category {
+            background-color: $gt4t-green;
+            color: #000;
+            padding: 4px 10px;
+            margin-bottom: .25rem;
+            border-radius: 6px;
+            width: fit-content;
+            font-size: 75%;
+            font-weight: 700;
+
+            span.categoryname {
+                color: #000;
+            }
+        }
+    }
+
+    .card-body.course-info-container {
+        background: transparent !important;
+
+        .coursename {
+            .text-truncate {
+                white-space: initial;
+            }
+
+            a {
+                color: #fff !important;
+                font-family: $gt4t-font-heading;
+                font-weight: 700;
+                font-size: 1.05rem;
+                letter-spacing: -0.2px;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: $gt4t-green !important;
+                    text-decoration: none !important;
+                }
+            }
+        }
+
+        // Favourite icon
+        .text-muted {
+            color: $gt4t-text-muted !important;
+        }
+    }
+
+    // Footer area with progress and menu
+    .dashboard-card-footer {
+        background: transparent !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 0 0 16px 16px;
+        padding: 0.75rem 0.8rem;
+
+        &.menu {
+            opacity: .85;
+            padding: 0.5rem 0.8rem;
+
+            .btn.btn-link.btn-icon {
+                background-color: $gt4t-green;
+                color: #000;
+                border-radius: 50%;
+                height: 24px !important;
+                width: 24px !important;
+                transition: transform 0.2s ease;
+
+                &:hover {
+                    transform: scale(1.15);
+                }
+            }
+        }
+    }
+}
+
+// Progress bar in card footer
+.block .block-cards .moove-card-footer {
+    padding: .8rem;
+
+    .progress {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        height: 8px;
+
+        .progress-bar {
+            background: linear-gradient(90deg, $gt4t-green, $gt4t-accent-cyan);
+            border-radius: 8px;
+        }
+    }
+}
+
+// Card deck container overrides
+.block .block-cards {
+    .container-fluid {
+        max-width: 100%;
+    }
+}
+
+// Block_myoverview overrides
+.block_myoverview {
+    &.block {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+        width: calc(33.33% - 2rem);
+        margin: 1rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .block-myoverview .dashboard-card-deck:not(.fixed-width-cards) .dashboard-card {
+        width: calc(100%);
+        margin: 1rem 0;
+    }
+}

@@ -1,0 +1,246 @@
+#page-footer .copyright {
+    display: none !important;
+}
+
+/* ==========================================================================
+   GT4T Premium Glassmorphic Navigation & Menus (High-Specificity Presets)
+   ========================================================================== */
+
+/* 1. Bulletproof Main Top Navbar */
+body .navbar.fixed-top {
+    border: none !important;
+    height: 70px !important;
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+
+    body.darkmode & {
+        background-color: rgba(10, 15, 30, 0.55) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .navbar-brand {
+        color: #1e293b !important;
+        font-family: $gt4t-font-heading;
+        font-weight: 800 !important;
+        letter-spacing: 1.5px !important;
+        transition: transform 0.3s ease, color 0.3s ease !important;
+
+        body.darkmode & {
+            color: #fff !important;
+        }
+
+        &:hover {
+            transform: scale(1.02) !important;
+        }
+    }
+}
+
+/* 2. Primary Navigation Links inside Navbar */
+body .navbar.fixed-top .primary-navigation .moremenu .nav-tabs .nav-link,
+body .navbar.fixed-top .primary-navigation .navigation .nav-link {
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    border: none !important;
+    border-radius: 0 !important;
+    color: #475569 !important;
+    font-family: $gt4t-font-body;
+    font-weight: 500 !important;
+    position: relative !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    transition: color 0.3s ease !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    body.darkmode & {
+        color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    // Sleek animated underline
+    &::after {
+        content: '' !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 10% !important;
+        width: 80% !important;
+        height: 3px !important;
+        background: linear-gradient(90deg, #0575e6, #00f2fe) !important;
+        transform: scaleX(0) !important;
+        transform-origin: right !important;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        border-radius: 4px !important;
+
+        body.darkmode & {
+            background: linear-gradient(90deg, #1DC71D, #00C8E8) !important;
+        }
+    }
+
+    &.active {
+        font-weight: 700 !important;
+        color: #0575e6 !important;
+
+        body.darkmode & {
+            color: #1DC71D !important;
+        }
+
+        &::after {
+            transform: scaleX(1) !important;
+            transform-origin: left !important;
+        }
+    }
+
+    &:hover {
+        color: #0f172a !important;
+        text-decoration: none !important;
+
+        body.darkmode & {
+            color: #fff !important;
+        }
+
+        &::after {
+            transform: scaleX(1) !important;
+            transform-origin: left !important;
+        }
+    }
+}
+
+/* User Menu & Icons overrides */
+body .navbar.fixed-top #usernavigation {
+    .icon {
+        color: #475569 !important;
+        transition: transform 0.2s ease, color 0.2s ease !important;
+
+        body.darkmode & {
+            color: #fff !important;
+        }
+
+        &:hover {
+            color: #0575e6 !important;
+            transform: scale(1.05) !important;
+
+            body.darkmode & {
+                color: #1DC71D !important;
+            }
+        }
+    }
+
+    .divider {
+        border-color: rgba(0, 0, 0, 0.08) !important;
+
+        body.darkmode & {
+            border-color: rgba(255, 255, 255, 0.12) !important;
+        }
+    }
+
+    .editmode-switch-form .form-check-label {
+        color: #475569 !important;
+
+        body.darkmode & {
+            color: #fff !important;
+        }
+
+        &.text-primary {
+            color: #0575e6 !important;
+
+            body.darkmode & {
+                color: #fff !important;
+            }
+        }
+    }
+}
+
+/* 3. Float-deblocked Glassmorphic Secondary Navigation Ribbon */
+body .secondary-navigation {
+    border: none !important;
+    align-items: stretch !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    z-index: 1021 !important;
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03) !important;
+    position: fixed !important;
+    top: 70px !important;
+    filter: none !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+
+    body.darkmode & {
+        background-color: rgba(15, 23, 42, 0.45) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    // Force transparency of Moodle/Boost nested wrappers inside the glass container!
+    .navigation,
+    .moremenu {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    .moremenu .nav-tabs {
+        border: none !important;
+        background-color: transparent !important;
+        max-width: none !important;
+        height: 60px !important;
+        align-items: center !important;
+
+        .nav-link {
+            display: flex !important;
+            align-items: center !important;
+            white-space: nowrap !important;
+            color: #475569 !important;
+            border: 1px solid transparent !important;
+            border-radius: 12px !important;
+            margin: auto 4px !important;
+            padding: 8px 16px !important;
+            height: 38px !important;
+            line-height: 22px !important;
+            font-family: $gt4t-font-body;
+            font-size: 0.9rem !important;
+            font-weight: 500 !important;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            background: transparent !important;
+            box-shadow: none !important;
+
+            body.darkmode & {
+                color: #cbd5e1 !important;
+            }
+
+            &.active {
+                background-color: rgba(5, 117, 230, 0.08) !important;
+                border: 1px solid rgba(5, 117, 230, 0.15) !important;
+                color: #0575e6 !important;
+                font-weight: 600 !important;
+
+                body.darkmode & {
+                    background-color: rgba(0, 242, 254, 0.12) !important;
+                    border: 1px solid rgba(0, 242, 254, 0.2) !important;
+                    color: #00f2fe !important;
+                }
+            }
+
+            &:hover,
+            &:focus {
+                background-color: rgba(0, 242, 254, 0.08) !important;
+                color: #00acc1 !important;
+                text-decoration: none !important;
+
+                body.darkmode & {
+                    background-color: rgba(255, 255, 255, 0.04) !important;
+                    color: #ffffff !important;
+                }
+            }
+        }
+    }
+}

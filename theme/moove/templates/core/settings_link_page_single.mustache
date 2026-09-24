@@ -1,0 +1,20 @@
+{{!
+    GT4T Moodle - Single Admin Link Action Chip Template
+}}
+{{#display}}
+    {{#action}}
+        <li><a href="{{{action}}}" class="action-chip">{{text}}</a></li>
+    {{/action}}
+    {{^action}}
+        <li class="action-chip-label"><strong>{{text}}</strong></li>
+    {{/action}}
+    {{#children.count}}
+        <li class="w-100 mt-2 mb-2 ps-2 border-left-indicator">
+            <ul class="list-unstyled d-flex flex-wrap gap-2 mb-0">
+                {{#children}}
+                    {{> core/settings_link_page_single }}
+                {{/children}}
+            </ul>
+        </li>
+    {{/children.count}}
+{{/display}}

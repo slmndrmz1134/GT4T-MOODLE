@@ -1,0 +1,254 @@
+#page-footer {
+    background-color: #050505;
+    color: #b0b0b0;
+    width: 100%;
+    font-family: 'Work Sans', sans-serif;
+    border-top: 1px solid rgba(29, 199, 29, 0.2);
+
+    a:not(.btn) {
+        color: #b0b0b0;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #1DC71D;
+            text-decoration: none;
+        }
+    }
+
+    .contactsitesupport {
+        border: 1px solid #1DC71D;
+        color: #1DC71D;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba(29, 199, 29, 0.1);
+        }
+    }
+
+    .popover.footer .popover-body .footer-section {
+        color: #1d2125;
+
+        a {
+            color: #1d2125;
+        }
+    }
+
+    .footer-columns {
+        padding: 40px 15px;
+    }
+
+    .logo {
+        max-width: 50%;
+        filter: drop-shadow(0 0 10px rgba(29, 199, 29, 0.2));
+    }
+
+    h3.footer-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.2rem;
+        line-height: 1.2;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .socialnetworks,
+    .contact {
+        margin-top: .5rem;
+
+        ul {
+            padding-left: 0;
+
+            li {
+                display: inline;
+
+                a {
+                    text-decoration: none;
+                    color: #fff;
+                    width: 38px;
+                    height: 38px;
+
+                    &.btn-rounded {
+                        border-radius: 50%;
+                    }
+
+                    &.website {
+                        background-color: $brand-primary;
+
+                        &:hover {
+                            background-color: darken($brand-primary, 20%);
+                        }
+                    }
+
+                    &.mobile {
+                        background-color: $brand-primary;
+
+                        &:hover {
+                            background-color: darken($brand-primary, 20%);
+                        }
+                    }
+
+                    &.mail {
+                        background-color: $brand-primary;
+
+                        &:hover {
+                            background-color: darken($brand-primary, 20%);
+                        }
+                    }
+
+                    &.facebook {
+                        background-color: $facebook-color;
+
+                        &:hover {
+                            background-color: darken($facebook-color, 20%);
+                        }
+                    }
+
+                    &.twitter {
+                        background-color: $twitter-color;
+
+                        &:hover {
+                            background-color: darken($twitter-color, 20%);
+                        }
+                    }
+
+                    &.linkedin {
+                        background-color: $linkedin-color;
+
+                        &:hover {
+                            background-color: darken($linkedin-color, 20%);
+                        }
+                    }
+
+                    &.youtube {
+                        background-color: $youtube-color;
+
+                        &:hover {
+                            background-color: darken($youtube-color, 20%);
+                        }
+                    }
+
+                    &.instagram {
+                        background-color: $instagram-color;
+
+                        &:hover {
+                            background-color: darken($instagram-color, 20%);
+                        }
+                    }
+
+                    &.whatsapp {
+                        background-color: $whatsapp-color;
+
+                        &:hover {
+                            background-color: darken($whatsapp-color, 20%);
+                        }
+                    }
+
+                    &.telegram {
+                        background-color: $telegram-color;
+
+                        &:hover {
+                            background-color: darken($telegram-color, 20%);
+                        }
+
+                        .fa {
+                            margin-left: -1px;
+                        }
+                    }
+
+                    &.tiktok {
+                        background-color: $tiktok-color;
+
+                        &:hover {
+                            background-color: darken($tiktok-color, 20%);
+                        }
+
+                        .fa {
+                            margin-left: -1px;
+                        }
+                    }
+
+                    &.pinterest {
+                        background-color: $pinterest-color;
+
+                        &:hover {
+                            background-color: darken($pinterest-color, 20%);
+                        }
+
+                        .fa {
+                            margin-left: -1px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .supportemail,
+    .logininfo,
+    .tool_dataprivacy {
+        margin: .5rem 0;
+    }
+
+    .column-center {
+        text-align: center;
+    }
+
+    .column-right {
+        text-align: right;
+
+        .stores {
+            a {
+                display: block;
+            }
+
+            img {
+                max-width: 160px;
+            }
+        }
+    }
+
+    .copyright {
+        background-color: $moodle-color;
+        text-align: center;
+        min-height: inherit;
+        color: #fff;
+        margin-bottom: 0;
+
+        .madeby {
+            padding: .5rem 0;
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .btn-footer-popover {
+        bottom: 1rem;
+    }
+
+    .btn-footer-communication {
+        bottom: 4rem;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    #page-footer {
+
+        .column-right,
+        .column-left {
+            text-align: center;
+        }
+
+        .column-center,
+        .column-right {
+            margin-top: 1rem;
+        }
+    }
+}
+
+#page-footer {
+    display: none !important;
+}
