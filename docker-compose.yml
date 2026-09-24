@@ -1,0 +1,100 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=moodle
+      - MYSQL_USER=moodle
+      - MYSQL_PASSWORD=moodlepass
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  moodle:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${MOODLE_PORT:-8080}:80"
+    healthcheck:
+      test: ["CMD-SHELL", "php -r '$$s=@fsockopen(\"127.0.0.1\",80,$$e,$$m,5); if($$s){fclose($$s);exit(0);} exit(1);'"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 180s
+    environment:
+      - MOODLE_DB_TYPE=mysqli
+      - MOODLE_DB_HOST=mysql
+      - MOODLE_DB_NAME=moodle
+      - MOODLE_DB_USER=moodle
+      - MOODLE_DB_PASS=moodlepass
+      - MOODLE_URL=${MOODLE_URL:-http://localhost:8080}
+      - MOODLE_DATA=/var/www/moodledata
+      - MOODLE_THEMEDESIGNERMODE=${MOODLE_THEMEDESIGNERMODE:-false}
+      - PHP_OPCACHE_ENABLE=${PHP_OPCACHE_ENABLE:-1}
+      - PHP_OPCACHE_REVALIDATE_FREQ=${PHP_OPCACHE_REVALIDATE_FREQ:-60}
+      - MOODLE_AUTO_PURGE_CACHES=${MOODLE_AUTO_PURGE_CACHES:-false}
+      - MOODLE_SSLPROXY=${MOODLE_SSLPROXY:-false}
+      - MOODLE_REVERSEPROXY=${MOODLE_REVERSEPROXY:-false}
+      - MOODLE_CACHE_REDIS_HOST=redis
+      - MOODLE_CACHE_REDIS_PORT=6379
+      - MOODLE_CACHE_REDIS_PREFIX=gt4t_
+    volumes:
+      - moodledata:/var/www/moodledata
+      - .:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mysql
+      - UPLOAD_LIMIT=100M
+    depends_on:
+      - mysql
+
+  # Sunucu SSL (Nginx Reverse Proxy) yapılandırması. Local PC'de otomatik olarak çalışmaz.
+  nginx:
+    image: nginx:alpine
+    profiles:
+      - prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      moodle:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+  moodledata:
+  redis_data:

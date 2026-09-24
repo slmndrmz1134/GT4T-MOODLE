@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html  dir="ltr" lang="en" xml:lang="en">
+<head>
+    <title>Installation | Moodle 5.0.7 (Build: 20260420)</title>
+    <link rel="shortcut icon" href="http://localhost/theme/image.php?theme=boost&amp;component=theme&amp;rev=1&amp;image=favicon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="moodle, Installation | Moodle 5.0.7 (Build: 20260420)" />
+<link rel="stylesheet" type="text/css" href="http://localhost/theme/yui_combo.php?rollup/3.18.1/yui-moodlesimple-min.css" /><script id="firstthemesheet" type="text/css">/** Required in order to fix style inclusion problems in IE with YUI **/</script><link rel="stylesheet" type="text/css" href="http://localhost/theme/styles.php?theme=boost&amp;rev=1_1&amp;type=all" />
+<script>
+//<![CDATA[
+var M = {}; M.yui = {};
+M.pageloadstarttime = new Date();
+M.cfg = {"wwwroot":"http:\/\/localhost","apibase":"http:\/\/localhost\/r.php\/api","homeurl":null,"sesskey":"8edIHRLTmx","sessiontimeout":28800,"sessiontimeoutwarning":1200,"themerev":1,"slasharguments":0,"theme":"boost","iconsystemmodule":"core\/icon_system_fontawesome","jsrev":-1,"admin":"admin","svgicons":true,"usertimezone":"UTC","language":"en","courseId":0,"courseContextId":0,"contextid":null,"contextInstanceId":0,"langrev":-1,"templaterev":-1,"siteId":1,"userId":0};var yui1ConfigFn = function(me) {// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+if (/-skin|reset|fonts|grids|base/.test(me.name)){
+    me.type = 'css';
+    me.path = me.path.replace(/\.js/, '.css');
+    me.path = me.path.replace(/\/yui2-skin/, '/assets/skins/sam/yui2-skin');
+}
+};
+var yui2ConfigFn = function(me) {// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+// A module name should be composed of:
+// moodle-<component>-<module>[-<submodule>][-skin]
+var parts = me.name.replace(/^moodle-/,'').split('-'),
+    component = parts.shift(),
+    module = parts[0],
+    min = '-min';
+
+if (/-(skin|core)$/.test(me.name)) {
+    // For these types, we need to remove the final word and set the type.
+    parts.pop();
+    me.type = 'css';
+
+    // CSS is not minified - clear the min option.
+    min = '';
+}
+
+if (module) {
+    // Determine the filename based on the remaining parts.
+    var filename = parts.join('-');
+
+    // Build the first part of the filename.
+    me.path = component + '/' + module + '/' + filename + min + '.' + me.type;
+} else {
+    // This is a hangup from the old ways of writing Modules.
+    // We will start to warn about this once we have removed all core components of this form.
+    me.path = component + '/' + component + '.' + me.type;
+}
+};
+YUI_config = {"debug":false,"base":"http:\/\/localhost\/lib\/yuilib\/3.18.1\/","comboBase":"http:\/\/localhost\/theme\/yui_combo.php?","combine":false,"filter":null,"insertBefore":"firstthemesheet","groups":{"yui2":{"base":"http:\/\/localhost\/lib\/yuilib\/2in3\/2.9.0\/build\/","comboBase":"http:\/\/localhost\/theme\/yui_combo.php?","combine":false,"ext":false,"root":"2in3\/2.9.0\/build\/","patterns":{"yui2-":{"group":"yui2","configFn":yui1ConfigFn}}},"moodle":{"name":"moodle","base":"http:\/\/localhost\/theme\/yui_combo.php?m\/-1\/","combine":false,"comboBase":"http:\/\/localhost\/theme\/yui_combo.php?","ext":false,"root":"m\/-1\/","patterns":{"moodle-":{"group":"moodle","configFn":yui2ConfigFn}},"filter":null,"modules":{"moodle-core-actionmenu":{"requires":["base","event","node-event-simulate"]},"moodle-core-blocks":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification"]},"moodle-core-chooserdialogue":{"requires":["base","panel","moodle-core-notification"]},"moodle-core-dragdrop":{"requires":["base","node","io","dom","dd","event-key","event-focus","moodle-core-notification"]},"moodle-core-event":{"requires":["event-custom"]},"moodle-core-handlebars":{"condition":{"trigger":"handlebars","when":"after"}},"moodle-core-lockscroll":{"requires":["plugin","base-build"]},"moodle-core-maintenancemodetimer":{"requires":["base","node"]},"moodle-core-notification":{"requires":["moodle-core-notification-dialogue","moodle-core-notification-alert","moodle-core-notification-confirm","moodle-core-notification-exception","moodle-core-notification-ajaxexception"]},"moodle-core-notification-dialogue":{"requires":["base","node","panel","escape","event-key","dd-plugin","moodle-core-widget-focusafterclose","moodle-core-lockscroll"]},"moodle-core-notification-alert":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-confirm":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-exception":{"requires":["moodle-core-notification-dialogue"]},"moodle-core-notification-ajaxexception":{"requires":["moodle-core-notification-dialogue"]},"moodle-core_availability-form":{"requires":["base","node","event","event-delegate","panel","moodle-core-notification-dialogue","json"]},"moodle-course-categoryexpander":{"requires":["node","event-key"]},"moodle-course-dragdrop":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification","moodle-course-coursebase","moodle-course-util"]},"moodle-course-management":{"requires":["base","node","io-base","moodle-core-notification-exception","json-parse","dd-constrain","dd-proxy","dd-drop","dd-delegate","node-event-delegate"]},"moodle-course-util":{"requires":["node"],"use":["moodle-course-util-base"],"submodules":{"moodle-course-util-base":{},"moodle-course-util-section":{"requires":["node","moodle-course-util-base"]},"moodle-course-util-cm":{"requires":["node","moodle-course-util-base"]}}},"moodle-form-dateselector":{"requires":["base","node","overlay","calendar"]},"moodle-form-shortforms":{"requires":["node","base","selector-css3","moodle-core-event"]},"moodle-question-chooser":{"requires":["moodle-core-chooserdialogue"]},"moodle-question-searchform":{"requires":["base","node"]},"moodle-availability_completion-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_date-form":{"requires":["base","node","event","io","moodle-core_availability-form"]},"moodle-availability_grade-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_group-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_grouping-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-availability_profile-form":{"requires":["base","node","event","moodle-core_availability-form"]},"moodle-mod_assign-history":{"requires":["node","transition"]},"moodle-mod_quiz-autosave":{"requires":["base","node","event","event-valuechange","node-event-delegate","io-form","datatype-date-format"]},"moodle-mod_quiz-dragdrop":{"requires":["base","node","io","dom","dd","dd-scroll","moodle-core-dragdrop","moodle-core-notification","moodle-mod_quiz-quizbase","moodle-mod_quiz-util-base","moodle-mod_quiz-util-page","moodle-mod_quiz-util-slot","moodle-course-util"]},"moodle-mod_quiz-modform":{"requires":["base","node","event"]},"moodle-mod_quiz-questionchooser":{"requires":["moodle-core-chooserdialogue","moodle-mod_quiz-util","querystring-parse"]},"moodle-mod_quiz-quizbase":{"requires":["base","node"]},"moodle-mod_quiz-toolboxes":{"requires":["base","node","event","event-key","io","moodle-mod_quiz-quizbase","moodle-mod_quiz-util-slot","moodle-core-notification-ajaxexception"]},"moodle-mod_quiz-util":{"requires":["node","moodle-core-actionmenu"],"use":["moodle-mod_quiz-util-base"],"submodules":{"moodle-mod_quiz-util-base":{},"moodle-mod_quiz-util-slot":{"requires":["node","moodle-mod_quiz-util-base"]},"moodle-mod_quiz-util-page":{"requires":["node","moodle-mod_quiz-util-base"]}}},"moodle-message_airnotifier-toolboxes":{"requires":["base","node","io"]},"moodle-report_eventlist-eventfilter":{"requires":["base","event","node","node-event-delegate","datatable","autocomplete","autocomplete-filters"]},"moodle-report_loglive-fetchlogs":{"requires":["base","event","node","io","node-event-delegate"]},"moodle-gradereport_history-userselector":{"requires":["escape","event-delegate","event-key","handlebars","io-base","json-parse","moodle-core-notification-dialogue"]},"moodle-qbank_editquestion-chooser":{"requires":["moodle-core-chooserdialogue"]},"moodle-tool_lp-dragdrop-reorder":{"requires":["moodle-core-dragdrop"]},"moodle-assignfeedback_editpdf-editor":{"requires":["base","event","node","io","graphics","json","event-move","event-resize","transition","querystring-stringify-simple","moodle-core-notification-dialog","moodle-core-notification-alert","moodle-core-notification-warning","moodle-core-notification-exception","moodle-core-notification-ajaxexception"]}}},"gallery":{"name":"gallery","base":"http:\/\/localhost\/lib\/yuilib\/gallery\/","combine":false,"comboBase":"http:\/\/localhost\/theme\/yui_combo.php?","ext":false,"root":"gallery\/-1\/","patterns":{"gallery-":{"group":"gallery"}}}},"modules":{"core_filepicker":{"name":"core_filepicker","fullpath":"http:\/\/localhost\/lib\/javascript.php?rev=-1&jsfile=%2Frepository%2Ffilepicker.js","requires":["base","node","node-event-simulate","json","async-queue","io-base","io-upload-iframe","io-form","yui2-treeview","panel","cookie","datatable","datatable-sort","resize-plugin","dd-plugin","escape","moodle-core_filepicker","moodle-core-notification-dialogue"]},"core_comment":{"name":"core_comment","fullpath":"http:\/\/localhost\/lib\/javascript.php?rev=-1&jsfile=%2Fcomment%2Fcomment.js","requires":["base","io-base","node","json","yui2-animation","overlay","escape"]}},"logInclude":[],"logExclude":[],"logLevel":null};
+M.yui.loader = {modules: {}};
+
+//]]>
+</script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body  id="page-admin-index" class="admin path-admin dir-ltr lang-en yui-skin-sam yui3-skin-sam localhost pagelayout-maintenance notloggedin theme ">
+<div class="toast-wrapper mx-auto py-0 fixed-top" role="status" aria-live="polite"></div>
+
+<div id="page-wrapper">
+
+    <div>
+    <a class="visually-hidden-focusable" href="#maincontent">Skip to main content</a>
+</div><script src="http://localhost/lib/javascript.php?rev=-1&amp;jsfile=%2Flib%2Fpolyfills%2Fpolyfill.js"></script>
+<script src="http://localhost/theme/yui_combo.php?rollup/3.18.1/yui-moodlesimple-min.js"></script><script src="http://localhost/lib/javascript.php?rev=-1&amp;jsfile=%2Flib%2Fjavascript-static.js"></script>
+<script>
+//<![CDATA[
+document.body.className += ' jsenabled';
+//]]>
+</script>
+
+
+
+    <div id="page" class="container pb-3">
+
+        <div class="row">
+            <div class="col-12 py-3 page-header-headings">
+                <h1>Installation</h1>
+            </div>
+        </div>
+
+        <div id="page-content" class="row">
+            <div id="region-main" class="col-12">
+                <div role="main"><span id="maincontent"></span><h2><a href="http://moodle.org">Moodle</a> - Modular Object-Oriented Dynamic Learning Environment</h2><h2>Copyright notice</h2><div class="box py-3 copyrightnotice"><div class="text_to_html">Copyright (C) 1999 onwards Martin Dougiamas (https://moodle.com)<br />
+<br />
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br />
+<br />
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.<br />
+<br />
+See the Moodle License information page for full details: https://moodledev.io/general/license</div></div><br /><div id="notice" class="box py-3 generalbox"><h4>Confirm</h4><p>Have you read these conditions and understood them?</p><div class="buttons"><div class="singlebutton">
+    <form method="get" action="https://moodledev.io/general/license" >
+        <button type="submit" class="btn btn-secondary"
+            id="single_button6a10753adb0c62"
+            
+            
+            >Cancel</button>
+    </form>
+</div><div class="singlebutton">
+    <form method="get" action="http://localhost/admin/index.php" >
+            <input type="hidden" name="cache" value="0">
+            <input type="hidden" name="lang" value="en">
+            <input type="hidden" name="agreelicense" value="1">
+        <button type="submit" class="btn btn-primary"
+            id="single_button6a10753adb0c63"
+            
+            
+            >Continue</button>
+    </form>
+</div></div></div></div>
+            </div>
+        </div>
+
+    </div>
+    
+    <footer id="page-footer" class="footer-popover bg-white">
+        <div data-region="footer-container-popover">
+            <button class="btn btn-icon rounded-circle bg-secondary btn-footer-popover" data-action="footer-popover" aria-label="Show footer">
+                <i class="icon fa fa-question fa-fw " aria-hidden="true" ></i>
+            </button>
+        </div>
+        <div class="footer-content-popover container" data-region="footer-content-popover">
+            <div class="footer-section p-3 border-bottom">
+                <div class="logininfo">
+                    
+                </div>
+                <div class="tool_usertours-resettourcontainer">
+                </div>
+    
+                
+                <script>
+//<![CDATA[
+var require = {
+    baseUrl : 'http://localhost/lib/requirejs.php?file=%2F-1%2F',
+    // We only support AMD modules with an explicit define() statement.
+    enforceDefine: true,
+    skipDataMain: true,
+    waitSeconds : 0,
+
+    paths: {
+        jquery: 'http://localhost/lib/javascript.php?file=%2F-1%2Flib/jquery/jquery-3.7.1.min.js',
+        jqueryui: 'http://localhost/lib/javascript.php?file=%2F-1%2Flib/jquery/ui-1.14.1/jquery-ui.min.js',
+        jqueryprivate: 'http://localhost/lib/javascript.php?file=%2F-1%2Flib/requirejs/jquery-private.js'
+    },
+
+    // Custom jquery config map.
+    map: {
+      // '*' means all modules will get 'jqueryprivate'
+      // for their 'jquery' dependency.
+      '*': { jquery: 'jqueryprivate' },
+
+      // 'jquery-private' wants the real jQuery module
+      // though. If this line was not here, there would
+      // be an unresolvable cyclic dependency.
+      jqueryprivate: { jquery: 'jquery' }
+    }
+};
+
+//]]>
+</script>
+<script src="http://localhost/lib/javascript.php?rev=-1&amp;jsfile=%2Flib%2Frequirejs%2Frequire.min.js"></script>
+<script>
+//<![CDATA[
+M.util.js_pending("core/first");
+require(['core/first'], function() {
+;
+
+require(['theme_boost/footer-popover'], function(FooterPopover) {
+    FooterPopover.init();
+});
+;
+
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+  M.util.js_complete('theme_boost/loader');
+});
+;
+M.util.js_pending('core/log'); require(['core/log'], function(amd) {amd.setConfig({"level":"warn"}); M.util.js_complete('core/log');});;
+M.util.js_pending('core/page_global'); require(['core/page_global'], function(amd) {amd.init(); M.util.js_complete('core/page_global');});;
+M.util.js_pending('core/utility'); require(['core/utility'], function(amd) {M.util.js_complete('core/utility');});;
+M.util.js_pending('core/storage_validation'); require(['core/storage_validation'], function(amd) {amd.init(null); M.util.js_complete('core/storage_validation');});
+    M.util.js_complete("core/first");
+});
+//]]>
+</script>
+<script>
+//<![CDATA[
+M.str = {"moodle":{"lastmodified":"Last modified","name":"Name","error":"Error","info":"Information","yes":"Yes","no":"No","cancel":"Cancel","confirm":"Confirm","areyousure":"Are you sure?","closebuttontitle":"Close","unknownerror":"Unknown error","file":"File","url":"URL","collapseall":"Collapse all","expandall":"Expand all"},"repository":{"type":"Type","size":"Size","invalidjson":"Invalid JSON string","nofilesattached":"No files attached","filepicker":"File picker","logout":"Logout","nofilesavailable":"No files available","norepositoriesavailable":"Sorry, none of your current repositories can return files in the required format.","fileexistsdialogheader":"File exists","fileexistsdialog_editor":"A file with that name has already been attached to the text you are editing.","fileexistsdialog_filemanager":"A file with that name has already been attached","renameto":"Rename to \"{$a}\"","referencesexist":"There are {$a} links to this file","select":"Select"},"admin":{"confirmdeletecomments":"Are you sure you want to delete the selected comment(s)?","confirmation":"Confirmation"},"debug":{"debuginfo":"Debug info","line":"Line","stacktrace":"Stack trace"},"langconfig":{"labelsep":": "}};
+//]]>
+</script>
+<script>
+//<![CDATA[
+(function() {M.util.help_popups.setup(Y);
+ M.util.js_pending('random6a10753adb0c64'); Y.on('domready', function() { M.util.js_complete("init");  M.util.js_complete('random6a10753adb0c64'); });
+})();
+//]]>
+</script>
+
+            </div>
+            <div class="footer-section p-3">
+                <div>Powered by <a href="https://moodle.com">Moodle</a></div>
+            </div>
+        </div>
+    
+        <div class="footer-content-debugging footer-dark bg-dark text-light">
+            <div class="container-fluid footer-dark-inner">
+                
+            </div>
+        </div>
+    </footer>
+</div>
+
+
+</body></html>

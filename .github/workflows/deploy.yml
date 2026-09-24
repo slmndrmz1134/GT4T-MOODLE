@@ -1,0 +1,24 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          password: ${{ secrets.EC2_PASSWORD }}
+          port: 22
+          script: |
+            cd ~/moodle-project/GT4T-MOODLE
+            git pull origin main
+            docker compose up -d --build
+            docker compose exec -T moodle php /var/www/html/setup/moodle_init.php
+            docker compose exec -T moodle php /var/www/html/admin/cli/purge_caches.php
+            docker image prune -f
