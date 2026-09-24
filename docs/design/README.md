@@ -1,9 +1,9 @@
-# GT4T Tasarım Rehberi
+# DIVERSE Tasarım Rehberi
 
-GT4T platformunun görsel dili. Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alındı ve
+DIVERSE platformunun görsel dili. Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alındı ve
 tüm metin/zemin çiftleri **WCAG 2.1 AA** kontrast şartını (normal metin ≥ 4.5:1) karşılayacak şekilde ayarlandı.
 
-- **Tema kodu:** `theme/gt4t` (Boost Union alt teması). Palet `theme/gt4t/scss/pre.scss` içinde tanımlı.
+- **Tema kodu:** `theme/diverse` (Boost Union alt teması). Palet `theme/diverse/scss/pre.scss` içinde tanımlı.
 - **Taslaklar:** `docs/design/mockups/` (kaynak dosyalar) ve çevrimiçi tuval:
   https://claude.ai/artifact/6RSY4o46VHzDGv2ZyLaot8 (sahibi paylaşana kadar yalnızca ona açık).
 
@@ -42,7 +42,7 @@ tüm metin/zemin çiftleri **WCAG 2.1 AA** kontrast şartını (normal metin ≥
    turuncu yalnızca vurgu içindir. Cam efekti (glassmorphism), yıldızlı arka plan ve 3D kartlar kullanılmaz.
 2. **Dashboard "şimdi ne yapmalıyım?" sorusunu cevaplar:** önce yaklaşan işler, sonra ilerleme çubuklu ders kartları.
 3. **Üst menüde en fazla 5 öğe.** Dil seçici (EN / TR / DE / HR) her ekranda görünür.
-4. **Partner markası:** GT4T çerçevesi sabit kalır; her partnerin logosu Boost Union *flavours* ile gösterilir.
+4. **Partner markası:** DIVERSE çerçevesi sabit kalır; her partnerin logosu Boost Union *flavours* ile gösterilir.
 5. **Önce mobil**, animasyon minimumda.
 
 ## Taslak ekranlar (`mockups/`)
@@ -62,7 +62,7 @@ Taslaklardaki ilerleme yüzdeleri ve tarihler örnektir.
 
 ## Durum
 
-- [x] `theme_gt4t` oluşturuldu: palet, tipografi ve şekiller.
-- [ ] Inter ve Source Sans 3 font dosyalarını `theme/gt4t/fonts/` altına eklemek.
-- [ ] Landing page ve giriş sayfasını `theme_moove` içinden `theme_gt4t`'ye taşımak.
-- [ ] Varsayılan temayı `gt4t` yapmak ve Boost Union ayarlarını (flavours, footer, yasal sayfalar) yapılandırmak.
+- [x] `theme_diverse` oluşturuldu: palet, tipografi ve şekiller.
+- [x] Inter ve Source Sans 3 font dosyaları `theme/diverse/fonts/` altına eklendi (OFL 1.1, Moodle'ın kendisi sunuyor).
+- [ ] Landing page ve giriş sayfasını `theme_moove` içinden `theme_diverse`'e taşımak.
+- [ ] Varsayılan temayı `diverse` yapmak ve Boost Union ayarlarını (flavours, footer, yasal sayfalar) yapılandırmak.

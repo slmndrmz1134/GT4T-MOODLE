@@ -15,19 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Version file
+ * Theme DIVERSE - Version file
  *
- * GT4T is a Boost Union child theme based on the official Boost Union Child boilerplate
+ * DIVERSE is a Boost Union child theme based on the official Boost Union Child boilerplate
  * (https://github.com/moodle-an-hochschulen/moodle-theme_boost_union_child, commit 78855a5b).
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'theme_gt4t';
+$plugin->component = 'theme_diverse';
 $plugin->version = 2026092500;
 $plugin->release = 'v5.0-r1';
 $plugin->requires = 2025041400;

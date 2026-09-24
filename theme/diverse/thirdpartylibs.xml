@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<libraries>
+  <library>
+    <location>fonts/inter-variable.woff2</location>
+    <name>Inter (variable, upright)</name>
+    <version>4.1</version>
+    <license>OFL</license>
+    <licenseversion>1.1</licenseversion>
+    <repository>https://github.com/rsms/inter</repository>
+  </library>
+  <library>
+    <location>fonts/inter-variable-italic.woff2</location>
+    <name>Inter (variable, italic)</name>
+    <version>4.1</version>
+    <license>OFL</license>
+    <licenseversion>1.1</licenseversion>
+    <repository>https://github.com/rsms/inter</repository>
+  </library>
+  <library>
+    <location>fonts/source-sans-3-variable.woff2</location>
+    <name>Source Sans 3 (variable, upright)</name>
+    <version>3.052R</version>
+    <license>OFL</license>
+    <licenseversion>1.1</licenseversion>
+    <repository>https://github.com/adobe-fonts/source-sans</repository>
+  </library>
+</libraries>

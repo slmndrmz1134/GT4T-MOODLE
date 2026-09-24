@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Local library
+ * Theme DIVERSE - Local library
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2023 Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /***************************************************************
  * EXTENSION POINT:
- * Add whatever GT4T local functions you need here.
+ * Add whatever DIVERSE local functions you need here.
  **************************************************************/

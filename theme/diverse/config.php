@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Theme config
+ * Theme DIVERSE - Theme config
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2024 Alexander Bias <bias@alexanderbias.de>
  *             based on code by Lars Bonczek
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -29,32 +29,32 @@ defined('MOODLE_INTERNAL') || die();
 // phpcs:disable moodle.Files.RequireLogin.Missing
 
 // As a start, inherit the whole theme config from Boost Union.
-// This move will save us from duplicating all lines from Boost Union's config.php into GT4T's config.php.
+// This move will save us from duplicating all lines from Boost Union's config.php into DIVERSE's config.php.
 // This statement uses require (and not require_once) by purpose to make sure that all Boost Union settings are added
 // to the $THEME object even if the Boost Union config was already included in some other place.
 require($CFG->dirroot . '/theme/boost_union/config.php');
 
-// Then, we require GT4T's locallib.php to make sure that it's always loaded.
-require_once($CFG->dirroot . '/theme/gt4t/locallib.php');
+// Then, we require DIVERSE's locallib.php to make sure that it's always loaded.
+require_once($CFG->dirroot . '/theme/diverse/locallib.php');
 
-// Next, we overwrite only the settings which differ between Boost Union and GT4T.
-$THEME->name = 'gt4t';
+// Next, we overwrite only the settings which differ between Boost Union and DIVERSE.
+$THEME->name = 'diverse';
 $THEME->scss = function ($theme) {
-    return theme_gt4t_get_main_scss_content($theme);
+    return theme_diverse_get_main_scss_content($theme);
 };
 $THEME->parents = ['boost_union', 'boost'];
-$THEME->extrascsscallback = 'theme_gt4t_get_extra_scss';
-$THEME->prescsscallback = 'theme_gt4t_get_pre_scss';
+$THEME->extrascsscallback = 'theme_diverse_get_extra_scss';
+$THEME->prescsscallback = 'theme_diverse_get_pre_scss';
 
 // We need to duplicate the rendererfactory even if it is set to the same value as in Boost Union.
 // The theme_config::get_renderer() method needs it to be directly in the theme_config object.
 $THEME->rendererfactory = 'theme_overridden_renderer_factory';
 
-// Lastly, we replicate some settings from Boost Union at runtime into GT4T's settings.
+// Lastly, we replicate some settings from Boost Union at runtime into DIVERSE's settings.
 // This becomes necessary if Moodle core code accesses a theme setting at $this->page->theme->settings->*.
 // In this case, the setting must exist in the currently active theme, otherwise it won't be found.
 // While Boost Union duplicates all settings from Boost Core and does not suffer from this issue,
-// it would be quite ugly to duplicate all of these settings again to GT4T.
+// it would be quite ugly to duplicate all of these settings again to DIVERSE.
 // Currently, this affects these Boost Core settings:
 // unaddableblocks - called from blocklib.php.
 $unaddableblocks = get_config('theme_boost_union', 'unaddableblocks');

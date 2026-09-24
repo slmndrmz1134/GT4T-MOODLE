@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Settings file
+ * Theme DIVERSE - Settings file
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,20 +35,20 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
 
     // However, there is still the $settings variable which is expected by Moodle core to be filled with the theme
     // settings and which is automatically linked from the theme selector page.
-    // To avoid that there appears a broken "GT4T" settings page, we redirect the user to a settings
+    // To avoid that there appears a broken "DIVERSE" settings page, we redirect the user to a settings
     // overview page if he opens this page.
-    $mainsettingspageurl = new \core\url('/admin/settings.php', ['section' => 'themesettinggt4t']);
+    $mainsettingspageurl = new \core\url('/admin/settings.php', ['section' => 'themesettingdiverse']);
     if ($ADMIN->fulltree && $PAGE->has_set_url() && $PAGE->url->compare($mainsettingspageurl)) {
-        redirect(new \core\url('/admin/settings.php', ['section' => 'theme_gt4t']));
+        redirect(new \core\url('/admin/settings.php', ['section' => 'theme_diverse']));
     }
 
     // Create empty settings page structure to make the site administration work on non-admin pages.
     if (!$ADMIN->fulltree) {
-        // Create GT4T settings page
+        // Create DIVERSE settings page
         // (and allow users with the theme/boost_union:configure capability to access it).
         $tab = new admin_settingpage(
-            'theme_gt4t',
-            get_string('configtitle', 'theme_gt4t', null, true),
+            'theme_diverse',
+            get_string('configtitle', 'theme_diverse', null, true),
             'theme/boost_union:configure'
         );
         $ADMIN->add('theme_boost_union', $tab);
@@ -59,8 +59,8 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         // Require the necessary libraries.
         require_once($CFG->dirroot . '/theme/boost_union/lib.php');
         require_once($CFG->dirroot . '/theme/boost_union/locallib.php');
-        require_once($CFG->dirroot . '/theme/gt4t/lib.php');
-        require_once($CFG->dirroot . '/theme/gt4t/locallib.php');
+        require_once($CFG->dirroot . '/theme/diverse/lib.php');
+        require_once($CFG->dirroot . '/theme/diverse/locallib.php');
 
         // Prepare options array for select settings.
         // Due to MDL-58376, we will use binary select settings instead of checkbox settings throughout this theme.
@@ -68,60 +68,60 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
                 THEME_BOOST_UNION_SETTING_SELECT_NO => get_string('no'), ];
 
 
-        // Create GT4T settings page with tabs and tertiary navigation
+        // Create DIVERSE settings page with tabs and tertiary navigation
         // (and allow users with the theme/boost_union:configure capability to access it).
         $page = new admin_settingspage_tabs_with_tertiary(
-            'theme_gt4t',
-            get_string('configtitle', 'theme_gt4t', null, true),
+            'theme_diverse',
+            get_string('configtitle', 'theme_diverse', null, true),
             'theme/boost_union:configure'
         );
 
 
         // Create general settings tab.
         $tab = new admin_settingpage(
-            'theme_gt4t_general',
+            'theme_diverse_general',
             get_string('generalsettings', 'theme_boost', null, true)
         );
 
         // Create inheritance heading.
-        $name = 'theme_gt4t/inheritanceheading';
-        $title = get_string('inheritanceheading', 'theme_gt4t', null, true);
+        $name = 'theme_diverse/inheritanceheading';
+        $title = get_string('inheritanceheading', 'theme_diverse', null, true);
         $setting = new admin_setting_heading($name, $title, null);
         $tab->add($setting);
 
         // Prepare inheritance options.
         $inheritanceoptions = [
-                THEME_GT4T_SETTING_INHERITANCE_INHERIT =>
-                        get_string('inheritanceinherit', 'theme_gt4t'),
-                THEME_GT4T_SETTING_INHERITANCE_DUPLICATE =>
-                        get_string('inheritanceduplicate', 'theme_gt4t'),
+                THEME_DIVERSE_SETTING_INHERITANCE_INHERIT =>
+                        get_string('inheritanceinherit', 'theme_diverse'),
+                THEME_DIVERSE_SETTING_INHERITANCE_DUPLICATE =>
+                        get_string('inheritanceduplicate', 'theme_diverse'),
         ];
 
         // Setting: Pre SCSS inheritance setting.
-        $name = 'theme_gt4t/prescssinheritance';
-        $title = get_string('prescssinheritancesetting', 'theme_gt4t', null, true);
-        $description = get_string('prescssinheritancesetting_desc', 'theme_gt4t', null, true) . '<br />' .
-                get_string('inheritanceoptionsexplanation', 'theme_gt4t', null, true);
+        $name = 'theme_diverse/prescssinheritance';
+        $title = get_string('prescssinheritancesetting', 'theme_diverse', null, true);
+        $description = get_string('prescssinheritancesetting_desc', 'theme_diverse', null, true) . '<br />' .
+                get_string('inheritanceoptionsexplanation', 'theme_diverse', null, true);
         $setting = new admin_setting_configselect(
             $name,
             $title,
             $description,
-            THEME_GT4T_SETTING_INHERITANCE_INHERIT,
+            THEME_DIVERSE_SETTING_INHERITANCE_INHERIT,
             $inheritanceoptions
         );
         $setting->set_updatedcallback('theme_reset_all_caches');
         $tab->add($setting);
 
         // Setting: Extra SCSS inheritance setting.
-        $name = 'theme_gt4t/extrascssinheritance';
-        $title = get_string('extrascssinheritancesetting', 'theme_gt4t', null, true);
-        $description = get_string('extrascssinheritancesetting_desc', 'theme_gt4t', null, true) . '<br />' .
-                get_string('inheritanceoptionsexplanation', 'theme_gt4t', null, true);
+        $name = 'theme_diverse/extrascssinheritance';
+        $title = get_string('extrascssinheritancesetting', 'theme_diverse', null, true);
+        $description = get_string('extrascssinheritancesetting_desc', 'theme_diverse', null, true) . '<br />' .
+                get_string('inheritanceoptionsexplanation', 'theme_diverse', null, true);
         $setting = new admin_setting_configselect(
             $name,
             $title,
             $description,
-            THEME_GT4T_SETTING_INHERITANCE_INHERIT,
+            THEME_DIVERSE_SETTING_INHERITANCE_INHERIT,
             $inheritanceoptions
         );
         $setting->set_updatedcallback('theme_reset_all_caches');
@@ -132,7 +132,7 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
 
         /**********************************************************
          * EXTENSION POINT:
-         * Add your GT4T settings here.
+         * Add your DIVERSE settings here.
          *********************************************************/
 
         // Add settings page to the admin settings category.

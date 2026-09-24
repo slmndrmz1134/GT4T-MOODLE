@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * GT4T Student Validator - Custom signup form with Student Number field.
+ * DIVERSE Student Validator - Custom signup form with Student Number field.
  *
  * @package    auth_gt4t_validator
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

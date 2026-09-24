@@ -21,8 +21,8 @@ define('CLI_SCRIPT', true);
 require('/var/www/html/config.php');
 
 // ── 1. Site identity ────────────────────────────────────────────────────────
-$DB->set_field('course', 'fullname',  'GreenTech4Transformation (GT4T)', ['id' => SITEID]);
-$DB->set_field('course', 'shortname', 'GT4T',                            ['id' => SITEID]);
+$DB->set_field('course', 'fullname',  'DIVERSE European University',     ['id' => SITEID]);
+$DB->set_field('course', 'shortname', 'DIVERSE',                         ['id' => SITEID]);
 
 // ── 2. Theme ────────────────────────────────────────────────────────────────
 set_config('theme', 'moove');

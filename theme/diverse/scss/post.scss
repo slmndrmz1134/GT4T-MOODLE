@@ -1,0 +1,71 @@
+/****************************************************************
+ * DIVERSE component styles.
+ *
+ * Most of the look comes from the variables in pre.scss (primary colour,
+ * fonts, radii), which Boost and Boost Union already use everywhere.
+ * This file only adds the details from the DIVERSE mockups that no
+ * variable covers. Keep it small: every rule here must survive Moodle
+ * and Boost Union upgrades.
+ ***************************************************************/
+
+// Self-hosted fonts (SIL OFL 1.1, see fonts/ and thirdpartylibs.xml). Variable fonts: one file covers all weights.
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url([[font:theme_diverse|inter-variable.woff2]]) format("woff2");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url([[font:theme_diverse|inter-variable-italic.woff2]]) format("woff2");
+}
+
+@font-face {
+    font-family: "Source Sans 3";
+    font-style: normal;
+    font-weight: 200 900;
+    font-display: swap;
+    src: url([[font:theme_diverse|source-sans-3-variable.woff2]]) format("woff2");
+}
+
+// Headings: slightly tighter tracking for the Source Sans 3 display sizes.
+h1, .h1,
+h2, .h2 {
+    letter-spacing: -.01em;
+}
+
+// Dashboard and My courses sit on the light surface so white cards stand out.
+body.pagelayout-mydashboard #page,
+body.pagelayout-mycourses #page {
+    background-color: $diverse-surface;
+}
+
+// Secondary buttons: white with a neutral outline instead of Bootstrap grey.
+.btn-secondary {
+    --#{$prefix}btn-color: #{$diverse-ink};
+    --#{$prefix}btn-bg: #{$white};
+    --#{$prefix}btn-border-color: #{$diverse-border-strong};
+    --#{$prefix}btn-hover-color: #{$diverse-ink};
+    --#{$prefix}btn-hover-bg: #{$diverse-surface};
+    --#{$prefix}btn-hover-border-color: #{$diverse-ink};
+    --#{$prefix}btn-active-color: #{$diverse-ink};
+    --#{$prefix}btn-active-bg: #{$diverse-border};
+    --#{$prefix}btn-active-border-color: #{$diverse-ink};
+}
+
+// Cards: neutral hairline border.
+.card {
+    --#{$prefix}card-border-color: #{$diverse-border};
+}
+
+// Progress bars (course cards, completion): thin pill track.
+.progress {
+    --#{$prefix}progress-height: .375rem;
+    --#{$prefix}progress-border-radius: 50rem;
+    --#{$prefix}progress-bg: #EDEDEF;
+}

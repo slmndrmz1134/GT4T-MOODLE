@@ -15,28 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Behat grade-related step definition overrides for the GT4T theme.
+ * Theme DIVERSE - Privacy provider
  *
- * @package    theme_gt4t
- * @category   test
- * @copyright  2022 Luca Bösch, BFH Bern University of Applied Sciences luca.boesch@bfh.ch
+ * @package    theme_diverse
+ * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
-// For that reason, we can't even rely on $CFG->admin being available here.
-
-require_once(__DIR__ . '/../../../boost_union/tests/behat/behat_theme_boost_union_behat_grade.php');
-
-use Behat\Gherkin\Node\TableNode;
+namespace theme_diverse\privacy;
 
 /**
- * Grade-related step definition overrides for the GT4T theme.
+ * Privacy Subsystem implementing null_provider.
  *
- * @package    theme_gt4t
- * @category   test
- * @copyright  2022 Luca Bösch, BFH Bern University of Applied Sciences luca.boesch@bfh.ch
+ * @package    theme_diverse
+ * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_theme_gt4t_behat_grade extends behat_theme_boost_union_behat_grade {
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
 }

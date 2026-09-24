@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Language pack
+ * Theme DIVERSE - Language pack
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,17 +29,17 @@ defined('MOODLE_INTERNAL') || die();
 // phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 
 // General.
-$string['pluginname'] = 'GT4T';
-$string['choosereadme'] = 'GT4T is the GreenTech4Transformation theme, a Boost Union child theme with the GT4T colour palette and typography.';
-$string['configtitle'] = 'GT4T';
-$string['settingsoverview_buc_desc'] = 'GT4T theme settings (Boost Union child theme).';
+$string['pluginname'] = 'DIVERSE';
+$string['choosereadme'] = 'DIVERSE is the theme of the DIVERSE European University learning platform: a Boost Union child theme with the DIVERSE colour palette and typography.';
+$string['configtitle'] = 'DIVERSE';
+$string['settingsoverview_buc_desc'] = 'DIVERSE theme settings (Boost Union child theme).';
 
 // Settings: General settings tab.
 // ... Section: Inheritance.
 $string['inheritanceheading'] = 'Inheritance';
 $string['inheritanceinherit'] = 'Inherit';
 $string['inheritanceduplicate'] = 'Duplicate';
-$string['inheritanceoptionsexplanation'] = 'Most of the time, inheriting will be perfectly fine. However, it may happen that imperfect code is integrated into Boost Union which prevents simple SCSS inheritance for particular Boost Union features. If you encounter any issues with Boost Union features which seem not to work in GT4T as well, try to switch this setting to \'Dupliate\' and, if this solves the problem, report an issue on Github (see the README.md file for details how to report an issue).';
+$string['inheritanceoptionsexplanation'] = 'Most of the time, inheriting will be perfectly fine. However, it may happen that imperfect code is integrated into Boost Union which prevents simple SCSS inheritance for particular Boost Union features. If you encounter any issues with Boost Union features which seem not to work in DIVERSE as well, try to switch this setting to \'Dupliate\' and, if this solves the problem, report an issue on Github (see the README.md file for details how to report an issue).';
 // ... ... Setting: Pre SCSS inheritance setting.
 $string['prescssinheritancesetting'] = 'Pre SCSS inheritance';
 $string['prescssinheritancesetting_desc'] = 'With this setting, you control if the pre SCSS code from Boost Union should be inherited or duplicated.';
@@ -53,4 +53,4 @@ $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if
  *************************************************************/
 
 // Privacy API.
-$string['privacy:metadata'] = 'The GT4T theme does not store any personal data about any user.';
+$string['privacy:metadata'] = 'The DIVERSE theme does not store any personal data about any user.';

@@ -21,7 +21,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'GT4T Student Validator';
+$string['pluginname'] = 'DIVERSE Student Validator';
 $string['auth_gt4t_validatordescription'] = 'This plugin validates student information (student number, email, name) against an external API before allowing registration. If the API confirms the data, registration proceeds; otherwise it is rejected.';
 $string['invalidstudent'] = 'Student information could not be verified: {$a}';
 $string['studentno'] = 'Student Number';

@@ -1,0 +1,51 @@
+/****************************************************************
+ * DIVERSE palette and typography.
+ *
+ * Colours are taken from diverse-university.eu and adjusted so that every
+ * text/background pair meets WCAG 2.1 AA (ratios noted per colour).
+ * Full design reference: docs/design/README.md in the repository root.
+ *
+ * This file is added after Boost's and Boost Union's pre-SCSS, so the values
+ * below win over the brand colours stored in the Boost / Boost Union settings.
+ ***************************************************************/
+
+// Palette.
+$diverse-brand-orange: #FF671F;        // Large surfaces and graphics only, with ink text on top (5.43:1).
+$diverse-action-orange: #C2410C;       // Buttons, links, active states. White text on it: 5.18:1.
+$diverse-action-orange-hover: #9A3412; // Hover/pressed state of the action orange (7.31:1 on white).
+$diverse-ink: #1F2328;                 // Body text and headings (15.8:1 on white).
+$diverse-grey: #63666A;                // Secondary text (5.77:1 on white, 5.34:1 on soft orange).
+$diverse-soft-orange: #FFF4ED;         // Highlights, info banners, selected rows.
+$diverse-peach: #FFD8C2;               // Decorative tiles and course covers.
+$diverse-surface: #F7F7F8;             // Page background inside the platform, drawers.
+$diverse-border: #E4E4E7;              // Card and divider borders.
+$diverse-border-strong: #C9C9CF;       // Form control and secondary button borders.
+$diverse-success: #1F7A4D;             // Completion (5.32:1 on white).
+$diverse-success-soft: #EAF5EF;
+$diverse-danger: #B42318;              // Errors only; clearly darker and redder than the brand orange (6.57:1).
+
+// Bootstrap / Moodle theme colours.
+$primary: $diverse-action-orange;
+$success: $diverse-success;
+$danger: $diverse-danger;
+$body-color: $diverse-ink;
+$body-secondary-color: $diverse-grey;
+$link-color: $diverse-action-orange;
+$link-hover-color: $diverse-action-orange-hover;
+
+// Typography. The font files are bundled in fonts/ and declared in post.scss.
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Source Sans 3", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+$headings-font-weight: 700;
+$font-size-base: 1rem;
+$btn-font-weight: 600;
+
+// Shapes: pill buttons like diverse-university.eu, 16px cards, 10px form controls.
+$border-radius: .5rem;
+$border-radius-lg: .75rem;
+$border-radius-xl: 1rem;
+$btn-border-radius: 50rem;
+$btn-border-radius-sm: 50rem;
+$btn-border-radius-lg: 50rem;
+$input-border-radius: .625rem;
+$card-border-radius: 1rem;

@@ -1,7 +1,7 @@
 #!/bin/bash
-# GT4T Custom Entrypoint
+# DIVERSE Custom Entrypoint
 # Wraps the base image entrypoint and adds automatic Moodle installation
-# + GT4T theme/content setup on first boot.
+# + DIVERSE theme/content setup on first boot.
 
 set -e
 
@@ -191,8 +191,8 @@ if [ "$MOODLE_INSTALLED" != "1" ]; then
 
   php /var/www/html/admin/cli/install_database.php \
     --lang=en \
-    --fullname="GreenTech4Transformation (GT4T)" \
-    --shortname="GT4T" \
+    --fullname="DIVERSE European University" \
+    --shortname="DIVERSE" \
     --adminuser=admin \
     --adminpass=Admin1234! \
     --adminemail=admin@example.com \
@@ -200,9 +200,9 @@ if [ "$MOODLE_INSTALLED" != "1" ]; then
 
   echo "[entrypoint] Moodle database installed."
 
-  echo "[entrypoint] Running GT4T theme and content setup ..."
+  echo "[entrypoint] Running DIVERSE theme and content setup ..."
   php /var/www/html/setup/moodle_init.php
-  echo "[entrypoint] GT4T setup complete."
+  echo "[entrypoint] DIVERSE setup complete."
 else
   echo "[entrypoint] Moodle already installed, skipping setup."
 fi

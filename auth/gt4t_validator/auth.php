@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Authentication Plugin: GT4T Student Validator
+ * Authentication Plugin: DIVERSE Student Validator
  *
  * Kayıt sırasında öğrenci bilgilerini harici bir API ile doğrular.
  *
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/authlib.php');
 
 /**
- * GT4T Student Validator authentication plugin.
+ * DIVERSE Student Validator authentication plugin.
  *
  * Kayıt formu gönderildiğinde, öğrenci bilgilerini (öğrenci no, e-posta, isim, soyisim)
  * harici bir API'ye gönderip doğrulama yapar. API onay verirse kayıt tamamlanır.

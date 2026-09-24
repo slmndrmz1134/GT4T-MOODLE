@@ -1,6 +1,6 @@
 <?php
 /**
- * GT4T Moodle - Custom Premium Administrative Login Portal
+ * DIVERSE Moodle - Custom Premium Administrative Login Portal
  *
  * This file handles secure admin-only authentications.
  */
@@ -364,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="portal-wrapper">
     <div class="portal-card">
         <div class="portal-header">
-            <span class="portal-logo">GT4T HUB</span>
+            <span class="portal-logo">DIVERSE HUB</span>
             <div class="portal-subtitle">Administration</div>
         </div>
 
@@ -420,7 +420,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     
     <div class="portal-footer">
-        Powered by GT4T &bull; Secure Administration
+        Powered by DIVERSE &bull; Secure Administration
     </div>
 </div>
 

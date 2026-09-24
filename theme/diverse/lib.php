@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Theme GT4T - Library
+ * Theme DIVERSE - Library
  *
- * @package    theme_gt4t
+ * @package    theme_diverse
  * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 // Constants which are use throughout this theme.
-define('THEME_GT4T_SETTING_INHERITANCE_INHERIT', 0);
-define('THEME_GT4T_SETTING_INHERITANCE_DUPLICATE', 1);
+define('THEME_DIVERSE_SETTING_INHERITANCE_INHERIT', 0);
+define('THEME_DIVERSE_SETTING_INHERITANCE_DUPLICATE', 1);
 
 /**
  * Returns the main SCSS content.
@@ -32,18 +32,18 @@ define('THEME_GT4T_SETTING_INHERITANCE_DUPLICATE', 1);
  * @param \core\output\theme_config $theme The theme config object.
  * @return string
  */
-function theme_gt4t_get_main_scss_content($theme) {
+function theme_diverse_get_main_scss_content($theme) {
     global $CFG;
 
     // Require the necessary libraries.
     require_once($CFG->dirroot . '/theme/boost_union/lib.php');
 
     // As a start, get the compiled main SCSS from Boost Union.
-    // This way, GT4T will ship the same SCSS code as Boost Union itself.
+    // This way, DIVERSE will ship the same SCSS code as Boost Union itself.
     $scss = theme_boost_union_get_main_scss_content(\core\output\theme_config::load('boost_union'));
 
-    // And add GT4T's main SCSS file to the stack.
-    $scss .= file_get_contents($CFG->dirroot . '/theme/gt4t/scss/post.scss');
+    // And add DIVERSE's main SCSS file to the stack.
+    $scss .= file_get_contents($CFG->dirroot . '/theme/diverse/scss/post.scss');
 
     return $scss;
 }
@@ -54,7 +54,7 @@ function theme_gt4t_get_main_scss_content($theme) {
  * @param \core\output\theme_config $theme The theme config object.
  * @return string
  */
-function theme_gt4t_get_pre_scss($theme) {
+function theme_diverse_get_pre_scss($theme) {
     global $CFG;
 
     // Require the necessary libraries.
@@ -67,15 +67,15 @@ function theme_gt4t_get_pre_scss($theme) {
     // This should not be necessary as Moodle core calls the *_get_pre_scss() functions from all parent themes as well.
     // However, as soon as Boost Union would use $theme->settings in this function, $theme would be this theme here and
     // not Boost Union. The Boost Union developers are aware of this topic, but faults can always happen.
-    // If such a fault happens, the GT4T administrator can switch the inheritance to 'Duplicate'.
+    // If such a fault happens, the DIVERSE administrator can switch the inheritance to 'Duplicate'.
     // This way, we will add the pre SCSS code with the explicit use of the Boost Union configuration to the stack.
-    $inheritanceconfig = get_config('theme_gt4t', 'prescssinheritance');
-    if ($inheritanceconfig == THEME_GT4T_SETTING_INHERITANCE_DUPLICATE) {
+    $inheritanceconfig = get_config('theme_diverse', 'prescssinheritance');
+    if ($inheritanceconfig == THEME_DIVERSE_SETTING_INHERITANCE_DUPLICATE) {
         $scss .= theme_boost_union_get_pre_scss(\core\output\theme_config::load('boost_union'));
     }
 
-    // And add GT4T's pre SCSS file to the stack.
-    $scss .= file_get_contents($CFG->dirroot . '/theme/gt4t/scss/pre.scss');
+    // And add DIVERSE's pre SCSS file to the stack.
+    $scss .= file_get_contents($CFG->dirroot . '/theme/diverse/scss/pre.scss');
 
     /**********************************************************
      * EXTENSION POINT:
@@ -92,7 +92,7 @@ function theme_gt4t_get_pre_scss($theme) {
  * @param \core\output\theme_config $theme The theme config object.
  * @return string
  */
-function theme_gt4t_get_extra_scss($theme) {
+function theme_diverse_get_extra_scss($theme) {
     global $CFG;
 
     // Require the necessary libraries.
@@ -105,10 +105,10 @@ function theme_gt4t_get_extra_scss($theme) {
     // This should not be necessary as Moodle core calls the *_get_extra_scss() functions from all parent themes as well.
     // However, as soon as Boost Union would use $theme->settings in this function, $theme would be this theme here and
     // not Boost Union. The Boost Union developers are aware of this topic, but faults can always happen.
-    // If such a fault happens, the GT4T administrator can switch the inheritance to 'Duplicate'.
+    // If such a fault happens, the DIVERSE administrator can switch the inheritance to 'Duplicate'.
     // This way, we will add the extra SCSS code with the explicit use of the Boost Union configuration to the stack.
-    $inheritanceconfig = get_config('theme_gt4t', 'extrascssinheritance');
-    if ($inheritanceconfig == THEME_GT4T_SETTING_INHERITANCE_DUPLICATE) {
+    $inheritanceconfig = get_config('theme_diverse', 'extrascssinheritance');
+    if ($inheritanceconfig == THEME_DIVERSE_SETTING_INHERITANCE_DUPLICATE) {
         $scss .= theme_boost_union_get_extra_scss(\core\output\theme_config::load('boost_union'));
     }
 
@@ -122,18 +122,18 @@ function theme_gt4t_get_extra_scss($theme) {
 }
 
 /**
- * Callback function for theme_boost_union to allow GT4T to add cards to the Boost Union settings overview page.
+ * Callback function for theme_boost_union to allow DIVERSE to add cards to the Boost Union settings overview page.
  * This function is expected to return an array of arrays containing values with the keys 'label', 'desc', 'btn' and 'url'.
  *
  * @return array
  */
-function theme_gt4t_extend_busettingsoverview() {
+function theme_diverse_extend_busettingsoverview() {
 
     $cards[] = [
-        'label' => get_string('pluginname', 'theme_gt4t'),
-        'desc' => get_string('settingsoverview_buc_desc', 'theme_gt4t'),
+        'label' => get_string('pluginname', 'theme_diverse'),
+        'desc' => get_string('settingsoverview_buc_desc', 'theme_diverse'),
         'btn' => 'primary',
-        'url' => new \core\url('/admin/settings.php', ['section' => 'theme_gt4t']),
+        'url' => new \core\url('/admin/settings.php', ['section' => 'theme_diverse']),
     ];
 
     return $cards;
@@ -147,7 +147,7 @@ function theme_gt4t_extend_busettingsoverview() {
  *
  * @param mixed $urls The CSS URLs (passed as reference).
  */
-function theme_gt4t_alter_css_urls(&$urls) {
+function theme_diverse_alter_css_urls(&$urls) {
     global $CFG;
 
     // Require Boost Union library.
