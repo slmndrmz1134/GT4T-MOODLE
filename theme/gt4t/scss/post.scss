@@ -1,0 +1,46 @@
+/****************************************************************
+ * GT4T component styles.
+ *
+ * Most of the look comes from the variables in pre.scss (primary colour,
+ * fonts, radii), which Boost and Boost Union already use everywhere.
+ * This file only adds the details from the GT4T mockups that no
+ * variable covers. Keep it small: every rule here must survive Moodle
+ * and Boost Union upgrades.
+ ***************************************************************/
+
+// Headings: slightly tighter tracking for the Source Sans 3 display sizes.
+h1, .h1,
+h2, .h2 {
+    letter-spacing: -.01em;
+}
+
+// Dashboard and My courses sit on the light surface so white cards stand out.
+body.pagelayout-mydashboard #page,
+body.pagelayout-mycourses #page {
+    background-color: $gt4t-surface;
+}
+
+// Secondary buttons: white with a neutral outline instead of Bootstrap grey.
+.btn-secondary {
+    --#{$prefix}btn-color: #{$gt4t-ink};
+    --#{$prefix}btn-bg: #{$white};
+    --#{$prefix}btn-border-color: #{$gt4t-border-strong};
+    --#{$prefix}btn-hover-color: #{$gt4t-ink};
+    --#{$prefix}btn-hover-bg: #{$gt4t-surface};
+    --#{$prefix}btn-hover-border-color: #{$gt4t-ink};
+    --#{$prefix}btn-active-color: #{$gt4t-ink};
+    --#{$prefix}btn-active-bg: #{$gt4t-border};
+    --#{$prefix}btn-active-border-color: #{$gt4t-ink};
+}
+
+// Cards: neutral hairline border.
+.card {
+    --#{$prefix}card-border-color: #{$gt4t-border};
+}
+
+// Progress bars (course cards, completion): thin pill track.
+.progress {
+    --#{$prefix}progress-height: .375rem;
+    --#{$prefix}progress-border-radius: 50rem;
+    --#{$prefix}progress-bg: #EDEDEF;
+}

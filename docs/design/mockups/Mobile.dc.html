@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GT4T mobile dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Sans+3:wght@600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F2328;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+h1,h2,h3{font-family:'Source Sans 3',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F7F8; color: #1F2328; font-family: Inter, system-ui, sans-serif">
+
+<header style="height: 60px; flex-shrink: 0; box-sizing: border-box; padding: 0 8px; display: flex; align-items: center; justify-content: space-between; background: #FFFFFF; border-bottom: 1px solid #E4E4E7">
+<button type="button" aria-label="Open menu" style="width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 8px; background: #FF671F; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 12px; color: #1F2328">GT4T</div><span style="font-size: 13px; font-weight: 500; color: #63666A">Beykent</span></div>
+<button type="button" aria-label="User menu: Ali Yılmaz" style="width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; display: flex; align-items: center; justify-content: center"><span style="width: 34px; height: 34px; border-radius: 999px; background: #FFF4ED; color: #9A3412; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600">AY</span></button>
+</header>
+
+<main style="flex-grow: 1; box-sizing: border-box; padding: 20px 16px; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 28px; line-height: 1.15; font-weight: 700">Welcome back, Ali</h1>
+<p style="margin: 0; font-size: 14px; color: #63666A">Istanbul Beykent University · Student</p>
+</div>
+
+<section aria-labelledby="m-upnext" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 id="m-upnext" style="margin: 0; font-size: 20px; font-weight: 700">Up next</h2><span style="padding: 4px 10px; border-radius: 999px; background: #FFF4ED; color: #9A3412; font-size: 12px; font-weight: 600">Due in 3 days</span></div>
+<div style="display: flex; gap: 12px; align-items: center">
+<div aria-hidden="true" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px; background: #FFF4ED; color: #C2410C; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4h6v3H9zM9 12h6M9 16h4"></path></svg></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Business Law: Final Quiz</span><span style="font-size: 13px; color: #63666A">Quiz · LAW202</span></div>
+</div>
+<a href="Course.dc.html" style="height: 48px; box-sizing: border-box; border-radius: 999px; background: #C2410C; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 15px; font-weight: 600">Attempt quiz</a>
+<a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none; text-align: center">See all 3 upcoming →</a>
+</section>
+
+<section aria-labelledby="m-courses" style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 id="m-courses" style="margin: 0; font-size: 22px; font-weight: 700">My courses</h2><a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none">All 6</a></div>
+<a href="Course.dc.html" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 12px; display: flex; gap: 14px; align-items: center; color: #1F2328; text-decoration: none">
+<span aria-hidden="true" style="width: 60px; height: 60px; flex-shrink: 0; border-radius: 10px; background: #FF671F"></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 700">Business Law</span><span style="height: 6px; border-radius: 999px; background: #EDEDEF; display: block"><span style="width: 50%; height: 6px; border-radius: 999px; background: #C2410C; display: block"></span></span><span style="font-size: 12px; color: #63666A">LAW202 · 50% complete</span></span>
+</a>
+<a href="#" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 12px; display: flex; gap: 14px; align-items: center; color: #1F2328; text-decoration: none">
+<span aria-hidden="true" style="width: 60px; height: 60px; flex-shrink: 0; border-radius: 10px; background: #1F2328"></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 700">Marketing Management</span><span style="height: 6px; border-radius: 999px; background: #EDEDEF; display: block"><span style="width: 72%; height: 6px; border-radius: 999px; background: #C2410C; display: block"></span></span><span style="font-size: 12px; color: #63666A">MKT201 · 72% complete</span></span>
+</a>
+<a href="#" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 12px; display: flex; gap: 14px; align-items: center; color: #1F2328; text-decoration: none">
+<span aria-hidden="true" style="width: 60px; height: 60px; flex-shrink: 0; border-radius: 10px; background: #FFD8C2"></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 700">Digital Marketing &amp; Growth Hacking</span><span style="height: 6px; border-radius: 999px; background: #EDEDEF; display: block"><span style="width: 30%; height: 6px; border-radius: 999px; background: #C2410C; display: block"></span></span><span style="font-size: 12px; color: #63666A">BEY-DMG-101 · 30% complete</span></span>
+</a>
+<a href="#" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 14px; padding: 12px; display: flex; gap: 14px; align-items: center; color: #1F2328; text-decoration: none">
+<span aria-hidden="true" style="width: 60px; height: 60px; flex-shrink: 0; border-radius: 10px; background: #1F2328"></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px"><span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 700">Common Training Program</span><span style="height: 6px; border-radius: 999px; background: #EDEDEF; display: block"><span style="width: 85%; height: 6px; border-radius: 999px; background: #C2410C; display: block"></span></span><span style="font-size: 12px; color: #63666A">CTP001 · 85% complete</span></span>
+</a>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

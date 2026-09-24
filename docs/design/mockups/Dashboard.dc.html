@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GT4T student dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Sans+3:wght@600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F2328;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+h1,h2,h3{font-family:'Source Sans 3',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1220px; box-sizing: border-box; display: flex; flex-direction: column; background: #F7F7F8; color: #1F2328; font-family: Inter, system-ui, sans-serif">
+
+<header style="height: 64px; flex-shrink: 0; box-sizing: border-box; padding: 0 32px; display: flex; align-items: center; gap: 32px; background: #FFFFFF; border-bottom: 1px solid #E4E4E7">
+<div style="display: flex; align-items: center; gap: 14px">
+<div style="width: 38px; height: 38px; border-radius: 9px; background: #FF671F; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 13px; color: #1F2328">GT4T</div>
+<span style="width: 1px; height: 28px; background: #E4E4E7"></span>
+<span style="font-size: 14px; font-weight: 500; color: #63666A">Istanbul Beykent University</span>
+</div>
+<nav aria-label="Site" style="height: 100%; display: flex; gap: 4px">
+<a href="Main.dc.html" style="height: 100%; box-sizing: border-box; padding: 0 14px; display: flex; align-items: center; border-bottom: 3px solid transparent; color: #1F2328; text-decoration: none; font-size: 15px; font-weight: 500">Home</a>
+<a href="Dashboard.dc.html" aria-current="page" style="height: 100%; box-sizing: border-box; padding: 0 14px; display: flex; align-items: center; border-bottom: 3px solid #C2410C; color: #1F2328; text-decoration: none; font-size: 15px; font-weight: 600">Dashboard</a>
+<a href="Course.dc.html" style="height: 100%; box-sizing: border-box; padding: 0 14px; display: flex; align-items: center; border-bottom: 3px solid transparent; color: #1F2328; text-decoration: none; font-size: 15px; font-weight: 500">My courses</a>
+<a href="#" style="height: 100%; box-sizing: border-box; padding: 0 14px; display: flex; align-items: center; border-bottom: 3px solid transparent; color: #1F2328; text-decoration: none; font-size: 15px; font-weight: 500">Calendar</a>
+</nav>
+<div style="flex-grow: 1"></div>
+<div style="display: flex; align-items: center; gap: 6px">
+<button type="button" aria-label="Search" style="width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></button>
+<button type="button" aria-label="Language: English" style="height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; gap: 6px; font: inherit; font-size: 14px; font-weight: 500"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>EN</button>
+<button type="button" aria-label="Notifications, 2 unread" style="position: relative; width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg><span style="position: absolute; top: 8px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 999px; background: #C2410C; color: #FFFFFF; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center">2</span></button>
+<button type="button" aria-label="Messages" style="width: 44px; height: 44px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button>
+<button type="button" aria-label="User menu: Ali Yılmaz" style="margin-left: 6px; height: 44px; padding: 0 8px 0 4px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; gap: 6px"><span style="width: 36px; height: 36px; border-radius: 999px; background: #FFF4ED; color: #9A3412; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">AY</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+</header>
+
+<div role="note" style="margin: 24px 64px 0; padding: 14px 16px 14px 20px; border-radius: 12px; background: #FFF4ED; display: flex; align-items: center; gap: 14px; font-size: 15px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+<span style="flex-grow: 1"><strong>Welcome to the new GT4T platform.</strong> [Announcement text, managed in Boost Union › Info banners]</span>
+<button type="button" aria-label="Dismiss announcement" style="width: 36px; height: 36px; border: 0; border-radius: 999px; background: transparent; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+
+<main style="flex-grow: 1; box-sizing: border-box; padding: 32px 64px 48px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">Welcome back, Ali</h1>
+<p style="margin: 0; font-size: 16px; color: #63666A">Istanbul Beykent University · Student</p>
+</div>
+<button type="button" style="height: 44px; padding: 0 20px; border: 1px solid #C9C9CF; border-radius: 999px; background: #FFFFFF; color: #1F2328; font: inherit; font-size: 14px; font-weight: 600">Customise this page</button>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 32px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 32px">
+
+<section aria-labelledby="upnext" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px">
+<div style="padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E4E4E7">
+<h2 id="upnext" style="margin: 0; font-size: 24px; font-weight: 700">Up next</h2>
+<label for="upnext-range" style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: #63666A">Show
+<select id="upnext-range" style="height: 38px; border: 1px solid #C9C9CF; border-radius: 8px; padding: 0 10px; background: #FFFFFF; color: #1F2328; font: inherit; font-size: 14px"><option>Next 7 days</option><option>Next 30 days</option><option>Overdue</option></select>
+</label>
+</div>
+<div style="padding: 16px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #EDEDEF">
+<div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 10px; background: #FFF4ED; color: #C2410C; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 4h6v3H9zM9 12h6M9 16h4"></path></svg></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Business Law: Final Quiz</span><span style="font-size: 14px; color: #63666A">Quiz · LAW202 Business Law</span></div>
+<span style="padding: 5px 12px; border-radius: 999px; background: #FFF4ED; color: #9A3412; font-size: 13px; font-weight: 600">Due in 3 days</span>
+<a href="Course.dc.html" style="height: 40px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; background: #C2410C; color: #FFFFFF; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600">Attempt quiz</a>
+</div>
+<div style="padding: 16px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #EDEDEF">
+<div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 10px; background: #F7F7F8; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">Business Organizations</span><span style="font-size: 14px; color: #63666A">Page · LAW202 Business Law</span></div>
+<span style="padding: 5px 12px; border-radius: 999px; background: #F7F7F8; color: #1F2328; font-size: 13px; font-weight: 600">Continue where you left off</span>
+<a href="Course.dc.html" style="height: 40px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; border: 1px solid #C9C9CF; color: #1F2328; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600">Open</a>
+</div>
+<div style="padding: 16px 24px; display: flex; align-items: center; gap: 16px">
+<div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 10px; background: #F7F7F8; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg></div>
+<div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 600">[Assignment name]</span><span style="font-size: 14px; color: #63666A">Assignment · BEY-DMG-101 Digital Marketing &amp; Growth Hacking</span></div>
+<span style="padding: 5px 12px; border-radius: 999px; background: #F7F7F8; color: #1F2328; font-size: 13px; font-weight: 600">Due in 6 days</span>
+<a href="#" style="height: 40px; box-sizing: border-box; padding: 0 18px; border-radius: 999px; border: 1px solid #C9C9CF; color: #1F2328; display: flex; align-items: center; text-decoration: none; font-size: 14px; font-weight: 600">Submit</a>
+</div>
+</section>
+
+<section aria-labelledby="mycourses" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<h2 id="mycourses" style="margin: 0; font-size: 28px; font-weight: 700">My courses</h2>
+<div style="display: flex; align-items: center; gap: 10px">
+<input type="search" aria-label="Search my courses" placeholder="Search courses" style="width: 220px; height: 40px; box-sizing: border-box; border: 1px solid #C9C9CF; border-radius: 999px; padding: 0 16px; font: inherit; font-size: 14px; background: #FFFFFF">
+<select aria-label="Filter courses" style="height: 40px; border: 1px solid #C9C9CF; border-radius: 999px; padding: 0 12px; background: #FFFFFF; color: #1F2328; font: inherit; font-size: 14px"><option>In progress</option><option>All</option><option>Completed</option></select>
+<div role="group" aria-label="View" style="display: flex; border: 1px solid #C9C9CF; border-radius: 999px; overflow: hidden">
+<button type="button" aria-label="Card view" aria-pressed="true" style="width: 44px; height: 38px; border: 0; background: #1F2328; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"></rect><rect x="13" y="4" width="7" height="7" rx="1"></rect><rect x="4" y="13" width="7" height="7" rx="1"></rect><rect x="13" y="13" width="7" height="7" rx="1"></rect></svg></button>
+<button type="button" aria-label="List view" aria-pressed="false" style="width: 44px; height: 38px; border: 0; background: #FFFFFF; color: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"></path></svg></button>
+</div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<a href="Course.dc.html" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #FF671F; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">LAW202</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" style="position: absolute; right: -14px; bottom: -30px"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="#1F2328" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Istanbul Beykent University</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">Business Law</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"><div style="width: 50%; height: 6px; border-radius: 999px; background: #C2410C"></div></div><span style="font-size: 13px; color: #63666A">50% complete</span></div>
+</a>
+<a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #1F2328; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">MKT201</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" style="position: absolute; right: -14px; bottom: -30px"><circle cx="50" cy="50" r="28" fill="none" stroke="#FF671F" stroke-width="12"></circle></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Istanbul Beykent University</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">Marketing Management</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"><div style="width: 72%; height: 6px; border-radius: 999px; background: #C2410C"></div></div><span style="font-size: 13px; color: #63666A">72% complete</span></div>
+</a>
+<a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #FFD8C2; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">BEY-DMG-101</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" style="position: absolute; right: -8px; bottom: -34px"><path d="M10 72a40 40 0 0 1 80 0z" fill="#1F2328"></path></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Istanbul Beykent University</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">Digital Marketing &amp; Growth Hacking</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"><div style="width: 30%; height: 6px; border-radius: 999px; background: #C2410C"></div></div><span style="font-size: 13px; color: #63666A">30% complete</span></div>
+</a>
+<a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #FFF4ED; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">BEY-SPM-201</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" style="position: absolute; right: -14px; bottom: -24px"><path d="M20 50h56M56 28l22 22-22 22" stroke="#FF671F" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Istanbul Beykent University</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">Strategic Project Management</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"><div style="width: 10%; height: 6px; border-radius: 999px; background: #C2410C"></div></div><span style="font-size: 13px; color: #63666A">10% complete</span></div>
+</a>
+<a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #1F2328; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">CTP001</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" style="position: absolute; right: -14px; bottom: -30px"><path d="M50 20v60M20 50h60" stroke="#FF671F" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Shared Courses</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">Common Training Program</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"><div style="width: 85%; height: 6px; border-radius: 999px; background: #C2410C"></div></div><span style="font-size: 13px; color: #63666A">85% complete</span></div>
+</a>
+<a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 110px; position: relative; background: #FF671F; overflow: hidden"><span style="position: absolute; top: 12px; left: 12px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px">IBM401</span><svg aria-hidden="true" width="120" height="120" viewBox="0 0 100 100" fill="#1F2328" style="position: absolute; right: -6px; bottom: -22px"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle></svg></div>
+<div style="padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #63666A">Shared Courses</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 19px; font-weight: 700; line-height: 1.25; min-height: 48px">International Business Management</span><div style="height: 6px; border-radius: 999px; background: #EDEDEF"></div><span style="font-size: 13px; color: #63666A">Not started</span></div>
+</a>
+</div>
+</section>
+</div>
+
+<aside style="display: flex; flex-direction: column; gap: 24px">
+<section aria-labelledby="recent" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 id="recent" style="margin: 0; font-size: 20px; font-weight: 700">Recently accessed</h2>
+<a href="Course.dc.html" style="display: flex; align-items: center; gap: 12px; color: #1F2328; text-decoration: none"><span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 8px; background: #FF671F; flex-shrink: 0"></span><span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">Business Law</span><span style="font-size: 13px; color: #63666A">LAW202</span></span></a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; color: #1F2328; text-decoration: none"><span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 8px; background: #1F2328; flex-shrink: 0"></span><span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">Marketing Management</span><span style="font-size: 13px; color: #63666A">MKT201</span></span></a>
+<a href="#" style="display: flex; align-items: center; gap: 12px; color: #1F2328; text-decoration: none"><span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 8px; background: #FFD8C2; flex-shrink: 0"></span><span style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">Common Training Program</span><span style="font-size: 13px; color: #63666A">CTP001 · Shared Courses</span></span></a>
+</section>
+<section aria-labelledby="calendar" style="background: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center"><h2 id="calendar" style="margin: 0; font-size: 20px; font-weight: 700">Upcoming</h2><a href="#" style="font-size: 14px; font-weight: 600; text-decoration: none">Calendar →</a></div>
+<div style="display: flex; gap: 14px; align-items: center"><div style="width: 48px; height: 52px; border-radius: 10px; background: #FFF4ED; display: flex; flex-direction: column; align-items: center; justify-content: center"><span style="font-size: 11px; font-weight: 600; color: #9A3412">OCT</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1">[d]</span></div><div style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">Business Law: Final Quiz closes</span><span style="font-size: 13px; color: #63666A">LAW202</span></div></div>
+<div style="display: flex; gap: 14px; align-items: center"><div style="width: 48px; height: 52px; border-radius: 10px; background: #F7F7F8; display: flex; flex-direction: column; align-items: center; justify-content: center"><span style="font-size: 11px; font-weight: 600; color: #63666A">OCT</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1">[d]</span></div><div style="display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600">[Assignment name] due</span><span style="font-size: 13px; color: #63666A">BEY-DMG-101</span></div></div>
+</section>
+<section aria-labelledby="help" style="background: #1F2328; color: #FFFFFF; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<h2 id="help" style="margin: 0; font-size: 20px; font-weight: 700">Need help?</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #D4D4D8">Questions about enrolment or access to shared courses? The GT4T support team can help.</p>
+<a href="#" style="margin-top: 4px; font-size: 15px; font-weight: 600; color: #FFFFFF">Contact support →</a>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1220}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

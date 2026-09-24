@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GT4T landing page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Source+Sans+3:wght@600;700&amp;display=swap">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#1F2328;background:#FFFFFF}
+a{color:#C2410C}a:hover{color:#9A3412}
+h1,h2,h3{font-family:'Source Sans 3',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="width: 1440px; height: 3000px; box-sizing: border-box; display: flex; flex-direction: column; background: #FFFFFF; color: #1F2328; font-family: Inter, system-ui, sans-serif">
+
+<header style="height: 80px; flex-shrink: 0; box-sizing: border-box; padding: 0 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E4E4E7">
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 44px; height: 44px; border-radius: 10px; background: {{brand}}; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 15px; color: #1F2328">GT4T</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 19px; line-height: 1.1">GreenTech4Transformation</span>
+<span style="font-size: 12px; color: #63666A">EIT Higher Education Initiative</span>
+</div>
+</div>
+<nav aria-label="Main" style="display: flex; gap: 36px; font-size: 15px; font-weight: 500">
+<a href="#collaborate" style="color: #1F2328; text-decoration: none">How we collaborate</a>
+<a href="#impact" style="color: #1F2328; text-decoration: none">Impact</a>
+<a href="#partners" style="color: #1F2328; text-decoration: none">Partners</a>
+<a href="#courses" style="color: #1F2328; text-decoration: none">Courses</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 12px">
+<button type="button" aria-label="Language: English" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 8px; border: 1px solid #E4E4E7; border-radius: 999px; background: #FFFFFF; color: #1F2328; font: inherit; font-size: 14px; font-weight: 500">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>
+EN
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<a href="Login.dc.html" style="height: 44px; box-sizing: border-box; padding: 0 26px; display: flex; align-items: center; border-radius: 999px; background: #C2410C; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 15px">Log in</a>
+</div>
+</header>
+
+<section style="height: 620px; flex-shrink: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr))">
+<div style="background: {{brand}}; box-sizing: border-box; padding: 72px 64px; display: flex; flex-direction: column; justify-content: center; gap: 28px">
+<span style="font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1F2328">EIT Higher Education Initiative</span>
+<h1 style="margin: 0; font-size: 68px; line-height: 1.02; font-weight: 700; color: #1F2328">GreenTech4­Transformation</h1>
+<p style="margin: 0; max-width: 580px; font-size: 19px; line-height: 1.55; color: #1F2328">A project funded by the EIT Higher Education Initiative and coordinated by Satakunta University of Applied Sciences (SAMK, Finland). GT4T strengthens universities' role in the green and digital transition by connecting higher education with industry and innovation ecosystems.</p>
+<div style="display: flex; gap: 12px">
+<a href="Login.dc.html" style="height: 54px; box-sizing: border-box; padding: 0 30px; display: flex; align-items: center; gap: 10px; border-radius: 999px; background: #1F2328; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 16px">Get started
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+</a>
+<a href="#partners" style="height: 54px; box-sizing: border-box; padding: 0 28px; display: flex; align-items: center; border-radius: 999px; border: 2px solid #1F2328; color: #1F2328; text-decoration: none; font-weight: 600; font-size: 16px">Meet the partners</a>
+</div>
+</div>
+<div aria-hidden="true" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr))">
+<div style="background: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="{{brand}}" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="background: #FFF4ED; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="{{brand}}" stroke-width="12"></circle></svg></div>
+<div style="background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100" fill="#1F2328"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
+<div style="background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="{{brand}}" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="background: #FFD8C2; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="#1F2328"></path></svg></div>
+<div style="background: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100" fill="none" stroke="#FFFFFF" stroke-width="7"><circle cx="50" cy="50" r="38"></circle><circle cx="50" cy="50" r="24"></circle><circle cx="50" cy="50" r="10"></circle></svg></div>
+<div style="background: #FFF4ED; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M20 50h56M56 28l22 22-22 22" stroke="{{brand}}" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+<div style="background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="background: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100" fill="{{brand}}"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
+<div style="background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="#1F2328" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="background: #FFD8C2; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="#1F2328" stroke-width="12"></circle></svg></div>
+<div style="background: #1F2328; display: flex; align-items: center; justify-content: center"><svg width="96" height="96" viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="{{brand}}"></path></svg></div>
+</div>
+</section>
+
+<section aria-label="Key figures" style="flex-shrink: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 1px solid #E4E4E7">
+<div style="padding: 36px 64px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #E4E4E7">
+<span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 48px; line-height: 1">3</span>
+<span style="font-size: 15px; color: #63666A">Partner universities</span>
+</div>
+<div style="padding: 36px 64px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid #E4E4E7">
+<span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 48px; line-height: 1">17</span>
+<span style="font-size: 15px; color: #63666A">Courses available</span>
+</div>
+<div style="padding: 36px 64px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 48px; line-height: 1">[#]</span>
+<span style="font-size: 15px; color: #63666A">Active learners · counted live</span>
+</div>
+</section>
+
+<section id="collaborate" style="flex-shrink: 0; padding: 96px 64px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 72px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<span style="font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C2410C">How we collaborate</span>
+<h2 style="margin: 0; font-size: 46px; line-height: 1.08; font-weight: 700">Joint training and hands-on innovation projects</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6">Partner universities deliver joint training and hands-on innovation projects. Mixed, cross-border teams work on real challenges from companies and regional ecosystems, combining:</p>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #63666A">GT4T creates repeatable cooperation models including shared training formats, common toolkits and methodologies, and transferable delivery approaches.</p>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid #E4E4E7">
+<li style="padding: 24px 0; display: flex; gap: 24px; align-items: baseline; border-bottom: 1px solid #E4E4E7"><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px; color: #C2410C">01</span><span style="font-size: 21px; font-weight: 500">Innovation methodologies</span></li>
+<li style="padding: 24px 0; display: flex; gap: 24px; align-items: baseline; border-bottom: 1px solid #E4E4E7"><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px; color: #C2410C">02</span><span style="font-size: 21px; font-weight: 500">Idea validation</span></li>
+<li style="padding: 24px 0; display: flex; gap: 24px; align-items: baseline; border-bottom: 1px solid #E4E4E7"><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px; color: #C2410C">03</span><span style="font-size: 21px; font-weight: 500">Value proposition development</span></li>
+<li style="padding: 24px 0; display: flex; gap: 24px; align-items: baseline; border-bottom: 1px solid #E4E4E7"><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px; color: #C2410C">04</span><span style="font-size: 21px; font-weight: 500">Pitching preparation</span></li>
+<li style="padding: 24px 0; display: flex; gap: 24px; align-items: baseline; border-bottom: 1px solid #E4E4E7"><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px; color: #C2410C">05</span><span style="font-size: 21px; font-weight: 500">Early-stage commercialisation awareness</span></li>
+</ol>
+</section>
+
+<section id="impact" style="flex-shrink: 0; background: #FFF4ED; padding: 96px 64px; display: flex; flex-direction: column; gap: 44px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 760px">
+<span style="font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C2410C">Long-term impact</span>
+<h2 style="margin: 0; font-size: 46px; line-height: 1.08; font-weight: 700">Collaboration that continues after the project</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6">GT4T promotes structured collaboration between universities and ecosystems through pilots, cross-border research-to-business connections, and systematic entrepreneurship education.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div style="background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 12px; background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F2328" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"></path><path d="M7 15h10"></path></svg></div>
+<h3 style="margin: 0; font-size: 26px; font-weight: 700">Pilots &amp; Proof-of-Concepts</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #63666A">Testing and validating sustainable solutions with industry and regional partners.</p>
+</div>
+<div style="background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 12px; background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F2328" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"></path><circle cx="5" cy="12" r="2"></circle></svg></div>
+<h3 style="margin: 0; font-size: 26px; font-weight: 700">Research-to-Business</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #63666A">Cross-border connections that turn academic research into real-world impact.</p>
+</div>
+<div style="background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<div aria-hidden="true" style="width: 56px; height: 56px; border-radius: 12px; background: {{brand}}; display: flex; align-items: center; justify-content: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1F2328" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11"></path><path d="M10 21v-6h4v6"></path></svg></div>
+<h3 style="margin: 0; font-size: 26px; font-weight: 700">Venture Science Center</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.6; color: #63666A">Permanent hubs for training, prototyping, and ecosystem engagement, ensuring long-term impact and scalability.</p>
+</div>
+</div>
+</section>
+
+<section id="partners" style="flex-shrink: 0; padding: 96px 64px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 760px">
+<span style="font-size: 14px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #C2410C">Partners</span>
+<h2 style="margin: 0; font-size: 46px; line-height: 1.08; font-weight: 700">Partner universities</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6">Each university offers its own courses. Shared courses are open to learners from every partner.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+<div style="border: 1px solid #E4E4E7; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+<div style="height: 72px; border-radius: 10px; background: #F7F7F8; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #63666A">[Algebra logo]</div>
+<h3 style="margin: 8px 0 0; font-size: 24px; font-weight: 700">Algebra University College</h3>
+<span style="font-size: 15px; color: #63666A">Zagreb, Croatia</span>
+<div style="margin-top: 8px; padding-top: 16px; border-top: 1px solid #E4E4E7; display: flex; justify-content: space-between; align-items: center; font-size: 15px"><span>6 courses</span><a href="#courses" style="font-weight: 600; text-decoration: none">Browse courses →</a></div>
+</div>
+<div style="border: 1px solid #E4E4E7; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+<div style="height: 72px; border-radius: 10px; background: #F7F7F8; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #63666A">[Beykent logo]</div>
+<h3 style="margin: 8px 0 0; font-size: 24px; font-weight: 700">Istanbul Beykent University</h3>
+<span style="font-size: 15px; color: #63666A">Istanbul, Türkiye</span>
+<div style="margin-top: 8px; padding-top: 16px; border-top: 1px solid #E4E4E7; display: flex; justify-content: space-between; align-items: center; font-size: 15px"><span>5 courses</span><a href="#courses" style="font-weight: 600; text-decoration: none">Browse courses →</a></div>
+</div>
+<div style="border: 1px solid #E4E4E7; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 14px">
+<div style="height: 72px; border-radius: 10px; background: #F7F7F8; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #63666A">[TH Rosenheim logo]</div>
+<h3 style="margin: 8px 0 0; font-size: 24px; font-weight: 700">Technische Hochschule Rosenheim</h3>
+<span style="font-size: 15px; color: #63666A">Rosenheim, Germany</span>
+<div style="margin-top: 8px; padding-top: 16px; border-top: 1px solid #E4E4E7; display: flex; justify-content: space-between; align-items: center; font-size: 15px"><span>4 courses</span><a href="#courses" style="font-weight: 600; text-decoration: none">Browse courses →</a></div>
+</div>
+</div>
+</section>
+
+<section id="courses" style="flex-shrink: 0; padding: 0 64px 96px; display: flex; flex-direction: column; gap: 32px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end">
+<h2 style="margin: 0; font-size: 46px; line-height: 1.08; font-weight: 700">Explore courses</h2>
+<a href="Login.dc.html" style="font-size: 16px; font-weight: 600; text-decoration: none">All 17 courses →</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+<a href="Login.dc.html" style="display: flex; flex-direction: column; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 150px; position: relative; background: #1F2328; overflow: hidden"><span style="position: absolute; top: 14px; left: 14px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px">CTP001</span><svg aria-hidden="true" width="150" height="150" viewBox="0 0 100 100" style="position: absolute; right: -20px; bottom: -30px"><circle cx="50" cy="50" r="30" fill="none" stroke="{{brand}}" stroke-width="12"></circle></svg></div>
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #63666A">Shared Courses</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.25">Common Training Program</span></div>
+</a>
+<a href="Login.dc.html" style="display: flex; flex-direction: column; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 150px; position: relative; background: {{brand}}; overflow: hidden"><span style="position: absolute; top: 14px; left: 14px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px">ALG-AML-101</span><svg aria-hidden="true" width="150" height="150" viewBox="0 0 100 100" style="position: absolute; right: -16px; bottom: -24px"><path d="M50 20v60M20 50h60" stroke="#1F2328" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #63666A">Algebra University College</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.25">Applied Machine Learning</span></div>
+</a>
+<a href="Login.dc.html" style="display: flex; flex-direction: column; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 150px; position: relative; background: #FFD8C2; overflow: hidden"><span style="position: absolute; top: 14px; left: 14px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px">BEY-DMG-101</span><svg aria-hidden="true" width="150" height="150" viewBox="0 0 100 100" style="position: absolute; right: -10px; bottom: -34px"><path d="M10 72a40 40 0 0 1 80 0z" fill="#1F2328"></path></svg></div>
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #63666A">Istanbul Beykent University</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.25">Digital Marketing &amp; Growth Hacking</span></div>
+</a>
+<a href="Login.dc.html" style="display: flex; flex-direction: column; border: 1px solid #E4E4E7; border-radius: 16px; overflow: hidden; text-decoration: none; color: #1F2328">
+<div style="height: 150px; position: relative; background: #FFF4ED; overflow: hidden"><span style="position: absolute; top: 14px; left: 14px; background: #FFFFFF; color: #1F2328; font-size: 12px; font-weight: 600; padding: 5px 11px; border-radius: 999px">ROS-SWT-101</span><svg aria-hidden="true" width="150" height="150" viewBox="0 0 100 100" style="position: absolute; right: -14px; bottom: -22px"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="{{brand}}" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #63666A">Technische Hochschule Rosenheim</span><span style="font-family: 'Source Sans 3', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.25">Sustainable Wood Technology &amp; Construction</span></div>
+</a>
+</div>
+</section>
+
+<footer style="flex-grow: 1; background: #1F2328; color: #FFFFFF; padding: 64px 64px 40px; display: flex; flex-direction: column; gap: 48px">
+<div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 12px"><div style="width: 44px; height: 44px; border-radius: 10px; background: {{brand}}; display: flex; align-items: center; justify-content: center; font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 15px; color: #1F2328">GT4T</div><span style="font-family: 'Source Sans 3', sans-serif; font-weight: 700; font-size: 20px">GreenTech4Transformation</span></div>
+<p style="margin: 0; max-width: 440px; font-size: 15px; line-height: 1.6; color: #D4D4D8">A project funded by the EIT Higher Education Initiative and coordinated by Satakunta University of Applied Sciences (SAMK, Finland).</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px"><span style="font-weight: 600">Platform</span><a href="Login.dc.html" style="color: #D4D4D8; text-decoration: none">Log in</a><a href="#courses" style="color: #D4D4D8; text-decoration: none">Courses</a><a href="#" style="color: #D4D4D8; text-decoration: none">Help</a></div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px"><span style="font-weight: 600">Legal</span><a href="#" style="color: #D4D4D8; text-decoration: none">Imprint</a><a href="#" style="color: #D4D4D8; text-decoration: none">Privacy notice</a><a href="#" style="color: #D4D4D8; text-decoration: none">Accessibility statement</a><a href="#" style="color: #D4D4D8; text-decoration: none">Cookie settings</a></div>
+<div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px"><span style="font-weight: 600">Language</span><a href="#" style="color: #FFFFFF; text-decoration: none; font-weight: 600">English</a><a href="#" lang="tr" style="color: #D4D4D8; text-decoration: none">Türkçe</a><a href="#" lang="de" style="color: #D4D4D8; text-decoration: none">Deutsch</a><a href="#" lang="hr" style="color: #D4D4D8; text-decoration: none">Hrvatski</a></div>
+</div>
+<div style="padding-top: 24px; border-top: 1px solid #3F444B; display: flex; justify-content: space-between; font-size: 14px; color: #D4D4D8"><span>© GT4T consortium</span><span>Powered by Moodle · Boost Union</span></div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","default":"#FF671F","options":["#FF671F","#FF7A33","#F2611C"]},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+renderVals() {
+return { brand: this.props.brand ?? '#FF671F' };
+}
+}
+</script>
+</body>
+</html>
