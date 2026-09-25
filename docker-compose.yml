@@ -1,3 +1,6 @@
+# DIVERSE Moodle for local development. Guide: docker.md. The live site runs on cPanel (docs/CPANEL.md).
+name: diverse
+
 services:
   mysql:
     image: mysql:8.4
@@ -9,18 +12,20 @@ services:
       - MYSQL_PASSWORD=moodlepass
     volumes:
       - mysql_data:/var/lib/mysql
+      # Only on the very first start (empty database volume) MySQL imports the DIVERSE database dump.
+      - ./database/moodle.sql:/docker-entrypoint-initdb.d/10-moodle.sql:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpass"]
+      # Over TCP: during the first-start import MySQL accepts no network connections, so the service only
+      # becomes healthy once the dump is fully imported.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-prootpass"]
       interval: 5s
       timeout: 5s
-      retries: 30
-      start_period: 10s
+      retries: 60
+      start_period: 30s
 
   redis:
     image: redis:7-alpine
     restart: unless-stopped
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:

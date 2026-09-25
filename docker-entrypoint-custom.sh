@@ -1,9 +1,15 @@
 #!/bin/bash
-# DIVERSE Custom Entrypoint
-# Wraps the base image entrypoint and adds automatic Moodle installation
-# + DIVERSE theme/content setup on first boot.
+# DIVERSE Custom Entrypoint (local development only; the live site runs on cPanel, see docs/CPANEL.md)
+# On first boot the mysql service imports database/moodle.sql (docker-compose.yml). This script then
+# upgrades Moodle to the code in the image and applies setup/diverse_setup.php once.
 
 set -e
+
+# Moodle CLI scripts run as the web server user, so that the cache files they create in moodledata stay
+# writable for Apache. Scripts run as root leave files that Apache cannot write.
+as_www() {
+  runuser -u www-data -- "$@"
+}
 
 # ── 1. Generate config.php (copied from base image entrypoint) ──────────────
 if [ ! -f /var/www/html/config.php ]; then
@@ -174,8 +180,11 @@ until php -r "
 done
 echo "[entrypoint] MySQL is ready."
 
+# Files that earlier root-run scripts left in moodledata go back to the web server user.
+find /var/www/moodledata ! -user www-data -exec chown www-data:www-data {} + 2>/dev/null || true
+
 # ── 3. Auto-install Moodle database if not yet installed ────────────────────
-MOODLE_INSTALLED=$(php -r "
+MOODLE_INSTALLED=$(as_www php -r "
   define('CLI_SCRIPT', true);
   require('/var/www/html/config.php');
   try {
@@ -187,9 +196,11 @@ MOODLE_INSTALLED=$(php -r "
 " 2>/dev/null || echo '0')
 
 if [ "$MOODLE_INSTALLED" != "1" ]; then
-  echo "[entrypoint] Moodle not installed. Running install_database.php ..."
+  # Only reached when the database is empty although the mysql service normally imports the dump on its first
+  # start (for example when the database volume existed before). Installs an empty Moodle instead.
+  echo "[entrypoint] Moodle not installed and no dump imported. Running install_database.php ..."
 
-  php /var/www/html/admin/cli/install_database.php \
+  as_www php /var/www/html/admin/cli/install_database.php \
     --lang=en \
     --fullname="DIVERSE European University" \
     --shortname="DIVERSE" \
@@ -199,12 +210,26 @@ if [ "$MOODLE_INSTALLED" != "1" ]; then
     --agree-license
 
   echo "[entrypoint] Moodle database installed."
-
-  echo "[entrypoint] Running DIVERSE theme and content setup ..."
-  php /var/www/html/setup/moodle_init.php
-  echo "[entrypoint] DIVERSE setup complete."
+  MOODLE_INSTALLED=1
 else
-  echo "[entrypoint] Moodle already installed, skipping setup."
+  echo "[entrypoint] Moodle already installed."
+fi
+
+# ── 3a. Bring the database up to the code in the image, apply the DIVERSE setup once ──
+# Never fail container start if CLI errors (set -e would stop Apache from starting).
+if [ "$MOODLE_INSTALLED" = "1" ]; then
+  echo "[entrypoint] Running admin/cli/upgrade.php ..."
+  as_www php /var/www/html/admin/cli/upgrade.php --non-interactive || echo "[entrypoint] upgrade.php failed (continuing)."
+
+  SETUP_DONE=/var/www/moodledata/.diverse_setup_done
+  if [ ! -f "$SETUP_DONE" ]; then
+    echo "[entrypoint] First boot: running setup/diverse_setup.php ..."
+    if as_www php /var/www/html/setup/diverse_setup.php; then
+      as_www touch "$SETUP_DONE"
+    else
+      echo "[entrypoint] diverse_setup.php failed (continuing); it runs again on the next boot."
+    fi
+  fi
 fi
 
 # ── 3b. Enforce theme designer mode from env (fixes PageSpeed / styles_debug.php flood) ──
@@ -214,13 +239,13 @@ if [ "$MOODLE_INSTALLED" = "1" ] && [ "$MOODLE_THEMEDESIGNERMODE" != "true" ]; t
     sed -i 's/\$CFG->themedesignermode\s*=\s*true/\$CFG->themedesignermode = false/' /var/www/html/config.php || true
     echo "[entrypoint] config.php themedesignermode set to false."
   fi
-  THEME_MODE=$(php /var/www/html/admin/cli/cfg.php --name=themedesignermode 2>/dev/null || echo "1")
+  THEME_MODE=$(as_www php /var/www/html/admin/cli/cfg.php --name=themedesignermode 2>/dev/null || echo "1")
   if [ "$THEME_MODE" != "0" ]; then
-    php /var/www/html/admin/cli/cfg.php --name=themedesignermode --set=0 || true
+    as_www php /var/www/html/admin/cli/cfg.php --name=themedesignermode --set=0 || true
   fi
   if [ "${MOODLE_AUTO_PURGE_CACHES:-false}" = "true" ]; then
     echo "[entrypoint] Purging Moodle caches as requested by environment ..."
-    php /var/www/html/admin/cli/purge_caches.php || echo "[entrypoint] purge_caches failed (continuing)."
+    as_www php /var/www/html/admin/cli/purge_caches.php || echo "[entrypoint] purge_caches failed (continuing)."
   else
     echo "[entrypoint] Skipping cache purge on container boot (optimized for load speed)."
   fi
@@ -232,7 +257,7 @@ cat <<'CRONEOF' > /usr/local/bin/run-cron.sh
 #!/bin/bash
 while true; do
     cd /var/www/html
-    /usr/local/bin/php admin/cli/cron.php >> /var/log/cron.log 2>&1 || \
+    runuser -u www-data -- /usr/local/bin/php admin/cli/cron.php >> /var/log/cron.log 2>&1 || \
         echo "[$(date)] Cron error, retrying in 60s" >> /var/log/cron.log
     sleep 60
 done
