@@ -149,7 +149,21 @@ docker compose exec -T -u www-data moodle php setup/diverse_setup.php
 Site: http://localhost:8080. Moodle CLI komutları her zaman `-u www-data` ile çalıştırılır; root ile çalışan
 komutlar `moodledata` içinde web sunucusunun yazamadığı önbellek dosyaları bırakır.
 
+**Kod değişiklikleri kapsayıcıya `watch` ile gider.** Kod imajın içindedir, klasör olarak bağlanmaz: Windows'ta
+bağlı klasörden okumak her sayfayı saniyelerce yavaşlatır. Çalışırken ayrı bir terminalde şu komut açık kalır:
+
+```bash
+docker compose watch
+```
+
+Repoda değiştirilen, eklenen ya da silinen her dosya birkaç saniye içinde kapsayıcıya aktarılır. `watch`
+kapalıyken yapılan değişiklikler kapsayıcıya geçmez; o durumda `docker compose up -d --build moodle` ile imaj
+yenilenir. Kapsayıcının içinde değiştirilen dosyalar repoya geri gelmez: kod her zaman repoda düzenlenir.
+
 ### Kontrol listesi
+
+0. **Test edilen kod güncel mi:** `docker compose watch` açık olmalı ya da imaj değişiklikten sonra yeniden
+   derlenmiş olmalı (`docker compose up -d --build moodle`).
 
 1. **PHP sözdizimi:** değişen her PHP dosyası için
    `docker compose exec -T moodle php -l <dosya>`
@@ -179,7 +193,11 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
   güncellenmesi proje sahibinin kararını bekliyor.
 - **Eski dosyalar:** `setup/verify_assets.php`, `setup/verify_scss.php`, `setup/verify_styles.php` ve `docker.md`
   eski Moove temasından kalma. Doğru bilgi kaynağı olarak kullanılmaz.
-- **Windows'ta Docker yavaştır:** sayfa başına birkaç saniye normaldir.
+- **Kod klasörü kapsayıcıya bağlanmaz.** `docker-compose.yml` dosyasına `.:/var/www/html` bağlaması geri
+  eklenmez; Windows'ta sayfaları 2-3 saniyeye çıkarır (imajın içindeyken 0,05 saniye). Değişiklikler
+  `docker compose watch` ile aktarılır.
+- **Kök dizindeki `.env`** dosyasını `docker compose` kendiliğinden okur. İçinde canlı sunucu değerleri
+  (`COMPOSE_PROFILES=prod`, `https://...` adresi) olmamalı; yoksa yerel site yanlış adresle kurulur.
 - **SCSS değişikliği görünmüyorsa** önbellek temizlenmemiştir (tema tasarımcı modu kapalı).
 - **Canlı sunucuda Docker yok:** kod cPanel'de `git pull` ile güncellenir, ardından `admin/cli/upgrade.php` ve
   `setup/diverse_setup.php --production` çalıştırılır. Adımlar: [docs/CPANEL.md](docs/CPANEL.md). BigBlueButton
