@@ -1,0 +1,82 @@
+<?php  // DIVERSE Moodle configuration for the cPanel server.
+//
+// Copy this file to the Moodle root (the folder with version.php) as config.php and replace every value
+// marked CHANGE. config.php holds the database password: it is ignored by git and must never be committed.
+// Step by step guide: docs/CPANEL.md.
+
+unset($CFG);
+global $CFG;
+$CFG = new stdClass();
+
+//=========================================================================
+// Database: cPanel > MySQL Databases. cPanel prefixes names with the account name (user_moodle).
+//=========================================================================
+$CFG->dbtype    = 'mysqli';                  // CHANGE to 'mariadb' if cPanel's home page shows MariaDB.
+$CFG->dblibrary = 'native';
+$CFG->dbhost    = 'localhost';
+$CFG->dbname    = 'CPANELUSER_moodle';       // CHANGE
+$CFG->dbuser    = 'CPANELUSER_moodle';       // CHANGE
+$CFG->dbpass    = 'CHANGE-ME';               // CHANGE
+$CFG->prefix    = 'mdl_';                    // The tables in database/moodle.sql use mdl_.
+$CFG->dboptions = [
+    'dbpersist'   => false,
+    'dbsocket'    => false,
+    'dbport'      => '',
+    'dbcollation' => 'utf8mb4_unicode_ci',
+];
+
+//=========================================================================
+// Web address and data folder.
+//=========================================================================
+// The site's address with https and without a trailing slash, as it opens in the browser.
+$CFG->wwwroot   = 'https://CHANGE-DOMAIN';   // CHANGE
+
+// Uploaded files, caches and sessions. It must be OUTSIDE public_html so it cannot be opened from the web.
+$CFG->dataroot  = '/home/CPANELUSER/moodledata';   // CHANGE
+
+$CFG->admin     = 'admin';
+
+// On cPanel PHP runs as the account user, so the web server needs no access to moodledata.
+// If Moodle reports that it cannot write to moodledata, the server runs PHP as another user: use 02777.
+$CFG->directorypermissions = 02770;
+
+// cPanel serves HTTPS itself (AutoSSL). Set sslproxy to true only if a proxy in front of the server
+// ends HTTPS and talks plain HTTP to it (for example Cloudflare with "Flexible" SSL).
+$CFG->sslproxy     = false;
+$CFG->reverseproxy = false;
+
+//=========================================================================
+// Live server safety.
+//=========================================================================
+// Debug messages are never shown on pages (they can reveal paths and SQL). The debug level itself is set by
+// setup/diverse_setup.php --production. For a short investigation, set this to 1 and back to 0.
+$CFG->debugdisplay = 0;
+$CFG->themedesignermode = false;
+
+// Paths to server programs cannot be changed from the web; set them here if needed.
+$CFG->preventexecpath = true;
+// $CFG->pathtogs = '/usr/bin/gs';          // Ghostscript: annotating PDF assignments (dnf install ghostscript).
+// $CFG->pathtodu = '/usr/bin/du';          // Faster disk usage calculation.
+
+//=========================================================================
+// E-mail.
+//=========================================================================
+// Sender address of Moodle's automatic e-mails. Use a mailbox on the site's own domain (cPanel > Email Accounts)
+// so that mail is not marked as spam. The SMTP server itself is set in
+// Site administration > Server > Email > Outgoing mail configuration.
+$CFG->noreplyaddress = 'noreply@CHANGE-DOMAIN';   // CHANGE
+
+//=========================================================================
+// Optional: Redis for caches and sessions, only if the server has Redis (cPanel does not by default).
+//=========================================================================
+// $CFG->session_handler_class = '\core\session\redis';
+// $CFG->session_redis_host = '127.0.0.1';
+// $CFG->session_redis_port = 6379;
+// $CFG->session_redis_prefix = 'diverse_sess_';
+// $CFG->session_redis_acquire_lock_timeout = 120;
+// $CFG->session_redis_lock_expire = 7200;
+
+require_once(__DIR__ . '/lib/setup.php');
+
+// There is no php closing tag in this file,
+// it is intentional because it prevents trailing whitespace problems!

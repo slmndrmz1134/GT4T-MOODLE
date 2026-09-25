@@ -181,8 +181,12 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
   eski Moove temasından kalma. Doğru bilgi kaynağı olarak kullanılmaz.
 - **Windows'ta Docker yavaştır:** sayfa başına birkaç saniye normaldir.
 - **SCSS değişikliği görünmüyorsa** önbellek temizlenmemiştir (tema tasarımcı modu kapalı).
-- **Canlı sunucuda Docker yok:** değişiklikler cPanel'e dosya olarak gider. Ardından `admin/cli/upgrade.php` ve
-  `setup/diverse_setup.php --production` çalıştırılır. BigBlueButton sunucusu cPanel'e kurulamaz, ayrı sunucu gerekir.
+- **Canlı sunucuda Docker yok:** kod cPanel'de `git pull` ile güncellenir, ardından `admin/cli/upgrade.php` ve
+  `setup/diverse_setup.php --production` çalıştırılır. Adımlar: [docs/CPANEL.md](docs/CPANEL.md). BigBlueButton
+  sunucusu cPanel'e kurulamaz, ayrı sunucu gerekir.
+- **Kök dizindeki `.htaccess`** canlı sunucuda `database/`, `setup/`, `docs/`, `.git`, `.env` ve `*.md` dosyalarını
+  internete kapatır. Repoya kök dizinde yeni bir geliştirme klasörü ya da dosyası eklenirse `.htaccess` kuralları da
+  güncellenir.
 
 ## Önemli dosyalar
 
@@ -192,6 +196,8 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `theme/diverse/` | DIVERSE teması (Boost Union alt teması) |
 | `setup/diverse_setup.php` | Site ayarlarını uygulayan betik (`--dry-run`, `--production`) |
 | `setup/check_lang_settings.php` | Dil ayarlarının anlık görüntüsü (salt okunur) |
+| [docs/CPANEL.md](docs/CPANEL.md), `setup/cpanel/` | Canlı cPanel sunucusu: kurulum, `config.php` şablonu, PHP ayarları |
+| `.htaccess` | Canlı sunucuda geliştirme dosyalarını internete kapatır |
 | `database/moodle.sql` | Veritabanı dökümü (repoda kalır) |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar ve nedenleri, açık riskler |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |

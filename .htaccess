@@ -1,0 +1,32 @@
+# DIVERSE Moodle: web server rules for the cPanel server (Apache or LiteSpeed).
+#
+# The whole repository is deployed into the document root, so the files that belong to development and
+# deployment (the database dump, setup scripts, documentation, Docker files, .git, .env) would otherwise be
+# downloadable from the web. These rules block them; Moodle's own pages and uploaded files are not affected.
+# Guide: docs/CPANEL.md.
+#
+# mod_rewrite is required on purpose (no <IfModule>): without it the server answers 500 instead of
+# silently serving these files.
+
+# No directory listings (for example /theme/diverse/fonts/).
+Options -Indexes
+
+RewriteEngine On
+
+# Development and deployment folders at the repository root: database dump, setup scripts, docs, nginx.
+RewriteRule ^(database|setup|docs|nginx)(/|$) - [F,L]
+
+# Hidden files and folders (.git, .env, .docker ...), except .well-known for cPanel AutoSSL certificate checks.
+RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+
+# Moodle file URLs such as /pluginfile.php/12/mod_resource/content/1/notes.md serve uploaded files:
+# nothing below applies to them.
+RewriteRule \.php/ - [L]
+
+# Libraries and tests, never requested from the web (PHP includes them from disk).
+RewriteRule (^|/)(vendor|node_modules|tests)/ - [F,L]
+
+# Development files: Moodle's recommended list plus this repository's Docker files.
+RewriteRule (^|/)(composer\.(json|lock)|package(-lock)?\.json|Gruntfile\.js|install\.xml|environment\.xml|upgrade\.txt|thirdpartylibs\.xml|Dockerfile|docker-compose\.ya?ml)$ - [F,L,NC]
+RewriteRule (^|/)readme[^/]*$ - [F,L,NC]
+RewriteRule \.(sql|sh|md|dist|lock|log)$ - [F,L,NC]
