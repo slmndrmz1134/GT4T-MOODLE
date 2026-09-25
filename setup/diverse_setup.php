@@ -16,7 +16,7 @@
 
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
- * (theme, course page width, multi-language filter, language packs, default dashboard).
+ * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -112,7 +112,19 @@ if ($coursewidth === '1000px') {
     $changed = true;
 }
 
-// 3. Multi-language content filter: enable it and apply it to headings, never touching its own settings.
+// 3. Debug messages are not shown on pages (they still go to the server's PHP error log).
+// Showing them leaks server paths and breaks pages whenever a file is missing from moodledata.
+if (!get_config('core', 'debugdisplay')) {
+    diverse_setup_report('OK', 'Debug messages are not displayed on pages.');
+} else if ($dryrun) {
+    diverse_setup_report('WOULD', 'Stop displaying debug messages on pages (they stay in the server log).');
+} else {
+    set_config('debugdisplay', 0);
+    diverse_setup_report('SET', 'Debug messages are no longer displayed on pages (they stay in the server log).');
+    $changed = true;
+}
+
+// 4. Multi-language content filter: enable it and apply it to headings, never touching its own settings.
 if (!core_component::get_component_directory('filter_multilang2')) {
     diverse_setup_report('WARN', 'filter_multilang2 is not installed: run admin/cli/upgrade.php first.');
 } else {
@@ -146,7 +158,7 @@ if (!core_component::get_component_directory('filter_multilang2')) {
     }
 }
 
-// 4. Language packs: install the missing ones only; installed packs and language settings are not touched.
+// 5. Language packs: install the missing ones only; installed packs and language settings are not touched.
 $wanted = array_filter(array_map('trim', explode(',', core_text::strtolower($options['langs']))));
 $installed = array_keys(get_string_manager()->get_list_of_translations(true));
 $missing = array_values(array_diff($wanted, $installed));
@@ -168,7 +180,7 @@ if (empty($missing)) {
     $changed = true;
 }
 
-// 5. Default dashboard: timeline, recently accessed courses, calendar.
+// 6. Default dashboard: timeline, recently accessed courses, calendar.
 $syscontext = context_system::instance();
 $systempage = $DB->get_record('my_pages', ['userid' => null, 'name' => MY_PAGE_DEFAULT, 'private' => MY_PAGE_PRIVATE]);
 if (!$systempage) {

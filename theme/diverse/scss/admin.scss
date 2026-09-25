@@ -1,0 +1,114 @@
+/****************************************************************
+ * DIVERSE Site administration overview (admin/search.php):
+ * category tabs as pills and every category as a card.
+ * Only restyles Moodle's own markup; no admin page, plugin or setting is changed.
+ ***************************************************************/
+
+#page-admin-search {
+    // Cards sit on the light surface instead of one long white sheet.
+    #page {
+        background-color: $diverse-surface;
+    }
+
+    #page.drawers .main-inner,
+    #region-main,
+    .secondary-navigation .moremenu,
+    .secondary-navigation .moremenu .nav-tabs {
+        background-color: transparent;
+    }
+
+    // Category tabs (a Moodle "more menu" of nav tabs): pill buttons, the active one in the action orange.
+    // Scoped to this page's tab menu; the primary navigation in the navbar is not a nav-tabs menu.
+    .moremenu .nav-tabs.more-nav {
+        gap: .5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 0;
+
+        .nav-link {
+            padding: .5rem 1.125rem;
+            border: 1px solid $diverse-border-strong;
+            border-radius: 50rem;
+            background-color: $white;
+            color: $diverse-ink;
+            font-weight: 600;
+
+            &:hover,
+            &:focus {
+                border-color: $diverse-ink;
+                background-color: $diverse-surface;
+            }
+
+            &.active {
+                border-color: $diverse-action-orange;
+                background-color: $diverse-action-orange;
+                color: $white;
+            }
+        }
+    }
+
+    // Each category becomes a card. Cards flow in columns, so long and short
+    // link lists pack tightly without gaps.
+    .tab-pane > .container-fluid {
+        padding: 0;
+        column-width: 19rem;
+        column-gap: 1.25rem;
+
+        > hr {
+            display: none;
+        }
+
+        > .row {
+            display: block;
+            margin: 0 0 1.25rem;
+            padding: 1.25rem 1.5rem;
+            break-inside: avoid;
+            background-color: $white;
+            border: 1px solid $diverse-border;
+            border-radius: 1rem;
+
+            // A tab's own top category often has no direct links: no empty card for it.
+            &:not(:has(li)) {
+                display: none;
+            }
+
+            > [class*="col"] {
+                width: auto;
+                max-width: none;
+                padding: 0;
+            }
+
+            h4 {
+                margin: 0 0 .75rem;
+                font-size: 1.25rem;
+
+                a {
+                    color: $diverse-ink;
+                    text-decoration: none;
+
+                    &:hover,
+                    &:focus {
+                        color: $diverse-action-orange;
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            ul.list-unstyled {
+                margin: 0;
+
+                li + li {
+                    margin-top: .375rem;
+                }
+
+                a {
+                    color: $diverse-ink;
+
+                    &:hover,
+                    &:focus {
+                        color: $diverse-action-orange;
+                    }
+                }
+            }
+        }
+    }
+}
