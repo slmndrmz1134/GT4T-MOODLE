@@ -282,6 +282,8 @@ php setup/diverse_setup.php --production --reset-dashboards
   kopyayla denendi.
 - Eski `setup/moodle_init.php` (Moove teması, yeşil renk) artık çalıştırılmıyor; eski test betikleriyle
   (`setup/verify_*.php`) birlikte silindi.
+- Eski ekibin Amazon EC2 sunucusuna otomatik dağıtım yapan `.github/workflows/deploy.yml` silindi: yeni repoda sunucu
+  bilgisi olmadığı için her push'ta başarısız oluyordu ve canlı sistem artık cPanel.
 - Moodle komutları ve cron `www-data` kullanıcısıyla çalışıyor; root'un bıraktığı önbellek dosyaları düzeltiliyor.
 - Proje adı sabit (`diverse`); Redis portu dışarı açılmıyor; eski `.env` dosyaları ve `.env.production.example`
   silindi.
@@ -340,8 +342,6 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
    çıkmadan önce tüm şifrelerin değiştirilmesi.
 8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
 9. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
-10. `.github/workflows/deploy.yml`: eski ekibin Amazon EC2 sunucusuna otomatik dağıtımı. Yeni repoda sunucu bilgisi
-    olmadığı için her push'ta başarısız oluyor; canlı sistem artık cPanel. Silinmesi onay bekliyor.
 
 ## 18. Commit listesi
 
