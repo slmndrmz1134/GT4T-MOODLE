@@ -28,6 +28,7 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 | 12 | Ajan kuralları (`CLAUDE.md`) ve tasarım değerleri (`DESIGN.md`) | ✓ |
 | 13 | cPanel kurulumu: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz | ✓ (sunucuya kurulmadı) |
 | 14 | Yerel Docker: 60 kat hız, tek komutla kurulum | ✓ |
+| 15 | AI ders asistanı `local_diverse_assistant` (OpenAI, Claude, Gemini), bkz. §19 | `ai-assistant` dalında, gerçek cevapla deneme bekliyor |
 
 ---
 
@@ -342,6 +343,8 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
    çıkmadan önce tüm şifrelerin değiştirilmesi.
 8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
 9. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
+10. **AI asistan:** "Yalnızca AB" kararı (iki senaryo da hazır), servisle veri işleme sözleşmesi, Aşama 2 servisleri
+    (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19).
 
 ## 18. Commit listesi
 
@@ -366,3 +369,41 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 | `60690d89` | 2026-09-25 | cPanel: IP adresi ve HTTP ile çalışma |
 | `55772135` | 2026-09-25 | Docker: kod imajda, `docker compose watch` |
 | `48af2472` | 2026-09-25 | Docker: tek komutla kurulum, döküm otomatik yüklenir |
+
+## 19. AI ders asistanı (Aşama 1)
+
+Ayrıntılı belge: [`docs/AI.md`](AI.md). Kod `ai-assistant` dalında.
+
+**Yapılan**
+- Yeni eklenti `local/diverse_assistant`: ders ve etkinlik sayfalarının sağ kenarında **AI asistan** sekmesi; açılan
+  panelde öğrenci dersin içeriği hakkında AI ile yazışır. Cevaplar parça parça akar.
+- Servisler: OpenAI (`gpt-6-luna`), Claude (`claude-opus-5`, resmi Anthropic PHP SDK'sı), Google Gemini
+  (`gemini-3.8-flash`) ve OpenAI uyumlu servisler. Her servisin anahtarı ayrı ve şifreli saklanır. Anahtar
+  yapıştırılıp kaydedilince bağlantı kendiliğinden kontrol edilir ve model menüsü dolar. Claude ya da Gemini anahtarı
+  hangi alana yapıştırılırsa yapıştırılsın kendi servisine bağlanır.
+- Sohbetlerin saklanıp saklanmayacağına ve ne kadar süreyle saklanacağına **öğrenci kendisi karar verir** (varsayılan:
+  kaydedilmez, sohbet yalnızca tarayıcı sekmesinde kalır). Yöneticiler sohbetleri göremez, yalnızca toplamları görür.
+- "Yalnızca AB" ayarı (varsayılan kapalı), saatlik soru sınırı, quiz sırasında duraklatma, Moodle gizlilik API'si.
+- Arayüz metinleri EN/TR/DE/HR; 56 PHPUnit testi.
+- Servis yoğunken (ör. Gemini 503 "high demand") istek yeniden denenir, olmazsa aynı modelin başka sürümü cevap verir;
+  son hata ve yedek model kullanımı ayar sayfasında görünür.
+- Claude için Anthropic'in resmi PHP SDK'sı eklentinin `vendor/` klasörüne gömüldü (18 MB, `thirdpartylibs.xml`).
+  Moodle'ın zaten içerdiği Guzzle ve PSR paketleri tekrar kurulmadı; SDK istekleri Moodle'ın HTTP istemcisinden geçer.
+
+**Neden**
+- Proje sahibinin kararı: ilk hedef öğrenci asistanı, VS Code'daki sohbet paneline benzer bir sekme; ileride Claude,
+  Gemini gibi servisler de anahtar girilerek bağlanabilmeli; kayıt saklamayı öğrenci yönetmeli.
+- Moodle 5.0'ın hazır AI altyapısı kullanılmadı: tek mesajlık çalışıyor, cevabı akıtamıyor ve her isteği çekirdek
+  tablolara süresiz yazıyor. Kendi tablolarımızda tutunca saklama süresi öğrencinin tercihine bağlanabildi ve çekirdeğe
+  dokunulmadı.
+- Hazır "Özetle/Açıkla" özelliği öğrencilere açılmadı: her etkinlik sayfasında çıkıyor; forumda başka öğrencilerin
+  mesajlarını, quiz sırasında soruları AI'a gönderebiliyor. Bizim asistanımız ders içeriğini sunucuda, etkinliklerin
+  resmi web servis fonksiyonlarıyla ve yalnızca öğretmen metinlerinden toplar.
+
+**Açık konular**
+- Gerçek anahtarlarla uçtan uca deneme (cevap alma) ve tarayıcı kontrolü. OpenAI anahtarı girildi ve bağlantı
+  kontrolü başarılı; Claude ve Gemini anahtarı yok, bu servisler yalnızca geçersiz anahtarla ve sahte cevaplarla
+  denendi.
+- Claude ve Gemini'nin doğrudan API'lerinde yalnızca AB seçeneği yok; AB şartı gelirse Bedrock / Vertex AI gerekir.
+- Canlıda: HTTPS olmadan açılmaması, sunucunun AI servislerine (443) çıkışına izin verilmesi, servisle veri işleme
+  sözleşmesi.
