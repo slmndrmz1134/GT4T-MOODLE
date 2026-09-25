@@ -212,6 +212,28 @@ php setup/diverse_setup.php --production --reset-dashboards
   yetkiler ve kayıtlar hazır.
 - Ortak derslerde birden fazla öğretmen olduğu için hepsinin dersi yönetebilmesi gerekiyor.
 
+**Canlı test (25 Eylül 2026, Blindside test sunucusu, yalnızca yerel test veritabanı)**
+
+Proje sahibi `teacher1`, Claude `student1` olarak aynı derse katıldı.
+
+| Konu | Sonuç |
+|---|---|
+| Moodle'dan derse katılma (öğretmen ve öğrenci) | ✓ Çalıştı; Moodle her girişi kaydetti |
+| Roller | ✓ Öğretmen moderatör ve sunucu; öğrencide kayıt düğmesi yok, paylaşılan notlar kilitli |
+| Sohbet | ✓ İki yönlü çalıştı |
+| Toplantıyı sonlandırma | ✓ Katılımcılar Moodle'daki ders sayfasına döndü |
+| Takvim | ✓ Ders kendi saatinde takvimde |
+| Kayıt | ✗ Öğretmen kaydı başlattı (sayaç çalıştı), Moodle kayıt girişini açıp düzenli sordu; ama test sunucusu kaydı 13 dakika sonra bile işleyip yayınlamadı. Gerçek bir BBB sunucusunda yeniden denenmeli. |
+
+Bulgular:
+- **Test sunucusu gerçek ders için kullanılamaz:** her dersi 20 dakikada kapatıyor, kayıtları yayınlamıyor ve
+  sunum alanında "bu hizmet kapatılıyor, yeni kayıt portalına üye olun" duyurusu gösteriyor.
+- **BBB etkinlik adlarında çok dil etiketi (`{mlang}`) kullanılmamalı.** BBB eklentisi adı çok dil filtresinden
+  geçirmiyor; etiketler hem BBB ekranının başlığında hem Moodle'daki oda kutusunda ham görünüyor. Eklenti kodu
+  değiştirilmedi (Kural 2). Bunun yerine ad düz metin yazılıyor, örneğin
+  "Canlı ders: Fikri Mülkiyet / Live session: Intellectual Property"; çeviriler açıklamada kalabilir.
+  Demo dersin adı bu şekilde değiştirildi.
+
 **Neden ayrı sunucu gerekiyor**
 - BBB gerçek zamanlı ses ve görüntü sunucusu: çok çekirdek, açık UDP portları, root yetkisi ve Ubuntu 22.04 istiyor.
 - cPanel'li AlmaLinux sunucuya kurulamaz. BBB AlmaLinux'u desteklemiyor; ayrıca cPanel'in web sunucusu, portları
@@ -330,8 +352,9 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 
 ## 17. Bekleyen kararlar ve sonraki adımlar
 
-1. **BBB sunucusu:** Test sunucusuyla bir kerelik deneme (açık onay gerekiyor) → ardından ayrı bir Ubuntu VPS
-   veya barındırma hizmeti. BBB sunucusu için alan adı ve HTTPS şart (tarayıcılar kamera ve mikrofona yalnızca
+1. **BBB sunucusu:** Test sunucusuyla deneme yapıldı (§11): katılma, roller ve sohbet çalışıyor; kayıt test
+   sunucusunda doğrulanamadı ve sunucu kapatılıyor. Sıradaki adım ayrı bir Ubuntu VPS ya da barındırılan BBB
+   hizmeti; ardından kayıt yeniden test edilmeli. BBB sunucusu için alan adı ve HTTPS şart (tarayıcılar kamera ve mikrofona yalnızca
    HTTPS'te izin verir).
 2. Resmi DIVERSE logo dosyası (şimdilik yazı logosu).
 3. Landing ve giriş metinlerinin çok dil eklentisiyle yönetilebilmesi için tema ayarlarına taşınması.
