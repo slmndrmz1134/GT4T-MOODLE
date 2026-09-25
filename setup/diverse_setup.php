@@ -16,7 +16,8 @@
 
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
- * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard).
+ * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
+ * and with --production the live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -28,7 +29,7 @@
  * is left alone.
  *
  * Usage:
- *   php setup/diverse_setup.php [--dry-run] [--langs=tr,de,hr] [--reset-dashboards]
+ *   php setup/diverse_setup.php [--dry-run] [--langs=tr,de,hr] [--reset-dashboards] [--production]
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -44,7 +45,7 @@ require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/my/lib.php');
 
 [$options, $unrecognised] = cli_get_params(
-    ['help' => false, 'dry-run' => false, 'langs' => 'tr,de,hr', 'reset-dashboards' => false],
+    ['help' => false, 'dry-run' => false, 'langs' => 'tr,de,hr', 'reset-dashboards' => false, 'production' => false],
     ['h' => 'help', 'n' => 'dry-run']
 );
 
@@ -60,11 +61,14 @@ Options:
       --langs=LIST       Language packs to install when missing (default: tr,de,hr).
       --reset-dashboards Reset every user's dashboard to the default one, so that everybody
                          gets the default blocks. This removes users' own dashboard changes.
+      --production       Live server settings: debug level Minimal (only serious errors are
+                         logged) and developer-only settings off. Leave it out on development
+                         machines to keep developer debugging.
   -h, --help             Print this help.
 
 Example:
   php setup/diverse_setup.php --dry-run
-  php setup/diverse_setup.php --reset-dashboards");
+  php setup/diverse_setup.php --production --reset-dashboards");
     exit(0);
 }
 
@@ -219,6 +223,41 @@ if (!$systempage) {
         my_reset_page_for_all_users(MY_PAGE_PRIVATE, 'my-index');
         diverse_setup_report('SET', "Reset $userdashboards user dashboards to the default.");
         $changed = true;
+    }
+}
+
+// 7. Live server settings (--production only): debug level Minimal and developer-only settings off.
+// A debug level an admin set below Minimal (None) is kept.
+if ($options['production']) {
+    $debug = (int) get_config('core', 'debug');
+    if ($debug <= DEBUG_MINIMAL) {
+        diverse_setup_report('OK', 'Debug level is Minimal or lower.');
+    } else if ($dryrun) {
+        diverse_setup_report('WOULD', 'Set the debug level to Minimal (currently ' . $debug . ').');
+    } else {
+        set_config('debug', DEBUG_MINIMAL);
+        diverse_setup_report('SET', 'Debug level set to Minimal: only serious errors are logged.');
+        $changed = true;
+    }
+
+    // Developer-only settings that must be off on a live site: [config name => [live value, description]].
+    $livesettings = [
+        'themedesignermode' => [0, 'Theme designer mode off'],
+        'cachejs' => [1, 'JavaScript caching on'],
+        'cachetemplates' => [1, 'Template caching on'],
+        'perfdebug' => [7, 'Performance info in the footer off'],
+        'debugpageinfo' => [0, 'Page information in the footer off'],
+    ];
+    foreach ($livesettings as $name => [$value, $description]) {
+        if ((int) get_config('core', $name) === $value) {
+            diverse_setup_report('OK', $description . '.');
+        } else if ($dryrun) {
+            diverse_setup_report('WOULD', $description . '.');
+        } else {
+            set_config($name, $value);
+            diverse_setup_report('SET', $description . '.');
+            $changed = true;
+        }
     }
 }
 
