@@ -28,6 +28,20 @@ namespace theme_diverse\output;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class core_renderer extends \theme_boost_union\output\core_renderer {
+    /** @var string[] Base colours of the generated course card patterns: brand orange, ink, action orange, peach, grey. */
+    const PATTERN_COLORS = ['#FF671F', '#1F2328', '#C2410C', '#FFD8C2', '#63666A'];
+
+    /**
+     * Base colour of the generated pattern on course cards without an image, taken from the DIVERSE
+     * palette instead of the site-wide "course colour" settings so that the cards match the theme.
+     *
+     * @param int $id Id to use when generating the colour.
+     * @return string hex colour code
+     */
+    public function get_generated_color_for_id($id) {
+        return self::PATTERN_COLORS[$id % count(self::PATTERN_COLORS)];
+    }
+
     /**
      * Wrap the main content with the landing page sections on the site home for visitors.
      *

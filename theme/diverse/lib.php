@@ -43,7 +43,7 @@ function theme_diverse_get_main_scss_content($theme) {
     $scss = theme_boost_union_get_main_scss_content(\core\output\theme_config::load('boost_union'));
 
     // And add DIVERSE's main SCSS file and the page-specific SCSS files to the stack.
-    foreach (['post', 'landing', 'login'] as $file) {
+    foreach (['post', 'landing', 'login', 'platform'] as $file) {
         $scss .= file_get_contents($CFG->dirroot . '/theme/diverse/scss/' . $file . '.scss');
     }
 
