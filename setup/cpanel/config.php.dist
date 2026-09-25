@@ -28,8 +28,10 @@ $CFG->dboptions = [
 //=========================================================================
 // Web address and data folder.
 //=========================================================================
-// The site's address with https and without a trailing slash, as it opens in the browser.
-$CFG->wwwroot   = 'https://CHANGE-DOMAIN';   // CHANGE
+// The site's address as it opens in the browser, without a trailing slash. The site has no domain name:
+// it is opened by the server's IP address over plain HTTP (the IP must be assigned to this cPanel account).
+// If a domain with HTTPS is added later, change this to https://domain and see docs/CPANEL.md.
+$CFG->wwwroot   = 'http://CHANGE-SERVER-IP'; // CHANGE, for example http://203.0.113.10
 
 // Uploaded files, caches and sessions. It must be OUTSIDE public_html so it cannot be opened from the web.
 $CFG->dataroot  = '/home/CPANELUSER/moodledata';   // CHANGE
@@ -40,8 +42,7 @@ $CFG->admin     = 'admin';
 // If Moodle reports that it cannot write to moodledata, the server runs PHP as another user: use 02777.
 $CFG->directorypermissions = 02770;
 
-// cPanel serves HTTPS itself (AutoSSL). Set sslproxy to true only if a proxy in front of the server
-// ends HTTPS and talks plain HTTP to it (for example Cloudflare with "Flexible" SSL).
+// No proxy in front of the server.
 $CFG->sslproxy     = false;
 $CFG->reverseproxy = false;
 
@@ -61,10 +62,11 @@ $CFG->preventexecpath = true;
 //=========================================================================
 // E-mail.
 //=========================================================================
-// Sender address of Moodle's automatic e-mails. Use a mailbox on the site's own domain (cPanel > Email Accounts)
-// so that mail is not marked as spam. The SMTP server itself is set in
-// Site administration > Server > Email > Outgoing mail configuration.
-$CFG->noreplyaddress = 'noreply@CHANGE-DOMAIN';   // CHANGE
+// Sender address of Moodle's automatic e-mails. The site has no domain, so use either the server's hostname
+// (WHM > Networking Setup > Change Hostname, for example noreply@server.example.eu) or a mailbox on an existing
+// mail server entered as SMTP in Site administration > Server > Email > Outgoing mail configuration.
+// Mail from an address without its own domain is often marked as spam.
+$CFG->noreplyaddress = 'noreply@CHANGE-HOSTNAME';   // CHANGE
 
 //=========================================================================
 // Optional: Redis for caches and sessions, only if the server has Redis (cPanel does not by default).
