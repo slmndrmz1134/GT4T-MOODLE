@@ -1,48 +1,56 @@
-# Moodle
+# DIVERSE Moodle
 
-<p align="center"><a href="https://moodle.org" target="_blank" title="Moodle Website">
-  <img src="https://raw.githubusercontent.com/moodle/moodle/main/.github/moodlelogo.svg" alt="The Moodle Logo">
-</a></p>
+DIVERSE European University Alliance üyesi üniversitelerin (Algebra Bernays University, İstanbul Beykent Üniversitesi,
+TH Rosenheim) ortak öğrenme platformu. [Moodle](https://moodle.org) 5.0.7 üzerine kuruludur.
 
-[Moodle][1] is the World's Open Source Learning Platform, widely used around the world by countless universities, schools, companies, and all manner of organisations and individuals.
+*A shared learning platform for members of the DIVERSE European University Alliance, built on Moodle 5.0.7.
+The project documentation is in Turkish.*
 
-Moodle is designed to allow educators, administrators and learners to create personalised learning environments with a single robust, secure and integrated system.
+## Hızlı başlangıç (yerel)
 
-## Documentation
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) ve Git kurulu olmalı:
 
-- Read our [User documentation][3]
-- Discover our [developer documentation][5]
-- Take a look at our [demo site][4]
+```bash
+git clone -c core.longpaths=true https://github.com/slmndrmz1134/GT4T-MOODLE.git
+cd GT4T-MOODLE
+docker compose up -d --build
+```
 
-## Community
+İlk açılış birkaç dakika sürer, ardından site http://localhost:8080 adresinde açılır. Kod düzenlerken ayrı bir
+terminalde `docker compose watch` açık kalır. Ayrıntılar: [docker.md](docker.md).
 
-[moodle.org][1] is the central hub for the Moodle Community, with spaces for educators, administrators and developers to meet and work together.
+## Kılavuzlar
 
-You may also be interested in:
+| Belge | İçerik |
+|---|---|
+| [CLAUDE.md](CLAUDE.md) | **Önce bunu okuyun.** Geliştiriciler ve yapay zekâ ajanları için proje kuralları |
+| [docker.md](docker.md) | Yerel kurulum (Docker), günlük komutlar, sorun giderme |
+| [docs/CPANEL.md](docs/CPANEL.md) | Canlı sunucu (cPanel) kurulumu ve güncelleme |
+| [DESIGN.md](DESIGN.md) | Renkler, fontlar, ölçüler (tasarım değerleri) |
+| [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |
+| [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar, nedenleri, açık riskler ve yapılacaklar |
+| [AGENTS.md](AGENTS.md) | Diğer yapay zekâ ajanları için CLAUDE.md'ye yönlendirme |
 
-- attending a [Moodle Moot][6]
-- our regular series of [developer meetings][7]
-- the [Moodle User Association][8]
+## Temel kurallar
 
-## Installation and hosting
+Tamamı [CLAUDE.md](CLAUDE.md) içinde. Kısaca:
 
-Moodle is Free, and Open Source software. You can easily [download Moodle][9] and run it on your own web server, however you may prefer to work with one of our experienced [Moodle Partners][10].
+1. Tema ve renkler bozulmaz; renkler ve fontlar yalnızca `theme/diverse/scss/pre.scss` içinde tanımlıdır.
+2. Tema ayarları, dil ayarları ve diğer eklentiler bozulmaz; yeni özellik kendi başına çalışan bir eklenti olarak yazılır.
+3. Her değişiklikten önce ne yapılacağı anlatılır, belirsiz isteklerde sorulur.
+4. Yerelde test edilmeden `main` dalına push yapılmaz.
 
-Moodle also offers hosting through both [MoodleCloud][11], and our [partner network][10].
+## Yapı
 
-## License
+| Yol | Ne |
+|---|---|
+| `theme/diverse/` | DIVERSE teması (Boost Union alt teması) |
+| `setup/` | Kurulum betikleri: `diverse_setup.php`, `check_lang_settings.php`, `cpanel/` |
+| `database/moodle.sql` | Veritabanı dökümü |
+| `docs/` | Belgeler |
+| Geri kalanı | Moodle çekirdeği ve eklentiler |
 
-Moodle is provided freely as open source software, under version 3 of the GNU General Public License. See our [license page][12] for more information.
+## Lisans
 
-[1]: https://moodle.org
-[2]: https://moodle.com
-[3]: https://docs.moodle.org/
-[4]: https://sandbox.moodledemo.net/
-[5]: https://moodledev.io
-[6]: https://moodle.com/events/mootglobal/
-[7]: https://moodledev.io/general/community/meetings
-[8]: https://moodleassociation.org/
-[9]: https://download.moodle.org
-[10]: https://moodle.com/partners
-[11]: https://moodle.com/cloud
-[12]: https://moodledev.io/general/license
+Moodle ve bu projedeki kod [GNU GPL v3 veya sonrası](https://www.gnu.org/copyleft/gpl.html) lisanslıdır. Fontların
+lisansları `theme/diverse/fonts/` altındadır.

@@ -135,18 +135,14 @@ Test:            <Kural 4'teki hangi adımlar>
 
 ### Yerel ortam
 
-Docker Desktop açıkken, repo kök dizininde. Veritabanı dökümü Moodle kapsayıcısı ilk kez başlamadan **önce**
-yüklenir (aşağıdaki "Bilinen tuzaklar" bölümüne bakın):
+Ayrıntılı kılavuz: [docker.md](docker.md). Docker Desktop açıkken, repo kök dizininde tek komut yeterlidir:
 
 ```bash
-docker compose up -d mysql redis
-docker compose exec -T mysql mysql -uroot -prootpass --default-character-set=utf8mb4 moodle < database/moodle.sql
-docker compose up -d --build moodle
-docker compose exec -T -u www-data moodle php admin/cli/upgrade.php --non-interactive
-docker compose exec -T -u www-data moodle php setup/diverse_setup.php
+docker compose up -d --build
 ```
 
-Site: http://localhost:8080. Moodle CLI komutları her zaman `-u www-data` ile çalıştırılır; root ile çalışan
+İlk açılışta veritabanı dökümü (`database/moodle.sql`) kendiliğinden yüklenir, `upgrade.php` ve
+`setup/diverse_setup.php` çalışır. Site: http://localhost:8080. Moodle CLI komutları her zaman `-u www-data` ile çalıştırılır; root ile çalışan
 komutlar `moodledata` içinde web sunucusunun yazamadığı önbellek dosyaları bırakır.
 
 **Kod değişiklikleri kapsayıcıya `watch` ile gider.** Kod imajın içindedir, klasör olarak bağlanmaz: Windows'ta
@@ -187,17 +183,18 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 
 ## Bilinen tuzaklar
 
-- **Boş veritabanıyla ilk açılış eski temayı kurar.** Moodle kapsayıcısı boş bir veritabanıyla başlarsa
-  `docker-entrypoint-custom.sh` Moodle'ı sıfırdan kurar ve `setup/moodle_init.php` betiğini çalıştırır. Bu betik
-  hâlâ eski Moove temasını ve eski yeşil rengi ayarlıyor. Bu yüzden döküm Moodle'dan önce yüklenir. Betiğin
-  güncellenmesi proje sahibinin kararını bekliyor.
-- **Eski dosyalar:** `setup/verify_assets.php`, `setup/verify_scss.php`, `setup/verify_styles.php` ve `docker.md`
-  eski Moove temasından kalma. Doğru bilgi kaynağı olarak kullanılmaz.
+- **Eski dosyalar:** `setup/moodle_init.php`, `setup/verify_assets.php`, `setup/verify_scss.php` ve
+  `setup/verify_styles.php` eski Moove temasından kalma ve artık hiçbir yerden çalıştırılmıyor. Doğru bilgi kaynağı
+  olarak kullanılmaz.
+- **Döküm yalnızca ilk açılışta yüklenir** (veritabanı volume'u boşken). `database/moodle.sql` sonradan değişirse
+  yerel veritabanına kendiliğinden geçmez: `docker compose down -v` ile sıfırlanır (yerel veriler silinir).
 - **Kod klasörü kapsayıcıya bağlanmaz.** `docker-compose.yml` dosyasına `.:/var/www/html` bağlaması geri
   eklenmez; Windows'ta sayfaları 2-3 saniyeye çıkarır (imajın içindeyken 0,05 saniye). Değişiklikler
   `docker compose watch` ile aktarılır.
-- **Kök dizindeki `.env`** dosyasını `docker compose` kendiliğinden okur. İçinde canlı sunucu değerleri
-  (`COMPOSE_PROFILES=prod`, `https://...` adresi) olmamalı; yoksa yerel site yanlış adresle kurulur.
+- **Kök dizindeki `.env`** dosyasını `docker compose` kendiliğinden okur. Normalde gerekmez; varsa yalnızca yerel
+  değerler içerir (ör. `MOODLE_PORT=8090`, `MOODLE_URL=http://localhost:8090`). Başka değer yerel siteyi yanlış
+  adresle kurar.
+- **Windows'ta klonlama** `git clone -c core.longpaths=true ...` ile yapılır; bazı dosya yolları 260 karakteri aşıyor.
 - **SCSS değişikliği görünmüyorsa** önbellek temizlenmemiştir (tema tasarımcı modu kapalı).
 - **Canlı sunucuda Docker yok:** kod cPanel'de `git pull` ile güncellenir, ardından `admin/cli/upgrade.php` ve
   `setup/diverse_setup.php --production` çalıştırılır. Adımlar: [docs/CPANEL.md](docs/CPANEL.md). BigBlueButton
@@ -216,6 +213,7 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `setup/check_lang_settings.php` | Dil ayarlarının anlık görüntüsü (salt okunur) |
 | [docs/CPANEL.md](docs/CPANEL.md), `setup/cpanel/` | Canlı cPanel sunucusu: kurulum, `config.php` şablonu, PHP ayarları |
 | `.htaccess` | Canlı sunucuda geliştirme dosyalarını internete kapatır |
+| [docker.md](docker.md), `docker-compose.yml`, `docker-entrypoint-custom.sh` | Yerel Docker kurulumu |
 | `database/moodle.sql` | Veritabanı dökümü (repoda kalır) |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar ve nedenleri, açık riskler |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |

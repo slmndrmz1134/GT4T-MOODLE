@@ -25,6 +25,9 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 | 9 | Kurulum betiği `setup/diverse_setup.php` | ✓ |
 | 10 | Debug ayarları ve admin sayfalarındaki uyarılar | ✓ |
 | 11 | BigBlueButton canlı ders | Modül açık, **sunucu kararı bekliyor** |
+| 12 | Ajan kuralları (`CLAUDE.md`) ve tasarım değerleri (`DESIGN.md`) | ✓ |
+| 13 | cPanel kurulumu: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz | ✓ (sunucuya kurulmadı) |
+| 14 | Yerel Docker: 60 kat hız, tek komutla kurulum | ✓ |
 
 ---
 
@@ -41,7 +44,7 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   (alt modül) sanıyordu.
 - İstenen şey eski ayarlardan bağımsız, sıfırdan bir repoydu.
 - SQL'in repoda kalması ve her kurulumla canlıya gitmesi **proje sahibinin kararı**. Dosyada kullanıcı e-postaları
-  ve şifre hash'leri olduğu için riskler ayrıca bildirildi (bkz. §12).
+  ve şifre hash'leri olduğu için riskler ayrıca bildirildi (bkz. §15).
 
 ## 2. Kaybolan dosyaların geri getirilmesi
 
@@ -221,7 +224,78 @@ php setup/diverse_setup.php --production --reset-dashboards
 - Üniversite kullanımı için BBB daha uygun: kayıt, sunum, beyaz tahta, katılım takibi hazır. Ayrı sunucu şartı
   ikisinde de aynı.
 
-## 12. Hâlâ açık olan riskler
+## 12. Ajan kuralları ve tasarım değerleri
+
+**Yapılan**
+- Kök dizine [`CLAUDE.md`](../CLAUDE.md): projede çalışan her geliştirici ve yapay zekâ ajanı için dört kural.
+  1. Tema ve renklerin genel yapısı bozulmaz.
+  2. Tema ayarları değişmez, diğer eklentiler bozulmaz, özel kod kendi başına çalışan bir eklenti gibi yazılır.
+  3. Ajan her istekten sonra neyi nasıl değiştireceğini anlatır, eksik istekte "şu mu olsun?" diye sorar.
+  4. Yerelde çalışmadan `main`'e push yok (kontrol listesiyle).
+  Ayrıca daha önceki kararlar da kural oldu: dil ayarları bozulmaz, SQL repoda kalır, şifreler repoya girmez.
+- [`AGENTS.md`](../AGENTS.md): Codex, Cursor, Copilot gibi diğer ajanları `CLAUDE.md`'ye yönlendirir.
+- [`DESIGN.md`](../DESIGN.md): tüm renkler (SCSS değişkeni, renk kodu, kullanım, kontrast), fontlar, köşeler, ölçüler.
+- `pre.scss` dışında kalan son iki renk kodu da değişkene taşındı; derlenmiş CSS birebir aynı kaldı.
+- `setup/check_lang_settings.php`: dil ayarlarının salt okunur anlık görüntüsü; değişiklikten önce ve sonra
+  karşılaştırılır.
+
+**Neden**
+- Projeye başka geliştiriciler ve onların ajanları da katılacak. Kurallar yazılı olmazsa her ajan temayı, ayarları
+  ya da dil yapısını kendi bildiği gibi değiştirebilir.
+- Renkler tek dosyada olunca tema bir yerden yönetilir; "bu renk nereden geliyor?" sorusu kalmaz.
+
+## 13. cPanel kurulumu
+
+**Yapılan**
+- `setup/cpanel/config.php.dist`: canlı sunucu için `config.php` şablonu. İçinde şifre yok; sunucuda kopyalanıp
+  doldurulur. Site alan adı olmadan, **sunucunun IP adresiyle ve HTTP üzerinden** açılacak (proje sahibinin kararı).
+- `setup/cpanel/php.ini`: MultiPHP INI Editor'e yapıştırılacak PHP ayarları.
+- Kök dizine `.htaccess`: repo `public_html`'e bütün olarak gittiği için `database/moodle.sql`, `.git`, `.env`,
+  `setup/`, `docs/` ve `.md` dosyalarını internete kapatır. Moodle sayfaları, yüklenen dosyalar ve `.well-known`
+  açık kalır. Yerel Apache'de 19 engelli ve 13 açık adresle test edildi.
+- [`docs/CPANEL.md`](CPANEL.md): adım adım kurulum (WHM'de ayrı IP, PHP, kod, veritabanı, `config.php`, cron,
+  şifreler, güvenlik kontrolü), güncelleme ve sorun giderme.
+
+**Neden**
+- `config.php` veritabanı şifresini içerir; herkese açık repoya girmemeli. Şablon, sunucuda doğru ayarları
+  unutmadan yazmayı sağlar.
+- `.htaccess` olmadan SQL dökümü (kullanıcı e-postaları, şifre hash'leri, LTI anahtarları) internetten
+  indirilebilirdi.
+- Alan adı olmadığı için SSL sertifikası alınamıyor; sonuçları (şifrelenmemiş bağlantı, mobil uygulama çalışmaz) ve
+  ileride alan adına geçiş adımları kılavuzda yazılı.
+
+## 14. Yerel Docker: hız ve tek komutla kurulum
+
+**Yapılan**
+- Kod artık imajın içinde; repo klasörü kapsayıcıya bağlanmıyor. Değişiklikler `docker compose watch` ile birkaç
+  saniyede aktarılıyor.
+
+  | Ölçüm | Önce | Sonra |
+  |---|---|---|
+  | Ana sayfa | 2,9–3,6 sn | 0,05 sn |
+  | Giriş sayfası | 2,0–2,5 sn | 0,03 sn |
+  | PHP dosyalarını tarama | 30 sn | 0,2 sn |
+
+- İmaj 3,23 GB'tan 1,84 GB'a indi (gereksiz `chown -R` katmanı kalktı).
+- Yeni bir geliştirici için `git clone` + `docker compose up -d --build` yeterli: ilk açılışta MySQL dökümü
+  kendiliğinden yükler, her açılışta `upgrade.php`, ilk açılışta `diverse_setup.php` çalışır. Sıfırdan klonlanan bir
+  kopyayla denendi.
+- Eski `setup/moodle_init.php` (Moove teması, yeşil renk) artık çalıştırılmıyor.
+- Moodle komutları ve cron `www-data` kullanıcısıyla çalışıyor; root'un bıraktığı önbellek dosyaları düzeltiliyor.
+- Proje adı sabit (`diverse`); Redis portu dışarı açılmıyor; eski `.env` dosyaları ve `.env.production.example`
+  silindi.
+- Bu bilgisayardaki veriler `gt4t-test` adlı eski projeden yeni `diverse` projesine kopyalandı (hiçbir şey
+  kaybolmadı; eski volume'lar yedek olarak duruyor).
+- Kılavuzlar: [`docker.md`](../docker.md) yeniden yazıldı, kök dizindeki `README.md` proje tanıtımı oldu.
+
+**Neden**
+- Windows'ta bağlı klasörden her dosya okuması ~30 ms sürüyordu; Moodle her istekte yüzlerce dosya okuduğu için
+  sayfalar saniyeler sürüyordu. Diskler hızlı (NVMe); sorun Windows ile Docker arasındaki dosya paylaşımındaydı.
+- Önceki kurulumda veritabanı elle yüklenmezse eski tema kuruluyordu; yeni geliştiriciler kolayca yanlış bir sistemle
+  başlayabilirdi.
+- Windows'ta klonlama uzun dosya yolları yüzünden yarım kalabiliyor; kılavuzlarda `core.longpaths` ayarı var.
+
+## 15. Hâlâ açık olan riskler
 
 Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 
@@ -238,29 +312,37 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 - Çekirdek dosyalarda eski ekibin yaptığı değişiklikler (`index.php`, `admin/index.php`, `login/*`) duruyor.
 - İncelenen **Edwiser Reports** eklentisi kurulmadı: herhangi bir giriş yapmış kullanıcının kendine yönetici yetkisi
   verebildiği bir güvenlik açığı var.
+- **Canlı site HTTP ile açılacak** (alan adı yok): şifreler ağda şifrelenmeden gider, Moodle mobil uygulaması
+  bağlanamaz.
 
-## 13. Yerel test ortamı (Docker)
+## 16. Yerel test ortamı
 
-- Test ortamı eski kurulumlardan ayrı çalışıyor (`docker compose -p gt4t-test`, http://localhost:8080).
-  Repo klasörü konteynere bağlı; koddaki değişiklik anında görünür.
-- `C:\Users\SELMAN\Desktop\moodle\moodle` klasöründen gelen ve sürekli çöken eski yığın durduruldu; konteynerleri ve
-  imajı silindi. **Eski volume'lar silinmedi** (içlerinde eski veritabanları var).
-- Test veritabanı `database/moodle.sql`'den yüklendi; üzerine kurulum betiğinin ayarları ve örnek BBB dersi eklendi.
+- Kurulum ve günlük kullanım: [`docker.md`](../docker.md). Bu bilgisayarda proje `diverse` adıyla çalışıyor
+  (http://localhost:8080).
+- Test veritabanı `database/moodle.sql`'den geliyor; üzerine kurulum betiğinin ayarları ve örnek BBB dersi eklendi.
+- Eski `gt4t-test_*` volume'ları yedek olarak duruyor. `C:\Users\SELMAN\Desktop\moodle\moodle` klasöründen gelen
+  eski yığının volume'ları da silinmedi (içlerinde eski veritabanları var).
 - Giriş gerektiren sayfalar, proje sahibinin Chrome'daki oturumu üzerinden (Claude in Chrome) kontrol edildi;
   şifre girilmedi.
 
-## 14. Bekleyen kararlar ve sonraki adımlar
+## 17. Bekleyen kararlar ve sonraki adımlar
 
 1. **BBB sunucusu:** Test sunucusuyla bir kerelik deneme (açık onay gerekiyor) → ardından ayrı bir Ubuntu VPS
-   veya barındırma hizmeti.
+   veya barındırma hizmeti. BBB sunucusu için alan adı ve HTTPS şart (tarayıcılar kamera ve mikrofona yalnızca
+   HTTPS'te izin verir).
 2. Resmi DIVERSE logo dosyası (şimdilik yazı logosu).
 3. Landing ve giriş metinlerinin çok dil eklentisiyle yönetilebilmesi için tema ayarlarına taşınması.
 4. Boost Union ayarları: partner logoları (flavours), footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
 5. Site varsayılan saat dilimi (şu an Europe/London).
-6. §12'deki güvenlik konularının düzeltilmesi.
-7. Yerel Docker'ın hızlandırılması (proje WSL2 diskine taşınabilir).
+6. §15'teki güvenlik konularının düzeltilmesi.
+7. **cPanel'e kurulum** ([`docs/CPANEL.md`](CPANEL.md)): hesaba ayrı IP atanması, `config.php` doldurulması, canlıya
+   çıkmadan önce tüm şifrelerin değiştirilmesi.
+8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
+9. Kullanılmayan eski dosyaların silinmesi: `setup/moodle_init.php`, `setup/verify_*.php` (onay bekliyor).
+10. Eski Docker volume'larının silinmesi (`gt4t-test_*` ve eski yığınınkiler), artık gerekmediğinde.
+11. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
 
-## 15. Commit listesi
+## 18. Commit listesi
 
 | Commit | Tarih | Açıklama |
 |---|---|---|
@@ -277,3 +359,9 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 | `e4038f41` | 2026-09-25 | Site administration kartlar ve sekmeler; debug görüntüleme kapalı |
 | `186eaf7a` | 2026-09-25 | `--production` seçeneği |
 | `538b8cbf` | 2026-09-25 | BigBlueButton'ın açılması |
+| `e5d471ae` | 2026-09-25 | Bu belge (`docs/YAPILANLAR.md`) |
+| `1883ef5b` | 2026-09-25 | `CLAUDE.md`, `AGENTS.md`, `DESIGN.md`, dil ayarı kontrol betiği |
+| `2c510add` | 2026-09-25 | cPanel: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz |
+| `60690d89` | 2026-09-25 | cPanel: IP adresi ve HTTP ile çalışma |
+| `55772135` | 2026-09-25 | Docker: kod imajda, `docker compose watch` |
+| `48af2472` | 2026-09-25 | Docker: tek komutla kurulum, döküm otomatik yüklenir |

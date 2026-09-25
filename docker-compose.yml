@@ -5,6 +5,9 @@ services:
   mysql:
     image: mysql:8.4
     restart: unless-stopped
+    # Local development only: no binary log and no disk flush on every commit. Much faster, especially the
+    # first-start import, which rebuilds ~500 tables; a crash can lose at most the last second of writes.
+    command: ["--skip-log-bin", "--innodb-flush-log-at-trx-commit=2"]
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=moodle
@@ -20,8 +23,10 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-prootpass"]
       interval: 5s
       timeout: 5s
-      retries: 60
-      start_period: 30s
+      retries: 12
+      # The first-start import can take several minutes; until then failed checks do not count.
+      start_period: 15m
+      start_interval: 5s
 
   redis:
     image: redis:7-alpine
