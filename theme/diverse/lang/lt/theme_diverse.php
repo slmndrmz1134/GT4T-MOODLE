@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS paveldėjimas';
 $string['extrascssinheritancesetting_desc'] = 'Šis nustatymas valdo, ar „Boost Union" Extra-SCSS kodas turi būti paveldimas, ar dubliuojamas.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Bendradarbiavimas';
+$string['nav_impact'] = 'Poveikis';
+$string['nav_partners'] = 'Partneriai';
+$string['nav_courses'] = 'Kursai';
 $string['landing_eyebrow'] = 'Europos universitetų aljansas';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Inovacijos, švietimas ir tvarumas atsparios ateities labui.';

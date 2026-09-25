@@ -24,7 +24,7 @@ $diverse-login-panel-width: 42vw;
         }
 
         .login-container {
-            box-shadow: none;
+            box-shadow: $box-shadow-sm;
         }
     }
 
@@ -92,4 +92,51 @@ $diverse-login-panel-width: 42vw;
 
 .diverse-login-brand-partners-heading {
     font-weight: 600;
+}
+
+// Login form container: refined border, subtle shadow, modern spacing.
+.login-container {
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius-xl;
+    box-shadow: $box-shadow-sm;
+    padding: 2.25rem;
+    background-color: $white;
+    transition: box-shadow .2s ease;
+}
+
+// Login form logo: align strictly with the left edge of the input fields.
+#loginlogo,
+.login-logo {
+    justify-content: flex-start !important;
+    text-align: left;
+    margin-left: 0;
+    padding-left: 0;
+
+    #logoimage {
+        max-height: 2.5rem;
+        max-width: 12rem;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        display: block;
+        margin-left: 0;
+        margin-right: auto;
+    }
+}
+
+// Login inputs and button styling.
+.login-form {
+    .form-control {
+        border-radius: $input-border-radius;
+        padding: .625rem .875rem;
+
+        &:focus {
+            border-color: $diverse-action-orange;
+        }
+    }
+
+    .btn-primary {
+        padding: .625rem 1.75rem;
+        font-weight: 600;
+    }
 }

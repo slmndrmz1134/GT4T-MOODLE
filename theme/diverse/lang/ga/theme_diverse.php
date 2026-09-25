@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Oidhreacht Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Rialaíonn an socrú seo an ndéanfar cód Extra-SCSS Boost Union a oidhreacht nó a dhúbladh.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Comhoibriú';
+$string['nav_impact'] = 'Tionchar';
+$string['nav_partners'] = 'Comhpháirtithe';
+$string['nav_courses'] = 'Cúrsaí';
 $string['landing_eyebrow'] = 'Comhaontas Ollscoileanna Eorpacha';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Nuálaíocht, oideachas agus inbhuanaitheacht le haghaidh todhchaí athléimneach.';

@@ -25,19 +25,28 @@
     }
 }}
 <div class="diverse-landing">
-    <div class="diverse-landing-footer">
-        <div class="diverse-landing-footer-about">
-            <a class="diverse-wordmark diverse-wordmark-light" href="{{homeurl}}">
-                <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
-                <span class="diverse-wordmark-text">DIVERSE</span>
-            </a>
-            <p>{{#str}}footer_about, theme_diverse{{/str}}</p>
+    <div class="diverse-landing-footer-wrap">
+        <div class="diverse-landing-footer">
+            <div class="diverse-landing-footer-about">
+                <a class="diverse-landing-footer-brand" href="{{homeurl}}">
+                    {{#logourl}}
+                    <img src="{{logourl}}" class="diverse-landing-footer-logo" alt="DIVERSE">
+                    {{/logourl}}
+                    {{^logourl}}
+                    <span class="diverse-wordmark diverse-wordmark-light">
+                        <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
+                        <span class="diverse-wordmark-text">DIVERSE</span>
+                    </span>
+                    {{/logourl}}
+                </a>
+                <p>{{#str}}footer_about, theme_diverse{{/str}}</p>
+            </div>
+            <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">
+                <span class="diverse-landing-footer-heading">{{#str}}footer_platform, theme_diverse{{/str}}</span>
+                <a href="{{loginurl}}">{{#str}}login{{/str}}</a>
+                <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
+                <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
+            </nav>
         </div>
-        <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">
-            <span class="diverse-landing-footer-heading">{{#str}}footer_platform, theme_diverse{{/str}}</span>
-            <a href="{{loginurl}}">{{#str}}login{{/str}}</a>
-            <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
-            <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
-        </nav>
     </div>
 </div>

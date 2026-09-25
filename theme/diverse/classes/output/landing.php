@@ -72,6 +72,7 @@ class landing implements renderable, templatable {
             'allcoursesurl' => (new \core\url('/course/index.php'))->out(false),
             'privacyurl' => (new \core\url('/admin/tool/dataprivacy/summary.php'))->out(false),
             'homeurl' => (new \core\url('/'))->out(false),
+            'logourl' => $output->image_url('logo', 'theme_diverse')->out(false),
         ];
     }
 

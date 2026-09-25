@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Herança de Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Esta configuração controla se o código Extra-SCSS do Boost Union deve ser herdado ou duplicado.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Colaboração';
+$string['nav_impact'] = 'Impacto';
+$string['nav_partners'] = 'Parceiros';
+$string['nav_courses'] = 'Cursos';
 $string['landing_eyebrow'] = 'Aliança de Universidades Europeias';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Inovação, educação e sustentabilidade para um futuro resiliente.';

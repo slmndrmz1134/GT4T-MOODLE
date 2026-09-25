@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS miras alma';
 $string['extrascssinheritancesetting_desc'] = 'Bu ayar ile Boost Union\'dan gelen extra-SCSS kodunun miras mı alınacağını yoksa kopyalanacağını mı belirlersiniz.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'İş Birliği';
+$string['nav_impact'] = 'Etki';
+$string['nav_partners'] = 'Ortaklar';
+$string['nav_courses'] = 'Dersler';
 $string['landing_eyebrow'] = 'Avrupa Üniversitesi Birliği';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Dirençli bir gelecek için inovasyon, eğitim ve sürdürülebilirlik.';

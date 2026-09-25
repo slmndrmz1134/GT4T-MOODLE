@@ -38,34 +38,36 @@
 }}
 <div class="diverse-landing">
     <section class="diverse-hero">
-        <div class="diverse-hero-text">
-            <p class="diverse-eyebrow diverse-eyebrow-dark">{{#str}}landing_eyebrow, theme_diverse{{/str}}</p>
-            <h1 class="diverse-hero-title">{{#str}}landing_title, theme_diverse{{/str}}</h1>
-            <p class="diverse-hero-tagline">{{#str}}landing_tagline, theme_diverse{{/str}}</p>
-            <p class="diverse-hero-intro">{{#str}}landing_intro, theme_diverse{{/str}}</p>
-            <div class="diverse-hero-actions">
-                <a class="btn btn-lg diverse-btn-ink" href="{{loginurl}}">
-                    {{#str}}landing_getstarted, theme_diverse{{/str}}
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                </a>
-                {{#haspartners}}
-                <a class="btn btn-lg diverse-btn-outline-ink" href="#diverse-partners">{{#str}}landing_meetpartners, theme_diverse{{/str}}</a>
-                {{/haspartners}}
+        <div class="diverse-hero-inner">
+            <div class="diverse-hero-text">
+                <p class="diverse-eyebrow diverse-eyebrow-dark">{{#str}}landing_eyebrow, theme_diverse{{/str}}</p>
+                <h1 class="diverse-hero-title">{{#str}}landing_title, theme_diverse{{/str}}</h1>
+                <p class="diverse-hero-tagline">{{#str}}landing_tagline, theme_diverse{{/str}}</p>
+                <p class="diverse-hero-intro">{{#str}}landing_intro, theme_diverse{{/str}}</p>
+                <div class="diverse-hero-actions">
+                    <a class="btn btn-lg diverse-btn-ink" href="{{loginurl}}">
+                        {{#str}}landing_getstarted, theme_diverse{{/str}}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                    </a>
+                    {{#haspartners}}
+                    <a class="btn btn-lg diverse-btn-outline-ink" href="#diverse-partners">{{#str}}landing_meetpartners, theme_diverse{{/str}}</a>
+                    {{/haspartners}}
+                </div>
             </div>
-        </div>
-        <div class="diverse-pattern" aria-hidden="true">
-            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-soft-brand"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-brand-ink"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-peach-ink"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
-            <div class="diverse-tile diverse-tile-ink-white"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="50" r="38"></circle><circle cx="50" cy="50" r="24"></circle><circle cx="50" cy="50" r="10"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-soft-brand"><svg viewBox="0 0 100 100"><path d="M20 50h56M56 28l22 22-22 22" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-brand-white"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-brand-ink"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-peach-ink"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
+            <div class="diverse-pattern" aria-hidden="true">
+                <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+                <div class="diverse-tile diverse-tile-soft-brand"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
+                <div class="diverse-tile diverse-tile-brand-ink"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
+                <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+                <div class="diverse-tile diverse-tile-peach-ink"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
+                <div class="diverse-tile diverse-tile-ink-white"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="7"><circle cx="50" cy="50" r="38"></circle><circle cx="50" cy="50" r="24"></circle><circle cx="50" cy="50" r="10"></circle></svg></div>
+                <div class="diverse-tile diverse-tile-soft-brand"><svg viewBox="0 0 100 100"><path d="M20 50h56M56 28l22 22-22 22" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg></div>
+                <div class="diverse-tile diverse-tile-brand-white"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+                <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100" fill="currentColor"><circle cx="25" cy="25" r="7"></circle><circle cx="50" cy="25" r="7"></circle><circle cx="75" cy="25" r="7"></circle><circle cx="25" cy="50" r="7"></circle><circle cx="50" cy="50" r="7"></circle><circle cx="75" cy="50" r="7"></circle><circle cx="25" cy="75" r="7"></circle><circle cx="50" cy="75" r="7"></circle><circle cx="75" cy="75" r="7"></circle></svg></div>
+                <div class="diverse-tile diverse-tile-brand-ink"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+                <div class="diverse-tile diverse-tile-peach-ink"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
+                <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
+            </div>
         </div>
     </section>
 
@@ -86,23 +88,25 @@
         </div>
     </section>
 
-    <section class="diverse-section diverse-collab" id="diverse-collaborate" aria-labelledby="diverse-collab-title">
-        <div class="diverse-collab-text">
-            <p class="diverse-eyebrow">{{#str}}collab_eyebrow, theme_diverse{{/str}}</p>
-            <h2 class="diverse-section-title" id="diverse-collab-title">{{#str}}collab_title, theme_diverse{{/str}}</h2>
-            <p class="diverse-lead">{{#str}}collab_intro, theme_diverse{{/str}}</p>
-            <p class="diverse-muted">{{#str}}collab_outro, theme_diverse{{/str}}</p>
+    <section class="diverse-section" id="diverse-collaborate" aria-labelledby="diverse-collab-title">
+        <div class="diverse-collab">
+            <div class="diverse-collab-text">
+                <p class="diverse-eyebrow">{{#str}}collab_eyebrow, theme_diverse{{/str}}</p>
+                <h2 class="diverse-section-title" id="diverse-collab-title">{{#str}}collab_title, theme_diverse{{/str}}</h2>
+                <p class="diverse-lead">{{#str}}collab_intro, theme_diverse{{/str}}</p>
+                <p class="diverse-muted">{{#str}}collab_outro, theme_diverse{{/str}}</p>
+            </div>
+            <ol class="diverse-numbered">
+                <li><span class="diverse-numbered-no">01</span><span>{{#str}}collab_item1, theme_diverse{{/str}}</span></li>
+                <li><span class="diverse-numbered-no">02</span><span>{{#str}}collab_item2, theme_diverse{{/str}}</span></li>
+                <li><span class="diverse-numbered-no">03</span><span>{{#str}}collab_item3, theme_diverse{{/str}}</span></li>
+                <li><span class="diverse-numbered-no">04</span><span>{{#str}}collab_item4, theme_diverse{{/str}}</span></li>
+                <li><span class="diverse-numbered-no">05</span><span>{{#str}}collab_item5, theme_diverse{{/str}}</span></li>
+            </ol>
         </div>
-        <ol class="diverse-numbered">
-            <li><span class="diverse-numbered-no">01</span><span>{{#str}}collab_item1, theme_diverse{{/str}}</span></li>
-            <li><span class="diverse-numbered-no">02</span><span>{{#str}}collab_item2, theme_diverse{{/str}}</span></li>
-            <li><span class="diverse-numbered-no">03</span><span>{{#str}}collab_item3, theme_diverse{{/str}}</span></li>
-            <li><span class="diverse-numbered-no">04</span><span>{{#str}}collab_item4, theme_diverse{{/str}}</span></li>
-            <li><span class="diverse-numbered-no">05</span><span>{{#str}}collab_item5, theme_diverse{{/str}}</span></li>
-        </ol>
     </section>
 
-    <section class="diverse-section diverse-impact" aria-labelledby="diverse-impact-title">
+    <section class="diverse-section diverse-impact" id="diverse-impact" aria-labelledby="diverse-impact-title">
         <div class="diverse-section-head">
             <p class="diverse-eyebrow">{{#str}}impact_eyebrow, theme_diverse{{/str}}</p>
             <h2 class="diverse-section-title" id="diverse-impact-title">{{#str}}impact_title, theme_diverse{{/str}}</h2>
@@ -149,7 +153,7 @@
     {{/haspartners}}
 
     {{#hascourses}}
-    <section class="diverse-section diverse-courses" aria-labelledby="diverse-courses-title">
+    <section class="diverse-section diverse-courses" id="diverse-courses" aria-labelledby="diverse-courses-title">
         <div class="diverse-section-head diverse-section-head-row">
             <h2 class="diverse-section-title" id="diverse-courses-title">{{#str}}courses_title, theme_diverse{{/str}}</h2>
             <a class="diverse-link-strong" href="{{allcoursesurl}}">{{#str}}courses_all, theme_diverse, {{coursecount}}{{/str}} <span aria-hidden="true">&rarr;</span></a>
@@ -179,3 +183,22 @@
     </section>
     {{/hascourses}}
 </div>
+{{#js}}
+document.querySelectorAll('.primary-navigation a[href*="#diverse-"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+        var href = this.getAttribute('href');
+        var hashIndex = href.indexOf('#');
+        if (hashIndex !== -1) {
+            var hash = href.substring(hashIndex + 1);
+            var target = document.getElementById(hash);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+                if (history.pushState) {
+                    history.pushState(null, null, '#' + hash);
+                }
+            }
+        }
+    });
+});
+{{/js}}

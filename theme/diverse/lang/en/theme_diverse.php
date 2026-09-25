@@ -53,6 +53,10 @@ $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if
  *************************************************************/
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Collaboration';
+$string['nav_impact'] = 'Impact';
+$string['nav_partners'] = 'Partners';
+$string['nav_courses'] = 'Courses';
 $string['landing_eyebrow'] = 'European University Alliance';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Innovation, education and sustainability for a resilient future.';

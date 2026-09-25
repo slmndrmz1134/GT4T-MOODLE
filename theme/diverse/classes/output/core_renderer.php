@@ -32,6 +32,56 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     const PATTERN_COLORS = ['#FF671F', '#1F2328', '#C2410C', '#FFD8C2', '#63666A'];
 
     /**
+     * Constructor: extend Boost Union core renderer and register visitor landing navigation links.
+     *
+     * @param \moodle_page $page
+     * @param string $target
+     */
+    public function __construct(\moodle_page $page, $target) {
+        parent::__construct($page, $target);
+        $this->add_landing_navigation_nodes();
+    }
+
+    /**
+     * Add component scroll buttons to the primary navigation for visitors.
+     */
+    protected function add_landing_navigation_nodes() {
+        if (!isloggedin() || isguestuser()) {
+            $primarynav = $this->page->primarynav;
+            if ($primarynav && !$primarynav->find('diverse_collab', \navigation_node::TYPE_CUSTOM)) {
+                $primarynav->add(
+                    get_string('nav_collab', 'theme_diverse'),
+                    new \moodle_url('/#diverse-collaborate'),
+                    \navigation_node::TYPE_CUSTOM,
+                    null,
+                    'diverse_collab'
+                );
+                $primarynav->add(
+                    get_string('nav_impact', 'theme_diverse'),
+                    new \moodle_url('/#diverse-impact'),
+                    \navigation_node::TYPE_CUSTOM,
+                    null,
+                    'diverse_impact'
+                );
+                $primarynav->add(
+                    get_string('nav_partners', 'theme_diverse'),
+                    new \moodle_url('/#diverse-partners'),
+                    \navigation_node::TYPE_CUSTOM,
+                    null,
+                    'diverse_partners'
+                );
+                $primarynav->add(
+                    get_string('nav_courses', 'theme_diverse'),
+                    new \moodle_url('/#diverse-courses'),
+                    \navigation_node::TYPE_CUSTOM,
+                    null,
+                    'diverse_courses'
+                );
+            }
+        }
+    }
+
+    /**
      * Base colour of the generated pattern on course cards without an image, taken from the DIVERSE
      * palette instead of the site-wide "course colour" settings so that the cards match the theme.
      *
@@ -119,6 +169,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return string
      */
     public function standard_head_html() {
+        $this->add_landing_navigation_nodes();
         $html = parent::standard_head_html();
 
         $logourl = $this->image_url('favicon', 'theme_diverse')->out(false);
@@ -130,4 +181,83 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
 
         return $html;
     }
+
+    /**
+     * Return the site's compact logo URL for the navbar.
+     *
+     * Falls back to the DIVERSE logo (theme/diverse/pix/logo.png) if no flavour
+     * or admin compact logo is configured in Boost Union.
+     *
+     * @param int $maxwidth
+     * @param int $maxheight
+     * @return \moodle_url|false
+     */
+    public function get_compact_logo_url($maxwidth = 300, $maxheight = 300) {
+        $parentlogo = parent::get_compact_logo_url($maxwidth, $maxheight);
+        if ($parentlogo) {
+            return $parentlogo;
+        }
+
+        return $this->image_url('logo', 'theme_diverse');
+    }
+
+    /**
+     * Return the site's main logo URL.
+     *
+     * Falls back to the DIVERSE logo (theme/diverse/pix/logo.png) if no flavour
+     * or admin logo is configured in Boost Union.
+     *
+     * @param int $maxwidth
+     * @param int $maxheight
+     * @return \moodle_url|false
+     */
+    public function get_logo_url($maxwidth = null, $maxheight = 200) {
+        $parentlogo = parent::get_logo_url($maxwidth, $maxheight);
+        if ($parentlogo) {
+            return $parentlogo;
+        }
+
+        return $this->image_url('logo', 'theme_diverse');
+    }
+
+    /**
+     * Prepend the DIVERSE logo to the standard footer output.
+     *
+     * @return string
+     */
+    public function standard_footer_html() {
+        $html = parent::standard_footer_html();
+
+        $logourl = $this->image_url('logo', 'theme_diverse')->out(false);
+        $brandlink = \html_writer::link(
+            new \moodle_url('/'),
+            \html_writer::empty_tag('img', [
+                'src' => $logourl,
+                'alt' => 'DIVERSE',
+                'class' => 'diverse-platform-footer-logo',
+            ]),
+            ['class' => 'diverse-platform-footer-brand']
+        );
+
+        return \html_writer::div($brandlink, 'diverse-platform-footer-brand-wrap mb-3') . $html;
+    }
+
+    /**
+     * Render the search box in the navbar.
+     *
+     * Provides a clean, modern course search bar in the navbar.
+     *
+     * @param bool $id Optional id.
+     * @return string HTML
+     */
+    public function search_box($id = false) {
+        $action = new \moodle_url('/course/search.php');
+        $data = [
+            'action' => $action->out(false),
+            'inputname' => 'search',
+            'searchstring' => get_string('searchcourses', 'core'),
+        ];
+        return $this->render_from_template('theme_diverse/navbar_search', $data);
+    }
 }
+

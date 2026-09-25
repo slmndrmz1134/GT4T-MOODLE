@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Moștenire Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Această setare controlează dacă codul Extra-SCSS de la Boost Union trebuie moștenit sau duplicat.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Colaborare';
+$string['nav_impact'] = 'Impact';
+$string['nav_partners'] = 'Parteneri';
+$string['nav_courses'] = 'Cursuri';
 $string['landing_eyebrow'] = 'Alianța Europeană a Universităților';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Inovație, educație și sustenabilitate pentru un viitor rezilient.';

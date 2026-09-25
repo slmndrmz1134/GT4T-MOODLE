@@ -1,0 +1,23 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Theme DIVERSE top navbar search bar.
+}}
+<div class="diverse-navbar-search d-none d-md-flex align-items-center">
+    <form action="{{{ action }}}" method="get" class="diverse-search-form" role="search">
+        <div class="diverse-search-box">
+            <span class="diverse-search-icon" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </span>
+            <input type="search"
+                   name="{{{ inputname }}}"
+                   class="form-control diverse-search-input"
+                   placeholder="{{{ searchstring }}}"
+                   aria-label="{{{ searchstring }}}"
+                   autocomplete="off" />
+        </div>
+    </form>
+</div>

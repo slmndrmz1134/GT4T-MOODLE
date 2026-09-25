@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS-overerving';
 $string['extrascssinheritancesetting_desc'] = 'Hiermee bepaalt u of de Extra-SCSS-code van Boost Union wordt overgeërfd of gedupliceerd.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Samenwerking';
+$string['nav_impact'] = 'Impact';
+$string['nav_partners'] = 'Partners';
+$string['nav_courses'] = 'Cursussen';
 $string['landing_eyebrow'] = 'Europese Universiteitsalliantie';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Innovatie, onderwijs en duurzaamheid voor een veerkrachtige toekomst.';

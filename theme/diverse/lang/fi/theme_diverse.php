@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS-periytyminen';
 $string['extrascssinheritancesetting_desc'] = 'Tällä asetuksella määritetään, peritäänkö vai monistaanko Boost Unionin Extra-SCSS-koodi.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Yhteistyö';
+$string['nav_impact'] = 'Vaikutus';
+$string['nav_partners'] = 'Kumppanit';
+$string['nav_courses'] = 'Kurssit';
 $string['landing_eyebrow'] = 'Eurooppalainen yliopistoliiitto';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Innovaatioita, koulutusta ja kestävyyttä resilienttiä tulevaisuutta varten.';

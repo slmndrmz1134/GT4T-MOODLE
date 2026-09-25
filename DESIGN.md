@@ -19,6 +19,7 @@ Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alın
 | `$diverse-brand-orange` | `#FF671F` | Büyük yüzeyler, landing blokları, grafikler. Üstünde **koyu** metin. Asla gövde metni ya da beyaz yazılı buton zemini değil. | Koyu metinle 5.43:1 |
 | `$diverse-action-orange` | `#C2410C` | Butonlar (beyaz yazı), linkler, aktif sekme | Beyazla 5.18:1 |
 | `$diverse-action-orange-hover` | `#9A3412` | Buton/link hover ve basılı hali | Beyazla 7.31:1 |
+| `$diverse-home-hover` | `#F57B2A` | Navbardaki Ana sayfa (Home) butonunun hover metin rengi | Beyazla 3.1:1 |
 | `$diverse-ink` | `#1F2328` | Gövde metni, başlıklar, koyu footer zemini | Beyazla 15.8:1 |
 | `$diverse-grey` | `#63666A` | İkincil metin, açıklamalar | Beyazla 5.77:1 |
 | `$diverse-soft-orange` | `#FFF4ED` | Duyuru bantları, vurgulu alanlar, seçili satır | — |

@@ -43,6 +43,10 @@ $string['extrascssinheritancesetting'] = 'Nasljeđivanje Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Određuje treba li extra-SCSS kod iz teme Boost Union biti naslijeđen ili dupliciran.';
 
 // Landing page (site home for visitors).
+$string['nav_collab'] = 'Suradnja';
+$string['nav_impact'] = 'Utjecaj';
+$string['nav_partners'] = 'Partneri';
+$string['nav_courses'] = 'Kolegiji';
 $string['landing_eyebrow'] = 'Savez europskih sveučilišta';
 $string['landing_title'] = 'DIVERSE';
 $string['landing_tagline'] = 'Inovacije, obrazovanje i održivost za otpornu budućnost.';

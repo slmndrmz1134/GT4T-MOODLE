@@ -34,8 +34,10 @@
 }
 
 // Headings: slightly tighter tracking for the Source Sans 3 display sizes.
-h1, .h1,
-h2, .h2 {
+h1,
+.h1,
+h2,
+.h2 {
     letter-spacing: -.01em;
 }
 
@@ -60,7 +62,7 @@ body.pagelayout-mycourses #page {
 
 // Buttons attached to form controls (e.g. the password "show" toggle) keep the input's
 // corner radius instead of the pill shape, so they join the field cleanly.
-.input-group > .btn {
+.input-group>.btn {
     --#{$prefix}btn-border-radius: #{$input-border-radius};
 }
 
@@ -74,4 +76,260 @@ body.pagelayout-mycourses #page {
     --#{$prefix}progress-height: .375rem;
     --#{$prefix}progress-border-radius: 50rem;
     --#{$prefix}progress-bg: #{$diverse-track};
+}
+
+// Global typography rendering: crisp antialiasing and optimal legibility.
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+// Navbar brand logo.
+.navbar-brand .logo {
+    max-height: 2.375rem;
+    width: auto;
+    object-fit: contain;
+    transition: opacity .15s ease;
+}
+
+// Navbar modern refinement: crisp border, gentle elevation and smooth transitions.
+.navbar.fixed-top {
+    border-bottom: 1px solid $diverse-border;
+    box-shadow: $box-shadow-sm;
+    background-color: $white;
+
+    .container-fluid {
+        max-width: 80rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-brand {
+
+        &:hover,
+        &:focus {
+            opacity: .9;
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        .primary-navigation {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        #usernavigation {
+            margin-left: auto !important;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+    }
+
+    .primary-navigation {
+
+        .nav-link,
+        [data-key="home"] .nav-link,
+        .navigation .nav-link {
+            font-weight: 600;
+            font-size: .9375rem;
+            color: $diverse-ink !important;
+            background: none !important;
+            background-color: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: .5rem .75rem !important;
+            transition: color .15s ease;
+
+            &:hover,
+            &:focus {
+                color: $diverse-home-hover !important;
+                background: none !important;
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+
+            &.active {
+                color: $diverse-ink !important;
+                background: none !important;
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+
+                &:hover,
+                &:focus {
+                    color: $diverse-home-hover !important;
+                }
+            }
+        }
+    }
+
+    .divider {
+        border-color: $diverse-border !important;
+        height: 1.5rem !important;
+        margin: 0 .25rem;
+    }
+
+    .langmenu {
+        .btn.dropdown-toggle {
+            font-size: .875rem;
+            font-weight: 500;
+            padding: .4rem .75rem;
+            border-radius: 50rem;
+            color: $diverse-ink;
+            border: 1px solid transparent;
+            transition: all .15s ease;
+
+            &:hover,
+            &:focus {
+                background-color: $diverse-surface;
+                color: $diverse-action-orange;
+            }
+        }
+    }
+
+    .login {
+        a {
+            background-color: $diverse-action-orange;
+            color: $white;
+            border-radius: 50rem;
+            padding: .45rem 1.25rem;
+            font-weight: 600;
+            font-size: .9375rem;
+            text-decoration: none;
+            transition: all .15s ease;
+
+            &:hover,
+            &:focus {
+                background-color: $diverse-action-orange-hover;
+                color: $white;
+                transform: translateY(-1px);
+                box-shadow: $box-shadow-sm;
+            }
+        }
+    }
+}
+
+// Navbar search bar: modern compact pill search input.
+.diverse-navbar-search {
+    position: relative;
+
+    .diverse-search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .diverse-search-icon {
+        position: absolute;
+        left: .875rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $diverse-grey;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .diverse-search-input {
+        height: 2.375rem;
+        width: 12.5rem;
+        padding-left: 2.25rem;
+        padding-right: .875rem;
+        font-size: .875rem;
+        border-radius: 50rem;
+        border: 1px solid $diverse-border-strong;
+        background-color: $diverse-surface;
+        color: $diverse-ink;
+        transition: width .2s ease, border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+
+        &:focus {
+            width: 15rem;
+            background-color: $white;
+            border-color: $diverse-action-orange;
+            box-shadow: 0 0 0 .2rem $diverse-soft-orange;
+            outline: none;
+        }
+
+        &::placeholder {
+            color: $diverse-grey;
+            font-size: .8125rem;
+        }
+    }
+}
+
+// Button micro-interactions: subtle, modern tactile feel without exaggeration.
+.btn {
+    transition: transform .15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
+
+    &:active {
+        transform: scale(0.985);
+    }
+}
+
+.btn-primary {
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $box-shadow-sm;
+    }
+
+    &:active {
+        transform: translateY(0) scale(0.985);
+    }
+}
+
+// Form inputs: smooth focus transition with DIVERSE accent.
+.form-control,
+.form-select,
+.custom-select {
+    border-color: $diverse-border-strong;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+    &:focus {
+        border-color: $diverse-action-orange;
+    }
+}
+
+// Cards: smooth elevation transition.
+.card {
+    transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease;
+}
+
+// Platform footer logo inside the footer popover.
+.diverse-platform-footer-logo {
+    max-height: 2.25rem;
+    width: auto;
+    object-fit: contain;
+}
+
+// Platform footer content container width (1280px / 80rem).
+#page-footer {
+
+    .footer-content-popover,
+    .footer-section {
+        max-width: 80rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// Sticky footer across the platform: ensure page fills viewport and footer sits at the bottom.
+#page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: clip;
+
+    #page {
+        flex: 1 0 auto;
+    }
+
+    #page-footer {
+        margin-top: auto;
+    }
 }

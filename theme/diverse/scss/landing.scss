@@ -7,15 +7,53 @@
 $diverse-gutter: 4rem;
 $diverse-gutter-sm: 1.25rem;
 
-// Page chrome around the landing: the hero replaces the page header, and the
-// full-bleed sections must not cause horizontal scrolling.
-#page-site-index:has(.diverse-landing) {
+// Page chrome around the landing: the hero replaces the page header, the
+// full-bleed sections must not cause horizontal scrolling, and the footer
+// sits flush at the very bottom of the page.
+#page-site-index:has(.diverse-landing),
+body#page-site-index.notloggedin,
+body.pagelayout-frontpage.notloggedin {
+    overflow-x: hidden;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+
     #page-header {
         display: none;
     }
+
+    #page-wrapper {
+        overflow-x: clip;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
     #page {
         overflow-x: clip;
     }
+
+    #page,
+    #page.drawers,
+    .main-inner,
+    #region-main,
+    #region-main-box,
+    #page-content,
+    #page-content.pb-3 {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    #region-main {
+        border-bottom: 0 !important;
+    }
+
+    #page-footer {
+        display: none !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: 0 !important;
+    }
+
     #topofscroll {
         margin-top: 0;
         padding-top: 0;
@@ -30,14 +68,8 @@ $diverse-gutter-sm: 1.25rem;
 
 // Hero.
 .diverse-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
     background-color: $diverse-brand-orange;
-
-    @include media-breakpoint-up(lg) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        min-height: 38rem;
-    }
+    width: 100%;
 
     .btn:focus-visible {
         outline: 3px solid $diverse-ink;
@@ -46,8 +78,28 @@ $diverse-gutter-sm: 1.25rem;
     }
 }
 
+.diverse-hero-inner {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: $diverse-gutter-sm;
+    padding-right: $diverse-gutter-sm;
+
+    @media (min-width: 82.5rem) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: 38rem;
+    }
+}
+
 .diverse-hero-text {
-    padding: 3.5rem $diverse-gutter-sm;
+    padding: 3.5rem 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -55,17 +107,24 @@ $diverse-gutter-sm: 1.25rem;
     color: $diverse-ink;
 
     @include media-breakpoint-up(lg) {
-        padding: 4.5rem $diverse-gutter;
+        padding: 4.5rem 1.5rem 4.5rem 0;
     }
 }
 
 .diverse-eyebrow {
     margin: 0;
-    font-size: .875rem;
-    font-weight: 600;
+    font-size: .8125rem;
+    font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
-    color: $diverse-action-orange;
+    color: $diverse-ink;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .375rem .875rem;
+    border-radius: 50rem;
+    border: 1.5px solid $diverse-ink;
+    width: fit-content;
 }
 
 .diverse-eyebrow-dark {
@@ -74,9 +133,9 @@ $diverse-gutter-sm: 1.25rem;
 
 .diverse-hero-title {
     margin: 0;
-    font-size: clamp(3.5rem, 8vw, 6.5rem);
-    line-height: 1;
-    letter-spacing: -.02em;
+    font-size: clamp(3.25rem, 7vw, 5.5rem);
+    line-height: .98;
+    letter-spacing: -.025em;
     color: $diverse-ink;
 }
 
@@ -84,22 +143,29 @@ $diverse-gutter-sm: 1.25rem;
     margin: 0;
     max-width: 36rem;
     font-family: $headings-font-family;
-    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-size: clamp(1.375rem, 2.2vw, 1.875rem);
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.25;
 }
 
 .diverse-hero-intro {
     margin: 0;
-    max-width: 36rem;
-    font-size: 1.1875rem;
-    line-height: 1.55;
+    max-width: 34rem;
+    font-size: 1.125rem;
+    line-height: 1.6;
 }
 
 .diverse-hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: 1rem;
+    margin-top: .5rem;
+
+    .btn {
+        padding: .8125rem 1.875rem;
+        font-size: 1.0625rem;
+        font-weight: 600;
+    }
 }
 
 .diverse-btn-ink {
@@ -130,14 +196,17 @@ $diverse-gutter-sm: 1.25rem;
     --#{$prefix}btn-active-border-color: #{$diverse-ink};
 }
 
-// Decorative tile pattern (hero and login panel).
+// Decorative tile pattern: rounded mosaic grid with subtle interaction.
 .diverse-pattern {
     display: none;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-auto-rows: 1fr;
+    gap: .625rem;
+    padding: 1.5rem;
 
     @include media-breakpoint-up(lg) {
         display: grid;
+        padding: 1.5rem 0 1.5rem 1.5rem;
     }
 }
 
@@ -145,11 +214,17 @@ $diverse-gutter-sm: 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 8rem;
+    min-height: 7.5rem;
+    border-radius: 1rem;
+    transition: transform .2s ease;
+
+    &:hover {
+        transform: scale(1.02);
+    }
 
     svg {
         width: 45%;
-        max-width: 6rem;
+        max-width: 5.5rem;
         height: auto;
     }
 }
@@ -172,12 +247,19 @@ $diverse-tiles: (
     }
 }
 
-// Key figures.
+// Key figures: floating card overlapping the hero for modern depth.
 .diverse-stats {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     background-color: $white;
-    border-bottom: 1px solid $diverse-border;
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius-xl;
+    box-shadow: $box-shadow-sm;
+    max-width: 80rem;
+    margin: -2.5rem auto 3.5rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
 
     @include media-breakpoint-up(md) {
         grid-auto-flow: column;
@@ -186,51 +268,69 @@ $diverse-tiles: (
 }
 
 .diverse-stat {
-    padding: 2rem $diverse-gutter-sm;
+    padding: 2.25rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: .5rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 
-    & + & {
+    &+& {
         border-top: 1px solid $diverse-border;
     }
 
     @include media-breakpoint-up(md) {
-        & + & {
+        &+& {
             border-top: 0;
             border-left: 1px solid $diverse-border;
         }
-    }
-
-    @include media-breakpoint-up(lg) {
-        padding: 2.25rem $diverse-gutter;
     }
 }
 
 .diverse-stat-value {
     font-family: $headings-font-family;
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 3.5rem;
+    font-weight: 800;
     line-height: 1;
+    color: $diverse-action-orange;
+    letter-spacing: -.02em;
 }
 
 .diverse-stat-label {
-    font-size: .9375rem;
+    font-size: .875rem;
+    font-weight: 600;
     color: $diverse-grey;
+    text-transform: uppercase;
+    letter-spacing: .04em;
 }
 
-// Content sections.
 .diverse-section {
-    padding: 4rem $diverse-gutter-sm;
+    padding: 4rem 0;
     background-color: $white;
+    scroll-margin-top: 5rem;
 
     @include media-breakpoint-up(lg) {
-        padding: 6rem $diverse-gutter;
+        padding: 6rem 0;
+    }
+}
+
+.diverse-section-head,
+.diverse-collab,
+.diverse-cards {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: $diverse-gutter-sm;
+    padding-right: $diverse-gutter-sm;
+
+    @media (min-width: 82.5rem) {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
 .diverse-section-head {
-    max-width: 47.5rem;
     margin-bottom: 2.75rem;
     display: flex;
     flex-direction: column;
@@ -238,7 +338,7 @@ $diverse-tiles: (
 }
 
 .diverse-section-head-row {
-    max-width: none;
+    max-width: 80rem;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -294,24 +394,45 @@ $diverse-tiles: (
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid $diverse-border;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
 
     li {
-        padding: 1.5rem 0;
+        padding: 1.125rem 1.375rem;
         display: flex;
-        align-items: baseline;
-        gap: 1.5rem;
-        border-bottom: 1px solid $diverse-border;
-        font-size: 1.3125rem;
-        font-weight: 500;
+        align-items: center;
+        gap: 1.25rem;
+        background-color: $diverse-surface;
+        border: 1px solid $diverse-border;
+        border-radius: $border-radius-lg;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $diverse-ink;
+        transition: transform .2s ease, border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+
+        &:hover {
+            background-color: $white;
+            border-color: $diverse-action-orange;
+            transform: translateX(4px);
+            box-shadow: $box-shadow-sm;
+        }
     }
 }
 
 .diverse-numbered-no {
-    font-family: $headings-font-family;
-    font-size: 1.25rem;
-    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50rem;
+    background-color: $diverse-soft-orange;
     color: $diverse-action-orange;
+    font-family: $headings-font-family;
+    font-size: .9375rem;
+    font-weight: 700;
+    flex-shrink: 0;
 }
 
 // Long-term impact.
@@ -320,7 +441,7 @@ $diverse-tiles: (
 }
 
 // Courses directly follow the partners on the same white background: no second top padding.
-.diverse-partners + .diverse-courses {
+.diverse-partners+.diverse-courses {
     padding-top: 0;
 }
 
@@ -341,6 +462,7 @@ $diverse-tiles: (
     @include media-breakpoint-up(md) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
     @include media-breakpoint-up(xl) {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
@@ -353,6 +475,13 @@ $diverse-tiles: (
     gap: 1rem;
     background-color: $white;
     border-radius: 1rem;
+    box-shadow: $box-shadow-sm;
+    transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease, border-color .2s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: $box-shadow;
+    }
 }
 
 .diverse-card-outline {
@@ -395,6 +524,12 @@ $diverse-tiles: (
     a {
         font-weight: 600;
         text-decoration: none;
+        transition: color .15s ease;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange-hover;
+        }
     }
 }
 
@@ -408,15 +543,18 @@ $diverse-tiles: (
     border-radius: 1rem;
     color: $diverse-ink;
     text-decoration: none;
+    box-shadow: $box-shadow-sm;
+    transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease, border-color .2s ease;
 
     &:hover,
     &:focus {
+        transform: translateY(-2px);
         color: $diverse-ink;
         text-decoration: none;
         border-color: $diverse-border-strong;
 
         .diverse-course-title {
-            text-decoration: underline;
+            color: $diverse-action-orange;
         }
     }
 }
@@ -503,6 +641,7 @@ $diverse-tiles: (
 }
 
 .diverse-wordmark-light {
+
     &,
     &:hover,
     &:focus {
@@ -537,15 +676,30 @@ $diverse-tiles: (
 }
 
 // Closing band.
+.diverse-landing-footer-wrap {
+    background-color: $diverse-ink;
+    width: 100%;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
 .diverse-landing-footer {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
     padding: 3.5rem $diverse-gutter-sm;
     display: grid;
     gap: 2.5rem;
-    background-color: $diverse-ink;
     color: $white;
 
+    @media (min-width: 82.5rem) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     @include media-breakpoint-up(lg) {
-        padding: 4rem $diverse-gutter;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
         grid-template-columns: 2fr 1fr;
     }
 
@@ -561,6 +715,23 @@ $diverse-tiles: (
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.diverse-landing-footer-brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+.diverse-landing-footer-logo {
+    max-height: 2.75rem;
+    width: auto;
+    object-fit: contain;
 }
 
 .diverse-landing-footer-links {
@@ -582,4 +753,5 @@ $diverse-tiles: (
 
 .diverse-landing-footer-heading {
     font-weight: 600;
+
 }

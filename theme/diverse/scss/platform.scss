@@ -3,19 +3,26 @@
  * Only styles Moodle's own markup; the page structure stays Moodle's.
  ***************************************************************/
 
-// Dashboard and My courses (both use the body id page-my-index) show card grids,
-// so they get more room than the reading width Boost Union keeps for course pages.
+// Max width standard (1280px / 80rem) across platform pages (dashboard, my courses, etc.).
 @include media-breakpoint-up(md) {
+    body.limitedwidth #page.drawers .main-inner,
     body#page-my-index.limitedwidth #page.drawers .main-inner {
         max-width: 80rem;
     }
 }
 
-// Course cards (My courses, recently accessed courses).
+// Course cards (My courses, recently accessed courses): modern elevation and smooth hover.
 .course-card {
     overflow: hidden;
     border: 1px solid $diverse-border;
     border-radius: 1rem;
+    background-color: $white;
+    box-shadow: $box-shadow-sm;
+    transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
 
     .card-img-top {
         border-radius: 0;
@@ -26,6 +33,7 @@
         font-size: 1.125rem;
         font-weight: 700;
         color: $diverse-ink;
+        transition: color .15s ease;
 
         &:hover,
         &:focus {
@@ -39,13 +47,28 @@
     }
 }
 
-// Course page: activity names read as titles; the link colour shows on hover.
-.activity-item .activityname .aalink {
-    color: $diverse-ink;
-    font-weight: 600;
+// Course page: activity items with smooth hover state.
+.activity-item {
+    border-radius: $border-radius-lg;
+    transition: background-color .15s ease;
 
-    &:hover,
-    &:focus {
-        color: $diverse-action-orange;
+    &:hover {
+        background-color: $diverse-surface;
     }
+
+    .activityname .aalink {
+        color: $diverse-ink;
+        font-weight: 600;
+        transition: color .15s ease;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange;
+        }
+    }
+}
+
+// Drawers: clean hairline border.
+.drawer {
+    border-color: $diverse-border;
 }
