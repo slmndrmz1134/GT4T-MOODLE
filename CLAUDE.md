@@ -183,9 +183,6 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 
 ## Bilinen tuzaklar
 
-- **Eski dosyalar:** `setup/moodle_init.php`, `setup/verify_assets.php`, `setup/verify_scss.php` ve
-  `setup/verify_styles.php` eski Moove temasından kalma ve artık hiçbir yerden çalıştırılmıyor. Doğru bilgi kaynağı
-  olarak kullanılmaz.
 - **Döküm yalnızca ilk açılışta yüklenir** (veritabanı volume'u boşken). `database/moodle.sql` sonradan değişirse
   yerel veritabanına kendiliğinden geçmez: `docker compose down -v` ile sıfırlanır (yerel veriler silinir).
 - **Kod klasörü kapsayıcıya bağlanmaz.** `docker-compose.yml` dosyasına `.:/var/www/html` bağlaması geri

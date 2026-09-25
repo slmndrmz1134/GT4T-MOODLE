@@ -280,12 +280,13 @@ php setup/diverse_setup.php --production --reset-dashboards
 - Yeni bir geliştirici için `git clone` + `docker compose up -d --build` yeterli: ilk açılışta MySQL dökümü
   kendiliğinden yükler, her açılışta `upgrade.php`, ilk açılışta `diverse_setup.php` çalışır. Sıfırdan klonlanan bir
   kopyayla denendi.
-- Eski `setup/moodle_init.php` (Moove teması, yeşil renk) artık çalıştırılmıyor.
+- Eski `setup/moodle_init.php` (Moove teması, yeşil renk) artık çalıştırılmıyor; eski test betikleriyle
+  (`setup/verify_*.php`) birlikte silindi.
 - Moodle komutları ve cron `www-data` kullanıcısıyla çalışıyor; root'un bıraktığı önbellek dosyaları düzeltiliyor.
 - Proje adı sabit (`diverse`); Redis portu dışarı açılmıyor; eski `.env` dosyaları ve `.env.production.example`
   silindi.
 - Bu bilgisayardaki veriler `gt4t-test` adlı eski projeden yeni `diverse` projesine kopyalandı (hiçbir şey
-  kaybolmadı; eski volume'lar yedek olarak duruyor).
+  kaybolmadı). Eski `gt4t-test` ve `gt4t-moodle` volume'ları ve imajları sonra proje sahibinin onayıyla silindi.
 - Kılavuzlar: [`docker.md`](../docker.md) yeniden yazıldı, kök dizindeki `README.md` proje tanıtımı oldu.
 
 **Neden**
@@ -320,8 +321,8 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 - Kurulum ve günlük kullanım: [`docker.md`](../docker.md). Bu bilgisayarda proje `diverse` adıyla çalışıyor
   (http://localhost:8080).
 - Test veritabanı `database/moodle.sql`'den geliyor; üzerine kurulum betiğinin ayarları ve örnek BBB dersi eklendi.
-- Eski `gt4t-test_*` volume'ları yedek olarak duruyor. `C:\Users\SELMAN\Desktop\moodle\moodle` klasöründen gelen
-  eski yığının volume'ları da silinmedi (içlerinde eski veritabanları var).
+- Eski `gt4t-test` ve `gt4t-moodle` volume'ları silindi. `C:\Users\SELMAN\Desktop\moodle\moodle` klasöründen gelen
+  eski yığının volume'ları (`moodle_*`) silinmedi (içlerinde eski veritabanları var).
 - Giriş gerektiren sayfalar, proje sahibinin Chrome'daki oturumu üzerinden (Claude in Chrome) kontrol edildi;
   şifre girilmedi.
 
@@ -338,9 +339,9 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 7. **cPanel'e kurulum** ([`docs/CPANEL.md`](CPANEL.md)): hesaba ayrı IP atanması, `config.php` doldurulması, canlıya
    çıkmadan önce tüm şifrelerin değiştirilmesi.
 8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
-9. Kullanılmayan eski dosyaların silinmesi: `setup/moodle_init.php`, `setup/verify_*.php` (onay bekliyor).
-10. Eski Docker volume'larının silinmesi (`gt4t-test_*` ve eski yığınınkiler), artık gerekmediğinde.
-11. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
+9. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
+10. `.github/workflows/deploy.yml`: eski ekibin Amazon EC2 sunucusuna otomatik dağıtımı. Yeni repoda sunucu bilgisi
+    olmadığı için her push'ta başarısız oluyor; canlı sistem artık cPanel. Silinmesi onay bekliyor.
 
 ## 18. Commit listesi
 
