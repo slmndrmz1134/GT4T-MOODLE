@@ -38,8 +38,9 @@ Requirements
 * Moodle 5.0 (2025041400 or later)
 * theme_boost_union v5.0-r26 (2025041466) or later
 
+* `lang/`: full language strings for English (`en`), Turkish (`tr`), German (`de`), and Croatian (`hr`).
+
 Not done yet
 ------------
 
 * The official DIVERSE logo: the landing page and login panel show a text wordmark until the logo file is added.
-* Translations of the landing and login texts (Turkish, German, Croatian).

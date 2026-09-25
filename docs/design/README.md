@@ -46,6 +46,6 @@ Taslaklardaki ilerleme yüzdeleri ve tarihler örnektir.
   yerel Docker'da masaüstü ve mobilde test edildi.
 - [x] Yerel test ortamında varsayılan tema `diverse` yapıldı (canlı sunucuda henüz değil).
 - [ ] Resmi DIVERSE logo dosyasını eklemek (şimdilik yazı logosu).
-- [ ] Landing ve giriş metinlerinin Türkçe, Almanca ve Hırvatça çevirileri.
+- [x] Landing ve giriş metinlerinin Türkçe, Almanca ve Hırvatça çevirileri (`theme/diverse/lang/`).
 - [ ] Boost Union ayarları: partner flavours (logolar), footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
 - [ ] Dashboard ve ders sayfası ince ayarları (giriş yapmış kullanıcıyla test).

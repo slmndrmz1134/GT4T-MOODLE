@@ -83,4 +83,51 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             $this->page->pagetype === 'site-index' &&
             (!isloggedin() || isguestuser());
     }
+
+    /**
+     * Returns the favicon URL for the DIVERSE platform.
+     *
+     * If the Boost Union admin has uploaded a custom favicon (via Appearance → Boost Union → Look → Favicon),
+     * or a flavour overrides it, those take precedence via the parent implementation.
+     * Otherwise the DIVERSE logo PNG (theme/diverse/pix/favicon.png) is used instead of the
+     * plain Moodle favicon.ico stub that ships with the Boost Union Child boilerplate.
+     *
+     * @return \core\url
+     */
+    public function favicon() {
+        // If Boost Union (or a flavour) has an explicit favicon configured, use it as-is.
+        $parentfavicon = parent::favicon();
+
+        // parent::favicon() falls back to image_url('favicon', 'theme') when nothing is configured.
+        // That URL ends with "/favicon" (no file extension) and points to the old 766-byte stub .ico.
+        // In that case we substitute the DIVERSE logo PNG that lives in pix/favicon.png.
+        $url = $parentfavicon->out(false);
+        if (preg_match('#/favicon$#', $url)) {
+            return $this->image_url('favicon', 'theme_diverse');
+        }
+
+        return $parentfavicon;
+    }
+
+    /**
+     * Inject the DIVERSE og:image meta tag for Google Search and social-media link previews.
+     *
+     * Appends <meta property="og:image"> pointing at the DIVERSE logo PNG after all the
+     * standard head HTML that Boost Union and Moodle core produce.  Using image_url() ensures
+     * the URL carries the correct theme-revision hash for cache-busting.
+     *
+     * @return string
+     */
+    public function standard_head_html() {
+        $html = parent::standard_head_html();
+
+        $logourl = $this->image_url('favicon', 'theme_diverse')->out(false);
+
+        $html .= \html_writer::empty_tag('meta', [
+            'property' => 'og:image',
+            'content'  => $logourl,
+        ]) . "\n";
+
+        return $html;
+    }
 }
