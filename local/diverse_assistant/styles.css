@@ -1,0 +1,380 @@
+/**
+ * DIVERSE AI assistant - chat panel.
+ *
+ * Colours come only from the theme's Bootstrap variables (set in theme/diverse/scss/pre.scss, see DESIGN.md),
+ * so this file has no colour codes of its own.
+ */
+
+/* Tab on the right edge of the page. */
+.local-diverse-assistant-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    z-index: 1020;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-width: 44px;
+    padding: 1rem .625rem;
+    writing-mode: vertical-rl;
+    transform: translateY(-50%) rotate(180deg);
+    /* The rotation turns these right-hand corners into the left-hand ones. */
+    border-radius: 0 50rem 50rem 0;
+    box-shadow: var(--bs-box-shadow-sm);
+}
+
+.local-diverse-assistant-toggle .local-diverse-assistant-icon {
+    transform: rotate(90deg);
+}
+
+body.local-diverse-assistant-open .local-diverse-assistant-toggle {
+    display: none;
+}
+
+/* The panel. */
+.local-diverse-assistant {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    bottom: 0;
+    z-index: 1025;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    max-width: 100%;
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    border-left: 1px solid var(--bs-border-color);
+    box-shadow: var(--bs-box-shadow);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform .2s ease, visibility .2s ease;
+}
+
+.local-diverse-assistant.show {
+    transform: none;
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .local-diverse-assistant {
+        transition: none;
+    }
+}
+
+/* Phones: the panel covers the whole screen. */
+@media (max-width: 575.98px) {
+    .local-diverse-assistant {
+        top: 0;
+        z-index: 1040;
+        width: 100%;
+        border-left: 0;
+    }
+}
+
+/* Wide screens: the page makes room for the panel, like Moodle's own block drawer. */
+@media (min-width: 992px) {
+    body.local-diverse-assistant-open #page.drawers {
+        margin-right: 400px;
+        padding-right: 1rem;
+    }
+
+    body.local-diverse-assistant-open .btn-footer-popover,
+    body.local-diverse-assistant-open .btn-footer-communication {
+        right: calc(400px + 2rem);
+    }
+}
+
+@media print {
+    body .local-diverse-assistant,
+    body .local-diverse-assistant-toggle {
+        display: none;
+    }
+}
+
+/* Header. */
+.local-diverse-assistant-header {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .25rem .25rem .25rem 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.local-diverse-assistant-heading {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.local-diverse-assistant-title {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.local-diverse-assistant-title .local-diverse-assistant-icon {
+    color: var(--bs-primary);
+}
+
+.local-diverse-assistant-course {
+    overflow: hidden;
+    font-size: .8125rem;
+    color: var(--bs-secondary-color);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.local-diverse-assistant-actions {
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.local-diverse-assistant .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.local-diverse-assistant-actions .btn-icon .icon,
+.local-diverse-assistant-composer .btn-icon .icon {
+    margin: 0;
+}
+
+/* Views. */
+.local-diverse-assistant-view {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.local-diverse-assistant-page {
+    padding: 1rem;
+}
+
+.local-diverse-assistant-loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.local-diverse-assistant-subtitle {
+    margin-bottom: .75rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.local-diverse-assistant-points {
+    padding-left: 1.25rem;
+}
+
+.local-diverse-assistant-back {
+    margin: -.5rem 0 .5rem -.75rem;
+}
+
+/* Chat. */
+.local-diverse-assistant-chat {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.local-diverse-assistant-messages {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: .75rem;
+    min-height: 0;
+    padding: 1rem;
+    overflow-y: auto;
+    background-color: var(--bs-tertiary-bg);
+}
+
+.local-diverse-assistant-empty {
+    margin: auto 0;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+.local-diverse-assistant-empty-title {
+    font-weight: 600;
+}
+
+.local-diverse-assistant-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.local-diverse-assistant-message {
+    max-width: 90%;
+}
+
+.local-diverse-assistant-message-content {
+    padding: .5rem .75rem;
+    overflow-wrap: anywhere;
+}
+
+.local-diverse-assistant-message-content > :last-child {
+    margin-bottom: 0;
+}
+
+.local-diverse-assistant-message-user {
+    align-self: flex-end;
+}
+
+.local-diverse-assistant-message-user .local-diverse-assistant-message-content {
+    white-space: pre-wrap;
+    background-color: var(--bs-primary-bg-subtle);
+    border-radius: .75rem .75rem .25rem .75rem;
+}
+
+.local-diverse-assistant-message-assistant {
+    align-self: stretch;
+    max-width: 100%;
+}
+
+.local-diverse-assistant-message-assistant .local-diverse-assistant-message-content {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: .75rem .75rem .75rem .25rem;
+}
+
+.local-diverse-assistant-message-content h1,
+.local-diverse-assistant-message-content h2,
+.local-diverse-assistant-message-content h3,
+.local-diverse-assistant-message-content h4 {
+    margin: .75rem 0 .375rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.local-diverse-assistant-message-content ul,
+.local-diverse-assistant-message-content ol {
+    padding-left: 1.25rem;
+}
+
+.local-diverse-assistant-message-content pre {
+    padding: .5rem .75rem;
+    font-size: .875rem;
+    white-space: pre-wrap;
+    background-color: var(--bs-tertiary-bg);
+    border-radius: .5rem;
+}
+
+.local-diverse-assistant-message-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.local-diverse-assistant-message-streaming .local-diverse-assistant-message-content {
+    white-space: pre-wrap;
+}
+
+.local-diverse-assistant-message-pending .local-diverse-assistant-message-content {
+    font-style: italic;
+    color: var(--bs-secondary-color);
+    animation: local-diverse-assistant-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes local-diverse-assistant-pulse {
+    50% {
+        opacity: .45;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .local-diverse-assistant-message-pending .local-diverse-assistant-message-content {
+        animation: none;
+    }
+}
+
+.local-diverse-assistant-message-error .local-diverse-assistant-message-content {
+    color: var(--bs-danger-text-emphasis);
+    border-color: var(--bs-danger);
+}
+
+.local-diverse-assistant-note {
+    margin-top: .25rem;
+    font-size: .8125rem;
+    color: var(--bs-secondary-color);
+}
+
+.local-diverse-assistant-retry {
+    padding: .25rem 0;
+}
+
+/* Input. */
+.local-diverse-assistant-composer {
+    display: flex;
+    align-items: flex-end;
+    gap: .5rem;
+    padding: .75rem 1rem .375rem;
+    background-color: var(--bs-body-bg);
+    border-top: 1px solid var(--bs-border-color);
+}
+
+.local-diverse-assistant-composer textarea {
+    max-height: 10rem;
+    overflow-y: auto;
+    resize: none;
+}
+
+.local-diverse-assistant-footnote {
+    margin: 0;
+    padding: 0 1rem .75rem;
+    font-size: .8125rem;
+    color: var(--bs-secondary-color);
+    background-color: var(--bs-body-bg);
+}
+
+.local-diverse-assistant-footnote .btn-link {
+    padding: 0;
+    font-size: inherit;
+    vertical-align: baseline;
+}
+
+/* Saved chats. */
+.local-diverse-assistant-history {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.local-diverse-assistant-history-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.local-diverse-assistant-history-open {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: .625rem .25rem;
+    text-align: left;
+    border-radius: .5rem;
+}
+
+.local-diverse-assistant-history-title {
+    max-width: 100%;
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.local-diverse-assistant-history-time {
+    font-size: .8125rem;
+    color: var(--bs-secondary-color);
+}
