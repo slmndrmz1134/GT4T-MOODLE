@@ -3,7 +3,8 @@
  *
  * Colours are taken from diverse-university.eu and adjusted so that every
  * text/background pair meets WCAG 2.1 AA (ratios noted per colour).
- * Full design reference: docs/design/README.md in the repository root.
+ * Full design reference: DESIGN.md in the repository root. Every colour the
+ * theme uses is defined here; the other SCSS files only use these variables.
  *
  * This file is added after Boost's and Boost Union's pre-SCSS, so the values
  * below win over the brand colours stored in the Boost / Boost Union settings.
@@ -23,6 +24,8 @@ $diverse-border-strong: #C9C9CF;       // Form control and secondary button bord
 $diverse-success: #1F7A4D;             // Completion (5.32:1 on white).
 $diverse-success-soft: #EAF5EF;
 $diverse-danger: #B42318;              // Errors only; clearly darker and redder than the brand orange (6.57:1).
+$diverse-on-dark-muted: #D4D4D8;       // Secondary text on the dark ink footer (9.9:1 on ink).
+$diverse-track: #EDEDEF;               // Progress bar track.
 
 // Bootstrap / Moodle theme colours.
 $primary: $diverse-action-orange;

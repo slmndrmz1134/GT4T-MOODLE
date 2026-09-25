@@ -73,5 +73,5 @@ body.pagelayout-mycourses #page {
 .progress {
     --#{$prefix}progress-height: .375rem;
     --#{$prefix}progress-border-radius: 50rem;
-    --#{$prefix}progress-bg: #EDEDEF;
+    --#{$prefix}progress-bg: #{$diverse-track};
 }

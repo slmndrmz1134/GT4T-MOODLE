@@ -552,7 +552,7 @@ $diverse-tiles: (
     p {
         margin: 0;
         max-width: 27.5rem;
-        color: #D4D4D8;
+        color: $diverse-on-dark-muted;
         line-height: 1.6;
     }
 }
@@ -569,7 +569,7 @@ $diverse-tiles: (
     gap: .75rem;
 
     a {
-        color: #D4D4D8;
+        color: $diverse-on-dark-muted;
         text-decoration: none;
 
         &:hover,

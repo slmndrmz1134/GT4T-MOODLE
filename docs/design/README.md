@@ -3,38 +3,16 @@
 DIVERSE platformunun görsel dili. Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alındı ve
 tüm metin/zemin çiftleri **WCAG 2.1 AA** kontrast şartını (normal metin ≥ 4.5:1) karşılayacak şekilde ayarlandı.
 
-- **Tema kodu:** `theme/diverse` (Boost Union alt teması). Palet `theme/diverse/scss/pre.scss` içinde tanımlı.
+- **Tema kodu:** `theme/diverse` (Boost Union alt teması). Palet `theme/diverse/scss/pre.scss` içinde tanımlı,
+  açıklaması [`DESIGN.md`](../../DESIGN.md) içinde.
 - **Taslaklar:** `docs/design/mockups/` (kaynak dosyalar) ve çevrimiçi tuval:
   https://claude.ai/artifact/6RSY4o46VHzDGv2ZyLaot8 (sahibi paylaşana kadar yalnızca ona açık).
 
-## Renk paleti
+## Renkler, fontlar ve ölçüler
 
-| Rol | Renk | Nerede | Kontrast |
-|---|---|---|---|
-| Marka turuncusu | `#FF671F` | Büyük yüzeyler, landing page blokları, grafikler. Üstüne **koyu** metin. Asla gövde metni ya da buton yazısı değil. | Koyu metinle 5.43:1 |
-| Etkileşim turuncusu | `#C2410C` | Butonlar (beyaz yazı), linkler, aktif sekme. Hover: `#9A3412` | Beyazla 5.18:1 |
-| Koyu metin (ink) | `#1F2328` | Gövde metni ve başlıklar | 15.8:1 |
-| Gri | `#63666A` | İkincil metin, açıklamalar | 5.77:1 |
-| Açık turuncu | `#FFF4ED` | Duyuru bantları, vurgulu alanlar, seçili satır | — |
-| Şeftali | `#FFD8C2` | Dekoratif kareler, ders kapakları | — |
-| Yüzey | `#F7F7F8` | Platform içi sayfa zemini, çekmeceler | — |
-| Kenarlık | `#E4E4E7` / `#C9C9CF` | Kart kenarları / form ve ikincil buton kenarları | — |
-| Başarı | `#1F7A4D` (zemin `#EAF5EF`) | Tamamlandı işaretleri | 5.32:1 |
-| Hata | `#B42318` | Sadece hata mesajları. Marka turuncusundan belirgin şekilde koyu ve kırmızı. | 6.57:1 |
-
-## Tipografi
-
-- **Başlıklar:** Source Sans 3, 700. DIVERSE'in kullandığı lisanslı Myriad Pro'ya en yakın ücretsiz (OFL) seçenek.
-- **Arayüz ve gövde:** Inter, 400–600. Gövde metni en az 16 px.
-- Fontlar **kendi sunucumuzdan** sunulmalı. Google Fonts CDN'den yüklemek Almanya'da GDPR ihlali sayılabiliyor
-  (partnerlerden biri TH Rosenheim).
-
-## Şekiller
-
-- Butonlar: oval (pill), DIVERSE'teki gibi.
-- Kartlar: 16 px köşe, `#E4E4E7` ince kenarlık.
-- Form alanları: 10 px köşe, 50 px yükseklik.
-- Tıklanabilir alanlar en az 44 × 44 px.
+Tüm değerler (SCSS değişken adları, renk kodları, kontrast oranları, fontlar, köşe yuvarlaklıkları, genişlikler)
+kök dizindeki [`DESIGN.md`](../../DESIGN.md) dosyasında tutulur. Değerler iki yerde yazılıp birbirinden
+ayrılmasın diye burada tekrar edilmez.
 
 ## Tasarım ilkeleri
 
