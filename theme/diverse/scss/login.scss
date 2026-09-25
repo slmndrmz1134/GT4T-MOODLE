@@ -1,0 +1,95 @@
+/****************************************************************
+ * DIVERSE login page: brand panel on the left, form on white on the right.
+ * Markup: templates/login_brand.mustache, added before the login form by
+ * classes/output/core_renderer.php. On small screens only the form is shown.
+ ***************************************************************/
+
+$diverse-login-panel-width: 42vw;
+
+.diverse-login-brand {
+    display: none;
+}
+
+@include media-breakpoint-up(lg) {
+    body.pagelayout-login {
+        background: $white;
+
+        // #page-wrapper is a column flexbox, so #page needs an explicit width to fill the area
+        // right of the panel; its default login gradient is replaced by plain white.
+        #page {
+            margin-left: $diverse-login-panel-width;
+            width: calc(100% - #{$diverse-login-panel-width});
+            align-self: stretch;
+            background: $white;
+        }
+
+        .login-container {
+            box-shadow: none;
+        }
+    }
+
+    .diverse-login-brand {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        width: $diverse-login-panel-width;
+        padding: 3.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2rem;
+        overflow-y: auto;
+        background-color: $diverse-brand-orange;
+        color: $diverse-ink;
+    }
+}
+
+.diverse-login-brand-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.diverse-pattern-small {
+    display: grid;
+    grid-template-columns: repeat(4, 5.5rem);
+
+    .diverse-tile {
+        min-height: 5.5rem;
+    }
+}
+
+.diverse-login-brand-title {
+    margin: 0;
+    max-width: 30rem;
+    font-family: $headings-font-family;
+    font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.05;
+}
+
+.diverse-login-brand-intro {
+    margin: 0;
+    max-width: 28rem;
+    font-size: 1.125rem;
+    line-height: 1.55;
+}
+
+.diverse-login-brand-partners {
+    font-size: .875rem;
+
+    ul {
+        list-style: none;
+        margin: .375rem 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: .25rem 1rem;
+    }
+}
+
+.diverse-login-brand-partners-heading {
+    font-weight: 600;
+}

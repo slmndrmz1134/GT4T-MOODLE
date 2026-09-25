@@ -64,5 +64,10 @@ Taslaklardaki ilerleme yüzdeleri ve tarihler örnektir.
 
 - [x] `theme_diverse` oluşturuldu: palet, tipografi ve şekiller.
 - [x] Inter ve Source Sans 3 font dosyaları `theme/diverse/fonts/` altına eklendi (OFL 1.1, Moodle'ın kendisi sunuyor).
-- [ ] Landing page ve giriş sayfasını `theme_moove` içinden `theme_diverse`'e taşımak.
-- [ ] Varsayılan temayı `diverse` yapmak ve Boost Union ayarlarını (flavours, footer, yasal sayfalar) yapılandırmak.
+- [x] Landing page (ziyaretçiler için ana sayfa) ve giriş sayfası marka paneli `theme_diverse` içinde kodlandı;
+  yerel Docker'da masaüstü ve mobilde test edildi.
+- [x] Yerel test ortamında varsayılan tema `diverse` yapıldı (canlı sunucuda henüz değil).
+- [ ] Resmi DIVERSE logo dosyasını eklemek (şimdilik yazı logosu).
+- [ ] Landing ve giriş metinlerinin Türkçe, Almanca ve Hırvatça çevirileri.
+- [ ] Boost Union ayarları: partner flavours (logolar), footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
+- [ ] Dashboard ve ders sayfası ince ayarları (giriş yapmış kullanıcıyla test).

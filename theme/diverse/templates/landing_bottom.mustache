@@ -1,0 +1,43 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/landing_bottom
+
+    Closing band of the landing page, shown below the site home content for visitors.
+
+    Example context (json):
+    {
+        "homeurl": "#", "loginurl": "#", "allcoursesurl": "#", "privacyurl": "#"
+    }
+}}
+<div class="diverse-landing">
+    <div class="diverse-landing-footer">
+        <div class="diverse-landing-footer-about">
+            <a class="diverse-wordmark diverse-wordmark-light" href="{{homeurl}}">
+                <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
+                <span class="diverse-wordmark-text">DIVERSE</span>
+            </a>
+            <p>{{#str}}footer_about, theme_diverse{{/str}}</p>
+        </div>
+        <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">
+            <span class="diverse-landing-footer-heading">{{#str}}footer_platform, theme_diverse{{/str}}</span>
+            <a href="{{loginurl}}">{{#str}}login{{/str}}</a>
+            <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
+            <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
+        </nav>
+    </div>
+</div>

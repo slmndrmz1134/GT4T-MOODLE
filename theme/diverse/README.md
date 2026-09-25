@@ -19,6 +19,16 @@ What this theme adds
   (licence texts next to the files, listed in `thirdpartylibs.xml`). They are served by Moodle itself, not by a
   third-party CDN.
 
+* `classes/output/core_renderer.php`: extends Boost Union's renderer (no layout or template of Boost Union is
+  copied or overridden):
+  * `main_content()` wraps the site home with the landing page sections for visitors (not logged in, or guest).
+    Partners are the active tenants of tool_mutenancy that are listed on the login page; each card links to the
+    tenant's own login page. Course, user and partner figures are read live from the database.
+  * `render_login()` adds the orange brand panel next to the login form (large screens only).
+* `templates/landing_top.mustache`, `templates/landing_bottom.mustache`, `templates/login_brand.mustache` and
+  `scss/landing.scss`, `scss/login.scss`: markup and styles for the two pages. All texts are language strings in
+  `lang/en/theme_diverse.php`, so they can be translated or changed under *Language customisation*.
+
 The design reference (palette with contrast ratios, typography, mockups) lives in `docs/design/` at the repository
 root.
 
@@ -31,4 +41,5 @@ Requirements
 Not done yet
 ------------
 
-* The DIVERSE landing page and login page layouts still live in theme_moove (as GT4T) and need to be ported here.
+* The official DIVERSE logo: the landing page and login panel show a text wordmark until the logo file is added.
+* Translations of the landing and login texts (Turkish, German, Croatian).

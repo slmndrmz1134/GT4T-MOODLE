@@ -1,0 +1,51 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/login_brand
+
+    DIVERSE brand panel shown next to the login form on large screens (hidden on small screens).
+
+    Example context (json):
+    {
+        "homeurl": "#", "haspartners": true,
+        "partners": [{"name": "Algebra University College"}, {"name": "Technische Hochschule Rosenheim"}]
+    }
+}}
+<aside class="diverse-login-brand" aria-label="DIVERSE">
+    <a class="diverse-wordmark" href="{{homeurl}}">
+        <span class="diverse-wordmark-tile diverse-wordmark-tile-ink" aria-hidden="true">D</span>
+        <span class="diverse-wordmark-text">DIVERSE</span>
+    </a>
+    <div class="diverse-login-brand-body">
+        <div class="diverse-pattern diverse-pattern-small" aria-hidden="true">
+            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
+            <div class="diverse-tile diverse-tile-soft-ink"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
+            <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
+            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
+        </div>
+        <p class="diverse-login-brand-title">{{#str}}login_tagline, theme_diverse{{/str}}</p>
+        <p class="diverse-login-brand-intro">{{#str}}login_intro, theme_diverse{{/str}}</p>
+    </div>
+    {{#haspartners}}
+    <div class="diverse-login-brand-partners">
+        <span class="diverse-login-brand-partners-heading">{{#str}}stat_partners, theme_diverse{{/str}}</span>
+        <ul>
+            {{#partners}}<li>{{name}}</li>{{/partners}}
+        </ul>
+    </div>
+    {{/haspartners}}
+</aside>
