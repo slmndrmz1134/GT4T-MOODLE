@@ -17,7 +17,7 @@
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
- * and with --production the live server debug level).
+ * BigBlueButton live classes, and with --production the live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -226,7 +226,47 @@ if (!$systempage) {
     }
 }
 
-// 7. Live server settings (--production only): debug level Minimal and developer-only settings off.
+// 7. BigBlueButton live classes (core activity module): on, and all course teachers moderate by default.
+// The server URL and secret are site secrets: they are set by an admin, never by this script.
+if (!core_component::get_component_directory('mod_bigbluebuttonbn')) {
+    diverse_setup_report('WARN', 'mod_bigbluebuttonbn is not installed.');
+} else {
+    if ($DB->get_field('modules', 'visible', ['name' => 'bigbluebuttonbn'])) {
+        diverse_setup_report('OK', 'BigBlueButton activity is enabled.');
+    } else if ($dryrun) {
+        diverse_setup_report('WOULD', 'Enable the BigBlueButton activity.');
+    } else {
+        \core\plugininfo\mod::enable_plugin('bigbluebuttonbn', 1);
+        diverse_setup_report('SET', 'BigBlueButton activity enabled.');
+        $changed = true;
+    }
+
+    // Moderators: Moodle's default is only the person who creates the session ("0"). Add the course's
+    // editing and non-editing teachers, so co-teachers of joint courses can run the session too.
+    $moderators = (string) get_config('core', 'bigbluebuttonbn_participant_moderator_default');
+    $teacherroles = $DB->get_records_list('role', 'shortname', ['editingteacher', 'teacher'], 'id', 'id');
+    $wantedmoderators = implode(',', array_merge(['0'], array_keys($teacherroles)));
+    if ($moderators === $wantedmoderators) {
+        diverse_setup_report('OK', 'BigBlueButton moderators: the session creator and the course teachers.');
+    } else if ($moderators !== '' && $moderators !== '0') {
+        diverse_setup_report('SKIP', 'BigBlueButton moderators were chosen by an admin: left as is.');
+    } else if ($dryrun) {
+        diverse_setup_report('WOULD', 'Make the course teachers BigBlueButton moderators by default, besides the session creator.');
+    } else {
+        set_config('bigbluebuttonbn_participant_moderator_default', $wantedmoderators);
+        diverse_setup_report('SET', 'BigBlueButton moderators by default: the session creator and the course teachers.');
+        $changed = true;
+    }
+
+    if (trim((string) get_config('core', 'bigbluebuttonbn_server_url')) === '') {
+        diverse_setup_report('WARN', 'No BigBlueButton server is configured yet: set its URL and shared secret under ' .
+            'Site administration > Plugins > Activity modules > BigBlueButton > General settings.');
+    } else {
+        diverse_setup_report('OK', 'A BigBlueButton server is configured.');
+    }
+}
+
+// 8. Live server settings (--production only): debug level Minimal and developer-only settings off.
 // A debug level an admin set below Minimal (None) is kept.
 if ($options['production']) {
     $debug = (int) get_config('core', 'debug');
