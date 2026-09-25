@@ -15,7 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * DIVERSE site setup: applies the site configuration the DIVERSE platform needs.
+ * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
+ * (theme, course page width, multi-language filter, language packs, default dashboard).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -96,7 +97,22 @@ if (!core_component::get_component_directory('theme_diverse')) {
     $changed = true;
 }
 
-// 2. Multi-language content filter: enable it and apply it to headings, never touching its own settings.
+// 2. Course page width: 1000px instead of Boost Union's default 830px, unless an admin chose another width.
+$coursewidth = get_config('theme_boost_union', 'coursecontentmaxwidth');
+if ($coursewidth === '1000px') {
+    diverse_setup_report('OK', 'Course content width is 1000px.');
+} else if ($coursewidth !== false && $coursewidth !== '830px') {
+    diverse_setup_report('SKIP', "Course content width was set to $coursewidth by an admin: left as is.");
+} else if ($dryrun) {
+    diverse_setup_report('WOULD', 'Set the course content width to 1000px (Boost Union default is 830px).');
+} else {
+    set_config('coursecontentmaxwidth', '1000px', 'theme_boost_union');
+    theme_reset_all_caches();
+    diverse_setup_report('SET', 'Course content width set to 1000px.');
+    $changed = true;
+}
+
+// 3. Multi-language content filter: enable it and apply it to headings, never touching its own settings.
 if (!core_component::get_component_directory('filter_multilang2')) {
     diverse_setup_report('WARN', 'filter_multilang2 is not installed: run admin/cli/upgrade.php first.');
 } else {
@@ -130,7 +146,7 @@ if (!core_component::get_component_directory('filter_multilang2')) {
     }
 }
 
-// 3. Language packs: install the missing ones only; installed packs and language settings are not touched.
+// 4. Language packs: install the missing ones only; installed packs and language settings are not touched.
 $wanted = array_filter(array_map('trim', explode(',', core_text::strtolower($options['langs']))));
 $installed = array_keys(get_string_manager()->get_list_of_translations(true));
 $missing = array_values(array_diff($wanted, $installed));
@@ -152,7 +168,7 @@ if (empty($missing)) {
     $changed = true;
 }
 
-// 4. Default dashboard: timeline, recently accessed courses, calendar.
+// 5. Default dashboard: timeline, recently accessed courses, calendar.
 $syscontext = context_system::instance();
 $systempage = $DB->get_record('my_pages', ['userid' => null, 'name' => MY_PAGE_DEFAULT, 'private' => MY_PAGE_PRIVATE]);
 if (!$systempage) {
