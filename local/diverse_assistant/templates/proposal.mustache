@@ -1,0 +1,86 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_assistant/proposal
+
+    A change the assistant proposes to a teacher: what it changes, the texts before and after, and what the teacher
+    can do with it. Data from \local_diverse_assistant\local\teacher\proposals::export(), plus "open" on the first
+    change, "pending" and "formhere" (the edit form of this proposal is the current page), added by the script.
+    The before and after texts are safe HTML from the server.
+
+    Example context (json):
+    {
+        "id": 12,
+        "status": "pending",
+        "statuslabel": "Waiting for your decision",
+        "pending": true,
+        "title": "New page: Types of contracts",
+        "where": "In: The law of contracts",
+        "note": "A short page that explains the main types of contracts.",
+        "changes": [
+            {"field": "name", "label": "Name", "before": "", "after": "Types of contracts", "open": true},
+            {"field": "content", "label": "Content", "before": "", "after": "<p>Contracts can be...</p>", "open": false}
+        ],
+        "canapply": true,
+        "canform": true,
+        "canundo": false,
+        "candiscard": true,
+        "formhere": false,
+        "viewurl": ""
+    }
+}}
+<div class="local-diverse-assistant-proposal" data-region="proposal" data-id="{{id}}" data-status="{{status}}">
+    <div class="local-diverse-assistant-proposal-header">
+        <span class="local-diverse-assistant-proposal-title">{{title}}</span>
+        <span class="badge {{#pending}}text-bg-warning{{/pending}}{{^pending}}text-bg-light{{/pending}} local-diverse-assistant-proposal-status">{{statuslabel}}</span>
+    </div>
+    {{#where}}<div class="local-diverse-assistant-proposal-where">{{where}}</div>{{/where}}
+    {{#note}}<p class="local-diverse-assistant-proposal-note">{{note}}</p>{{/note}}
+    {{#changes}}
+        <details class="local-diverse-assistant-proposal-change" {{#open}}open{{/open}}>
+            <summary>{{label}}</summary>
+            {{#before}}
+                <div class="local-diverse-assistant-proposal-label">{{#str}} proposal_before, local_diverse_assistant {{/str}}</div>
+                <div class="local-diverse-assistant-proposal-text local-diverse-assistant-proposal-before">{{{before}}}</div>
+                <div class="local-diverse-assistant-proposal-label">{{#str}} proposal_after, local_diverse_assistant {{/str}}</div>
+            {{/before}}
+            <div class="local-diverse-assistant-proposal-text">{{{after}}}</div>
+        </details>
+    {{/changes}}
+    {{#pending}}{{^canapply}}{{#canform}}
+        <p class="local-diverse-assistant-proposal-hint">{{#str}} proposal_formhint, local_diverse_assistant {{/str}}</p>
+    {{/canform}}{{/canapply}}{{/pending}}
+    <div class="local-diverse-assistant-proposal-message" data-region="proposal-message" role="status" hidden></div>
+    <div class="local-diverse-assistant-proposal-actions">
+        {{#canapply}}
+            <button type="button" class="btn btn-primary btn-sm" data-action="proposal-apply" data-id="{{id}}">{{#str}} proposal_apply, local_diverse_assistant {{/str}}</button>
+        {{/canapply}}
+        {{#canform}}
+            <button type="button" class="btn {{#canapply}}btn-outline-secondary{{/canapply}}{{^canapply}}btn-primary{{/canapply}} btn-sm"
+                    data-action="proposal-form" data-id="{{id}}">{{#formhere}}{{#str}} proposal_fillform, local_diverse_assistant {{/str}}{{/formhere}}{{^formhere}}{{#str}} proposal_openform, local_diverse_assistant {{/str}}{{/formhere}}</button>
+        {{/canform}}
+        {{#candiscard}}
+            <button type="button" class="btn btn-link btn-sm" data-action="proposal-discard" data-id="{{id}}">{{#str}} proposal_discard, local_diverse_assistant {{/str}}</button>
+        {{/candiscard}}
+        {{#viewurl}}
+            <a class="btn btn-outline-secondary btn-sm" href="{{viewurl}}">{{#str}} proposal_view, local_diverse_assistant {{/str}}</a>
+        {{/viewurl}}
+        {{#canundo}}
+            <button type="button" class="btn btn-outline-danger btn-sm" data-action="proposal-undo" data-id="{{id}}">{{#str}} proposal_undo, local_diverse_assistant {{/str}}</button>
+        {{/canundo}}
+    </div>
+</div>

@@ -1,0 +1,87 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_assistant/admin_status
+
+    Connection status box at the top of the plugin settings.
+
+    Example context (json):
+    {
+        "enabled": true,
+        "haskey": true,
+        "ok": true,
+        "provider": "OpenAI",
+        "model": "gpt-6-luna",
+        "modelfound": true,
+        "modelcount": 42,
+        "checked": "25/09/26, 14:00",
+        "testurl": "https://example.com/local/diverse_assistant/testconnection.php",
+        "usage": "Last 24 hours: 3 questions."
+    }
+}}
+<div class="local-diverse-assistant-status mb-4">
+    {{#switched}}
+        <div class="alert alert-info">{{#str}} status_switched, local_diverse_assistant, {{switched}} {{/str}}</div>
+    {{/switched}}
+    {{^haskey}}
+        <div class="alert alert-warning">{{#str}} status_nokey, local_diverse_assistant {{/str}}</div>
+    {{/haskey}}
+    {{#pending}}
+        <div class="alert alert-info">{{#str}} status_pending, local_diverse_assistant {{/str}}</div>
+    {{/pending}}
+    {{#ok}}
+        <div class="alert alert-success">
+            <strong>{{#str}} status_ok, local_diverse_assistant, {"provider": {{#quote}}{{provider}}{{/quote}}, "model": {{#quote}}{{model}}{{/quote}}} {{/str}}</strong>
+            <div class="small mt-1">{{#str}} status_models, local_diverse_assistant, {{modelcount}} {{/str}} · {{#str}} status_checked, local_diverse_assistant, {{checked}} {{/str}}</div>
+        </div>
+        {{#modelchanged}}
+            <div class="alert alert-info">{{modelchanged}}</div>
+        {{/modelchanged}}
+        {{^modelfound}}
+            <div class="alert alert-warning">{{#str}} status_modelmissing, local_diverse_assistant, {{model}} {{/str}}</div>
+        {{/modelfound}}
+        {{#euwarning}}
+            <div class="alert alert-warning">{{#str}} status_euwarning, local_diverse_assistant {{/str}}</div>
+        {{/euwarning}}
+    {{/ok}}
+    {{#error}}
+        <div class="alert alert-danger">
+            <strong>{{#str}} status_error, local_diverse_assistant {{/str}}</strong> {{error}}
+            {{#detail}}<div class="small mt-1"><code>{{detail}}</code></div>{{/detail}}
+            <div class="small mt-1">{{#str}} status_checked, local_diverse_assistant, {{checked}} {{/str}}</div>
+        </div>
+    {{/error}}
+    {{^enabled}}
+        <div class="alert alert-info">{{#str}} status_disabled, local_diverse_assistant {{/str}}</div>
+    {{/enabled}}
+    {{#lastfallback}}
+        <div class="alert alert-info small">{{lastfallback}}</div>
+    {{/lastfallback}}
+    {{#freetier}}
+        <div class="alert alert-warning">{{#str}} status_freetier, local_diverse_assistant {{/str}}</div>
+    {{/freetier}}
+    {{#lasterror}}
+        <div class="alert alert-warning small">
+            {{lasterror}}
+            {{#lasterrordetail}}<div class="mt-1"><code>{{lasterrordetail}}</code></div>{{/lasterrordetail}}
+        </div>
+    {{/lasterror}}
+    <p class="small text-body-secondary mb-2">{{usage}}</p>
+    {{#haskey}}
+        <a href="{{testurl}}" class="btn btn-secondary btn-sm">{{#str}} testconnection, local_diverse_assistant {{/str}}</a>
+    {{/haskey}}
+</div>

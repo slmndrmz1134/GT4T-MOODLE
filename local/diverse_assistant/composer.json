@@ -1,0 +1,28 @@
+{
+    "name": "diverse/local_diverse_assistant",
+    "description": "Third-party libraries of the DIVERSE AI assistant (the official Anthropic SDK for Claude). Moodle already ships the PSR-7/17/18 packages and Guzzle, so they are declared as provided and not installed again.",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": ">=8.2",
+        "anthropic-ai/sdk": "^0.51"
+    },
+    "replace": {
+        "psr/http-client": "*",
+        "psr/http-factory": "*",
+        "psr/http-message": "*"
+    },
+    "provide": {
+        "psr/http-client-implementation": "1.0",
+        "psr/http-factory-implementation": "1.0"
+    },
+    "config": {
+        "vendor-dir": "vendor",
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.2.0"
+        },
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}

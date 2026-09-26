@@ -29,6 +29,7 @@ terminalde `docker compose watch` açık kalır. Ayrıntılar: [docker.md](docke
 | [DESIGN.md](DESIGN.md) | Renkler, fontlar, ölçüler (tasarım değerleri) |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar, nedenleri, açık riskler ve yapılacaklar |
+| [docs/AI.md](docs/AI.md) | AI ders asistanı: ne yapar, veri nereye gider, kurulum ve test |
 | [AGENTS.md](AGENTS.md) | Diğer yapay zekâ ajanları için CLAUDE.md'ye yönlendirme |
 
 ## Temel kurallar
@@ -45,6 +46,7 @@ Tamamı [CLAUDE.md](CLAUDE.md) içinde. Kısaca:
 | Yol | Ne |
 |---|---|
 | `theme/diverse/` | DIVERSE teması (Boost Union alt teması) |
+| `local/diverse_assistant/` | AI ders asistanı eklentisi |
 | `setup/` | Kurulum betikleri: `diverse_setup.php`, `check_lang_settings.php`, `cpanel/` |
 | `database/moodle.sql` | Veritabanı dökümü |
 | `docs/` | Belgeler |

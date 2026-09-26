@@ -28,6 +28,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 | 12 | Ajan kuralları (`CLAUDE.md`) ve tasarım değerleri (`DESIGN.md`) | ✓ |
 | 13 | cPanel kurulumu: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz | ✓ (sunucuya kurulmadı) |
 | 14 | Yerel Docker: 60 kat hız, tek komutla kurulum | ✓ |
+| 15 | AI ders asistanı `local_diverse_assistant` (OpenAI, Claude, Gemini), bkz. §19 | `ai-assistant` dalında, gerçek cevapla deneme bekliyor |
+| 16 | AI asistanı öğretmen modu: içerik ekleme/düzenleme önerileri, Uygula / Formda aç / Geri al, bkz. §20 | `ai-teacher` dalında, tarayıcıda öğretmen denemesi bekliyor |
 
 ---
 
@@ -365,6 +367,9 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
    çıkmadan önce tüm şifrelerin değiştirilmesi.
 8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
 9. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
+10. **AI asistan:** "Yalnızca AB" kararı (iki senaryo da hazır), servisle veri işleme sözleşmesi, Aşama 2 servisleri
+    (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19). Öğretmen modu (§20) tarayıcıda denenmeli;
+    Gemini'yi öğretmenlere açmadan önce faturalandırma şart (ücretsiz katmanda günlük kota birkaç öneride doluyor).
 
 ## 18. Commit listesi
 
@@ -389,3 +394,78 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 | `60690d89` | 2026-09-25 | cPanel: IP adresi ve HTTP ile çalışma |
 | `55772135` | 2026-09-25 | Docker: kod imajda, `docker compose watch` |
 | `48af2472` | 2026-09-25 | Docker: tek komutla kurulum, döküm otomatik yüklenir |
+
+## 19. AI ders asistanı (Aşama 1)
+
+Ayrıntılı belge: [`docs/AI.md`](AI.md). Kod `ai-assistant` dalında.
+
+**Yapılan**
+- Yeni eklenti `local/diverse_assistant`: ders ve etkinlik sayfalarının sağ kenarında **AI asistan** sekmesi; açılan
+  panelde öğrenci dersin içeriği hakkında AI ile yazışır. Cevaplar parça parça akar.
+- Servisler: OpenAI (`gpt-6-luna`), Claude (`claude-opus-5`, resmi Anthropic PHP SDK'sı), Google Gemini
+  (`gemini-3.8-flash`) ve OpenAI uyumlu servisler. Her servisin anahtarı ayrı ve şifreli saklanır. Anahtar
+  yapıştırılıp kaydedilince bağlantı kendiliğinden kontrol edilir ve model menüsü dolar. Claude ya da Gemini anahtarı
+  hangi alana yapıştırılırsa yapıştırılsın kendi servisine bağlanır.
+- Sohbetlerin saklanıp saklanmayacağına ve ne kadar süreyle saklanacağına **öğrenci kendisi karar verir** (varsayılan:
+  kaydedilmez, sohbet yalnızca tarayıcı sekmesinde kalır). Yöneticiler sohbetleri göremez, yalnızca toplamları görür.
+- "Yalnızca AB" ayarı (varsayılan kapalı), saatlik soru sınırı, quiz sırasında duraklatma, Moodle gizlilik API'si.
+- Arayüz metinleri EN/TR/DE/HR; 56 PHPUnit testi.
+- Servis yoğunken (ör. Gemini 503 "high demand") istek yeniden denenir, olmazsa aynı modelin başka sürümü cevap verir;
+  son hata ve yedek model kullanımı ayar sayfasında görünür.
+- Claude için Anthropic'in resmi PHP SDK'sı eklentinin `vendor/` klasörüne gömüldü (18 MB, `thirdpartylibs.xml`).
+  Moodle'ın zaten içerdiği Guzzle ve PSR paketleri tekrar kurulmadı; SDK istekleri Moodle'ın HTTP istemcisinden geçer.
+
+**Neden**
+- Proje sahibinin kararı: ilk hedef öğrenci asistanı, VS Code'daki sohbet paneline benzer bir sekme; ileride Claude,
+  Gemini gibi servisler de anahtar girilerek bağlanabilmeli; kayıt saklamayı öğrenci yönetmeli.
+- Moodle 5.0'ın hazır AI altyapısı kullanılmadı: tek mesajlık çalışıyor, cevabı akıtamıyor ve her isteği çekirdek
+  tablolara süresiz yazıyor. Kendi tablolarımızda tutunca saklama süresi öğrencinin tercihine bağlanabildi ve çekirdeğe
+  dokunulmadı.
+- Hazır "Özetle/Açıkla" özelliği öğrencilere açılmadı: her etkinlik sayfasında çıkıyor; forumda başka öğrencilerin
+  mesajlarını, quiz sırasında soruları AI'a gönderebiliyor. Bizim asistanımız ders içeriğini sunucuda, etkinliklerin
+  resmi web servis fonksiyonlarıyla ve yalnızca öğretmen metinlerinden toplar.
+
+**Açık konular**
+- Gerçek anahtarlarla uçtan uca deneme (cevap alma) ve tarayıcı kontrolü. OpenAI anahtarı girildi ve bağlantı
+  kontrolü başarılı; Claude ve Gemini anahtarı yok, bu servisler yalnızca geçersiz anahtarla ve sahte cevaplarla
+  denendi.
+- Claude ve Gemini'nin doğrudan API'lerinde yalnızca AB seçeneği yok; AB şartı gelirse Bedrock / Vertex AI gerekir.
+- Canlıda: HTTPS olmadan açılmaması, sunucunun AI servislerine (443) çıkışına izin verilmesi, servisle veri işleme
+  sözleşmesi.
+
+## 20. AI asistanı: öğretmen modu (Aşama 2)
+
+Ayrıntılı belge: [`docs/AI.md`](AI.md) ("Öğretmen ne görür"). Kod `ai-teacher` dalında (`ai-assistant`'tan açıldı).
+
+**Yapılan**
+- Dersi düzenleyebilen öğretmen (yeni yetki `local/diverse_assistant:teach`, varsayılan editingteacher ve manager)
+  panelde **içerik asistanını** görür. AI; yeni sayfa, metin ve medya alanı, etkinlik adı/açıklaması, sayfa içeriği,
+  bölüm adı/özeti için **öneri** hazırlar; çok dilli (`{mlang}`) çeviri de yapar.
+- Öneriler cevabın altında kart olarak gelir ("Mevcut" / "Önerilen"). **Uygula** sayfa, etiket ve bölümlerde tek tıkla
+  Moodle'ın kendi işlevleriyle uygular; **Geri al** 30 gün içinde eski hale döndürür. Ödev, quiz, forum gibi
+  etkinliklerde **Formda aç** Moodle'ın düzenleme formunu AI metniyle doldurur; öğretmen kaydeder.
+- Düzenleme formlarında AI cevabını TinyMCE'ye koyan **Editöre ekle** düğmesi.
+- Yeni tablo `local_diverse_assistant_prop` (öneriler ve geri alma için eski metin), sürüm 2026092700 (0.3.0).
+- 74 PHPUnit testi (18 yeni); çekirdek gizlilik ve web servis uyum testleri geçti.
+- Yerelde gerçek servislerle denendi (teacher1, LAW202): Gemini ve OpenAI yeni sayfa ve çok dilli sayfa önerisi
+  hazırladı; öneriler web servis üzerinden uygulandı ve geri alındı, sayfa ayarları korundu.
+
+**Neden**
+- Proje sahibinin kararı: öğretmenler içerik eklerken ve düzenlerken AI'dan yararlanabilmeli; AI öneri hazırlasın,
+  öğretmen onaylasın ("Öneri + Uygula" seçildi).
+- Ödev gibi etkinlikler formsuz güncellenmiyor: Moodle'ın `update_module()` işlevi formun bütün alanlarını bekliyor,
+  eksik alanlar ayarları sessizce değiştiriyor (örneğin ödevin teslim türleri kapanıyor). Bu yüzden tek tık yalnızca
+  verisi form ön işlemesiyle eksiksiz yüklenebilen sayfa ve etiketlerde; diğerleri formda açılıyor.
+- Öğretmen modunda içerik filtresiz okunuyor: filtreli okunursa çok dil filtresi yalnızca bir dili bırakır ve AI'ın
+  düzelttiği metinde diğer diller silinirdi.
+
+**Denemede çıkan ve düzeltilen hatalar**
+- Gemini yoğunken cevabın ortasında akışa SSE biçiminde olmayan bir hata gövdesi yazıyor; yarım cevap tamamlanmış gibi
+  görünüyordu (öğrenci modunu da etkiliyordu). Artık "servis yoğun" hatası veriyor.
+- OpenAI'ın Chat Completions API'si GPT-6 modellerinde araç çağırmayı düşünme düzeyiyle birlikte kabul etmiyor
+  (HTTP 400). Öğretmen modunda bu modellere `reasoning_effort: none` gidiyor.
+
+**Açık konular**
+- Tarayıcıda öğretmen ve öğrenci denemesi (masaüstü ve 375 px); kartlar, "Formda aç" ve "Editöre ekle".
+- Gemini ücretsiz katman kotası öğretmen modunda çabuk doluyor (model başına günde 20 istek); faturalandırma gerekli.
+- Sonraki adımlar: quiz sorusu önerme, kitap bölümleri, OpenAI Responses API.

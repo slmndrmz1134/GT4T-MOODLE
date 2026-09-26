@@ -1,0 +1,165 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_assistant/panel
+
+    The tab on the right edge of course pages and the chat panel it opens.
+
+    Teachers who can edit the course get the authoring assistant (teacher mode): other suggestions, and the changes
+    the assistant proposes appear as cards (local_diverse_assistant/proposal) under its answers.
+
+    Example context (json):
+    {
+        "coursename": "DSA101",
+        "maxlength": 4000,
+        "retentionoptions": [
+            {"value": 0, "label": "Do not save", "selected": true},
+            {"value": 30, "label": "30 days", "selected": false}
+        ],
+        "teacher": true,
+        "hascm": true,
+        "keepdays": 30
+    }
+}}
+<button type="button" class="local-diverse-assistant-toggle btn btn-primary" data-action="local-diverse-assistant-toggle"
+        aria-controls="local-diverse-assistant-panel" aria-expanded="false">
+    {{> local_diverse_assistant/sparkles }}
+    <span class="local-diverse-assistant-toggle-label">{{#str}} toggle, local_diverse_assistant {{/str}}</span>
+</button>
+
+<section id="local-diverse-assistant-panel" class="local-diverse-assistant" data-region="local-diverse-assistant"
+         aria-labelledby="local-diverse-assistant-title" tabindex="-1">
+    <header class="local-diverse-assistant-header">
+        <div class="local-diverse-assistant-heading">
+            <h2 id="local-diverse-assistant-title" class="local-diverse-assistant-title">
+                {{> local_diverse_assistant/sparkles }} {{#str}} paneltitle, local_diverse_assistant {{/str}}
+            </h2>
+            <span class="local-diverse-assistant-course">{{coursename}}{{#teacher}}
+                <span class="badge text-bg-secondary local-diverse-assistant-mode">{{#str}} teachermode, local_diverse_assistant {{/str}}</span>{{/teacher}}</span>
+        </div>
+        <div class="local-diverse-assistant-actions">
+            <button type="button" class="btn btn-icon" data-action="new"
+                    title="{{#str}} newchat, local_diverse_assistant {{/str}}"
+                    aria-label="{{#str}} newchat, local_diverse_assistant {{/str}}">{{#pix}} t/add, core {{/pix}}</button>
+            <button type="button" class="btn btn-icon" data-action="history" hidden
+                    title="{{#str}} history, local_diverse_assistant {{/str}}"
+                    aria-label="{{#str}} history, local_diverse_assistant {{/str}}">{{#pix}} t/log, core {{/pix}}</button>
+            <button type="button" class="btn btn-icon" data-action="settings"
+                    title="{{#str}} settings, local_diverse_assistant {{/str}}"
+                    aria-label="{{#str}} settings, local_diverse_assistant {{/str}}">{{#pix}} i/settings, core {{/pix}}</button>
+            <button type="button" class="btn btn-icon" data-action="close"
+                    title="{{#str}} closepanel, local_diverse_assistant {{/str}}"
+                    aria-label="{{#str}} closepanel, local_diverse_assistant {{/str}}">{{#pix}} e/cancel, core {{/pix}}</button>
+        </div>
+    </header>
+
+    <div class="local-diverse-assistant-view" data-view="loading">
+        <div class="local-diverse-assistant-loading">{{> core/loading }}</div>
+    </div>
+
+    <div class="local-diverse-assistant-view local-diverse-assistant-page" data-view="unavailable" hidden>
+        <div class="alert alert-info mb-0" data-region="reason"></div>
+    </div>
+
+    <div class="local-diverse-assistant-view local-diverse-assistant-page" data-view="notice" hidden>
+        <h3 class="local-diverse-assistant-subtitle">{{#str}} notice_title, local_diverse_assistant {{/str}}</h3>
+        <p data-region="notice-text"></p>
+        <ul class="local-diverse-assistant-points">
+            <li>{{#str}} notice_mistakes, local_diverse_assistant {{/str}}</li>
+            <li>{{#str}} notice_personal, local_diverse_assistant {{/str}}</li>
+            <li>{{#str}} notice_retention, local_diverse_assistant {{/str}}</li>
+            {{#teacher}}
+                <li>{{#str}} notice_teacher, local_diverse_assistant, {{keepdays}} {{/str}}</li>
+            {{/teacher}}
+        </ul>
+        <button type="button" class="btn btn-primary" data-action="accept-notice">{{#str}} notice_accept, local_diverse_assistant {{/str}}</button>
+    </div>
+
+    <div class="local-diverse-assistant-view local-diverse-assistant-page" data-view="settings" hidden>
+        <button type="button" class="btn btn-link local-diverse-assistant-back" data-action="back">
+            {{#pix}} t/left, core {{/pix}} {{#str}} back, local_diverse_assistant {{/str}}
+        </button>
+        <fieldset>
+            <legend class="local-diverse-assistant-subtitle">{{#str}} retention_title, local_diverse_assistant {{/str}}</legend>
+            <p class="small text-body-secondary">{{#str}} retention_desc, local_diverse_assistant {{/str}}</p>
+            {{#retentionoptions}}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="local-diverse-assistant-retention"
+                           id="local-diverse-assistant-retention-{{value}}" value="{{value}}" {{#selected}}checked{{/selected}}>
+                    <label class="form-check-label" for="local-diverse-assistant-retention-{{value}}">{{label}}</label>
+                </div>
+            {{/retentionoptions}}
+        </fieldset>
+        <hr>
+        <p class="small text-body-secondary">{{#str}} deletehistory_desc, local_diverse_assistant {{/str}}</p>
+        <button type="button" class="btn btn-outline-danger" data-action="delete-history">{{#str}} deletehistory, local_diverse_assistant {{/str}}</button>
+    </div>
+
+    <div class="local-diverse-assistant-view local-diverse-assistant-page" data-view="history" hidden>
+        <button type="button" class="btn btn-link local-diverse-assistant-back" data-action="back">
+            {{#pix}} t/left, core {{/pix}} {{#str}} back, local_diverse_assistant {{/str}}
+        </button>
+        <h3 class="local-diverse-assistant-subtitle">{{#str}} history, local_diverse_assistant {{/str}}</h3>
+        <ul class="local-diverse-assistant-history" data-region="history-list"></ul>
+        <p class="small text-body-secondary" data-region="history-empty" hidden>{{#str}} historyempty, local_diverse_assistant {{/str}}</p>
+    </div>
+
+    <div class="local-diverse-assistant-view local-diverse-assistant-chat" data-view="chat" hidden>
+        <div class="local-diverse-assistant-messages" data-region="messages" aria-live="polite">
+            <div class="local-diverse-assistant-empty" data-region="empty">
+                {{#teacher}}
+                <p class="local-diverse-assistant-empty-title">{{#str}} teacher_emptytitle, local_diverse_assistant {{/str}}</p>
+                <div class="local-diverse-assistant-suggestions">
+                    {{#hascm}}
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_simplify, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_translate, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_examples, local_diverse_assistant {{/str}}</button>
+                    {{/hascm}}
+                    {{^hascm}}
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_newpage, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_summaries, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_review, local_diverse_assistant {{/str}}</button>
+                    {{/hascm}}
+                </div>
+                {{/teacher}}
+                {{^teacher}}
+                <p class="local-diverse-assistant-empty-title">{{#str}} emptytitle, local_diverse_assistant {{/str}}</p>
+                <div class="local-diverse-assistant-suggestions">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_summary, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_page, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_concepts, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_quiz, local_diverse_assistant {{/str}}</button>
+                </div>
+                {{/teacher}}
+            </div>
+        </div>
+        <form class="local-diverse-assistant-composer" data-region="composer">
+            <label for="local-diverse-assistant-input" class="visually-hidden">{{#str}} placeholder, local_diverse_assistant {{/str}}</label>
+            <textarea id="local-diverse-assistant-input" class="form-control" rows="1" maxlength="{{maxlength}}"
+                      placeholder="{{#teacher}}{{#str}} teacher_placeholder, local_diverse_assistant {{/str}}{{/teacher}}{{^teacher}}{{#str}} placeholder, local_diverse_assistant {{/str}}{{/teacher}}"
+                      data-region="input"></textarea>
+            <button type="submit" class="btn btn-primary btn-icon" data-action="send"
+                    aria-label="{{#str}} send, local_diverse_assistant {{/str}}">{{#pix}} t/sendmessage, core {{/pix}}</button>
+            <button type="button" class="btn btn-secondary btn-icon" data-action="stop" hidden
+                    aria-label="{{#str}} stop, local_diverse_assistant {{/str}}">{{#pix}} t/stop, core {{/pix}}</button>
+        </form>
+        <p class="local-diverse-assistant-footnote">
+            {{#str}} footnote, local_diverse_assistant {{/str}}
+            <button type="button" class="btn btn-link" data-action="settings" data-region="retention-status"></button>
+        </p>
+    </div>
+</section>

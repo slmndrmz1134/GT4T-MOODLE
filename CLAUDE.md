@@ -14,6 +14,8 @@ geliştiriciye anlatır ve karar ister.
 - **Partnerler:** `tool_mutenancy` + `tool_mulib` ile her üniversite bir tenant.
 - **Çok dil:** `filter/multilang2` (`{mlang xx}...{mlang}`) ve EN / TR / DE / HR dil paketleri.
 - **Canlı ders:** Moodle'ın kendi BigBlueButton modülü (`mod/bigbluebuttonbn`).
+- **AI ders asistanı:** `local/diverse_assistant` ([docs/AI.md](docs/AI.md)). Sohbetlerin saklama süresini öğrenci seçer;
+  yönetici ayarı değildir. Öğretmenler aynı panelde içerik önerileri alır; AI onaysız hiçbir şeyi değiştirmez.
 - **Canlı sunucu:** cPanel (AlmaLinux), Docker yok. **Yerel test:** Docker (`docker-compose.yml`).
 - **Site ayarları:** `setup/diverse_setup.php` (tekrar çalıştırılabilir, yalnızca eksik olanı ekler).
 - **Geçmiş ve gerekçeler:** [docs/YAPILANLAR.md](docs/YAPILANLAR.md). Bir şeyin neden öyle yapıldığını merak
@@ -213,4 +215,5 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | [docker.md](docker.md), `docker-compose.yml`, `docker-entrypoint-custom.sh` | Yerel Docker kurulumu |
 | `database/moodle.sql` | Veritabanı dökümü (repoda kalır) |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar ve nedenleri, açık riskler |
+| `local/diverse_assistant/`, [docs/AI.md](docs/AI.md) | AI ders asistanı eklentisi ve belgesi |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |
