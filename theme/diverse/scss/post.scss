@@ -107,11 +107,28 @@ body {
         align-items: center;
     }
 
-    .navbar-brand {
+    .navbar-brand,
+    a.navbar-brand,
+    .navbar-brand.aabtn {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
 
         &:hover,
-        &:focus {
+        &:focus,
+        &:focus-visible,
+        &:active {
             opacity: .9;
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        img,
+        .logo {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
         }
     }
 
@@ -142,16 +159,20 @@ body {
             border: none !important;
             border-radius: 0 !important;
             box-shadow: none !important;
+            outline: none !important;
             padding: .5rem .75rem !important;
             transition: color .15s ease;
 
             &:hover,
-            &:focus {
+            &:focus,
+            &:focus-visible,
+            &:active {
                 color: $diverse-home-hover !important;
                 background: none !important;
                 background-color: transparent !important;
                 border: none !important;
                 box-shadow: none !important;
+                outline: none !important;
             }
 
             &.active {
@@ -160,10 +181,14 @@ body {
                 background-color: transparent !important;
                 border: none !important;
                 box-shadow: none !important;
+                outline: none !important;
 
                 &:hover,
-                &:focus {
+                &:focus,
+                &:focus-visible,
+                &:active {
                     color: $diverse-home-hover !important;
+                    outline: none !important;
                 }
             }
         }
@@ -176,19 +201,36 @@ body {
     }
 
     .langmenu {
-        .btn.dropdown-toggle {
+        .btn.dropdown-toggle,
+        #lang-menu-toggle {
             font-size: .875rem;
             font-weight: 500;
             padding: .4rem .75rem;
             border-radius: 50rem;
             color: $diverse-ink;
-            border: 1px solid transparent;
+            border: 1px solid transparent !important;
+            outline: none !important;
+            box-shadow: none !important;
             transition: all .15s ease;
 
-            &:hover,
-            &:focus {
+            &:hover {
                 background-color: $diverse-surface;
                 color: $diverse-action-orange;
+                border-color: transparent !important;
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
+            &:focus,
+            &:focus-visible,
+            &:active,
+            &.show,
+            &[aria-expanded="true"] {
+                background-color: $diverse-surface;
+                color: $diverse-action-orange;
+                border-color: transparent !important;
+                outline: none !important;
+                box-shadow: none !important;
             }
         }
     }
@@ -205,11 +247,14 @@ body {
             transition: all .15s ease;
 
             &:hover,
-            &:focus {
+            &:focus,
+            &:focus-visible,
+            &:active {
                 background-color: $diverse-action-orange-hover;
                 color: $white;
                 transform: translateY(-1px);
                 box-shadow: $box-shadow-sm;
+                outline: none !important;
             }
         }
     }
