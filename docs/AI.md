@@ -1,8 +1,9 @@
 # AI Ders Asistanı (`local_diverse_assistant`)
 
 Öğrenciler her dersin sağ kenarındaki **AI asistan** sekmesinden açılan panelde, o dersin içeriği hakkında bir yapay
-zekâ modeliyle yazışır: özet, açıklama, örnek, kendini sınama soruları. Bu belge eklentinin ne yaptığını, verinin
-nereye gittiğini, nasıl kurulup test edildiğini anlatır.
+zekâ modeliyle yazışır: özet, açıklama, örnek, kendini sınama soruları. Dersi düzenleyebilen **öğretmenler** aynı
+panelde içerik asistanını görür: AI yeni sayfa, metin düzeltme, çeviri önerir; öğretmen onaylayınca derse uygulanır.
+Bu belge eklentinin ne yaptığını, verinin nereye gittiğini, nasıl kurulup test edildiğini anlatır.
 
 - **Kod:** [`local/diverse_assistant/`](../local/diverse_assistant/) (kendi başına çalışan Moodle eklentisi, Kural 2)
 - **Servisler:** OpenAI, Claude (Anthropic), Google Gemini ve OpenAI uyumlu servisler (Mistral, OpenRouter, Ollama...).
@@ -20,6 +21,36 @@ nereye gittiğini, nasıl kurulup test edildiğini anlatır.
   kadar. "Tüm sohbetlerimi sil" düğmesi. Kayıt açıksa **Kayıtlı sohbetler** listesi görünür (açma, silme).
 - Öğrencinin derste bitmemiş bir quiz denemesi varken asistan cevap vermez (ayardan kapatılabilir).
 
+## Öğretmen ne görür (öğretmen modu)
+
+Dersi düzenleme yetkisi olan öğretmen (`local/diverse_assistant:teach` + `moodle/course:manageactivities`; varsayılan
+editingteacher ve manager) paneli açınca **Öğretmen modu** etiketiyle içerik asistanını görür. Öğretmen "Rolü
+değiştir > Öğrenci" yaparsa öğrencinin gördüğü asistanı görür.
+
+- **Ne isteyebilir:** yeni sayfa ("3. bölüme sözleşme türleri hakkında bir sayfa ekle"), yeni metin ve medya alanı,
+  bir etkinliğin adını/açıklamasını ya da sayfa içeriğini yeniden yazma ("bu sayfayı sadeleştir"), bölüm adı ve özeti,
+  **çok dilli yapma** ("bu sayfayı İngilizce ve Türkçe yap": metin `{mlang en}…{mlang}{mlang tr}…{mlang}` bloklarıyla
+  yazılır). Hazır öneriler de var (etkinlik sayfasında: sadeleştir, 4 dile çevir, örnek ekle; ders sayfasında: yeni
+  sayfa, bölüm özetleri, ders yapısını gözden geçir).
+- **AI hiçbir şeyi kendisi değiştirmez.** Değişiklikler cevabın altında **öneri kartı** olarak gelir: ne değişiyor,
+  hangi bölümde, "Mevcut" ve "Önerilen" metin (çok dilli metinlerde her dil EN/TR/DE/HR etiketiyle görünür). Kartta:
+  - **Uygula:** sayfa, metin ve medya alanı ve bölümlerde tek tıkla derse uygulanır (Moodle'ın kendi işlevleriyle:
+    olaylar, kayıtlar, geri dönüşüm kutusu normal çalışır). Uygulanınca **Görüntüle** ve **Geri al** çıkar.
+  - **Formda aç:** Moodle'ın düzenleme formu AI metniyle dolu açılır; öğretmen kontrol edip **Kaydet**'e basar.
+    Ödev, quiz, forum gibi etkinliklerde yalnızca bu yol var: bu etkinliklerin ayarlarını (ör. ödevin teslim türleri)
+    yalnızca kendi formları doğru kaydeder, formsuz yazmak onları bozar. Öğretmen zaten o formdaysa düğme
+    **Forma yerleştir** olur ve sayfa değişmez.
+  - **Geri al:** uygulanan değişiklik 30 gün içinde geri alınır (yeni etkinlik silinir ve geri dönüşüm kutusuna gider;
+    değişen metin eski haline döner).
+  - **Reddet.**
+- **Güvenlik kilitleri:** öneriden sonra metin başkası tarafından değiştirildiyse "Uygula" üzerine yazmaz; uygulandıktan
+  sonra elle düzenlendiyse "Geri al" o düzenlemeyi silmez. AI yalnızca metnini **tamamen gördüğü** etkinlik ve bölümleri
+  değiştirebilir (ders çok uzunsa öğretmen o etkinliği açıp orada sormalı). AI'ın yazdığı HTML, kullanıcı girdisi gibi
+  temizlenir (script vb. atılır). Bir cevapta en fazla 5 öneri.
+- **Düzenleme formlarında "Editöre ekle":** öğretmen bir etkinliğin ya da bölümün düzenleme formundayken AI'ın
+  cevabının altında bu düğme çıkar; cevap, son tıklanan TinyMCE editörüne imlecin olduğu yere eklenir.
+- Öğretmen modunda quiz kilidi uygulanmaz; saatlik soru sınırı ve saklama tercihi öğrencilerdeki gibidir.
+
 ## Veri nereye gider (gizlilik)
 
 | Ne | Nereye | Ne kadar |
@@ -28,12 +59,17 @@ nereye gittiğini, nasıl kurulup test edildiğini anlatır.
 | Kayıtlı sohbetler | Moodle veritabanı (`local_diverse_assistant_conv`, `_msg`) | **Öğrencinin seçtiği süre**; varsayılan hiç |
 | "Kaydetme" seçiliyken sohbet | Yalnızca tarayıcı sekmesi (`sessionStorage`) | Sekme kapanınca / oturum değişince silinir |
 | Kullanım satırı (metin yok: kullanıcı, ders, token sayısı, zaman) | Moodle veritabanı (`local_diverse_assistant_use`) | 30 gün (saatlik sınır ve toplamlar için) |
+| Öğretmen modu: dersin kayıtlı metinleri (adlar, açıklamalar, sayfalar, bölüm özetleri; gizli etkinlikler dahil) | Seçilen AI servisi | Servisin kendi saklama kuralı |
+| Öğretmen modu: öneriler (önerilen metin ve geri alma için eski metin) | Moodle veritabanı (`local_diverse_assistant_prop`) | Son işlemden 30 gün sonra; kayıtlı sohbetle birlikte ya da "Tüm sohbetlerimi sil" ile daha erken |
 
 - **Servise asla gitmeyenler:** öğrencinin adı, e-posta adresi, Moodle kimliği (OpenAI'ın `user` alanı da gönderilmez),
   forum mesajları, ödev teslimleri, quiz soruları, gizli ya da kısıtlı etkinlikler.
 - **Ders içeriği** her etkinliğin kendi resmi web servis fonksiyonuyla okunur (`mod_page_get_pages_by_courses` vb.),
   yani Moodle'ın görünürlük ve yetki kontrolleri uygulanır; başka eklentilerin tablolarına doğrudan erişilmez.
   Filtreler açık okunduğu için çok dil filtresi yalnızca öğrencinin dilini bırakır.
+- **Öğretmen modunda** metinler filtresiz, kayıtlı halleriyle okunur (Moodle'ın düzenleme öncesi kontrolü
+  `can_update_moduleinfo()` ile): `{mlang}` bloklarının tüm dilleri ve resim bağlantıları (`@@PLUGINFILE@@`) korunur;
+  yoksa düzenlenen metinde diğer diller silinirdi. Öğrenci verisi (teslim, forum mesajı, not) burada da gönderilmez.
 - **Yöneticiler sohbetleri göremez**; ayar sayfasında yalnızca toplam soru/kullanıcı/token sayıları var. Saklama süresi
   bir yönetici ayarı değildir, öğrencinin kendi tercihidir.
 - Süresi dolan sohbetleri saatlik zamanlanmış görev (`\local_diverse_assistant\task\cleanup`) siler; öğrenci daha kısa
@@ -101,6 +137,11 @@ sorularda içerik çok daha ucuz okunur. Gemini fiyatları için Google'ın fiya
 | `classes/local/retention.php`, `classes/local/store.php` | Öğrencinin saklama tercihi, veritabanı işlemleri |
 | `classes/local/connection.php`, `settings.php`, `testconnection.php` | Ayarlar ve bağlantı durumu |
 | `classes/privacy/provider.php` | Gizlilik API'si |
+| `classes/local/teacher/course_content.php` | Öğretmen modu: dersin kayıtlı metinleri, `[cmid=N]` / `[section=N]` kimlikleriyle; hangi öğelerin tamamen gönderildiği |
+| `classes/local/teacher/tools.php` | Modelin çağırabileceği araçlar (`propose_new_page`, `propose_new_label`, `propose_activity_update`, `propose_section_update`) |
+| `classes/local/teacher/proposals.php` | Araç çağrılarını kontrol eder, öneri olarak saklar, kart verisini hazırlar |
+| `classes/local/teacher/applier.php` | Uygula / Geri al / Reddet (Moodle'ın `create_module`, `update_module`, `course_delete_module`, `formatactions::section()->update`) |
+| `classes/external/proposal_action.php`, `amd/src/editor.js`, `templates/proposal.mustache` | Kart düğmeleri, formu doldurma ve "Editöre ekle" (TinyMCE) |
 
 - **Servisler nasıl bağlanıyor:**
   - OpenAI ve OpenAI uyumlu servisler: Chat Completions API, Moodle'ın `curl` sınıfıyla akış.
@@ -116,6 +157,18 @@ sorularda içerik çok daha ucuz okunur. Gemini fiyatları için Google'ın fiya
   önizleme sürümleri kullanılmaz). Öğrenci ancak hepsi başarısız olursa "AI servisi şu an çok yoğun" mesajını görür.
   Ayar sayfasındaki durum kutusu son yedek model kullanımını ve son cevaplanamayan soruyu (servisin hata metniyle, öğrenci
   bilgisi olmadan) gösterir; Gemini ücretsiz katman kotası görülürse ayrıca uyarır.
+- **Öğretmen modunda araç çağırma (tool calling):** modele dört "öneri" aracı verilir; araç çağrıları çalıştırılmaz,
+  yalnızca öneri kartına dönüşür. OpenAI ve Gemini'de Chat Completions `tools`, Claude'da SDK'nın `tools` parametresi.
+  OpenAI'ın Chat Completions API'si GPT-6 modellerinde araçları düşünme düzeyiyle birlikte kabul etmiyor; öğretmen
+  modunda bu modellere `reasoning_effort: none` gider (başka bir model aynı hatayı verirse bir kez düşünmeden yeniden
+  sorulur). Önceki önerilerin durumu (bekliyor/uygulandı) sonraki sorularda modele hatırlatılır.
+- **Sayfa güncellemesi nasıl güvenli:** etkinliğin verisi, düzenleme formunun yüklediği gibi yüklenir
+  (`get_moduleinfo_data()` ve formun kendi `data_preprocessing()`'i), yalnızca metinler değiştirilip `update_module()`
+  ile kaydedilir; görünüm ayarları, tamamlama, erişim kısıtları aynen kalır. Bu yalnızca sayfa ve metin ve medya alanı
+  için yapılır; diğer etkinlikler formda açılır.
+- **Gemini akış ortasında hata:** Gemini yoğunken bazen cevabın ortasında akışa SSE biçiminde olmayan bir hata gövdesi
+  (`[{"error":{"code":503,...}}]`) yazıp bağlantıyı kapatıyor. Akış çözücü bunu yakalar ve "servis yoğun" hatası verir;
+  yarım cevap tamamlanmış gibi görünmez.
 - **SDK'yı güncellemek:** eklenti klasöründe `composer update anthropic-ai/sdk`. Moodle'ın zaten içerdiği Guzzle ve
   PSR paketleri `composer.json`'da "sağlanıyor" olarak işaretli, tekrar kurulmaz; `thirdpartylibs.xml`'deki sürümü
   güncelleyin.
@@ -152,14 +205,18 @@ docker compose exec -T -u www-data moodle vendor/bin/phpunit --testsuite local_d
 
 `init.php` composer'ı güncellemeye çalışır; `COMPOSER_HOME` verilmezse `www-data` kullanıcısı yazamadığı için durur.
 
-56 test: akış çözücü; yoğunlukta yeniden deneme ve yedek model; OpenAI, Gemini ve Claude bağlayıcıları (sahte HTTP; Claude'da gerçek SDK, Moodle'ın HTTP
+74 test: akış çözücü; yoğunlukta yeniden deneme ve yedek model; OpenAI, Gemini ve Claude bağlayıcıları (sahte HTTP; Claude'da gerçek SDK, Moodle'ın HTTP
 istemcisi üzerinden); anahtar alanı ve servisler arası otomatik geçiş; model menüsü; ders içeriğinin gizlilik kuralları
 (gizli/kısıtlı etkinlik, forum mesajı, çok dil); kişisel veri gönderilmemesi; saatlik sınır; quiz kilidi; saklama
-tercihi ve temizlik görevi; gizlilik API'si.
+tercihi ve temizlik görevi; gizlilik API'si. Öğretmen modu: araç çağrılarının okunması (OpenAI, Gemini, Claude), akış
+ortasındaki hata gövdesi, öğretmenin gördüğü ham içerik, öneri kontrolleri, yeni sayfa/sayfa güncelleme/etiket/bölüm
+için uygula ve geri al, ayarların korunması, araya giren değişiklikte üzerine yazmama, ödevin forma yönlendirilmesi,
+başka öğretmenin öneriye erişememesi, önerilerin sohbet geçmişinde saklanması.
 
 ## Sonraki adımlar
 
 - AB şartı gelirse: Claude için AWS Bedrock (Frankfurt) ya da Vertex AI, Gemini için Vertex AI (AB bölgesi), Azure
   OpenAI.
 - PDF ve dosya içeriği, kitap bölümleri; cevaplarda kaynak etkinliğe link.
-- Öğretmen için çeviri asistanı (`{mlang}` blokları).
+- Öğretmen modu için: quiz sorusu önerme (soru bankası), kitap bölümleri; OpenAI'da düşünerek araç kullanmak için
+  Responses API'ye geçiş.

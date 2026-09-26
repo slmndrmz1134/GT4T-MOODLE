@@ -29,6 +29,7 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 | 13 | cPanel kurulumu: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz | ✓ (sunucuya kurulmadı) |
 | 14 | Yerel Docker: 60 kat hız, tek komutla kurulum | ✓ |
 | 15 | AI ders asistanı `local_diverse_assistant` (OpenAI, Claude, Gemini), bkz. §19 | `ai-assistant` dalında, gerçek cevapla deneme bekliyor |
+| 16 | AI asistanı öğretmen modu: içerik ekleme/düzenleme önerileri, Uygula / Formda aç / Geri al, bkz. §20 | `ai-teacher` dalında, tarayıcıda öğretmen denemesi bekliyor |
 
 ---
 
@@ -344,7 +345,8 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 8. İleride alan adı ve HTTPS (kılavuzda geçiş adımları var).
 9. GitHub'da `main` dalı koruması (doğrudan push yerine PR), Kural 4'ü zorunlu kılmak için.
 10. **AI asistan:** "Yalnızca AB" kararı (iki senaryo da hazır), servisle veri işleme sözleşmesi, Aşama 2 servisleri
-    (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19).
+    (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19). Öğretmen modu (§20) tarayıcıda denenmeli;
+    Gemini'yi öğretmenlere açmadan önce faturalandırma şart (ücretsiz katmanda günlük kota birkaç öneride doluyor).
 
 ## 18. Commit listesi
 
@@ -407,3 +409,40 @@ Ayrıntılı belge: [`docs/AI.md`](AI.md). Kod `ai-assistant` dalında.
 - Claude ve Gemini'nin doğrudan API'lerinde yalnızca AB seçeneği yok; AB şartı gelirse Bedrock / Vertex AI gerekir.
 - Canlıda: HTTPS olmadan açılmaması, sunucunun AI servislerine (443) çıkışına izin verilmesi, servisle veri işleme
   sözleşmesi.
+
+## 20. AI asistanı: öğretmen modu (Aşama 2)
+
+Ayrıntılı belge: [`docs/AI.md`](AI.md) ("Öğretmen ne görür"). Kod `ai-teacher` dalında (`ai-assistant`'tan açıldı).
+
+**Yapılan**
+- Dersi düzenleyebilen öğretmen (yeni yetki `local/diverse_assistant:teach`, varsayılan editingteacher ve manager)
+  panelde **içerik asistanını** görür. AI; yeni sayfa, metin ve medya alanı, etkinlik adı/açıklaması, sayfa içeriği,
+  bölüm adı/özeti için **öneri** hazırlar; çok dilli (`{mlang}`) çeviri de yapar.
+- Öneriler cevabın altında kart olarak gelir ("Mevcut" / "Önerilen"). **Uygula** sayfa, etiket ve bölümlerde tek tıkla
+  Moodle'ın kendi işlevleriyle uygular; **Geri al** 30 gün içinde eski hale döndürür. Ödev, quiz, forum gibi
+  etkinliklerde **Formda aç** Moodle'ın düzenleme formunu AI metniyle doldurur; öğretmen kaydeder.
+- Düzenleme formlarında AI cevabını TinyMCE'ye koyan **Editöre ekle** düğmesi.
+- Yeni tablo `local_diverse_assistant_prop` (öneriler ve geri alma için eski metin), sürüm 2026092700 (0.3.0).
+- 74 PHPUnit testi (18 yeni); çekirdek gizlilik ve web servis uyum testleri geçti.
+- Yerelde gerçek servislerle denendi (teacher1, LAW202): Gemini ve OpenAI yeni sayfa ve çok dilli sayfa önerisi
+  hazırladı; öneriler web servis üzerinden uygulandı ve geri alındı, sayfa ayarları korundu.
+
+**Neden**
+- Proje sahibinin kararı: öğretmenler içerik eklerken ve düzenlerken AI'dan yararlanabilmeli; AI öneri hazırlasın,
+  öğretmen onaylasın ("Öneri + Uygula" seçildi).
+- Ödev gibi etkinlikler formsuz güncellenmiyor: Moodle'ın `update_module()` işlevi formun bütün alanlarını bekliyor,
+  eksik alanlar ayarları sessizce değiştiriyor (örneğin ödevin teslim türleri kapanıyor). Bu yüzden tek tık yalnızca
+  verisi form ön işlemesiyle eksiksiz yüklenebilen sayfa ve etiketlerde; diğerleri formda açılıyor.
+- Öğretmen modunda içerik filtresiz okunuyor: filtreli okunursa çok dil filtresi yalnızca bir dili bırakır ve AI'ın
+  düzelttiği metinde diğer diller silinirdi.
+
+**Denemede çıkan ve düzeltilen hatalar**
+- Gemini yoğunken cevabın ortasında akışa SSE biçiminde olmayan bir hata gövdesi yazıyor; yarım cevap tamamlanmış gibi
+  görünüyordu (öğrenci modunu da etkiliyordu). Artık "servis yoğun" hatası veriyor.
+- OpenAI'ın Chat Completions API'si GPT-6 modellerinde araç çağırmayı düşünme düzeyiyle birlikte kabul etmiyor
+  (HTTP 400). Öğretmen modunda bu modellere `reasoning_effort: none` gidiyor.
+
+**Açık konular**
+- Tarayıcıda öğretmen ve öğrenci denemesi (masaüstü ve 375 px); kartlar, "Formda aç" ve "Editöre ekle".
+- Gemini ücretsiz katman kotası öğretmen modunda çabuk doluyor (model başına günde 20 istek); faturalandırma gerekli.
+- Sonraki adımlar: quiz sorusu önerme, kitap bölümleri, OpenAI Responses API.

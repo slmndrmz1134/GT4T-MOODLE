@@ -15,7 +15,7 @@ geliştiriciye anlatır ve karar ister.
 - **Çok dil:** `filter/multilang2` (`{mlang xx}...{mlang}`) ve EN / TR / DE / HR dil paketleri.
 - **Canlı ders:** Moodle'ın kendi BigBlueButton modülü (`mod/bigbluebuttonbn`).
 - **AI ders asistanı:** `local/diverse_assistant` ([docs/AI.md](docs/AI.md)). Sohbetlerin saklama süresini öğrenci seçer;
-  yönetici ayarı değildir.
+  yönetici ayarı değildir. Öğretmenler aynı panelde içerik önerileri alır; AI onaysız hiçbir şeyi değiştirmez.
 - **Canlı sunucu:** cPanel (AlmaLinux), Docker yok. **Yerel test:** Docker (`docker-compose.yml`).
 - **Site ayarları:** `setup/diverse_setup.php` (tekrar çalıştırılabilir, yalnızca eksik olanı ekler).
 - **Geçmiş ve gerekçeler:** [docs/YAPILANLAR.md](docs/YAPILANLAR.md). Bir şeyin neden öyle yapıldığını merak
