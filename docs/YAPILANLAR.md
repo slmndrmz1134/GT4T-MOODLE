@@ -28,8 +28,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 | 12 | Ajan kuralları (`CLAUDE.md`) ve tasarım değerleri (`DESIGN.md`) | ✓ |
 | 13 | cPanel kurulumu: `config.php` şablonu, PHP ayarları, `.htaccess`, kılavuz | ✓ (sunucuya kurulmadı) |
 | 14 | Yerel Docker: 60 kat hız, tek komutla kurulum | ✓ |
-| 15 | AI ders asistanı `local_diverse_assistant` (OpenAI, Claude, Gemini), bkz. §19 | `ai-assistant` dalında, gerçek cevapla deneme bekliyor |
-| 16 | AI asistanı öğretmen modu: içerik ekleme/düzenleme önerileri, Uygula / Formda aç / Geri al, bkz. §20 | `ai-teacher` dalında, tarayıcıda öğretmen denemesi bekliyor |
+| 15 | AI ders asistanı `local_diverse_assistant` (OpenAI, Claude, Gemini), bkz. §19 | `main`'de, varsayılan olarak kapalı; açmadan önce inceleme bulguları düzeltilmeli (§17) |
+| 16 | AI asistanı öğretmen modu: içerik ekleme/düzenleme önerileri, Uygula / Formda aç / Geri al, bkz. §20 | `main`'de, varsayılan olarak kapalı; tarayıcıda öğretmen denemesi bekliyor |
 
 ---
 
@@ -370,6 +370,11 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 10. **AI asistan:** "Yalnızca AB" kararı (iki senaryo da hazır), servisle veri işleme sözleşmesi, Aşama 2 servisleri
     (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19). Öğretmen modu (§20) tarayıcıda denenmeli;
     Gemini'yi öğretmenlere açmadan önce faturalandırma şart (ücretsiz katmanda günlük kota birkaç öneride doluyor).
+11. **AI asistan kod incelemesi (26 Eylül):** eklenti açılmadan önce düzeltilmeli: saatlik soru limiti aynı anda
+    gönderilen isteklerle aşılıyor; "Durdur" sunucuda üretimi ve faturalamayı durdurmuyor; tarayıcıdan gelen sohbet
+    geçmişinin toplam boyutu sınırsız (~320 bin karakter); üretim sırasında silinen sohbete cevap kaydedilince silinemeyen
+    kayıtlar kalıyor; öğretmen modunda 180 sn bağlantı süresi uzun önerileri kesiyor; veri aktarım bildirimi yalnızca
+    tarayıcıda zorunlu. Ayrıntılar inceleme notlarında.
 
 ## 18. Commit listesi
 
