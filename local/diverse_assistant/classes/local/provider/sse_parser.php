@@ -20,7 +20,8 @@ namespace local_diverse_assistant\local\provider;
  * Splits a server-sent events stream into the data of each event.
  *
  * Chunks from the network can end anywhere, even in the middle of a line, so incomplete lines are kept until the rest
- * arrives. Only "data:" fields are used; comments and the event, id and retry fields are ignored.
+ * arrives. Only "data:" fields are used; comments and the event, id and retry fields are ignored. Any other text is kept
+ * apart: some services write a plain JSON error body into the stream when they fail in the middle of an answer.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
@@ -32,6 +33,12 @@ class sse_parser {
 
     /** @var string[] Data lines of the event being read. */
     private array $datalines = [];
+
+    /** @var string Lines that are not part of the event stream format. */
+    private string $other = '';
+
+    /** Most text kept from lines that are not part of the event stream format, in bytes. */
+    private const MAX_OTHER = 65536;
 
     /**
      * Add received text.
@@ -66,6 +73,15 @@ class sse_parser {
     }
 
     /**
+     * Text of the lines that were not part of the event stream format, e.g. a plain JSON error body.
+     *
+     * @return string
+     */
+    public function get_other_text(): string {
+        return $this->other;
+    }
+
+    /**
      * Handle one complete line.
      *
      * @param string $line The line without its line break.
@@ -83,6 +99,8 @@ class sse_parser {
             $value = substr($line, 5);
             // The format allows one optional space after the colon.
             $this->datalines[] = str_starts_with($value, ' ') ? substr($value, 1) : $value;
+        } else if (!preg_match('/^(:|event:|id:|retry:)/', $line) && strlen($this->other) < self::MAX_OTHER) {
+            $this->other .= $line . "\n";
         }
     }
 }

@@ -57,6 +57,12 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
     ],
+    'local_diverse_assistant_proposal_action' => [
+        'classname' => \local_diverse_assistant\external\proposal_action::class,
+        'description' => 'Apply, undo or decline a change the assistant proposed to a teacher.',
+        'type' => 'write',
+        'ajax' => true,
+    ],
     'local_diverse_assistant_accept_notice' => [
         'classname' => \local_diverse_assistant\external\accept_notice::class,
         'description' => 'Record that the user has read the notice shown before the first chat.',

@@ -17,6 +17,7 @@
 namespace local_diverse_assistant;
 
 use local_diverse_assistant\local\store;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
  * Event observers: remove the plugin's data when a user or a course is deleted.
@@ -34,6 +35,7 @@ class observer {
     public static function user_deleted(\core\event\user_deleted $event): void {
         global $DB;
         store::delete_for_user((int)$event->objectid);
+        proposals::delete_for_user((int)$event->objectid);
         $DB->delete_records(store::TABLE_USAGE, ['userid' => $event->objectid]);
     }
 

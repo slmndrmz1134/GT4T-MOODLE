@@ -20,7 +20,7 @@ namespace local_diverse_assistant\local\provider;
  * Collects a streamed Chat Completions answer (the OpenAI format, which many other services also use).
  *
  * The HTTP body arrives in chunks. Error bodies (status 400 and above) are kept for the error message. A service that
- * ignores "stream" and sends one JSON document is also understood.
+ * ignores "stream" and sends one JSON document is also understood. Tool calls arrive in pieces too and are joined.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
@@ -35,6 +35,15 @@ class openai_stream {
 
     /** @var callable|null Called with each new piece of the answer. */
     private $ondelta;
+
+    /** @var callable|null Called with the tool name when a tool call starts. */
+    private $ontoolstart;
+
+    /** @var array Tool calls so far: list of ['id' => string, 'name' => string, 'arguments' => string JSON]. */
+    private array $toolcalls = [];
+
+    /** @var array Position in $toolcalls of each tool call index the service sent. */
+    private array $toolcallindexes = [];
 
     /** @var string The answer so far. */
     private string $text = '';
@@ -67,10 +76,12 @@ class openai_stream {
      * Constructor.
      *
      * @param callable|null $ondelta Called with each new piece of the answer.
+     * @param callable|null $ontoolstart Called with the tool name when a tool call starts.
      */
-    public function __construct(?callable $ondelta = null) {
+    public function __construct(?callable $ondelta = null, ?callable $ontoolstart = null) {
         $this->parser = new sse_parser();
         $this->ondelta = $ondelta;
+        $this->ontoolstart = $ontoolstart;
     }
 
     /**
@@ -143,16 +154,27 @@ class openai_stream {
         foreach ($this->parser->finish() as $data) {
             $this->handle_event($data);
         }
+        if ($this->status < 400) {
+            $this->read_error_body();
+        }
         if ($this->streamerror !== '') {
             throw new provider_exception($this->streamerrorcode, $this->streamerror);
         }
-        if ($this->text === '') {
+        if ($this->text === '' && !$this->toolcalls) {
             $this->read_single_document();
         }
-        if (trim($this->text) === '') {
+        $toolcalls = [];
+        foreach ($this->toolcalls as $call) {
+            if ($call['name'] === '') {
+                continue;
+            }
+            $arguments = trim($call['arguments']) === '' ? [] : json_decode($call['arguments'], true);
+            $toolcalls[] = ['name' => $call['name'], 'arguments' => is_array($arguments) ? $arguments : null];
+        }
+        if (trim($this->text) === '' && !$toolcalls) {
             throw new provider_exception('errorempty', $this->finishreason);
         }
-        return new chat_result($this->text, $this->prompttokens, $this->completiontokens, $this->finishreason);
+        return new chat_result($this->text, $this->prompttokens, $this->completiontokens, $this->finishreason, $toolcalls);
     }
 
     /**
@@ -169,17 +191,7 @@ class openai_stream {
             return;
         }
         if (isset($event['error'])) {
-            $error = is_array($event['error']) ? $event['error'] : [];
-            $this->streamerror = (string)($error['message'] ?? $data);
-            $code = (int)($error['code'] ?? 0);
-            $status = strtoupper((string)($error['status'] ?? $error['type'] ?? ''));
-            $this->streamerrorcode = match (true) {
-                // Overloaded or temporarily failing: worth retrying or trying another model.
-                in_array($code, [500, 502, 503, 504, 529], true)
-                    || in_array($status, ['UNAVAILABLE', 'INTERNAL', 'OVERLOADED_ERROR', 'SERVER_ERROR'], true) => 'errorbusy',
-                $code === 429 || $status === 'RESOURCE_EXHAUSTED' => 'errorratelimit',
-                default => 'errorservice',
-            };
+            $this->record_error($event['error'], $data);
             return;
         }
         $choice = $event['choices'][0] ?? null;
@@ -188,11 +200,54 @@ class openai_stream {
             if (is_string($delta) && $delta !== '') {
                 $this->add_text($delta);
             }
+            foreach ($choice['delta']['tool_calls'] ?? [] as $piece) {
+                if (is_array($piece)) {
+                    $this->add_tool_call_piece($piece);
+                }
+            }
             if (!empty($choice['finish_reason'])) {
                 $this->finishreason = (string)$choice['finish_reason'];
             }
         }
         $this->read_usage($event);
+    }
+
+    /**
+     * Remember an error the service reported inside the stream.
+     *
+     * @param mixed $error The "error" member of an event or error body.
+     * @param string $raw The event or body, used when the error has no message.
+     */
+    private function record_error(mixed $error, string $raw): void {
+        $error = is_array($error) ? $error : ['message' => (string)$error];
+        $this->streamerror = trim(preg_replace('/\s+/', ' ', (string)($error['message'] ?? $raw)));
+        $code = (int)($error['code'] ?? 0);
+        $status = strtoupper((string)($error['status'] ?? $error['type'] ?? ''));
+        $this->streamerrorcode = match (true) {
+            // Overloaded or temporarily failing: worth retrying or trying another model.
+            in_array($code, [500, 502, 503, 504, 529], true)
+                || in_array($status, ['UNAVAILABLE', 'INTERNAL', 'OVERLOADED_ERROR', 'SERVER_ERROR'], true) => 'errorbusy',
+            $code === 429 || $status === 'RESOURCE_EXHAUSTED' => 'errorratelimit',
+            default => 'errorservice',
+        };
+    }
+
+    /**
+     * Find a plain JSON error body written into the stream (Gemini does this when it fails in the middle of an
+     * answer, e.g. [{"error": {"code": 503, ...}}]). Without this, the cut-off answer would look complete.
+     */
+    private function read_error_body(): void {
+        $other = trim($this->parser->get_other_text());
+        if ($other === '' || $this->streamerror !== '') {
+            return;
+        }
+        $decoded = json_decode($other, true);
+        if (is_array($decoded) && array_is_list($decoded) && isset($decoded[0]) && is_array($decoded[0])) {
+            $decoded = $decoded[0];
+        }
+        if (is_array($decoded) && isset($decoded['error'])) {
+            $this->record_error($decoded['error'], $other);
+        }
     }
 
     /**
@@ -203,12 +258,59 @@ class openai_stream {
         if (!is_array($document)) {
             return;
         }
-        $content = $document['choices'][0]['message']['content'] ?? null;
-        if (is_string($content) && $content !== '') {
-            $this->finishreason = (string)($document['choices'][0]['finish_reason'] ?? '');
-            $this->add_text($content);
+        $message = $document['choices'][0]['message'] ?? null;
+        if (!is_array($message)) {
+            return;
+        }
+        $this->finishreason = (string)($document['choices'][0]['finish_reason'] ?? '');
+        if (is_string($message['content'] ?? null) && $message['content'] !== '') {
+            $this->add_text($message['content']);
+        }
+        foreach ($message['tool_calls'] ?? [] as $call) {
+            if (is_array($call)) {
+                $this->add_tool_call_piece($call);
+            }
         }
         $this->read_usage($document);
+    }
+
+    /**
+     * Add a piece of a tool call: the first piece has the id and name, the following ones more of the arguments.
+     *
+     * @param array $piece One entry of "tool_calls".
+     */
+    private function add_tool_call_piece(array $piece): void {
+        $index = $piece['index'] ?? null;
+        $id = is_string($piece['id'] ?? null) ? $piece['id'] : '';
+        $name = is_string($piece['function']['name'] ?? null) ? $piece['function']['name'] : '';
+        $arguments = $piece['function']['arguments'] ?? '';
+        // Some services send the arguments as an object instead of a JSON string.
+        $arguments = is_string($arguments) ? $arguments : json_encode($arguments);
+
+        $known = is_int($index) && isset($this->toolcallindexes[$index]) ? $this->toolcallindexes[$index] : null;
+        if ($known !== null && $id !== '' && $this->toolcalls[$known]['id'] !== '' && $this->toolcalls[$known]['id'] !== $id) {
+            // A new call that reuses an index (some services number every complete call 0).
+            $known = null;
+        }
+        if ($known !== null) {
+            $key = $known;
+        } else if (!is_int($index) && $id === '' && $name === '' && $this->toolcalls) {
+            // A continuation without an index belongs to the last call.
+            $key = array_key_last($this->toolcalls);
+        } else {
+            $key = count($this->toolcalls);
+            $this->toolcalls[$key] = ['id' => $id, 'name' => '', 'arguments' => ''];
+            if (is_int($index)) {
+                $this->toolcallindexes[$index] = $key;
+            }
+        }
+        if ($name !== '' && $this->toolcalls[$key]['name'] === '') {
+            $this->toolcalls[$key]['name'] = $name;
+            if ($this->ontoolstart) {
+                ($this->ontoolstart)($name);
+            }
+        }
+        $this->toolcalls[$key]['arguments'] .= $arguments;
     }
 
     /**

@@ -27,10 +27,12 @@ class chat_result {
     /**
      * Constructor.
      *
-     * @param string $text The answer (Markdown).
+     * @param string $text The answer (Markdown); can be empty when the model only called tools.
      * @param int $prompttokens Input tokens the service counted, 0 if it did not say.
      * @param int $completiontokens Output tokens the service counted, 0 if it did not say.
-     * @param string $finishreason Why the answer ended, e.g. "stop" or "length".
+     * @param string $finishreason Why the answer ended, e.g. "stop", "length" or "tool_calls".
+     * @param array $toolcalls Tools the model called: list of ['name' => string, 'arguments' => array|null];
+     *     arguments are null when the model sent invalid JSON.
      */
     public function __construct(
         /** @var string The answer (Markdown). */
@@ -41,6 +43,8 @@ class chat_result {
         public readonly int $completiontokens = 0,
         /** @var string Why the answer ended. */
         public readonly string $finishreason = '',
+        /** @var array Tools the model called. */
+        public readonly array $toolcalls = [],
     ) {
     }
 }

@@ -21,9 +21,10 @@ use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
 use local_diverse_assistant\local\store;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
- * Delete all of the user's saved chats in every course.
+ * Delete all of the user's saved chats in every course, and the changes the assistant proposed to them.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
@@ -48,7 +49,9 @@ class delete_history extends external_api {
         global $USER;
         self::validate_context(\context_user::instance($USER->id));
 
-        return ['deleted' => store::delete_for_user((int)$USER->id)];
+        $deleted = store::delete_for_user((int)$USER->id);
+        proposals::delete_for_user((int)$USER->id);
+        return ['deleted' => $deleted];
     }
 
     /**

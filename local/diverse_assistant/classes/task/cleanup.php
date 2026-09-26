@@ -17,9 +17,10 @@
 namespace local_diverse_assistant\task;
 
 use local_diverse_assistant\local\retention;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
- * Delete chats whose period chosen by their owner has ended, and trim the usage log.
+ * Delete chats whose period chosen by their owner has ended, old proposals of the teacher mode, and trim the usage log.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
@@ -35,5 +36,7 @@ class cleanup extends \core\task\scheduled_task {
     public function execute() {
         $deleted = retention::cleanup();
         mtrace("Deleted {$deleted} expired AI assistant conversations.");
+        $deleted = proposals::cleanup();
+        mtrace("Deleted {$deleted} AI assistant proposals older than " . proposals::KEEP_DAYS . ' days.');
     }
 }

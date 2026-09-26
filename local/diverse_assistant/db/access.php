@@ -37,4 +37,15 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+    // Teacher mode: the assistant sees the stored course texts and proposes changes. Applying a change also needs the
+    // usual permissions (managing activities, updating the course); nothing is changed without the teacher's click.
+    'local/diverse_assistant:teach' => [
+        'riskbitmask' => RISK_PERSONAL | RISK_XSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+    ],
 ];

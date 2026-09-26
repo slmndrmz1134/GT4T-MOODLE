@@ -23,6 +23,7 @@ use core_external\external_single_structure;
 use core_external\external_value;
 use local_diverse_assistant\local\chat_service;
 use local_diverse_assistant\local\store;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
  * Messages of one of the user's saved chats.
@@ -58,12 +59,15 @@ class get_messages extends external_api {
         self::validate_context($context);
         require_capability('local/diverse_assistant:use', $context);
 
+        $records = store::get_messages($conversationid);
+        $proposals = proposals::get_for_messages(array_column($records, 'id'));
         $messages = [];
-        foreach (store::get_messages($conversationid) as $message) {
+        foreach ($records as $message) {
             $messages[] = [
                 'role' => $message->role,
-                'html' => $message->role === 'assistant' ? chat_service::render_answer($message->content, $context)
-                    : chat_service::render_question($message->content),
+                'html' => $message->role === 'user' ? chat_service::render_question($message->content)
+                    : (trim($message->content) === '' ? '' : chat_service::render_answer($message->content, $context)),
+                'proposals' => array_map([proposals::class, 'export'], $proposals[(int)$message->id] ?? []),
             ];
         }
         return ['id' => (int)$conversation->id, 'messages' => $messages];
@@ -80,6 +84,8 @@ class get_messages extends external_api {
             'messages' => new external_multiple_structure(new external_single_structure([
                 'role' => new external_value(PARAM_ALPHA, 'user or assistant'),
                 'html' => new external_value(PARAM_RAW, 'The message as safe HTML'),
+                'proposals' => new external_multiple_structure(proposals::export_structure(),
+                    'Changes proposed in this answer (teacher mode)'),
             ])),
         ]);
     }

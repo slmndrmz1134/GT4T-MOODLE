@@ -25,6 +25,7 @@ use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 use local_diverse_assistant\local\retention;
 use local_diverse_assistant\local\store;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
  * Privacy API: what the plugin stores and sends, with export and deletion.
@@ -60,10 +61,20 @@ class provider implements
             'completiontokens' => 'privacy:metadata:use:completiontokens',
             'timecreated' => 'privacy:metadata:use:timecreated',
         ], 'privacy:metadata:use');
+        $collection->add_database_table(proposals::TABLE, [
+            'userid' => 'privacy:metadata:prop:userid',
+            'courseid' => 'privacy:metadata:prop:courseid',
+            'proposed' => 'privacy:metadata:prop:proposed',
+            'original' => 'privacy:metadata:prop:original',
+            'status' => 'privacy:metadata:prop:status',
+            'timecreated' => 'privacy:metadata:prop:timecreated',
+            'timemodified' => 'privacy:metadata:prop:timemodified',
+        ], 'privacy:metadata:prop');
         $collection->add_external_location_link('aiservice', [
             'message' => 'privacy:metadata:aiservice:message',
             'history' => 'privacy:metadata:aiservice:history',
             'coursematerials' => 'privacy:metadata:aiservice:coursematerials',
+            'coursecontent' => 'privacy:metadata:aiservice:coursecontent',
         ], 'privacy:metadata:aiservice');
         $collection->add_user_preference(retention::PREFERENCE, 'privacy:metadata:preference:retention');
         $collection->add_user_preference(retention::NOTICE_PREFERENCE, 'privacy:metadata:preference:notice');
@@ -73,12 +84,13 @@ class provider implements
     #[\Override]
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
-        $params = ['contextlevel' => CONTEXT_COURSE, 'userid1' => $userid, 'userid2' => $userid];
+        $params = ['contextlevel' => CONTEXT_COURSE, 'userid1' => $userid, 'userid2' => $userid, 'userid3' => $userid];
         $sql = "SELECT ctx.id
                   FROM {context} ctx
                  WHERE ctx.contextlevel = :contextlevel
                    AND (ctx.instanceid IN (SELECT courseid FROM {" . store::TABLE_CONVERSATIONS . "} WHERE userid = :userid1)
-                        OR ctx.instanceid IN (SELECT courseid FROM {" . store::TABLE_USAGE . "} WHERE userid = :userid2))";
+                        OR ctx.instanceid IN (SELECT courseid FROM {" . store::TABLE_USAGE . "} WHERE userid = :userid2)
+                        OR ctx.instanceid IN (SELECT courseid FROM {" . proposals::TABLE . "} WHERE userid = :userid3))";
         $contextlist->add_from_sql($sql, $params);
         return $contextlist;
     }
@@ -93,6 +105,7 @@ class provider implements
         $userlist->add_from_sql('userid', 'SELECT userid FROM {' . store::TABLE_CONVERSATIONS . '} WHERE courseid = :courseid',
             $params);
         $userlist->add_from_sql('userid', 'SELECT userid FROM {' . store::TABLE_USAGE . '} WHERE courseid = :courseid', $params);
+        $userlist->add_from_sql('userid', 'SELECT userid FROM {' . proposals::TABLE . '} WHERE courseid = :courseid', $params);
     }
 
     #[\Override]
@@ -125,13 +138,26 @@ class provider implements
             $usage = $DB->get_record_sql('SELECT COUNT(1) AS questions, COALESCE(SUM(prompttokens + completiontokens), 0) AS tokens
                                             FROM {' . store::TABLE_USAGE . '}
                                            WHERE userid = ? AND courseid = ?', [$userid, $context->instanceid]);
-            if (!$data && !$usage->questions) {
+            $changes = [];
+            foreach ($DB->get_records(proposals::TABLE, ['userid' => $userid, 'courseid' => $context->instanceid],
+                    'timecreated ASC') as $proposal) {
+                $changes[] = [
+                    'action' => $proposal->action,
+                    'status' => $proposal->status,
+                    'proposed' => json_decode($proposal->proposed, true),
+                    'original' => $proposal->original === null ? null : json_decode($proposal->original, true),
+                    'timecreated' => transform::datetime($proposal->timecreated),
+                    'timemodified' => transform::datetime($proposal->timemodified),
+                ];
+            }
+            if (!$data && !$usage->questions && !$changes) {
                 continue;
             }
             writer::with_context($context)->export_data([get_string('pluginname', 'local_diverse_assistant')], (object)[
                 'conversations' => $data,
                 'questionsinlast30days' => (int)$usage->questions,
                 'tokensinlast30days' => (int)$usage->tokens,
+                'proposedchanges' => $changes,
             ]);
         }
     }
@@ -150,6 +176,7 @@ class provider implements
         foreach ($contextlist->get_contexts() as $context) {
             if ($context instanceof \context_course) {
                 store::delete_for_user($userid, 0, (int)$context->instanceid);
+                proposals::delete_for_user($userid, (int)$context->instanceid);
                 $DB->delete_records(store::TABLE_USAGE, ['userid' => $userid, 'courseid' => $context->instanceid]);
             }
         }
@@ -164,6 +191,7 @@ class provider implements
         }
         foreach ($userlist->get_userids() as $userid) {
             store::delete_for_user((int)$userid, 0, (int)$context->instanceid);
+            proposals::delete_for_user((int)$userid, (int)$context->instanceid);
             $DB->delete_records(store::TABLE_USAGE, ['userid' => $userid, 'courseid' => $context->instanceid]);
         }
     }

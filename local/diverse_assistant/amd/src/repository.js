@@ -79,6 +79,15 @@ export const setRetention = days => call('local_diverse_assistant_set_retention'
 export const acceptNotice = () => call('local_diverse_assistant_accept_notice');
 
 /**
+ * Apply, undo or decline a proposed change (teacher mode).
+ *
+ * @param {Number} proposalid Proposal id.
+ * @param {String} action apply, undo or discard.
+ * @returns {Promise<Object>} ok, message and the updated proposal.
+ */
+export const proposalAction = (proposalid, action) => call('local_diverse_assistant_proposal_action', {proposalid, action});
+
+/**
  * An error reported by the server while answering.
  */
 export class AnswerError extends Error {
@@ -100,9 +109,11 @@ export class AnswerError extends Error {
  * @param {Object} params Form fields.
  * @param {AbortSignal} signal Aborts the request when the student presses stop.
  * @param {Function} onDelta Called with each new piece of the answer.
- * @returns {Promise<Object>} The final "done" event: conversationid, saved, text, html, truncated.
+ * @param {Function} onStatus Called with a message while a proposal is being written (teacher mode).
+ * @returns {Promise<Object>} The final "done" event: conversationid, saved, text, historytext, html, truncated,
+ *     proposals and problems.
  */
-export const streamAnswer = async(url, params, signal, onDelta) => {
+export const streamAnswer = async(url, params, signal, onDelta, onStatus = () => null) => {
     const response = await fetch(url, {
         method: 'POST',
         body: new URLSearchParams(params),
@@ -129,6 +140,8 @@ export const streamAnswer = async(url, params, signal, onDelta) => {
         const event = JSON.parse(data);
         if (event.type === 'delta') {
             onDelta(event.text);
+        } else if (event.type === 'status') {
+            onStatus(event.text);
         } else if (event.type === 'done') {
             result = event;
         } else if (event.type === 'error') {

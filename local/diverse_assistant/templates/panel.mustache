@@ -19,6 +19,9 @@
 
     The tab on the right edge of course pages and the chat panel it opens.
 
+    Teachers who can edit the course get the authoring assistant (teacher mode): other suggestions, and the changes
+    the assistant proposes appear as cards (local_diverse_assistant/proposal) under its answers.
+
     Example context (json):
     {
         "coursename": "DSA101",
@@ -26,7 +29,10 @@
         "retentionoptions": [
             {"value": 0, "label": "Do not save", "selected": true},
             {"value": 30, "label": "30 days", "selected": false}
-        ]
+        ],
+        "teacher": true,
+        "hascm": true,
+        "keepdays": 30
     }
 }}
 <button type="button" class="local-diverse-assistant-toggle btn btn-primary" data-action="local-diverse-assistant-toggle"
@@ -42,7 +48,8 @@
             <h2 id="local-diverse-assistant-title" class="local-diverse-assistant-title">
                 {{> local_diverse_assistant/sparkles }} {{#str}} paneltitle, local_diverse_assistant {{/str}}
             </h2>
-            <span class="local-diverse-assistant-course">{{coursename}}</span>
+            <span class="local-diverse-assistant-course">{{coursename}}{{#teacher}}
+                <span class="badge text-bg-secondary local-diverse-assistant-mode">{{#str}} teachermode, local_diverse_assistant {{/str}}</span>{{/teacher}}</span>
         </div>
         <div class="local-diverse-assistant-actions">
             <button type="button" class="btn btn-icon" data-action="new"
@@ -75,6 +82,9 @@
             <li>{{#str}} notice_mistakes, local_diverse_assistant {{/str}}</li>
             <li>{{#str}} notice_personal, local_diverse_assistant {{/str}}</li>
             <li>{{#str}} notice_retention, local_diverse_assistant {{/str}}</li>
+            {{#teacher}}
+                <li>{{#str}} notice_teacher, local_diverse_assistant, {{keepdays}} {{/str}}</li>
+            {{/teacher}}
         </ul>
         <button type="button" class="btn btn-primary" data-action="accept-notice">{{#str}} notice_accept, local_diverse_assistant {{/str}}</button>
     </div>
@@ -111,6 +121,22 @@
     <div class="local-diverse-assistant-view local-diverse-assistant-chat" data-view="chat" hidden>
         <div class="local-diverse-assistant-messages" data-region="messages" aria-live="polite">
             <div class="local-diverse-assistant-empty" data-region="empty">
+                {{#teacher}}
+                <p class="local-diverse-assistant-empty-title">{{#str}} teacher_emptytitle, local_diverse_assistant {{/str}}</p>
+                <div class="local-diverse-assistant-suggestions">
+                    {{#hascm}}
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_simplify, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_translate, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_examples, local_diverse_assistant {{/str}}</button>
+                    {{/hascm}}
+                    {{^hascm}}
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_newpage, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_summaries, local_diverse_assistant {{/str}}</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} teacher_suggestion_review, local_diverse_assistant {{/str}}</button>
+                    {{/hascm}}
+                </div>
+                {{/teacher}}
+                {{^teacher}}
                 <p class="local-diverse-assistant-empty-title">{{#str}} emptytitle, local_diverse_assistant {{/str}}</p>
                 <div class="local-diverse-assistant-suggestions">
                     <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_summary, local_diverse_assistant {{/str}}</button>
@@ -118,12 +144,14 @@
                     <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_concepts, local_diverse_assistant {{/str}}</button>
                     <button type="button" class="btn btn-outline-secondary btn-sm" data-action="suggest">{{#str}} suggestion_quiz, local_diverse_assistant {{/str}}</button>
                 </div>
+                {{/teacher}}
             </div>
         </div>
         <form class="local-diverse-assistant-composer" data-region="composer">
             <label for="local-diverse-assistant-input" class="visually-hidden">{{#str}} placeholder, local_diverse_assistant {{/str}}</label>
             <textarea id="local-diverse-assistant-input" class="form-control" rows="1" maxlength="{{maxlength}}"
-                      placeholder="{{#str}} placeholder, local_diverse_assistant {{/str}}" data-region="input"></textarea>
+                      placeholder="{{#teacher}}{{#str}} teacher_placeholder, local_diverse_assistant {{/str}}{{/teacher}}{{^teacher}}{{#str}} placeholder, local_diverse_assistant {{/str}}{{/teacher}}"
+                      data-region="input"></textarea>
             <button type="submit" class="btn btn-primary btn-icon" data-action="send"
                     aria-label="{{#str}} send, local_diverse_assistant {{/str}}">{{#pix}} t/sendmessage, core {{/pix}}</button>
             <button type="button" class="btn btn-secondary btn-icon" data-action="stop" hidden

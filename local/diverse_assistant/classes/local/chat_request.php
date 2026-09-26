@@ -27,15 +27,17 @@ class chat_request {
     /**
      * Constructor.
      *
-     * @param int $userid The student.
+     * @param int $userid The user asking.
      * @param int $courseid The course.
      * @param int $conversationid Saved conversation to continue, 0 for a new one.
-     * @param bool $saved Whether the student's chats are saved on the server.
+     * @param bool $saved Whether the user's chats are saved on the server.
      * @param string $message The question.
      * @param array $messages Everything sent to the service: instructions, earlier messages and the question.
+     * @param bool $teacher Teacher mode: the assistant may propose changes to the course.
+     * @param array $editable Teacher mode: 'cmids' and 'sectionids' whose texts the model sees in full.
      */
     public function __construct(
-        /** @var int The student. */
+        /** @var int The user asking. */
         public readonly int $userid,
         /** @var int The course. */
         public readonly int $courseid,
@@ -47,6 +49,10 @@ class chat_request {
         public readonly string $message,
         /** @var array Messages sent to the service. */
         public readonly array $messages,
+        /** @var bool Teacher mode. */
+        public readonly bool $teacher = false,
+        /** @var array Activities and sections the model may propose to change. */
+        public readonly array $editable = [],
     ) {
     }
 }

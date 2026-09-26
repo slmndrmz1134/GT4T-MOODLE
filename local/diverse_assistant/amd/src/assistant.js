@@ -19,6 +19,10 @@
  * Chats that the student chose not to save live only in this browser tab (sessionStorage): they survive moving between
  * pages of the course and disappear when the tab is closed or the student logs out.
  *
+ * Teacher mode: changes the assistant proposes are shown as cards under its answers. The teacher applies them (the
+ * server makes the change), opens them in Moodle's edit form (filled in here, saved by the teacher), undoes or
+ * declines them. On edit forms, answers can also be inserted into the rich text editor.
+ *
  * @module     local_diverse_assistant/assistant
  * @copyright  2026 DIVERSE European University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,7 +30,7 @@
 
 import * as Repository from 'local_diverse_assistant/repository';
 import Notification from 'core/notification';
-import {getStrings} from 'core/str';
+import {getString, getStrings} from 'core/str';
 import {add as addToast} from 'core/toast';
 import * as FocusLock from 'core/local/aria/focuslock';
 import {isSmall} from 'core/pagehelpers';
@@ -49,7 +53,43 @@ const BODY_OPEN_CLASS = 'local-diverse-assistant-open';
 const STRING_KEYS = [
     'stopped', 'retry', 'errorgeneric', 'delete', 'deleteconversation', 'deleteconversation_confirm', 'deletehistory',
     'deletehistory_confirm', 'historydeleted', 'retentionsaved', 'retentionstatus', 'thinking', 'truncated',
+    'insertineditor', 'insertedineditor', 'noeditor', 'proposal_applied', 'proposal_discarded', 'proposal_undo',
+    'proposal_undo_confirm_new', 'proposal_undo_confirm_update', 'proposal_undone',
 ];
+
+/** How long a proposal waits to be filled into the edit form it opened, in milliseconds. */
+const PREFILL_LIFETIME = 10 * 60 * 1000;
+
+/** Message shown after each proposal action. */
+const ACTION_DONE_STRINGS = {apply: 'proposal_applied', undo: 'proposal_undone', discard: 'proposal_discarded'};
+
+/**
+ * Whether this page is the edit form a proposal is meant for.
+ *
+ * @param {Object} match path and params from the proposal's prefill data.
+ * @returns {Boolean}
+ */
+const isFormPage = match => {
+    if (!match || !window.location.pathname.endsWith(match.path)) {
+        return false;
+    }
+    const params = new URLSearchParams(window.location.search);
+    return Object.entries(match.params).every(([name, value]) => params.get(name) === String(value));
+};
+
+/**
+ * The prefill data of a proposal.
+ *
+ * @param {Object} proposal The proposal.
+ * @returns {Object} match and fields; empty when there is none.
+ */
+const getPrefill = proposal => {
+    try {
+        return JSON.parse(proposal.prefill || '{}') || {};
+    } catch (e) {
+        return {};
+    }
+};
 
 const Selectors = {
     panel: '[data-region="local-diverse-assistant"]',
@@ -126,6 +166,10 @@ class Assistant {
         this.controller = null;
         this.focusLocked = false;
         this.strings = {};
+        /** @type {Map<Number, Object>} Proposals shown in the chat, by id (teacher mode). */
+        this.proposals = new Map();
+        /** Whether answers can be inserted into a rich text field of this page (teacher mode on edit forms). */
+        this.canInsert = config.teacher && document.querySelector('[data-fieldtype="editor"] textarea') !== null;
 
         // Keys include the session key, so a chat never shows up in another login session in the same tab.
         this.sessionPrefix = `${STORAGE_PREFIX}:${config.userid}:${M.cfg.sesskey}`;
@@ -134,6 +178,9 @@ class Assistant {
         this.registerEventListeners();
         if (storageGet(`${this.sessionPrefix}:open`) === '1' && !isSmall()) {
             this.open(false);
+        }
+        if (config.teacher) {
+            this.fillPendingForm();
         }
     }
 
@@ -176,6 +223,11 @@ class Assistant {
                 'stop': () => this.controller?.abort(),
                 'open-conversation': () => this.openConversation(parseInt(button.dataset.id, 10)),
                 'delete-conversation': () => this.deleteConversation(parseInt(button.dataset.id, 10), button.dataset.title),
+                'proposal-apply': () => this.proposalAction(button, 'apply'),
+                'proposal-undo': () => this.proposalAction(button, 'undo'),
+                'proposal-discard': () => this.proposalAction(button, 'discard'),
+                'proposal-form': () => this.openProposalForm(parseInt(button.dataset.id, 10)),
+                'insert-editor': () => this.insertAnswer(button),
             };
             if (handlers[button.dataset.action]) {
                 e.preventDefault();
@@ -446,7 +498,8 @@ class Assistant {
     /**
      * Add a message bubble.
      *
-     * @param {Object} message role, and html (safe, from the server) or text.
+     * @param {Object} message role, and html (safe, from the server) or text; answers in teacher mode also have
+     *     proposals and problems.
      * @returns {HTMLElement} The content element of the bubble.
      */
     addMessageElement(message) {
@@ -454,7 +507,7 @@ class Assistant {
         bubble.className = `local-diverse-assistant-message local-diverse-assistant-message-${message.role}`;
         const content = document.createElement('div');
         content.className = 'local-diverse-assistant-message-content';
-        if (message.html) {
+        if (message.html !== undefined) {
             // HTML only ever comes from the server, which cleans it.
             content.innerHTML = message.html;
         } else {
@@ -463,7 +516,34 @@ class Assistant {
         bubble.append(content);
         this.messagesRegion.append(bubble);
         this.emptyRegion.hidden = true;
+        if (message.role === 'assistant') {
+            this.addAnswerExtras(bubble, message);
+        }
         return content;
+    }
+
+    /**
+     * Add what belongs under an answer: problems, proposal cards and the insert button.
+     *
+     * @param {HTMLElement} bubble The answer bubble.
+     * @param {Object} message The answer.
+     */
+    addAnswerExtras(bubble, message) {
+        (message.problems || []).forEach(problem => this.addNote(bubble, problem));
+        if (message.proposals?.length) {
+            const container = document.createElement('div');
+            container.className = 'local-diverse-assistant-proposals';
+            bubble.append(container);
+            this.renderProposals(container, message.proposals);
+        }
+        if (this.canInsert && message.html) {
+            const insert = document.createElement('button');
+            insert.type = 'button';
+            insert.className = 'btn btn-link local-diverse-assistant-insert';
+            insert.dataset.action = 'insert-editor';
+            insert.textContent = this.strings.insertineditor || '';
+            bubble.append(insert);
+        }
     }
 
     /**
@@ -513,12 +593,30 @@ class Assistant {
                 answer += delta;
                 answerContent.textContent = answer;
                 this.scrollToBottom();
+            }, status => {
+                // A proposal is being written (teacher mode): it can take a while.
+                if (answer) {
+                    this.setStatusNote(answerBubble, status);
+                } else {
+                    answerContent.textContent = status;
+                }
+                this.scrollToBottom();
             });
+            this.setStatusNote(answerBubble, '');
             answerContent.innerHTML = result.html;
             if (result.truncated) {
                 this.addNote(answerBubble, this.strings.truncated);
             }
-            this.messages.push({role: 'assistant', text: result.text, html: result.html});
+            // In teacher mode the history text also tells the model what it proposed.
+            const message = {
+                role: 'assistant',
+                text: result.historytext || result.text,
+                html: result.html,
+                proposals: result.proposals || [],
+                problems: result.problems || [],
+            };
+            this.messages.push(message);
+            this.addAnswerExtras(answerBubble, message);
             if (result.saved) {
                 this.conversationId = result.conversationid;
             }
@@ -538,6 +636,7 @@ class Assistant {
                 this.showError(answerBubble, questionElement, error, text);
             }
         } finally {
+            this.setStatusNote(answerBubble, '');
             answerBubble.classList.remove('local-diverse-assistant-message-pending', 'local-diverse-assistant-message-streaming');
             this.setStreaming(false);
             this.rememberChat();
@@ -581,6 +680,190 @@ class Assistant {
         note.className = 'local-diverse-assistant-note';
         note.textContent = text;
         bubble.append(note);
+    }
+
+    /**
+     * Show, change or remove the progress line under a streaming answer.
+     *
+     * @param {HTMLElement} bubble The answer bubble.
+     * @param {String} text The line; empty to remove it.
+     */
+    setStatusNote(bubble, text) {
+        let note = bubble.querySelector('.local-diverse-assistant-status');
+        if (!text) {
+            note?.remove();
+            return;
+        }
+        if (!note) {
+            note = document.createElement('div');
+            note.className = 'local-diverse-assistant-note local-diverse-assistant-status';
+            bubble.append(note);
+        }
+        note.textContent = text;
+    }
+
+    /**
+     * Show proposal cards.
+     *
+     * @param {HTMLElement} container Where the cards go.
+     * @param {Array} proposals Proposals from the server.
+     */
+    async renderProposals(container, proposals) {
+        for (const proposal of proposals) {
+            this.proposals.set(proposal.id, proposal);
+            const {html, js} = await Templates.renderForPromise('local_diverse_assistant/proposal',
+                this.proposalContext(proposal));
+            Templates.appendNodeContents(container, html, js);
+        }
+    }
+
+    /**
+     * Template data of a proposal card.
+     *
+     * @param {Object} proposal The proposal.
+     * @returns {Object}
+     */
+    proposalContext(proposal) {
+        return {
+            ...proposal,
+            pending: proposal.status === 'pending',
+            formhere: isFormPage(getPrefill(proposal).match),
+            changes: proposal.changes.map(change => ({...change, open: true})),
+        };
+    }
+
+    /**
+     * Apply, undo or decline a proposal.
+     *
+     * @param {HTMLElement} button The button pressed.
+     * @param {String} action apply, undo or discard.
+     */
+    async proposalAction(button, action) {
+        const id = parseInt(button.dataset.id, 10);
+        const proposal = this.proposals.get(id);
+        const card = button.closest('[data-region="proposal"]');
+        if (!proposal || !card) {
+            return;
+        }
+        if (action === 'undo') {
+            const question = proposal.action.startsWith('new') ? this.strings.proposal_undo_confirm_new
+                : this.strings.proposal_undo_confirm_update;
+            try {
+                await Notification.saveCancelPromise(this.strings.proposal_undo, question, this.strings.proposal_undo);
+            } catch (e) {
+                return;
+            }
+        }
+        const buttons = card.querySelectorAll('button');
+        buttons.forEach(node => {
+            node.disabled = true;
+        });
+        let result;
+        try {
+            result = await Repository.proposalAction(id, action);
+        } catch (error) {
+            buttons.forEach(node => {
+                node.disabled = false;
+            });
+            Notification.exception(error);
+            return;
+        }
+        const newcard = await this.replaceProposal(card, result.proposal);
+        const message = newcard?.querySelector('[data-region="proposal-message"]');
+        if (message) {
+            message.textContent = result.ok ? this.strings[ACTION_DONE_STRINGS[action]] : result.message;
+            message.classList.toggle('text-danger', !result.ok);
+            message.hidden = false;
+        }
+    }
+
+    /**
+     * Show the new state of a proposal and remember it with the chat.
+     *
+     * @param {HTMLElement} card The old card.
+     * @param {Object} proposal The proposal from the server.
+     * @returns {Promise<HTMLElement|null>} The new card.
+     */
+    async replaceProposal(card, proposal) {
+        this.proposals.set(proposal.id, proposal);
+        this.messages.forEach(message => {
+            if (message.proposals) {
+                message.proposals = message.proposals.map(item => (item.id === proposal.id ? proposal : item));
+            }
+        });
+        this.rememberChat();
+        const {html, js} = await Templates.renderForPromise('local_diverse_assistant/proposal', this.proposalContext(proposal));
+        return Templates.replaceNode(card, html, js).find(node => node instanceof HTMLElement) || null;
+    }
+
+    /**
+     * Put a proposal into Moodle's edit form: here if this is that form, otherwise open the form, which fills it.
+     *
+     * @param {Number} id Proposal id.
+     */
+    async openProposalForm(id) {
+        const proposal = this.proposals.get(id);
+        if (!proposal || !proposal.formurl) {
+            return;
+        }
+        const prefill = getPrefill(proposal);
+        if (isFormPage(prefill.match)) {
+            await this.fillForm(prefill.fields || []);
+            return;
+        }
+        storageSet(`${this.sessionPrefix}:prefill`, JSON.stringify({prefill, time: Date.now()}));
+        window.location.href = proposal.formurl;
+    }
+
+    /**
+     * On the edit form opened for a proposal, fill it in.
+     */
+    async fillPendingForm() {
+        const key = `${this.sessionPrefix}:prefill`;
+        let pending = null;
+        try {
+            pending = JSON.parse(storageGet(key) || 'null');
+        } catch (e) {
+            pending = null;
+        }
+        if (!pending) {
+            return;
+        }
+        // Used once, and only on the form it was meant for.
+        storageSet(key, null);
+        if (Date.now() - pending.time > PREFILL_LIFETIME || !isFormPage(pending.prefill?.match)) {
+            return;
+        }
+        await this.fillForm(pending.prefill.fields || []);
+    }
+
+    /**
+     * Fill form fields and tell the teacher to check and save.
+     *
+     * @param {Array} fields From the proposal's prefill data.
+     */
+    async fillForm(fields) {
+        const Editor = await import('local_diverse_assistant/editor');
+        const complete = await Editor.fillForm(fields, this.config.usercontextid);
+        Notification.addNotification({
+            message: await getString(complete ? 'prefill_done' : 'prefill_failed', 'local_diverse_assistant'),
+            type: complete ? 'info' : 'warning',
+        });
+    }
+
+    /**
+     * Insert an answer into the rich text field used last.
+     *
+     * @param {HTMLElement} button The insert button of the answer.
+     */
+    async insertAnswer(button) {
+        const html = button.closest('.local-diverse-assistant-message')
+            ?.querySelector('.local-diverse-assistant-message-content')?.innerHTML;
+        if (!html) {
+            return;
+        }
+        const Editor = await import('local_diverse_assistant/editor');
+        addToast(Editor.insertIntoEditor(html) ? this.strings.insertedineditor : this.strings.noeditor);
     }
 
     /**
@@ -689,7 +972,11 @@ class Assistant {
         try {
             const result = await Repository.getMessages(conversationId);
             this.conversationId = result.id;
-            this.messages = result.messages.map(message => ({role: message.role, html: message.html}));
+            this.messages = result.messages.map(message => ({
+                role: message.role,
+                html: message.html,
+                proposals: message.proposals,
+            }));
         } catch (error) {
             Notification.exception(error);
             return;

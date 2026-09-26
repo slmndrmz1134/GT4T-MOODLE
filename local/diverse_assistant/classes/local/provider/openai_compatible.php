@@ -82,7 +82,7 @@ class openai_compatible extends provider {
     }
 
     #[\Override]
-    public function chat(array $messages, ?callable $ondelta = null): chat_result {
+    public function chat(array $messages, ?callable $ondelta = null, ?chat_options $options = null): chat_result {
         if ($this->model === '') {
             throw new provider_exception('errornomodel');
         }
@@ -96,7 +96,7 @@ class openai_compatible extends provider {
                 }
             };
             try {
-                return $this->send_chat($messages, $relay);
+                return $this->send_chat($messages, $relay, $options ?? new chat_options());
             } catch (provider_exception $e) {
                 // An overloaded service usually answers a moment later. Once text has reached the student, a retry
                 // would write the answer twice.
@@ -116,11 +116,12 @@ class openai_compatible extends provider {
      *
      * @param array $messages The conversation.
      * @param callable $ondelta Called with each new piece of the answer.
+     * @param chat_options $options Tools and answer length.
      * @return chat_result
      * @throws provider_exception
      */
-    protected function send_chat(array $messages, callable $ondelta): chat_result {
-        $stream = new openai_stream($ondelta);
+    protected function send_chat(array $messages, callable $ondelta, chat_options $options): chat_result {
+        $stream = new openai_stream($ondelta, $options->ontoolstart);
         $curl = $this->create_curl(array_merge($this->headers(), ['Accept: text/event-stream']));
         $curl->setopt([
             'CURLOPT_WRITEFUNCTION' => function ($handle, string $chunk) use ($stream): int {
@@ -129,7 +130,7 @@ class openai_compatible extends provider {
                 return $continue ? strlen($chunk) : 0;
             },
         ]);
-        $response = $curl->post($this->url('/chat/completions'), json_encode($this->build_body($messages)));
+        $response = $curl->post($this->url('/chat/completions'), json_encode($this->build_body($messages, $options)));
 
         // Unit tests and blocked addresses return the body instead of passing it to the callback.
         if (!$stream->received() && is_string($response) && $response !== '') {
@@ -148,15 +149,37 @@ class openai_compatible extends provider {
      * The request body.
      *
      * @param array $messages The conversation.
+     * @param chat_options $options Tools and answer length.
      * @return array
      */
-    protected function build_body(array $messages): array {
+    protected function build_body(array $messages, chat_options $options): array {
         return [
             'model' => $this->model,
             'messages' => $messages,
             'stream' => true,
-            'max_tokens' => static::MAX_OUTPUT_TOKENS,
-        ];
+            'max_tokens' => $options->maxoutputtokens ?: static::MAX_OUTPUT_TOKENS,
+        ] + self::tools_body($options);
+    }
+
+    /**
+     * The tools part of a Chat Completions request.
+     *
+     * @param chat_options $options Tools and answer length.
+     * @return array Empty when there are no tools.
+     */
+    protected static function tools_body(chat_options $options): array {
+        if (!$options->tools) {
+            return [];
+        }
+        $tools = [];
+        foreach ($options->tools as $tool) {
+            $tools[] = ['type' => 'function', 'function' => [
+                'name' => $tool['name'],
+                'description' => $tool['description'],
+                'parameters' => $tool['parameters'],
+            ]];
+        }
+        return ['tools' => $tools, 'tool_choice' => 'auto'];
     }
 
     /**

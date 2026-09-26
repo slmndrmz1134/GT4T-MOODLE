@@ -23,6 +23,8 @@ use core_privacy\local\request\writer;
 use core_privacy\tests\provider_testcase;
 use local_diverse_assistant\local\retention;
 use local_diverse_assistant\local\store;
+use local_diverse_assistant\local\teacher\proposals;
+use local_diverse_assistant\local\teacher\tools;
 
 /**
  * Tests for the privacy provider.
@@ -110,5 +112,31 @@ final class provider_test extends provider_testcase {
         $this->assertSame(0, $DB->count_records(store::TABLE_CONVERSATIONS));
         $this->assertSame(0, $DB->count_records(store::TABLE_MESSAGES));
         $this->assertSame(0, $DB->count_records(store::TABLE_USAGE));
+    }
+
+    /**
+     * Changes proposed to a teacher are found, exported and deleted with their data.
+     */
+    public function test_proposals(): void {
+        global $DB;
+        $teacher = $this->getDataGenerator()->create_and_enrol($this->course, 'editingteacher');
+        $this->setUser($teacher);
+        $result = proposals::create_from_tool_calls($this->course, (int)$teacher->id, [['name' => tools::NEW_LABEL,
+            'arguments' => ['section' => 0, 'content' => '<p>Welcome</p>', 'note' => 'A welcome text']]], []);
+        $this->assertCount(1, $result['records']);
+        $context = \context_course::instance($this->course->id);
+
+        $this->assertEquals([$context->id], provider::get_contexts_for_userid($teacher->id)->get_contextids());
+        $userlist = new userlist($context, 'local_diverse_assistant');
+        provider::get_users_in_context($userlist);
+        $this->assertContainsEquals($teacher->id, $userlist->get_userids());
+
+        $this->export_context_data_for_user($teacher->id, $context, 'local_diverse_assistant');
+        $data = writer::with_context($context)->get_data([get_string('pluginname', 'local_diverse_assistant')]);
+        $this->assertSame('newlabel', $data->proposedchanges[0]['action']);
+        $this->assertSame('<p>Welcome</p>', $data->proposedchanges[0]['proposed']['description']);
+
+        provider::delete_data_for_user(new approved_contextlist($teacher, 'local_diverse_assistant', [$context->id]));
+        $this->assertSame(0, $DB->count_records(proposals::TABLE));
     }
 }

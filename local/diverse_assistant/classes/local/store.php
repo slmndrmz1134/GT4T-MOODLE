@@ -16,6 +16,8 @@
 
 namespace local_diverse_assistant\local;
 
+use local_diverse_assistant\local\teacher\proposals;
+
 /**
  * Database access for saved conversations and the usage log.
  *
@@ -123,6 +125,18 @@ class store {
     }
 
     /**
+     * Id of the last answer of a conversation.
+     *
+     * @param int $conversationid Conversation id.
+     * @return int 0 if there is none.
+     */
+    public static function get_last_answer_id(int $conversationid): int {
+        global $DB;
+        return (int)$DB->get_field_sql('SELECT MAX(id) FROM {' . self::TABLE_MESSAGES . '} WHERE conversationid = ? AND role = ?',
+            [$conversationid, 'assistant']);
+    }
+
+    /**
      * Delete one of the user's conversations.
      *
      * @param int $conversationid Conversation id.
@@ -172,15 +186,17 @@ class store {
         global $DB;
         self::delete_conversations($DB->get_fieldset_select(self::TABLE_CONVERSATIONS, 'id', 'courseid = ?', [$courseid]));
         $DB->delete_records(self::TABLE_USAGE, ['courseid' => $courseid]);
+        proposals::delete_for_course($courseid);
     }
 
     /**
-     * Delete conversations and their messages.
+     * Delete conversations, their messages and the proposals made in them.
      *
      * @param int[] $ids Conversation ids.
      */
     public static function delete_conversations(array $ids): void {
         global $DB;
+        proposals::delete_for_conversations($ids);
         foreach (array_chunk($ids, 500) as $chunk) {
             [$insql, $params] = $DB->get_in_or_equal($chunk);
             $DB->delete_records_select(self::TABLE_MESSAGES, "conversationid $insql", $params);

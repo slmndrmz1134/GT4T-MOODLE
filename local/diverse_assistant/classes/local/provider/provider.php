@@ -19,7 +19,7 @@ namespace local_diverse_assistant\local\provider;
 /**
  * An AI service the assistant can talk to.
  *
- * Each service (OpenAI, and in later versions Claude, Gemini...) is one subclass. The rest of the plugin only uses
+ * Each service (OpenAI, Claude, Gemini, OpenAI-compatible) is one subclass. The rest of the plugin only uses
  * these methods, so adding a service does not change the chat code.
  *
  * @package    local_diverse_assistant
@@ -60,10 +60,11 @@ abstract class provider {
      *
      * @param array $messages List of ['role' => 'system'|'user'|'assistant', 'content' => string].
      * @param callable|null $ondelta Called with each new piece of the answer as it arrives.
+     * @param chat_options|null $options Tools and answer length.
      * @return chat_result
      * @throws provider_exception
      */
-    abstract public function chat(array $messages, ?callable $ondelta = null): chat_result;
+    abstract public function chat(array $messages, ?callable $ondelta = null, ?chat_options $options = null): chat_result;
 
     /**
      * A Moodle cURL client: it applies the site's proxy and blocked-hosts settings.

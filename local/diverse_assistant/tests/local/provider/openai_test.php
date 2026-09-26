@@ -208,7 +208,7 @@ final class openai_test extends \advanced_testcase {
              * @return array
              */
             public function body(array $messages): array {
-                return $this->build_body($messages);
+                return $this->build_body($messages, new chat_options());
             }
 
             /**
@@ -251,7 +251,7 @@ final class openai_test extends \advanced_testcase {
             public bool $partial = false;
 
             #[\Override]
-            protected function send_chat(array $messages, callable $ondelta): chat_result {
+            protected function send_chat(array $messages, callable $ondelta, chat_options $options): chat_result {
                 $this->attempts++;
                 if ($this->attempts <= $this->failures) {
                     if ($this->partial) {

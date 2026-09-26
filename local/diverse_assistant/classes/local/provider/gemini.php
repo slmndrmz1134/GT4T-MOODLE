@@ -61,13 +61,14 @@ class gemini extends openai_compatible {
     }
 
     #[\Override]
-    protected function build_body(array $messages): array {
+    protected function build_body(array $messages, chat_options $options): array {
+        // No answer limit: Gemini's default is large and also covers the model's thinking.
         $body = [
             'model' => $this->model,
             'messages' => $messages,
             'stream' => true,
             'stream_options' => ['include_usage' => true],
-        ];
+        ] + self::tools_body($options);
         // Thinking cannot be turned off on Gemini 3 models, so "none" keeps the model's default.
         if (in_array($this->reasoningeffort, ['low', 'medium', 'high'], true)) {
             $body['reasoning_effort'] = $this->reasoningeffort;

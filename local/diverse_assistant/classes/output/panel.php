@@ -19,6 +19,7 @@ namespace local_diverse_assistant\output;
 use local_diverse_assistant\local\chat_service;
 use local_diverse_assistant\local\provider\factory;
 use local_diverse_assistant\local\retention;
+use local_diverse_assistant\local\teacher\proposals;
 
 /**
  * The chat panel on course pages.
@@ -82,6 +83,9 @@ class panel implements \renderable, \templatable {
             'coursename' => format_string($this->course->shortname, true, ['context' => \context_course::instance($this->course->id)]),
             'maxlength' => chat_service::MAX_MESSAGE_LENGTH,
             'retentionoptions' => retention::get_options(retention::get()),
+            'teacher' => chat_service::is_teacher_mode($this->course),
+            'hascm' => $this->context->contextlevel === CONTEXT_MODULE,
+            'keepdays' => proposals::KEEP_DAYS,
         ];
     }
 
@@ -98,6 +102,9 @@ class panel implements \renderable, \templatable {
             'userid' => (int)$USER->id,
             'streamurl' => (new \moodle_url('/local/diverse_assistant/stream.php'))->out(false),
             'historylimit' => chat_service::MAX_HISTORY,
+            'teacher' => chat_service::is_teacher_mode($this->course),
+            // Links to files in proposals are shown from the edit form's draft area.
+            'usercontextid' => (int)\context_user::instance($USER->id)->id,
         ];
     }
 }

@@ -17,7 +17,9 @@
 namespace local_diverse_assistant\local\provider;
 
 use Anthropic\Beta\Messages\BetaRawContentBlockDeltaEvent;
+use Anthropic\Beta\Messages\BetaRawContentBlockStartEvent;
 use Anthropic\Beta\Messages\BetaTextDelta;
+use Anthropic\Beta\Messages\BetaToolUseBlock;
 use Anthropic\Client;
 use Anthropic\Core\Exceptions\APIConnectionException;
 use Anthropic\Core\Exceptions\APIStatusException;
@@ -98,10 +100,11 @@ class anthropic extends provider {
     }
 
     #[\Override]
-    public function chat(array $messages, ?callable $ondelta = null): chat_result {
+    public function chat(array $messages, ?callable $ondelta = null, ?chat_options $options = null): chat_result {
+        $options ??= new chat_options();
         [$system, $turns] = self::split_messages($messages);
         $params = [
-            'maxTokens' => self::MAX_OUTPUT_TOKENS,
+            'maxTokens' => $options->maxoutputtokens ?: self::MAX_OUTPUT_TOKENS,
             'messages' => $turns,
             'model' => $this->model,
             // The instructions and course materials repeat with every question of a course: cache them.
@@ -109,6 +112,13 @@ class anthropic extends provider {
         ];
         if (in_array($this->effort, ['low', 'medium', 'high'], true) && self::supports_effort($this->model)) {
             $params['outputConfig'] = ['effort' => $this->effort];
+        }
+        if ($options->tools) {
+            $params['tools'] = array_map(fn(array $tool) => [
+                'name' => $tool['name'],
+                'description' => $tool['description'],
+                'inputSchema' => $tool['parameters'],
+            ], $options->tools);
         }
         if (self::supports_fallbacks($this->model)) {
             // A declined request is retried on Anthropic's recommended model instead of failing.
@@ -124,6 +134,10 @@ class anthropic extends provider {
                 if ($ondelta && $event instanceof BetaRawContentBlockDeltaEvent && $event->delta instanceof BetaTextDelta) {
                     $ondelta($event->delta->text);
                 }
+                if ($options->ontoolstart && $event instanceof BetaRawContentBlockStartEvent
+                        && $event->contentBlock instanceof BetaToolUseBlock) {
+                    ($options->ontoolstart)($event->contentBlock->name);
+                }
             }
             $message = $accumulator->message();
         } catch (\Throwable $e) {
@@ -135,12 +149,15 @@ class anthropic extends provider {
             throw new provider_exception('errorrefusal', (string)($message->stopDetails?->category ?? ''));
         }
         $text = '';
+        $toolcalls = [];
         foreach ($message->content as $block) {
             if ($block->type === 'text') {
                 $text .= $block->text;
+            } else if ($block->type === 'tool_use') {
+                $toolcalls[] = ['name' => $block->name, 'arguments' => is_array($block->input) ? $block->input : null];
             }
         }
-        if (trim($text) === '') {
+        if (trim($text) === '' && !$toolcalls) {
             throw new provider_exception('errorempty', (string)$message->stopReason);
         }
         $usage = $message->usage;
@@ -149,6 +166,7 @@ class anthropic extends provider {
             $usage->inputTokens + (int)$usage->cacheCreationInputTokens + (int)$usage->cacheReadInputTokens,
             $usage->outputTokens,
             $message->stopReason === 'max_tokens' ? 'length' : (string)$message->stopReason,
+            $toolcalls,
         );
     }
 

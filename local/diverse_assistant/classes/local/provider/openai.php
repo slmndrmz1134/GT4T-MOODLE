@@ -59,17 +59,38 @@ class openai extends openai_compatible {
     }
 
     #[\Override]
-    protected function build_body(array $messages): array {
+    public function chat(array $messages, ?callable $ondelta = null, ?chat_options $options = null): chat_result {
+        try {
+            return parent::chat($messages, $ondelta, $options);
+        } catch (provider_exception $e) {
+            // Some models reject tools together with a reasoning effort on this API: ask once more without thinking.
+            $rejected = $e->errorcode === 'errorservice' && str_contains((string)$e->debuginfo, 'reasoning_effort');
+            if (!$options?->tools || !$rejected || $this->reasoningeffort === 'none') {
+                throw $e;
+            }
+            $retry = clone $this;
+            $retry->reasoningeffort = 'none';
+            return $retry->chat($messages, $ondelta, $options);
+        }
+    }
+
+    #[\Override]
+    protected function build_body(array $messages, chat_options $options): array {
         $body = [
             'model' => $this->model,
             'messages' => $messages,
             'stream' => true,
             // Token counts arrive in a last chunk.
             'stream_options' => ['include_usage' => true],
-            'max_completion_tokens' => static::MAX_OUTPUT_TOKENS,
-        ];
-        if ($this->reasoningeffort !== '' && self::supports_reasoning_effort($this->model)) {
-            $body['reasoning_effort'] = $this->reasoningeffort;
+            'max_completion_tokens' => $options->maxoutputtokens ?: static::MAX_OUTPUT_TOKENS,
+        ] + self::tools_body($options);
+        $effort = $this->reasoningeffort;
+        if ($options->tools && preg_match('/^gpt-(\d+)/i', $this->model, $matches) && (int)$matches[1] >= 6) {
+            // GPT-6 models take tools on the Chat Completions API only without thinking.
+            $effort = 'none';
+        }
+        if ($effort !== '' && self::supports_reasoning_effort($this->model)) {
+            $body['reasoning_effort'] = $effort;
         }
         return $body;
     }

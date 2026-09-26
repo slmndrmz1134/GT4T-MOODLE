@@ -17,7 +17,8 @@
 /**
  * DIVERSE AI assistant - Version file
  *
- * A chat panel in every course where students talk with an AI model about the course materials.
+ * A chat panel in every course: students talk with an AI model about the course materials, teachers get help
+ * writing and editing the course content.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
@@ -27,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_diverse_assistant';
-$plugin->version = 2026092600;
-$plugin->release = '0.2.0';
+$plugin->version = 2026092700;
+$plugin->release = '0.3.0';
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_ALPHA;
