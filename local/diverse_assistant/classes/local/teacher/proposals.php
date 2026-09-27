@@ -61,7 +61,7 @@ class proposals {
     public const MAX_PER_ANSWER = 5;
 
     /** Longest name, in characters. */
-    private const MAX_NAME_LENGTH = 255;
+    public const MAX_NAME_LENGTH = 255;
 
     /** Longest HTML text, in characters. */
     private const MAX_HTML_LENGTH = 300000;
@@ -87,12 +87,14 @@ class proposals {
             $toolcalls = array_slice($toolcalls, 0, self::MAX_PER_ANSWER);
         }
         foreach ($toolcalls as $call) {
+            $warnings = [];
             try {
-                $record = self::validate($course, $call, $editable);
+                $record = self::validate($course, $call, $editable, $warnings);
             } catch (\moodle_exception $e) {
                 $problems[] = $e->getMessage();
                 continue;
             }
+            $problems = array_merge($problems, $warnings);
             $now = time();
             $record->userid = $userid;
             $record->courseid = (int)$course->id;
@@ -114,10 +116,11 @@ class proposals {
      * @param \stdClass $course The course.
      * @param array $call ['name' => string, 'arguments' => array|null].
      * @param array $editable 'cmids' and 'sectionids' whose texts the model saw in full.
+     * @param string[] $warnings Receives messages for the teacher about parts of the call that were left out.
      * @return \stdClass With action, cmid, sectionid, proposed and original.
      * @throws \moodle_exception With a message for the teacher if the call is not valid.
      */
-    private static function validate(\stdClass $course, array $call, array $editable): \stdClass {
+    private static function validate(\stdClass $course, array $call, array $editable, array &$warnings = []): \stdClass {
         $args = $call['arguments'] ?? null;
         if (!is_array($args)) {
             throw new \moodle_exception('proposal_error_invalid', 'local_diverse_assistant');
@@ -138,6 +141,10 @@ class proposals {
                 $proposed = ['note' => $note];
                 if ($ispage) {
                     $proposed['name'] = self::clean_name($args['name'] ?? '');
+                    if (!self::name_fits($proposed['name'])) {
+                        throw new \moodle_exception('proposal_error_newnametoolong', 'local_diverse_assistant', '',
+                            self::MAX_NAME_LENGTH);
+                    }
                     $proposed['content'] = self::clean_html($args['content'] ?? '');
                     $description = self::clean_html($args['description'] ?? '');
                     if ($description !== '') {
@@ -164,15 +171,17 @@ class proposals {
                 $cm = self::get_cm($modinfo, $args['cmid'] ?? null);
                 if (!in_array((int)$cm->id, $editable['cmids'] ?? [], true)) {
                     throw new \moodle_exception('proposal_error_notincluded', 'local_diverse_assistant', '',
-                        format_string($cm->name, true, ['context' => $cm->context]));
+                        self::plain_name($cm->name));
                 }
                 $original = course_content::read_activity($cm);
                 if ($original === null) {
                     throw new \moodle_exception('proposal_error_nopermission', 'local_diverse_assistant');
                 }
                 $proposed = [];
+                $namedropped = false;
                 if (isset($args['name']) && $cm->modname !== 'label') {
                     $proposed['name'] = self::clean_name($args['name']);
+                    $namedropped = self::drop_long_name($proposed);
                 }
                 if (isset($args['description']) && array_key_exists('description', $original)) {
                     $proposed['description'] = self::clean_html($args['description']);
@@ -182,8 +191,15 @@ class proposals {
                 }
                 $proposed = self::without_unchanged($proposed, $original, ['name', 'content']);
                 if (!$proposed) {
+                    if ($namedropped) {
+                        throw new \moodle_exception('proposal_error_nametoolong', 'local_diverse_assistant', '',
+                            self::MAX_NAME_LENGTH);
+                    }
                     throw new \moodle_exception('proposal_error_nochange', 'local_diverse_assistant', '',
-                        format_string($cm->name, true, ['context' => $cm->context]));
+                        self::plain_name($cm->name));
+                }
+                if ($namedropped) {
+                    $warnings[] = get_string('proposal_error_nametoolong', 'local_diverse_assistant', self::MAX_NAME_LENGTH);
                 }
                 $proposed['note'] = $note;
                 return (object)[
@@ -201,20 +217,29 @@ class proposals {
                 }
                 if (!in_array((int)$section->id, $editable['sectionids'] ?? [], true)) {
                     throw new \moodle_exception('proposal_error_notincluded', 'local_diverse_assistant', '',
-                        get_section_name($course, $section));
+                        self::plain_name(get_section_name($course, $section)));
                 }
                 $original = course_content::read_section($section);
                 $proposed = [];
+                $namedropped = false;
                 if (isset($args['name'])) {
                     $proposed['name'] = self::clean_name($args['name']);
+                    $namedropped = self::drop_long_name($proposed);
                 }
                 if (isset($args['summary'])) {
                     $proposed['summary'] = self::clean_html($args['summary']);
                 }
                 $proposed = self::without_unchanged($proposed, $original, ['name']);
                 if (!$proposed) {
+                    if ($namedropped) {
+                        throw new \moodle_exception('proposal_error_nametoolong', 'local_diverse_assistant', '',
+                            self::MAX_NAME_LENGTH);
+                    }
                     throw new \moodle_exception('proposal_error_nochange', 'local_diverse_assistant', '',
-                        get_section_name($course, $section));
+                        self::plain_name(get_section_name($course, $section)));
+                }
+                if ($namedropped) {
+                    $warnings[] = get_string('proposal_error_nametoolong', 'local_diverse_assistant', self::MAX_NAME_LENGTH);
                 }
                 $proposed['note'] = $note;
                 return (object)[
@@ -638,7 +663,10 @@ class proposals {
      * @return string
      */
     private static function plain_name(string $name): string {
-        return trim(strip_tags(format_string($name, true, ['context' => \context_system::instance(), 'escape' => false])));
+        // Plain text for strings and templates that escape it themselves: entities from format_string() or from names
+        // that were already formatted (get_section_name()) are decoded, so "&" is not shown as "&amp;".
+        $text = strip_tags(format_string($name, true, ['context' => \context_system::instance(), 'escape' => false]));
+        return trim(html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
     }
 
     /**
@@ -701,8 +729,32 @@ class proposals {
      */
     private static function clean_name(mixed $name): string {
         $name = is_string($name) ? $name : '';
-        $name = trim(preg_replace('/\s+/u', ' ', clean_param(fix_utf8($name), PARAM_TEXT)));
-        return \core_text::substr($name, 0, self::MAX_NAME_LENGTH);
+        // Not cut to the database limit here: a cut would break {mlang} blocks. See name_fits().
+        return trim(preg_replace('/\s+/u', ' ', clean_param(fix_utf8($name), PARAM_TEXT)));
+    }
+
+    /**
+     * Whether a cleaned name fits into Moodle's name fields (all language versions together).
+     *
+     * @param string $name From clean_name().
+     * @return bool
+     */
+    private static function name_fits(string $name): bool {
+        return \core_text::strlen($name) <= self::MAX_NAME_LENGTH;
+    }
+
+    /**
+     * Leave out a proposed name that does not fit, instead of cutting it (which would break its {mlang} blocks).
+     *
+     * @param array $proposed Proposed fields; 'name' is removed if it is too long.
+     * @return bool Whether the name was left out.
+     */
+    private static function drop_long_name(array &$proposed): bool {
+        if (isset($proposed['name']) && !self::name_fits($proposed['name'])) {
+            unset($proposed['name']);
+            return true;
+        }
+        return false;
     }
 
     /**

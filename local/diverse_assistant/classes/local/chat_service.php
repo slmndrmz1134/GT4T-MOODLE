@@ -430,7 +430,7 @@ How to work:
 - When changing a text, send its complete new version and keep everything the teacher did not ask to change,
   including images and links (keep @@PLUGINFILE@@ addresses exactly as they are).
 - Content is HTML: <p>, <h3>, <h4>, <ul>, <ol>, <li>, <strong>, <em>, <a href="...">, <table>, <blockquote>. No scripts,
-  styles, classes or iframes. Names are plain text.
+  styles, classes or iframes. Names are plain text, at most 255 characters in total with all language versions.
 - Multilingual content uses the multilang filter: {mlang en}English{mlang}{mlang tr}Türkçe{mlang}{mlang de}Deutsch{mlang}
   {mlang hr}Hrvatski{mlang}. Keep existing {mlang} blocks and all their languages. When asked to translate or make a text
   multilingual, put each complete language version in its own block (not sentence by sentence); names can have blocks

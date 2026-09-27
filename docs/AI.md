@@ -49,6 +49,10 @@ değiştir > Öğrenci" yaparsa öğrencinin gördüğü asistanı görür.
   sonra elle düzenlendiyse "Geri al" o düzenlemeyi silmez. AI yalnızca metnini **tamamen gördüğü** etkinlik ve bölümleri
   değiştirebilir (ders çok uzunsa öğretmen o etkinliği açıp orada sormalı). AI'ın yazdığı HTML, kullanıcı girdisi gibi
   temizlenir (script vb. atılır). Bir cevapta en fazla 5 öneri.
+- **Ad sınırı:** Moodle'da etkinlik ve bölüm adı en fazla 255 karakterdir; çok dilli adda tüm diller ve `{mlang}`
+  etiketleri bu sınıra dahildir. Daha uzun bir ad kesilmez (kesmek bir dil bloğunu yarım bırakır): mevcut bir
+  etkinlik ya da bölümde ad değişikliği önerilmez, diğer değişiklikler önerilir ve öğretmene "daha kısa bir ad isteyin"
+  notu çıkar; yeni sayfa hiç önerilmez. Model de bu sınırı bilir.
 - **Düzenleme formlarında "Editöre ekle":** öğretmen bir etkinliğin ya da bölümün düzenleme formundayken AI'ın
   cevabının altında bu düğme çıkar; cevap, son tıklanan TinyMCE editörüne imlecin olduğu yere eklenir.
 - Öğretmen modunda quiz kilidi uygulanmaz; saatlik soru sınırı ve saklama tercihi öğrencilerdeki gibidir.

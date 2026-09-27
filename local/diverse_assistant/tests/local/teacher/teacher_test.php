@@ -315,6 +315,76 @@ final class teacher_test extends \advanced_testcase {
     }
 
     /**
+     * Names too long for Moodle are never cut (a cut would break their {mlang} blocks); the teacher is told instead.
+     */
+    public function test_long_names_are_not_cut(): void {
+        $this->setUser($this->teacher);
+        $long = '{mlang en}' . str_repeat('Understanding torts ', 8) . '{mlang}{mlang tr}'
+            . str_repeat('Haksız fiilleri anlamak ', 8) . '{mlang}';
+        $this->assertGreaterThan(proposals::MAX_NAME_LENGTH, \core_text::strlen($long));
+        $toolong = get_string('proposal_error_nametoolong', 'local_diverse_assistant', proposals::MAX_NAME_LENGTH);
+
+        // A new page without a usable name is not proposed.
+        $result = $this->propose([[tools::NEW_PAGE, ['section' => 1, 'name' => $long, 'content' => '<p>A</p>',
+            'note' => '']]]);
+        $this->assertCount(0, $result['records']);
+        $this->assertSame([get_string('proposal_error_newnametoolong', 'local_diverse_assistant',
+            proposals::MAX_NAME_LENGTH)], $result['problems']);
+
+        // The other changes are still proposed, with the old name kept and a note for the teacher.
+        $result = $this->propose([
+            [tools::UPDATE_ACTIVITY, ['cmid' => $this->page->cmid, 'name' => $long, 'content' => '<p>New</p>',
+                'note' => '']],
+            [tools::UPDATE_SECTION, ['section' => 1, 'name' => $long, 'summary' => '<p>New</p>', 'note' => '']],
+        ]);
+        $this->assertCount(2, $result['records']);
+        $this->assertSame([$toolong, $toolong], $result['problems']);
+        foreach ($result['records'] as $record) {
+            $this->assertArrayNotHasKey('name', json_decode($record->proposed, true));
+        }
+
+        // Nothing is left to propose when only the name was to change.
+        $result = $this->propose([[tools::UPDATE_ACTIVITY, ['cmid' => $this->page->cmid, 'name' => $long, 'note' => '']]]);
+        $this->assertCount(0, $result['records']);
+        $this->assertSame([$toolong], $result['problems']);
+
+        // A name of exactly the limit is kept whole.
+        $fits = '{mlang en}Torts{mlang}{mlang tr}' . str_repeat('a', proposals::MAX_NAME_LENGTH - 39) . '{mlang}';
+        $this->assertSame(proposals::MAX_NAME_LENGTH, \core_text::strlen($fits));
+        [$record] = $this->propose([[tools::UPDATE_ACTIVITY, ['cmid' => $this->page->cmid, 'name' => $fits,
+            'note' => '']]])['records'];
+        $this->assertSame($fits, json_decode($record->proposed, true)['name']);
+    }
+
+    /**
+     * Names with "&" are shown once escaped on the proposal card and in the notes, not as "&amp;".
+     */
+    public function test_names_with_ampersand(): void {
+        global $DB;
+        $this->setUser($this->teacher);
+        $section = get_fast_modinfo($this->course)->get_section_info(1);
+        $DB->set_field('course_sections', 'name', 'Torts & Liability', ['id' => $section->id]);
+        $DB->set_field('page', 'name', 'Tort & contract', ['id' => $this->page->id]);
+        rebuild_course_cache($this->course->id, true);
+
+        [$page, $sectionproposal] = $this->propose([
+            [tools::NEW_PAGE, ['section' => 1, 'name' => 'Cases & facts', 'content' => '<p>A</p>', 'note' => '']],
+            [tools::UPDATE_SECTION, ['section' => 1, 'summary' => '<p>New</p>', 'note' => '']],
+        ])['records'];
+        $export = proposals::export($page);
+        $this->assertStringContainsString('Torts & Liability', $export['where']);
+        $this->assertStringContainsString('Cases & facts', $export['title']);
+        $export = proposals::export($sectionproposal);
+        $this->assertStringContainsString('Torts & Liability', $export['title']);
+        $this->assertStringNotContainsString('&amp;', $export['title'] . $export['where']);
+
+        $result = $this->propose([[tools::UPDATE_ACTIVITY, ['cmid' => $this->page->cmid, 'name' => 'Tort & contract',
+            'note' => '']]]);
+        $this->assertStringContainsString('Tort & contract', $result['problems'][0]);
+        $this->assertStringNotContainsString('&amp;', $result['problems'][0]);
+    }
+
+    /**
      * Activities with settings only their form handles are changed in the form.
      */
     public function test_assignment_is_changed_in_its_form(): void {

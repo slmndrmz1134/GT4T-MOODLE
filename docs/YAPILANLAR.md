@@ -371,10 +371,14 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 10. **AI asistan:** "Yalnızca AB" kararı (iki senaryo da hazır), servisle veri işleme sözleşmesi, Aşama 2 servisleri
     (Claude, Gemini, Azure). Canlıda HTTPS olmadan açılmaması önerilir (§19). Öğretmen modu (§20) tarayıcıda denenmeli;
     Gemini'yi öğretmenlere açmadan önce faturalandırma şart (ücretsiz katmanda günlük kota birkaç öneride doluyor).
-11. **AI asistan kod incelemesi:** 12 bulgu 27 Eylül'de düzeltildi (sürüm 0.3.1, 84 PHPUnit testi geçiyor; ayrıntılar
-    `docs/AI.md`). **Gerçek API anahtarıyla denenmesi gerekenler:** gerçek bir cevap; "Durdur"un canlı akışta servise
-    isteği gerçekten kesmesi; öğretmen modunda uzun bir önerinin 3 dakikayı aşıp tamamlanması; Claude'da önbellek
-    okumalarının (cache_read) sayfa değişince de sürmesi.
+11. **AI asistan kod incelemesi:** 12 bulgu 27 Eylül'de düzeltildi (sürüm 0.3.1; ayrıntılar `docs/AI.md`). Aynı gün
+    OpenAI anahtarıyla yerelde denendi: öğrenci cevabı (~10 sn), canlı akışta "Durdur" (servise istek kesildi, soru
+    sayıldı, hiçbir şey kaydedilmedi) ve öğretmen modunda bir sayfayı 4 dile çevirme önerisi (44 sn, Uygula ve Geri al
+    çalıştı) sorunsuz. Bu denemede iki hata bulundu ve düzeltildi (sürüm 0.3.2, 86 PHPUnit testi geçiyor): çok dilli ad
+    255 karakteri aşınca bir `{mlang}` bloğunun ortasından kesiliyordu (artık kesilmez, öğretmene "daha kısa ad isteyin"
+    denir ve modele sınır bildirilir); öneri kartında bölüm adı çift kodlanıyordu (`Torts &amp; Liability`).
+    **Hâlâ denenmemiş:** Claude'da önbellek okumalarının (cache_read) sayfa değişince de sürmesi (Claude anahtarı
+    gerekir).
 12. **Üniversite logoları:** Üç üniversitenin logo, küçük logo ve favicon ayarları kayıtlı ama dosyaları
     `moodledata`'da yok. Her üniversitenin yöneticisi (ya da site yöneticisi) üniversite > Appearance > Logos
     sayfasından yeniden yüklemeli. Beykent'in kayıtlı logosu beyaz (`beykent-logo-tr-white.png`): beyaz menüde

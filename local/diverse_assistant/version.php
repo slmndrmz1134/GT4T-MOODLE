@@ -28,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_diverse_assistant';
-$plugin->version = 2026092701;
-$plugin->release = '0.3.1';
+$plugin->version = 2026092702;
+$plugin->release = '0.3.2';
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_ALPHA;

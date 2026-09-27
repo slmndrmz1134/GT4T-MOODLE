@@ -47,6 +47,8 @@ class tools {
         $section = ['type' => 'integer', 'description' => 'Section number, as in [section=N].'];
         $html = 'HTML: <p>, <h3>, <h4>, <ul>, <ol>, <li>, <strong>, <em>, <a href>, <table>, <blockquote>. No scripts, '
             . 'styles or classes. May contain {mlang xx}...{mlang} blocks.';
+        $namelimit = ' At most 255 characters in total, all {mlang} language versions and tags together: keep '
+            . 'multilingual names short.';
 
         return [
             [
@@ -57,7 +59,7 @@ class tools {
                     'type' => 'object',
                     'properties' => [
                         'section' => $section,
-                        'name' => ['type' => 'string', 'description' => 'Title of the page, plain text.'],
+                        'name' => ['type' => 'string', 'description' => 'Title of the page, plain text.' . $namelimit],
                         'content' => ['type' => 'string', 'description' => 'The complete page content. ' . $html],
                         'description' => ['type' => 'string', 'description' => 'Optional short description. ' . $html],
                         'note' => $note,
@@ -88,7 +90,7 @@ class tools {
                     'type' => 'object',
                     'properties' => [
                         'cmid' => ['type' => 'integer', 'description' => 'Activity id, as in [cmid=N].'],
-                        'name' => ['type' => 'string', 'description' => 'New name, plain text.'],
+                        'name' => ['type' => 'string', 'description' => 'New name, plain text.' . $namelimit],
                         'description' => ['type' => 'string', 'description' => 'New description. ' . $html],
                         'content' => ['type' => 'string', 'description' => 'New page content (pages only). ' . $html],
                         'note' => $note,
@@ -103,7 +105,7 @@ class tools {
                     'type' => 'object',
                     'properties' => [
                         'section' => $section,
-                        'name' => ['type' => 'string', 'description' => 'New section name, plain text.'],
+                        'name' => ['type' => 'string', 'description' => 'New section name, plain text.' . $namelimit],
                         'summary' => ['type' => 'string', 'description' => 'New section summary. ' . $html],
                         'note' => $note,
                     ],
