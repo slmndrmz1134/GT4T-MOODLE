@@ -101,18 +101,19 @@ if (!core_component::get_component_directory('theme_diverse')) {
     $changed = true;
 }
 
-// 2. Course page width: 1000px instead of Boost Union's default 830px, unless an admin chose another width.
+// 2. Course page width: 1280px like the other platform pages (theme_diverse platform.scss), instead of Boost Union's
+// default 830px or the 1000px an earlier version of this script set, unless an admin chose another width.
 $coursewidth = get_config('theme_boost_union', 'coursecontentmaxwidth');
-if ($coursewidth === '1000px') {
-    diverse_setup_report('OK', 'Course content width is 1000px.');
-} else if ($coursewidth !== false && $coursewidth !== '830px') {
+if ($coursewidth === '1280px') {
+    diverse_setup_report('OK', 'Course content width is 1280px.');
+} else if ($coursewidth !== false && !in_array($coursewidth, ['830px', '1000px'], true)) {
     diverse_setup_report('SKIP', "Course content width was set to $coursewidth by an admin: left as is.");
 } else if ($dryrun) {
-    diverse_setup_report('WOULD', 'Set the course content width to 1000px (Boost Union default is 830px).');
+    diverse_setup_report('WOULD', 'Set the course content width to 1280px (now ' . ($coursewidth ?: '830px') . ').');
 } else {
-    set_config('coursecontentmaxwidth', '1000px', 'theme_boost_union');
+    set_config('coursecontentmaxwidth', '1280px', 'theme_boost_union');
     theme_reset_all_caches();
-    diverse_setup_report('SET', 'Course content width set to 1000px.');
+    diverse_setup_report('SET', 'Course content width set to 1280px.');
     $changed = true;
 }
 

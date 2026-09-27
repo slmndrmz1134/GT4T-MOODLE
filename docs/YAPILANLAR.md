@@ -126,7 +126,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 - Dashboard ve Kurslarım 1280px genişliğe çıktı; ders kartları DIVERSE renklerinde.
 - Kapak resmi olmayan derslere Moodle'ın ürettiği desenler palete bağlandı; eskiden rastgele mavi ve griydi.
 - Varsayılan dashboard'a "Son erişilen dersler" bloğu eklendi (Zaman çizelgesi ile Takvim arasına).
-- Ders sayfası genişliği 830px'ten 1000px'e çıktı; etkinlik adları koyu ve kalın.
+- Ders sayfası genişliği 830px'ten 1000px'e çıktı; etkinlik adları koyu ve kalın. (27 Eylül: proje sahibinin kararıyla
+  ders sayfası da diğer platform sayfaları gibi 1280px oldu.)
 
 **Neden**
 - Kart ızgarası olan sayfalarda 830px çok dardı; ders sayfasında ise okunabilirlik için orta bir genişlik seçildi.
