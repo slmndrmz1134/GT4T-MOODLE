@@ -229,6 +229,13 @@ body.pagelayout-frontpage.notloggedin {
     }
 }
 
+// The key figures card overlaps the bottom of the hero by 2.5rem: the hero's tiles end above it.
+.diverse-hero .diverse-pattern {
+    @include media-breakpoint-up(lg) {
+        padding-bottom: 4rem;
+    }
+}
+
 $diverse-tiles: (
     "ink-brand": ($diverse-ink, $diverse-brand-orange),
     "ink-white": ($diverse-ink, $white),
@@ -256,10 +263,16 @@ $diverse-tiles: (
     border-radius: $border-radius-xl;
     box-shadow: $box-shadow-sm;
     max-width: 80rem;
-    margin: -2.5rem auto 3.5rem;
+    // Same side gutter as the hero text until the page is wider than the card.
+    margin: -2.5rem $diverse-gutter-sm 3.5rem;
     position: relative;
     z-index: 2;
     overflow: hidden;
+
+    @media (min-width: 82.5rem) {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     @include media-breakpoint-up(md) {
         grid-auto-flow: column;

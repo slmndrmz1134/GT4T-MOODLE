@@ -79,14 +79,16 @@ class landing implements renderable, templatable {
     /**
      * Export the smaller data set for the brand panel next to the login form.
      *
+     * @param \renderer_base|null $output Renderer, for the logo address; without it the panel shows the text wordmark.
      * @return array
      */
-    public function export_for_login(): array {
+    public function export_for_login(?\renderer_base $output = null): array {
         $partners = $this->get_partners();
         return [
             'partners' => $partners,
             'haspartners' => !empty($partners),
             'homeurl' => (new \core\url('/'))->out(false),
+            'logourl' => $output ? $output->image_url('logo', 'theme_diverse')->out(false) : '',
         ];
     }
 

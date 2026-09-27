@@ -119,7 +119,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return string
      */
     public function render_login(\core_auth\output\login $form) {
-        $brandpanel = $this->render_from_template('theme_diverse/login_brand', (new landing())->export_for_login());
+        $brandpanel = $this->render_from_template('theme_diverse/login_brand', (new landing())->export_for_login($this));
         return $brandpanel . parent::render_login($form);
     }
 
