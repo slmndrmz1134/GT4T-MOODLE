@@ -145,6 +145,12 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return \core\url
      */
     public function favicon() {
+        // A partner university's own favicon comes first (see tenant_image_url()).
+        $tenantfavicon = $this->tenant_image_url(\core\output\core_renderer::favicon());
+        if ($tenantfavicon) {
+            return $tenantfavicon;
+        }
+
         // If Boost Union (or a flavour) has an explicit favicon configured, use it as-is.
         $parentfavicon = parent::favicon();
 
@@ -185,14 +191,19 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     /**
      * Return the site's compact logo URL for the navbar.
      *
-     * Falls back to the DIVERSE logo (theme/diverse/pix/logo.png) if no flavour
-     * or admin compact logo is configured in Boost Union.
+     * A partner university's own compact logo comes first (see tenant_image_url()). Otherwise falls back to the
+     * DIVERSE logo (theme/diverse/pix/logo.png) if no flavour or admin compact logo is configured in Boost Union.
      *
      * @param int $maxwidth
      * @param int $maxheight
      * @return \moodle_url|false
      */
     public function get_compact_logo_url($maxwidth = 300, $maxheight = 300) {
+        $tenantlogo = $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight));
+        if ($tenantlogo) {
+            return $tenantlogo;
+        }
+
         $parentlogo = parent::get_compact_logo_url($maxwidth, $maxheight);
         if ($parentlogo) {
             return $parentlogo;
@@ -204,20 +215,76 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     /**
      * Return the site's main logo URL.
      *
-     * Falls back to the DIVERSE logo (theme/diverse/pix/logo.png) if no flavour
-     * or admin logo is configured in Boost Union.
+     * A partner university's own logo comes first (see tenant_image_url()). Otherwise falls back to the DIVERSE logo
+     * (theme/diverse/pix/logo.png) if no flavour or admin logo is configured in Boost Union.
      *
      * @param int $maxwidth
      * @param int $maxheight
      * @return \moodle_url|false
      */
     public function get_logo_url($maxwidth = null, $maxheight = 200) {
+        $tenantlogo = $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight));
+        if ($tenantlogo) {
+            return $tenantlogo;
+        }
+
         $parentlogo = parent::get_logo_url($maxwidth, $maxheight);
         if ($parentlogo) {
             return $parentlogo;
         }
 
         return $this->image_url('logo', 'theme_diverse');
+    }
+
+    /**
+     * The given image if it is a partner university's own upload whose file is available on this site.
+     *
+     * tool_mutenancy lets each partner university (tenant) upload its own logo, compact logo and favicon, and serves
+     * them through Moodle core's logo and favicon functions for the users of that tenant. Boost Union replaces those
+     * functions with its own and never asks core, so this theme asks core directly and passes the result on only if
+     * it is a tenant's image. Uploads whose file is missing on this site (e.g. lost when the site was moved) are
+     * skipped, so users get the usual logo instead of a broken image.
+     *
+     * @param mixed $url What core returned: a pluginfile URL, another URL or false.
+     * @return \core\url|null The URL if it points to an available file in a tenant context, null otherwise.
+     */
+    private function tenant_image_url($url): ?\core\url {
+        static $checked = [];
+        if (!$url instanceof \core\url || !function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
+            return null;
+        }
+        $key = $url->out(false);
+        if (array_key_exists($key, $checked)) {
+            return $checked[$key];
+        }
+        $checked[$key] = null;
+
+        // A pluginfile URL: /pluginfile.php/<contextid>/<component>/<filearea>/<size>/<revision>/<filename>.
+        $path = $url->get_path();
+        if (str_ends_with($path, '/pluginfile.php') && $url->get_param('file')) {
+            $path .= $url->get_param('file');
+        }
+        $parts = explode('/', $path);
+        $start = array_search('pluginfile.php', $parts, true);
+        if ($start === false || count($parts) < $start + 5) {
+            return null;
+        }
+        [$contextid, $component, $filearea] = array_slice($parts, $start + 1, 3);
+        $context = \context::instance_by_id((int)$contextid, IGNORE_MISSING);
+        if (!$context || $context->contextlevel == CONTEXT_SYSTEM) {
+            // The site's own image, not a partner's: Boost Union decides about that one.
+            return null;
+        }
+
+        $filename = rawurldecode(end($parts));
+        $fs = get_file_storage();
+        foreach ($fs->get_area_files($context->id, $component, $filearea, false, 'itemid, filepath, filename', false) as $file) {
+            if ($file->get_filename() === $filename && $fs->get_file_system()->is_file_readable_locally_by_storedfile($file)) {
+                $checked[$key] = $url;
+                break;
+            }
+        }
+        return $checked[$key];
     }
 
     /**

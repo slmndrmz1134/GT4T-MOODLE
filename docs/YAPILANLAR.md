@@ -375,6 +375,11 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     `docs/AI.md`). **Gerçek API anahtarıyla denenmesi gerekenler:** gerçek bir cevap; "Durdur"un canlı akışta servise
     isteği gerçekten kesmesi; öğretmen modunda uzun bir önerinin 3 dakikayı aşıp tamamlanması; Claude'da önbellek
     okumalarının (cache_read) sayfa değişince de sürmesi.
+12. **Üniversite logoları:** Üç üniversitenin logo, küçük logo ve favicon ayarları kayıtlı ama dosyaları
+    `moodledata`'da yok. Her üniversitenin yöneticisi (ya da site yöneticisi) üniversite > Appearance > Logos
+    sayfasından yeniden yüklemeli. Beykent'in kayıtlı logosu beyaz (`beykent-logo-tr-white.png`): beyaz menüde
+    görünmez, renkli sürümü yüklenmeli. Tema tarafı hazır: dosya yüklenince o üniversitenin kullanıcıları menüde
+    kendi logolarını görür (27 Eylül).
 
 ## 18. Commit listesi
 

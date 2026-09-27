@@ -20,7 +20,9 @@ ayrılmasın diye burada tekrar edilmez.
    turuncu yalnızca vurgu içindir. Cam efekti (glassmorphism), yıldızlı arka plan ve 3D kartlar kullanılmaz.
 2. **Dashboard "şimdi ne yapmalıyım?" sorusunu cevaplar:** önce yaklaşan işler, sonra ilerleme çubuklu ders kartları.
 3. **Üst menüde en fazla 5 öğe.** Dil seçici (EN / TR / DE / HR) her ekranda görünür.
-4. **Partner markası:** DIVERSE çerçevesi sabit kalır; her partnerin logosu Boost Union *flavours* ile gösterilir.
+4. **Partner markası:** DIVERSE çerçevesi sabit kalır (giriş paneli, landing, footer); giriş yapan kullanıcı menüde kendi
+   üniversitesinin logosunu görür. Logoyu her üniversitenin yöneticisi `tool_mutenancy` ile yükler (üniversite >
+   Appearance > Logos); logo yüklenmemişse ya da dosyası yoksa DIVERSE logosu gösterilir.
 5. **Önce mobil**, animasyon minimumda.
 
 ## Taslak ekranlar (`mockups/`)
@@ -47,5 +49,7 @@ Taslaklardaki ilerleme yüzdeleri ve tarihler örnektir.
 - [x] Yerel test ortamında varsayılan tema `diverse` yapıldı (canlı sunucuda henüz değil).
 - [ ] Resmi DIVERSE logo dosyasını eklemek (şimdilik yazı logosu).
 - [x] Landing ve giriş metinlerinin Türkçe, Almanca ve Hırvatça çevirileri (`theme/diverse/lang/`).
-- [ ] Boost Union ayarları: partner flavours (logolar), footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
+- [x] Üniversite logoları: `theme_diverse` tenant logosunu gösteriyor (Boost Union bunu atlıyordu).
+- [ ] Üniversite logo dosyalarının yeniden yüklenmesi (dosyalar `moodledata`'da eksik).
+- [ ] Boost Union ayarları: footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
 - [ ] Dashboard ve ders sayfası ince ayarları (giriş yapmış kullanıcıyla test).
