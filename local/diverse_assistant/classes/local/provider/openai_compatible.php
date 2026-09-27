@@ -122,7 +122,7 @@ class openai_compatible extends provider {
      */
     protected function send_chat(array $messages, callable $ondelta, chat_options $options): chat_result {
         $stream = new openai_stream($ondelta, $options->ontoolstart);
-        $curl = $this->create_curl(array_merge($this->headers(), ['Accept: text/event-stream']));
+        $curl = $this->create_curl(array_merge($this->headers(), ['Accept: text/event-stream']), true);
         $curl->setopt([
             'CURLOPT_WRITEFUNCTION' => function ($handle, string $chunk) use ($stream): int {
                 $continue = $stream->write($chunk, (int)curl_getinfo($handle, CURLINFO_HTTP_CODE));
@@ -155,10 +155,35 @@ class openai_compatible extends provider {
     protected function build_body(array $messages, chat_options $options): array {
         return [
             'model' => $this->model,
-            'messages' => $messages,
+            'messages' => self::merge_system_messages($messages),
             'stream' => true,
             'max_tokens' => $options->maxoutputtokens ?: static::MAX_OUTPUT_TOKENS,
         ] + self::tools_body($options);
+    }
+
+    /**
+     * Join the instructions into one system message, the stable part first.
+     *
+     * Some OpenAI-compatible services accept only one system message. These services cache the start of a prompt, so
+     * the course materials (the same on every page) stay in front of the page the student is looking at.
+     *
+     * @param array $messages The conversation.
+     * @return array
+     */
+    protected static function merge_system_messages(array $messages): array {
+        $system = [];
+        $others = [];
+        foreach ($messages as $message) {
+            if ($message['role'] === 'system') {
+                $system[] = $message['content'];
+            } else {
+                $others[] = $message;
+            }
+        }
+        if (count($system) < 2) {
+            return $messages;
+        }
+        return array_merge([['role' => 'system', 'content' => implode("\n\n", $system)]], $others);
     }
 
     /**

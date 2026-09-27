@@ -92,19 +92,28 @@ class store {
     /**
      * Save a question and its answer, starting a conversation if needed.
      *
+     * A conversation that no longer exists (deleted by the user or by the retention clean-up while the answer was being
+     * written) is not recreated: nothing is saved, so no messages are left without a conversation.
+     *
      * @param int $conversationid Existing conversation, or 0 to start one.
      * @param int $userid Owner.
      * @param int $courseid Course.
      * @param string $question The student's message.
      * @param string $answer The assistant's answer.
-     * @return int The conversation id.
+     * @param int|null $answerid Set to the id of the saved answer (0 if nothing was saved).
+     * @return int The conversation id, 0 if the conversation no longer exists.
      */
     public static function save_exchange(int $conversationid, int $userid, int $courseid, string $question,
-            string $answer): int {
+            string $answer, ?int &$answerid = null): int {
         global $DB;
+        $answerid = 0;
         $now = time();
         $transaction = $DB->start_delegated_transaction();
         if ($conversationid) {
+            if (!$DB->record_exists(self::TABLE_CONVERSATIONS, ['id' => $conversationid, 'userid' => $userid])) {
+                $transaction->allow_commit();
+                return 0;
+            }
             $DB->set_field(self::TABLE_CONVERSATIONS, 'timemodified', $now, ['id' => $conversationid, 'userid' => $userid]);
         } else {
             $title = shorten_text(preg_replace('/\s+/u', ' ', trim($question)), self::TITLE_LENGTH);
@@ -116,24 +125,12 @@ class store {
                 'timemodified' => $now,
             ]);
         }
-        $DB->insert_records(self::TABLE_MESSAGES, [
-            ['conversationid' => $conversationid, 'role' => 'user', 'content' => $question, 'timecreated' => $now],
-            ['conversationid' => $conversationid, 'role' => 'assistant', 'content' => $answer, 'timecreated' => $now],
-        ]);
+        $DB->insert_record(self::TABLE_MESSAGES,
+            ['conversationid' => $conversationid, 'role' => 'user', 'content' => $question, 'timecreated' => $now]);
+        $answerid = (int)$DB->insert_record(self::TABLE_MESSAGES,
+            ['conversationid' => $conversationid, 'role' => 'assistant', 'content' => $answer, 'timecreated' => $now]);
         $transaction->allow_commit();
         return $conversationid;
-    }
-
-    /**
-     * Id of the last answer of a conversation.
-     *
-     * @param int $conversationid Conversation id.
-     * @return int 0 if there is none.
-     */
-    public static function get_last_answer_id(int $conversationid): int {
-        global $DB;
-        return (int)$DB->get_field_sql('SELECT MAX(id) FROM {' . self::TABLE_MESSAGES . '} WHERE conversationid = ? AND role = ?',
-            [$conversationid, 'assistant']);
     }
 
     /**
@@ -224,7 +221,52 @@ class store {
     }
 
     /**
-     * How many questions the user asked since a time.
+     * Reserve a usage row for a question before it is sent, so that questions asked at the same time count towards the
+     * hourly limit at once. finish_usage() fills in the tokens; release_usage() removes it if the question failed.
+     *
+     * @param int $userid User id.
+     * @param int $courseid Course id.
+     * @return int Usage row id.
+     */
+    public static function reserve_usage(int $userid, int $courseid): int {
+        global $DB;
+        return (int)$DB->insert_record(self::TABLE_USAGE, (object)[
+            'userid' => $userid,
+            'courseid' => $courseid,
+            'prompttokens' => 0,
+            'completiontokens' => 0,
+            'timecreated' => time(),
+        ]);
+    }
+
+    /**
+     * Record the tokens of a reserved question.
+     *
+     * @param int $usageid From reserve_usage().
+     * @param int $prompttokens Input tokens.
+     * @param int $completiontokens Output tokens.
+     */
+    public static function finish_usage(int $usageid, int $prompttokens, int $completiontokens): void {
+        global $DB;
+        $DB->update_record(self::TABLE_USAGE, (object)[
+            'id' => $usageid,
+            'prompttokens' => $prompttokens,
+            'completiontokens' => $completiontokens,
+        ]);
+    }
+
+    /**
+     * Remove a reserved question that was not answered, so it does not count towards the limit.
+     *
+     * @param int $usageid From reserve_usage().
+     */
+    public static function release_usage(int $usageid): void {
+        global $DB;
+        $DB->delete_records(self::TABLE_USAGE, ['id' => $usageid]);
+    }
+
+    /**
+     * How many questions the user asked since a time, including questions still being answered.
      *
      * @param int $userid User id.
      * @param int $since Unix time.

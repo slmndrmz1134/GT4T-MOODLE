@@ -375,6 +375,7 @@ final class teacher_test extends \advanced_testcase {
         set_config('provider', 'openai', 'local_diverse_assistant');
         set_config('model', 'gpt-6-luna', 'local_diverse_assistant');
         $this->setUser($this->teacher);
+        retention::accept_notice();
         retention::set(30);
 
         $request = chat_service::prepare($this->course, (int)$this->page->cmid, 0, 'Add a page about contracts', []);
@@ -410,8 +411,41 @@ final class teacher_test extends \advanced_testcase {
 
         // Students keep the study assistant.
         $this->setUser($this->student);
+        retention::accept_notice();
         $request = chat_service::prepare($this->course, 0, 0, 'Question', []);
         $this->assertFalse($request->teacher);
         $this->assertStringNotContainsString('Secret teacher note', $request->messages[0]['content']);
+    }
+
+    /**
+     * When the answer stops at its length limit, the last (incomplete) proposal is left out and the teacher is told why.
+     */
+    public function test_truncated_answer_drops_last_proposal(): void {
+        global $CFG;
+        require_once($CFG->libdir . '/filelib.php');
+        set_config('enabled', 1, 'local_diverse_assistant');
+        set_config('apikey_openai', \core\encryption::encrypt('sk-test'), 'local_diverse_assistant');
+        set_config('provider', 'openai', 'local_diverse_assistant');
+        set_config('model', 'gpt-6-luna', 'local_diverse_assistant');
+        $this->setUser($this->teacher);
+        retention::accept_notice();
+
+        $request = chat_service::prepare($this->course, 0, 0, 'Add two pages', []);
+        \curl::mock_response(implode("\n\n", [
+            'data: ' . json_encode(['choices' => [['delta' => ['content' => 'I propose two pages.']]]]),
+            'data: ' . json_encode(['choices' => [['delta' => ['tool_calls' => [['index' => 0, 'id' => 'c1',
+                'type' => 'function', 'function' => ['name' => tools::NEW_PAGE, 'arguments' => json_encode([
+                    'section' => 1, 'name' => 'Complete', 'content' => '<p>Text</p>', 'note' => 'First page'])]]]]]]]),
+            'data: ' . json_encode(['choices' => [['delta' => ['tool_calls' => [['index' => 1, 'id' => 'c2',
+                'type' => 'function', 'function' => ['name' => tools::NEW_PAGE,
+                    'arguments' => '{"section": 1, "name": "Cut off", "content": "<p>Te']]]]]]]),
+            'data: ' . json_encode(['choices' => [['delta' => [], 'finish_reason' => 'length']]]),
+            'data: [DONE]',
+        ]) . "\n\n");
+        $result = chat_service::complete($request);
+
+        $this->assertTrue($result['truncated']);
+        $this->assertCount(1, $result['proposals']);
+        $this->assertSame([get_string('proposal_error_truncated', 'local_diverse_assistant')], $result['problems']);
     }
 }

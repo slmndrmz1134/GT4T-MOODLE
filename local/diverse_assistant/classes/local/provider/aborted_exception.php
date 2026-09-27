@@ -14,22 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace local_diverse_assistant\local\provider;
+
 /**
- * DIVERSE AI assistant - Version file
+ * The user stopped the answer (closed the connection): the request to the AI service is ended as well.
  *
- * A chat panel in every course: students talk with an AI model about the course materials, teachers get help
- * writing and editing the course content.
+ * Thrown from the callback that receives the answer. It is a provider_exception so the providers pass it on unchanged,
+ * but it is not an error of the service: no fallback model is tried and nothing is recorded for the settings page.
  *
  * @package    local_diverse_assistant
  * @copyright  2026 DIVERSE European University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->component = 'local_diverse_assistant';
-$plugin->version = 2026092701;
-$plugin->release = '0.3.1';
-$plugin->requires = 2025041400;
-$plugin->supported = [500, 500];
-$plugin->maturity = MATURITY_ALPHA;
+class aborted_exception extends provider_exception {
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        parent::__construct('erroraborted');
+    }
+}

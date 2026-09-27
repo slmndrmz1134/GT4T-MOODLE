@@ -34,6 +34,12 @@ abstract class provider {
     protected const TIMEOUT = 180;
 
     /**
+     * Longest streamed answer, in seconds. A teacher-mode proposal (up to 16,000 tokens, thinking included) can take
+     * several minutes; stream.php allows 600 seconds as well.
+     */
+    protected const STREAM_TIMEOUT = 600;
+
+    /**
      * Name of the service, shown to administrators and students.
      *
      * @return string
@@ -72,7 +78,7 @@ abstract class provider {
      * @param string[] $headers HTTP headers.
      * @return \curl
      */
-    protected function create_curl(array $headers): \curl {
+    protected function create_curl(array $headers, bool $stream = false): \curl {
         global $CFG;
         require_once($CFG->libdir . '/filelib.php');
 
@@ -80,7 +86,7 @@ abstract class provider {
         $curl->setHeader($headers);
         $curl->setopt([
             'CURLOPT_CONNECTTIMEOUT' => static::CONNECT_TIMEOUT,
-            'CURLOPT_TIMEOUT' => static::TIMEOUT,
+            'CURLOPT_TIMEOUT' => $stream ? static::STREAM_TIMEOUT : static::TIMEOUT,
         ]);
         return $curl;
     }

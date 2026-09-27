@@ -14,9 +14,11 @@ Bu belge eklentinin ne yaptığını, verinin nereye gittiğini, nasıl kurulup 
 - Ders sayfasında ve dersin etkinlik sayfalarında sağ kenarda dikey **AI asistan** sekmesi. Tıklayınca sağda panel
   açılır; geniş ekranda sayfa kayar, telefonda panel tam ekran açılır. Panel açık kalırsa sayfa değişince de açık gelir.
 - İlk kullanımda bilgilendirme: hangi servisin kullanıldığı, AI'ın hata yapabileceği, kişisel bilgi yazılmaması,
-  saklama tercihinin öğrenciye ait olduğu. "Anladım, başla" ile sohbet açılır.
+  saklama tercihinin öğrenciye ait olduğu. "Anladım, başla" ile sohbet açılır. Sunucu da bunu denetler: bilgilendirmeyi
+  onaylamamış birinin sorusu servise gönderilmez.
 - Hazır öneriler (Bu dersi özetle, Bu sayfayı basitçe açıkla, Anahtar kavramlar, Bana 3 soru sor) ya da serbest soru.
-  Cevap yazılırken parça parça akar; "Durdur" ile kesilebilir.
+  Cevap yazılırken parça parça akar; "Durdur" ile kesilebilir. Durdurulan (ya da sayfadan çıkılan) cevabın servise
+  isteği de kesilir, sonuna kadar yazılıp ücretlendirilmez; durdurulan soru kaydedilmez ama saatlik sınıra sayılır.
 - **Ayarlar (dişli):** "Sohbetlerimi sakla": Kaydetme (varsayılan) / 1 gün / 7 gün / 30 gün / 1 yıl / Ben silene
   kadar. "Tüm sohbetlerimi sil" düğmesi. Kayıt açıksa **Kayıtlı sohbetler** listesi görünür (açma, silme).
 - Öğrencinin derste bitmemiş bir quiz denemesi varken asistan cevap vermez (ayardan kapatılabilir).
@@ -111,12 +113,24 @@ Site yönetimi > Eklentiler > Yerel eklentiler > **DIVERSE AI asistan** (`/admin
    kendiliğinden seçilir: `gpt-6-luna` (OpenAI), `claude-opus-5` (Claude), `gemini-3.8-flash` (Gemini). Menüden daha ucuz
    modeller de seçilebilir (ör. Claude Sonnet / Haiku, Gemini Flash-Lite).
    **Düşünme düzeyi:** Düşük önerilir; yalnızca destekleyen modellere gönderilir (OpenAI'da `reasoning_effort`, Claude'da
-   `effort`, Gemini'de `reasoning_effort`).
+   `effort`, Gemini'de `reasoning_effort`). **Öğretmen modunda düşünme düzeyi** ayrı bir ayardır (varsayılan: Yüksek):
+   öneriler tüm sayfaları ve çevirileri içerdiği için daha dikkatli düşünmek gerekir.
 5. **Asistanı aç** kutusunu işaretleyip kaydedin. Sekme, `local/diverse_assistant:use` yetkisi olan herkese görünür
    (varsayılan: öğrenci, öğretmen, yönetici).
 
 Diğer ayarlar: kullanıcı başına saatlik soru (varsayılan 30), gönderilen ders içeriği uzunluğu (varsayılan 60.000
 karakter ≈ 15.000 token), quiz sırasında duraklatma (açık).
+
+Maliyet ve güvenlik sınırları (ayar değil, kodda):
+- Soru, gönderildiği anda saatlik sınıra sayılır; aynı anda gönderilen sorular sınırı birlikte aşamaz. Cevaplanamayan
+  soru sayılmaz.
+- Bir soruyla gönderilen önceki mesajlar toplam 32.000 karakterle (≈ 8.000 token) sınırlıdır; en yenileri tutulur.
+- Ders içeriği her sayfada aynıdır ve servisin önbelleğinden okunabilir; öğrencinin baktığı sayfa ayrı bir mesajla
+  sonra gelir.
+- Akışlı cevaplar için bağlantı süresi 10 dakikadır (öğretmen önerileri birkaç dakika sürebilir).
+- Cevap uzunluk sınırına takılırsa son (yarım kalan) öneri eklenmez ve öğretmene nedeni söylenir.
+- Aynı öneriye aynı anda iki kez "Uygula" basılırsa ikincisi beklenir ve yeniden sayfa oluşturmaz.
+- Cevap yazılırken sohbet silinirse ya da kayıt kapatılırsa cevap kaydedilmez.
 
 **Maliyet (1M token başına girdi / çıktı):** GPT-6 Luna 0,10 $ / 0,50 $; Claude Opus 5 5 $ / 25 $, Claude Sonnet 5
 2 $ / 10 $, Claude Haiku 4.5 1 $ / 5 $. Ders içeriği ~20.000 token varsayımıyla bir soru GPT-6 Luna'da yaklaşık
@@ -205,13 +219,16 @@ docker compose exec -T -u www-data moodle vendor/bin/phpunit --testsuite local_d
 
 `init.php` composer'ı güncellemeye çalışır; `COMPOSER_HOME` verilmezse `www-data` kullanıcısı yazamadığı için durur.
 
-74 test: akış çözücü; yoğunlukta yeniden deneme ve yedek model; OpenAI, Gemini ve Claude bağlayıcıları (sahte HTTP; Claude'da gerçek SDK, Moodle'ın HTTP
+84 test: akış çözücü; yoğunlukta yeniden deneme ve yedek model; OpenAI, Gemini ve Claude bağlayıcıları (sahte HTTP; Claude'da gerçek SDK, Moodle'ın HTTP
 istemcisi üzerinden); anahtar alanı ve servisler arası otomatik geçiş; model menüsü; ders içeriğinin gizlilik kuralları
 (gizli/kısıtlı etkinlik, forum mesajı, çok dil); kişisel veri gönderilmemesi; saatlik sınır; quiz kilidi; saklama
 tercihi ve temizlik görevi; gizlilik API'si. Öğretmen modu: araç çağrılarının okunması (OpenAI, Gemini, Claude), akış
 ortasındaki hata gövdesi, öğretmenin gördüğü ham içerik, öneri kontrolleri, yeni sayfa/sayfa güncelleme/etiket/bölüm
 için uygula ve geri al, ayarların korunması, araya giren değişiklikte üzerine yazmama, ödevin forma yönlendirilmesi,
-başka öğretmenin öneriye erişememesi, önerilerin sohbet geçmişinde saklanması.
+başka öğretmenin öneriye erişememesi, önerilerin sohbet geçmişinde saklanması. İnceleme düzeltmeleri (26-27 Eylül):
+bilgilendirme zorunluluğu, sorunun gönderilirken sayılması, cevaplanamayan sorunun sayılmaması, durdurulan cevap,
+geçmişin toplam sınırı, silinen sohbete kayıt yapılmaması, açık sayfanın ayrı mesajla gönderilmesi, kesilen son önerinin
+atılması, Claude'da yalnızca ilk sistem bloğunun önbelleğe alınması.
 
 ## Sonraki adımlar
 

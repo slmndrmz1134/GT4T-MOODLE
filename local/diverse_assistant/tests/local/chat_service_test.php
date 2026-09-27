@@ -16,6 +16,7 @@
 
 namespace local_diverse_assistant\local;
 
+use local_diverse_assistant\local\provider\aborted_exception;
 use local_diverse_assistant\local\provider\provider_exception;
 
 /**
@@ -52,6 +53,7 @@ final class chat_service_test extends \advanced_testcase {
         $this->student = $this->getDataGenerator()->create_and_enrol($this->course, 'student', ['email' => 'ada@example.com',
             'firstname' => 'Ada', 'lastname' => 'Lovelace']);
         $this->setUser($this->student);
+        retention::accept_notice();
     }
 
     /**
@@ -279,6 +281,148 @@ final class chat_service_test extends \advanced_testcase {
                 $this->assertSame($code, $e->errorcode);
             }
         }
+    }
+
+    /**
+     * Nothing is sent before the student has read the notice about where the questions go.
+     */
+    public function test_notice_required(): void {
+        unset_user_preference(retention::NOTICE_PREFERENCE);
+        try {
+            chat_service::prepare($this->course, 0, 0, 'Question', []);
+            $this->fail('An exception was expected.');
+        } catch (\moodle_exception $e) {
+            $this->assertSame('errornotice', $e->errorcode);
+        }
+    }
+
+    /**
+     * A question counts towards the limit as soon as it is sent, so questions sent at the same time cannot pass together.
+     */
+    public function test_questions_count_before_they_are_answered(): void {
+        global $DB;
+        set_config('userhourlylimit', 1, 'local_diverse_assistant');
+        $first = chat_service::prepare($this->course, 0, 0, 'First', []);
+        $this->assertSame(1, $DB->count_records(store::TABLE_USAGE, ['userid' => $this->student->id]));
+        try {
+            chat_service::prepare($this->course, 0, 0, 'Second, at the same time', []);
+            $this->fail('An exception was expected.');
+        } catch (\moodle_exception $e) {
+            $this->assertSame('errorlimit', $e->errorcode);
+        }
+        // The refused question does not stay counted.
+        $this->assertSame(1, $DB->count_records(store::TABLE_USAGE, ['userid' => $this->student->id]));
+
+        // The reserved row gets the tokens when the answer arrives.
+        $this->mock_answer('Answer');
+        chat_service::complete($first);
+        $usage = $DB->get_record(store::TABLE_USAGE, ['id' => $first->usageid]);
+        $this->assertEquals(100, $usage->prompttokens);
+    }
+
+    /**
+     * A question that was not answered does not count towards the limit.
+     */
+    public function test_failed_question_does_not_count(): void {
+        global $DB;
+        $request = chat_service::prepare($this->course, 0, 0, 'Question', []);
+        $this->mock_busy(3);
+        try {
+            chat_service::complete($request);
+            $this->fail('An exception was expected.');
+        } catch (provider_exception $e) {
+            $this->assertSame('errorbusy', $e->errorcode);
+        }
+        $this->assertSame(0, $DB->count_records(store::TABLE_USAGE, ['userid' => $this->student->id]));
+    }
+
+    /**
+     * A stopped answer ends the request: it keeps counting (it was paid for), nothing is saved and no error is recorded.
+     */
+    public function test_stopped_answer(): void {
+        global $DB;
+        retention::set(30);
+        $request = chat_service::prepare($this->course, 0, 0, 'Question', []);
+        $this->mock_answer('An answer the student stopped');
+        try {
+            chat_service::complete($request, function (): void {
+                throw new aborted_exception();
+            });
+            $this->fail('An exception was expected.');
+        } catch (aborted_exception $e) {
+            $this->assertSame('erroraborted', $e->errorcode);
+        }
+        $this->assertSame(0, $DB->count_records(store::TABLE_CONVERSATIONS));
+        $this->assertSame(0, $DB->count_records(store::TABLE_MESSAGES));
+        $this->assertSame(1, $DB->count_records(store::TABLE_USAGE, ['userid' => $this->student->id]));
+        $this->assertFalse(get_config('local_diverse_assistant', 'lasterror'));
+    }
+
+    /**
+     * The earlier messages sent with a question are limited in total, keeping the most recent ones.
+     */
+    public function test_history_total_is_limited(): void {
+        $history = [];
+        for ($i = 0; $i < 10; $i++) {
+            $history[] = ['role' => $i % 2 ? 'assistant' : 'user', 'content' => "Message {$i} " . str_repeat('x', 9000)];
+        }
+        $request = chat_service::prepare($this->course, 0, 0, 'Question', $history);
+        $earlier = array_slice($request->messages, 1, -1);
+        $total = array_sum(array_map(fn($message) => \core_text::strlen($message['content']), $earlier));
+        $this->assertLessThanOrEqual(chat_service::MAX_HISTORY_CHARS, $total);
+        $this->assertCount(3, $earlier);
+        $this->assertStringStartsWith('Message 9 ', end($earlier)['content']);
+    }
+
+    /**
+     * An answer is not saved into a chat the student deleted while it was being written.
+     */
+    public function test_answer_not_saved_into_deleted_conversation(): void {
+        global $DB;
+        retention::set(30);
+        $this->mock_answer('First answer');
+        $first = chat_service::complete(chat_service::prepare($this->course, 0, 0, 'First question', []));
+        $request = chat_service::prepare($this->course, 0, $first['conversationid'], 'Second question', []);
+
+        store::delete_conversation($first['conversationid'], (int)$this->student->id);
+        $this->mock_answer('Second answer');
+        $result = chat_service::complete($request);
+
+        $this->assertFalse($result['saved']);
+        $this->assertSame(0, $result['conversationid']);
+        $this->assertSame('Second answer', $result['text']);
+        $this->assertSame(0, $DB->count_records(store::TABLE_MESSAGES));
+    }
+
+    /**
+     * The same holds when the student stopped saving chats while the answer was being written.
+     */
+    public function test_answer_not_saved_after_saving_was_turned_off(): void {
+        global $DB;
+        retention::set(30);
+        $request = chat_service::prepare($this->course, 0, 0, 'Question', []);
+        retention::set(retention::NOT_SAVED);
+        $this->mock_answer('Answer');
+        $result = chat_service::complete($request);
+        $this->assertFalse($result['saved']);
+        $this->assertSame(0, $DB->count_records(store::TABLE_CONVERSATIONS));
+    }
+
+    /**
+     * The page the student is looking at comes after the course materials, in a message of its own, so the materials
+     * can be reused from the service's cache on every page.
+     */
+    public function test_current_page_after_materials(): void {
+        $page = $this->getDataGenerator()->create_module('page', ['course' => $this->course->id, 'name' => 'Torts',
+            'content' => 'TORTSCONTENT']);
+        $onpage = chat_service::prepare($this->course, (int)$page->cmid, 0, 'Question', []);
+        $oncourse = chat_service::prepare($this->course, 0, 0, 'Question', []);
+
+        $this->assertSame(['system', 'system', 'user'], array_column($onpage->messages, 'role'));
+        $this->assertSame($oncourse->messages[0]['content'], $onpage->messages[0]['content']);
+        $this->assertStringContainsString('<current_page>', $onpage->messages[1]['content']);
+        $this->assertStringContainsString('TORTSCONTENT', $onpage->messages[1]['content']);
+        $this->assertSame(['system', 'user'], array_column($oncourse->messages, 'role'));
     }
 
     /**

@@ -83,10 +83,11 @@ class factory {
      * The client for the service in the plugin settings.
      *
      * @param string|null $model Use this model instead of the chosen one (a fallback when that one is overloaded).
+     * @param string|null $effort Use this thinking effort instead of the configured one (teacher mode), null for the setting.
      * @return provider
      * @throws provider_exception If the service is not set up.
      */
-    public static function create(?string $model = null): provider {
+    public static function create(?string $model = null, ?string $effort = null): provider {
         $config = get_config('local_diverse_assistant');
         $provider = self::get_active_provider();
         $apikey = self::get_api_key($provider);
@@ -94,7 +95,7 @@ class factory {
             throw new provider_exception('errornotconfigured');
         }
         $model = $model ?? self::get_model();
-        $effort = (string)($config->reasoningeffort ?? '');
+        $effort = $effort ?? (string)($config->reasoningeffort ?? '');
 
         switch ($provider) {
             case 'anthropic':

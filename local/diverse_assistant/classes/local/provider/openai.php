@@ -78,7 +78,7 @@ class openai extends openai_compatible {
     protected function build_body(array $messages, chat_options $options): array {
         $body = [
             'model' => $this->model,
-            'messages' => $messages,
+            'messages' => self::merge_system_messages($messages),
             'stream' => true,
             // Token counts arrive in a last chunk.
             'stream_options' => ['include_usage' => true],

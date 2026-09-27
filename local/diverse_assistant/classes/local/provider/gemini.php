@@ -65,7 +65,7 @@ class gemini extends openai_compatible {
         // No answer limit: Gemini's default is large and also covers the model's thinking.
         $body = [
             'model' => $this->model,
-            'messages' => $messages,
+            'messages' => self::merge_system_messages($messages),
             'stream' => true,
             'stream_options' => ['include_usage' => true],
         ] + self::tools_body($options);

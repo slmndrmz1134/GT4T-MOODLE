@@ -31,6 +31,8 @@ class chat_options {
      *     'parameters' => array JSON schema of the arguments]. Tool calls are returned, never run by the service.
      * @param int $maxoutputtokens Longest answer in tokens; 0 for the service's default.
      * @param \Closure|null $ontoolstart Called with the tool name when the model starts writing a tool call.
+     * @param string|null $effort Thinking effort for this request (low, medium, high, none, or '' for the model's
+     *     default); null for the configured one.
      */
     public function __construct(
         /** @var array Tools the model may call. */
@@ -39,6 +41,8 @@ class chat_options {
         public readonly int $maxoutputtokens = 0,
         /** @var \Closure|null Called with the tool name when a tool call starts. */
         public readonly ?\Closure $ontoolstart = null,
+        /** @var string|null Thinking effort for this request, null for the configured one. */
+        public readonly ?string $effort = null,
     ) {
     }
 }

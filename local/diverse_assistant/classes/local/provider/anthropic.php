@@ -102,13 +102,12 @@ class anthropic extends provider {
     #[\Override]
     public function chat(array $messages, ?callable $ondelta = null, ?chat_options $options = null): chat_result {
         $options ??= new chat_options();
-        [$system, $turns] = self::split_messages($messages);
+        [, $turns] = self::split_messages($messages);
         $params = [
             'maxTokens' => $options->maxoutputtokens ?: self::MAX_OUTPUT_TOKENS,
             'messages' => $turns,
             'model' => $this->model,
-            // The instructions and course materials repeat with every question of a course: cache them.
-            'system' => [['type' => 'text', 'text' => $system, 'cacheControl' => ['type' => 'ephemeral']]],
+            'system' => self::system_blocks($messages),
         ];
         if (in_array($this->effort, ['low', 'medium', 'high'], true) && self::supports_effort($this->model)) {
             $params['outputConfig'] = ['effort' => $this->effort];
@@ -191,6 +190,30 @@ class anthropic extends provider {
     }
 
     /**
+     * The system messages as Claude's system blocks.
+     *
+     * The first block (instructions and course materials) repeats with every question of a course and is cached; later
+     * blocks, such as the page the student is looking at, come after the cache breakpoint and do not invalidate it.
+     *
+     * @param array $messages List of ['role' => 'system'|'user'|'assistant', 'content' => string].
+     * @return array
+     */
+    public static function system_blocks(array $messages): array {
+        $blocks = [];
+        foreach ($messages as $message) {
+            if ($message['role'] !== 'system') {
+                continue;
+            }
+            $block = ['type' => 'text', 'text' => $message['content']];
+            if (!$blocks) {
+                $block['cacheControl'] = ['type' => 'ephemeral'];
+            }
+            $blocks[] = $block;
+        }
+        return $blocks;
+    }
+
+    /**
      * Split the plugin's message list into Claude's system prompt and alternating turns.
      *
      * @param array $messages List of ['role' => 'system'|'user'|'assistant', 'content' => string].
@@ -227,16 +250,18 @@ class anthropic extends provider {
         require_once(__DIR__ . '/../../../vendor/autoload.php');
 
         $httpoptions = ['timeout' => static::TIMEOUT, 'connect_timeout' => static::CONNECT_TIMEOUT] + $this->httpoptions;
+        // Streamed answers may take minutes (teacher-mode proposals): only they get the longer timeout.
+        $streamoptions = ['stream' => true, 'timeout' => static::STREAM_TIMEOUT] + $httpoptions;
         $factory = new HttpFactory();
         return new Client(
             apiKey: $this->apikey,
             baseUrl: self::BASEURL,
             requestOptions: RequestOptions::with(
-                timeout: (float)static::TIMEOUT,
+                timeout: (float)static::STREAM_TIMEOUT,
                 // The SDK retries overloaded (529), other 5xx and rate-limited requests with backoff.
                 maxRetries: 2,
                 transporter: new \core\http_client($httpoptions),
-                streamingTransporter: new \core\http_client(['stream' => true] + $httpoptions),
+                streamingTransporter: new \core\http_client($streamoptions),
                 uriFactory: $factory,
                 streamFactory: $factory,
                 requestFactory: $factory,

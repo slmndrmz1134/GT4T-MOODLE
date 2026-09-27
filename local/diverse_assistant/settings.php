@@ -106,6 +106,15 @@ if ($hassiteconfig) {
                 'high' => new lang_string('reasoningeffort_high', $component),
             ]));
         $settings->hide_if("{$component}/reasoningeffort", "{$component}/provider", 'eq', 'openaicompatible');
+        $settings->add(new admin_setting_configselect("{$component}/teachereffort",
+            new lang_string('teachereffort', $component), new lang_string('teachereffort_desc', $component), 'high', [
+                '' => new lang_string('reasoningeffort_default', $component),
+                'none' => new lang_string('reasoningeffort_none', $component),
+                'low' => new lang_string('reasoningeffort_low', $component),
+                'medium' => new lang_string('reasoningeffort_medium', $component),
+                'high' => new lang_string('reasoningeffort_high', $component),
+            ]));
+        $settings->hide_if("{$component}/teachereffort", "{$component}/provider", 'eq', 'openaicompatible');
 
         // Data protection.
         $settings->add(new admin_setting_heading("{$component}/privacyheading",

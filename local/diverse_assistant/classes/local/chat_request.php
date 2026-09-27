@@ -35,6 +35,7 @@ class chat_request {
      * @param array $messages Everything sent to the service: instructions, earlier messages and the question.
      * @param bool $teacher Teacher mode: the assistant may propose changes to the course.
      * @param array $editable Teacher mode: 'cmids' and 'sectionids' whose texts the model sees in full.
+     * @param int $usageid Usage row reserved for this question by prepare() (counts towards the hourly limit).
      */
     public function __construct(
         /** @var int The user asking. */
@@ -53,6 +54,8 @@ class chat_request {
         public readonly bool $teacher = false,
         /** @var array Activities and sections the model may propose to change. */
         public readonly array $editable = [],
+        /** @var int Reserved usage row, 0 if none. */
+        public readonly int $usageid = 0,
     ) {
     }
 }

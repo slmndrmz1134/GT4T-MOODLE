@@ -21,7 +21,7 @@
   <library>
     <location>vendor/standard-webhooks/standard-webhooks</location>
     <name>Standard Webhooks</name>
-    <description>Webhook signature library (dependency of the Anthropic SDK; not used by the plugin).</description>
+    <description>Webhook signature library (dependency of the Anthropic SDK; not used by the plugin). Only its PHP library (libraries/php) is kept: after composer install, delete the other languages' libraries, tests and docs.</description>
     <license>MIT</license>
     <version>1.0.2</version>
     <licenseversion></licenseversion>

@@ -28,6 +28,7 @@
  */
 
 use local_diverse_assistant\local\chat_service;
+use local_diverse_assistant\local\provider\aborted_exception;
 
 define('NO_OUTPUT_BUFFERING', true);
 define('NO_DEBUG_DISPLAY', true);
@@ -51,6 +52,18 @@ function local_diverse_assistant_send_event(string $type, array $data): void {
     flush();
 }
 
+/**
+ * End the request to the AI service when the user stopped the answer or left the page, so it is not written (and paid
+ * for) to the end. PHP notices a closed connection only when it sends something, so this runs after each event.
+ *
+ * @throws aborted_exception If the browser closed the connection.
+ */
+function local_diverse_assistant_stop_if_aborted(): void {
+    if (connection_aborted()) {
+        throw new aborted_exception();
+    }
+}
+
 // Keep compression and proxies from holding the answer back.
 if (function_exists('apache_setenv')) {
     @apache_setenv('no-gzip', '1');
@@ -64,7 +77,7 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 header('X-Accel-Buffering: no');
 header('X-Content-Type-Options: nosniff');
 
-// Finish and save the answer even if the user closes the panel in the meantime.
+// PHP must not stop in the middle of saving; a closed connection is noticed after each event instead (see above).
 ignore_user_abort(true);
 
 try {
@@ -81,10 +94,15 @@ try {
 
     $result = chat_service::complete($request, function (string $text): void {
         local_diverse_assistant_send_event('delta', ['text' => $text]);
+        local_diverse_assistant_stop_if_aborted();
     }, function (string $status): void {
         local_diverse_assistant_send_event('status', ['text' => $status]);
+        local_diverse_assistant_stop_if_aborted();
     });
     local_diverse_assistant_send_event('done', $result);
+} catch (aborted_exception $e) {
+    // The browser is gone: there is no one to tell.
+    return;
 } catch (\Throwable $e) {
     local_diverse_assistant_send_event('error', ['message' => chat_service::get_error_message($e)]);
 }

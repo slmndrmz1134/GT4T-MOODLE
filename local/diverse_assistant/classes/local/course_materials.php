@@ -68,15 +68,50 @@ class course_materials {
      * @return string
      */
     public static function build(\stdClass $course, int $currentcmid, int $maxchars): string {
+        ['head' => $head, 'current' => $current, 'sections' => $sections] = self::collect($course, $currentcmid);
+        if ($current !== '') {
+            $head[] = "## CURRENT PAGE (the student is looking at this now)\n\n" . $current;
+        }
+        return self::join($head, $sections, $maxchars);
+    }
+
+    /**
+     * The materials of a course without the page the user is looking at, and that page on its own.
+     *
+     * The materials are the same on every page of the course, so the AI service can reuse them from its cache; only the
+     * current page changes from one page to the next.
+     *
+     * @param \stdClass $course The course.
+     * @param int $currentcmid Activity the user is looking at, 0 on the course page.
+     * @param int $maxchars Longest materials text; the current page may add up to a third of it.
+     * @return string[] [materials, current page ('' on the course page)]
+     */
+    public static function build_with_current_page(\stdClass $course, int $currentcmid, int $maxchars): array {
+        ['head' => $head, 'current' => $current, 'sections' => $sections] = self::collect($course, $currentcmid);
+        $limit = intdiv($maxchars, 3);
+        if (\core_text::strlen($current) > $limit) {
+            $current = \core_text::substr($current, 0, $limit) . "\n\n[The rest of this page was cut off because of length.]";
+        }
+        return [self::join($head, $sections, $maxchars), $current];
+    }
+
+    /**
+     * Collect the course texts.
+     *
+     * @param \stdClass $course The course.
+     * @param int $currentcmid Activity the user is looking at, 0 on the course page.
+     * @return array head (course name and summary), current (the current activity's block) and sections (one text each)
+     */
+    private static function collect(\stdClass $course, int $currentcmid): array {
         $modinfo = get_fast_modinfo($course);
         $context = \context_course::instance($course->id);
         $texts = self::collect_texts($course->id, $modinfo);
 
-        $parts = ['# ' . self::plain(format_string($course->fullname, true, ['context' => $context]))];
+        $head = ['# ' . self::plain(format_string($course->fullname, true, ['context' => $context]))];
         $summary = self::html_to_plain(format_text($course->summary ?? '', $course->summaryformat ?? FORMAT_HTML,
             ['context' => $context]));
         if ($summary !== '') {
-            $parts[] = $summary;
+            $head[] = $summary;
         }
 
         $current = '';
@@ -107,13 +142,22 @@ class course_materials {
                 $sections[] = implode("\n\n", $lines);
             }
         }
+        return ['head' => $head, 'current' => $current, 'sections' => $sections];
+    }
 
-        if ($current !== '') {
-            $parts[] = "## CURRENT PAGE (the student is looking at this now)\n\n" . $current;
-        }
-        $text = preg_replace("/\n{3,}/", "\n\n", implode("\n\n", array_merge($parts, $sections)));
+    /**
+     * Join the parts of the materials and cut them to the maximum length.
+     *
+     * @param string[] $head Course name, summary and possibly the current page.
+     * @param string[] $sections One text per section.
+     * @param int $maxchars Longest result.
+     * @return string
+     */
+    private static function join(array $head, array $sections, int $maxchars): string {
+        $text = preg_replace("/\n{3,}/", "\n\n", implode("\n\n", array_merge($head, $sections)));
         if (\core_text::strlen($text) > $maxchars) {
-            $text = \core_text::substr($text, 0, $maxchars) . "\n\n[The rest of the course materials was cut off because of length.]";
+            $text = \core_text::substr($text, 0, $maxchars)
+                . "\n\n[The rest of the course materials was cut off because of length.]";
         }
         return $text;
     }

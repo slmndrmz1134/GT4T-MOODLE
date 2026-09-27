@@ -59,8 +59,15 @@ class proposal_action extends external_api {
         self::validate_context($context);
         require_capability('local/diverse_assistant:teach', $context);
 
+        // One action per proposal at a time: a double click or a second tab must not create the same page twice.
+        $lock = \core\lock\lock_config::get_lock_factory('local_diverse_assistant')->get_lock('proposal_' . $proposalid, 10);
+        if (!$lock) {
+            throw new \moodle_exception('locktimeout', 'moodle');
+        }
         $message = '';
         try {
+            // Read it again under the lock: another request may have handled it in the meantime.
+            $record = proposals::get($proposalid, (int)$USER->id);
             match ($action) {
                 'apply' => applier::apply($record),
                 'undo' => applier::undo($record),
@@ -74,6 +81,8 @@ class proposal_action extends external_api {
                 throw $e;
             }
             $message = $e->getMessage();
+        } finally {
+            $lock->release();
         }
         return ['ok' => $message === '', 'message' => $message, 'proposal' => proposals::export($record)];
     }

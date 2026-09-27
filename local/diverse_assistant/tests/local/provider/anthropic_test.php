@@ -199,4 +199,19 @@ final class anthropic_test extends \advanced_testcase {
             $this->assertFalse(anthropic::supports_fallbacks($m), $m);
         }
     }
+
+    /**
+     * Only the first system block (instructions and course materials) is cached; later ones follow the breakpoint.
+     */
+    public function test_system_blocks(): void {
+        $blocks = anthropic::system_blocks([
+            ['role' => 'system', 'content' => 'Instructions and materials'],
+            ['role' => 'system', 'content' => 'Current page'],
+            ['role' => 'user', 'content' => 'Question'],
+        ]);
+        $this->assertCount(2, $blocks);
+        $this->assertSame(['type' => 'ephemeral'], $blocks[0]['cacheControl']);
+        $this->assertArrayNotHasKey('cacheControl', $blocks[1]);
+        $this->assertSame('Current page', $blocks[1]['text']);
+    }
 }
