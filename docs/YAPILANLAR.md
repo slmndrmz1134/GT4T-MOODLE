@@ -402,6 +402,16 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     sayfasından yeniden yüklemeli. Beykent'in kayıtlı logosu beyaz (`beykent-logo-tr-white.png`): beyaz menüde
     görünmez, renkli sürümü yüklenmeli. Tema tarafı hazır: dosya yüklenince o üniversitenin kullanıcıları menüde
     kendi logolarını görür (27 Eylül).
+13. **Demo hesapları ve ortak dersler (Ekim 2026, proje sahibinin onayıyla):** `setup/diverse_demo_accounts.php`
+    her partnere aynı beş hesabı açar: `<partner>.admin` (partner yöneticisi), `<partner>.teacher`,
+    `<partner>.student1..3`; kişi adı yok, e-postalar partnerin alan adında ve e-posta gönderimi kapalı. Öğretmen ve
+    öğrenciler partner başına birer cohort'ta ("SAMK Teachers", "SAMK Students"); dersler bu cohort'ları kaydeder.
+    Partnerin kendi dersleri kendi öğretmen ve öğrencilerini, "Shared Courses" kategorisindeki ortak dersler (CTP001,
+    IBM401, GT4T-101...401) birkaç partneri, her partneri kendi grubunda kaydeder. Eski demo hesapları bu düzene
+    çevrildi; test hesapları, kişi adlı hesaplar ve projeden ayrılan Algebra (hesapları, 6 dersi, kategorisi)
+    silindi. Şifreler betikte yazmaz, çalışırken sorulur; demo şifreleri sitenin şifre kuralına uymadığı için betik
+    hesabı önce rastgele şifreyle açıp sonra seçilen şifreyi atar. Site internete açık: gerçek kullanıcılar
+    gelmeden önce `admin` ve demo şifreleri değiştirilmeli.
 
 ## 18. Commit listesi
 

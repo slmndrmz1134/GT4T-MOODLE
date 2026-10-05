@@ -210,6 +210,7 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `theme/diverse/` | DIVERSE teması (Boost Union alt teması) |
 | `setup/diverse_setup.php` | Site ayarlarını uygulayan betik (`--dry-run`, `--production`) |
 | `setup/check_lang_settings.php` | Dil ayarlarının anlık görüntüsü (salt okunur) |
+| `setup/diverse_demo_accounts.php` | Partnerlerin demo hesapları, rol cohort'ları ve ortak dersler (`--dry-run`) |
 | [docs/CPANEL.md](docs/CPANEL.md), `setup/cpanel/` | Canlı cPanel sunucusu: kurulum, `config.php` şablonu, PHP ayarları |
 | `.htaccess` | Canlı sunucuda geliştirme dosyalarını internete kapatır |
 | [docker.md](docker.md), `docker-compose.yml`, `docker-entrypoint-custom.sh` | Yerel Docker kurulumu |
