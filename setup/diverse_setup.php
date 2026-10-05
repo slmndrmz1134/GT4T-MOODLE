@@ -276,10 +276,11 @@ if (!core_component::get_component_directory('mod_bigbluebuttonbn')) {
 if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
     diverse_setup_report('WARN', 'Partner organisations (tool_mutenancy) are not active: GT4T partners not checked.');
 } else {
-    // Tenant idnumber => [name, short name].
+    // Tenant idnumber => [name, short name]. The idnumbers are the ones the partners already have on the live server
+    // (Satakunta is "satakunta", not "samk"): a different one would create the partner a second time.
     $gt4tpartners = [
         'gt4t' => ['GT4T – GreenTech4Transformation', 'GT4T'],
-        'samk' => ['Satakunta University of Applied Sciences (SAMK)', 'SAMK'],
+        'satakunta' => ['Satakunta University of Applied Sciences (SAMK)', 'SAMK'],
         'beykent' => ['İstanbul Beykent Üniversitesi', 'Beykent'],
         'furthr' => ['Dublin Business Innovation Centre (Furthr)', 'Furthr'],
         'griffith' => ['Griffith College', 'Griffith'],
