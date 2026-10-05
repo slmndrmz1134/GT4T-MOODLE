@@ -31,12 +31,6 @@ require_once('config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
 
-// Redirect logged-in users directly to their dashboard.
-// The landing page is strictly for information/marketing and anonymous visitors.
-if (isloggedin() && !isguestuser()) {
-    redirect($CFG->wwwroot . '/my/');
-}
-
 redirect_if_major_upgrade_required();
 
 // Redirect logged-in users to homepage if required.

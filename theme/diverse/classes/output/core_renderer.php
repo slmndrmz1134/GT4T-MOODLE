@@ -93,7 +93,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     }
 
     /**
-     * Wrap the main content with the landing page sections on the site home for visitors.
+     * Wrap the main content with the landing page sections on the site home.
      *
      * The main content token from the parent stays in place, so the site home content
      * configured by the admin is still rendered between the two parts.
@@ -124,14 +124,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     }
 
     /**
-     * Whether the current page is the site home seen by a visitor (not logged in, or guest).
+     * Whether the current page is the site home.
+     *
+     * Visitors land here; logged-in users are sent to their dashboard and reach it with the
+     * Home link of the primary navigation (/?redirect=0).
      *
      * @return bool
      */
     protected function is_landing_page(): bool {
         return $this->page->pagelayout === 'frontpage' &&
-            $this->page->pagetype === 'site-index' &&
-            (!isloggedin() || isguestuser());
+            $this->page->pagetype === 'site-index';
     }
 
     /**

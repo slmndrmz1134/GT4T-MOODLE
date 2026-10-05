@@ -17,11 +17,11 @@
 {{!
     @template theme_diverse/landing_bottom
 
-    Closing band of the landing page, shown below the site home content for visitors.
+    Closing band of the landing page, shown below the site home content.
 
     Example context (json):
     {
-        "homeurl": "#", "loginurl": "#", "allcoursesurl": "#", "privacyurl": "#"
+        "homeurl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#"
     }
 }}
 <div class="diverse-landing">
@@ -43,7 +43,8 @@
             </div>
             <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">
                 <span class="diverse-landing-footer-heading">{{#str}}footer_platform, theme_diverse{{/str}}</span>
-                <a href="{{loginurl}}">{{#str}}login{{/str}}</a>
+                {{#loggedin}}<a href="{{dashboardurl}}">{{#str}}myhome{{/str}}</a>{{/loggedin}}
+                {{^loggedin}}<a href="{{loginurl}}">{{#str}}login{{/str}}</a>{{/loggedin}}
                 <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
                 <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
             </nav>

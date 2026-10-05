@@ -337,7 +337,8 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
 - **Algebra ve Beykent partnerlerinde kullanıcı sınırı 10** (`memberlimit`); sonraki kayıtlar takılır.
 - **`moodledata` kayıp:** 50 yüklenmiş dosya (logolar, kapaklar, ikonlar) yok; yeniden yüklenmeleri gerekiyor.
 - Partner adında yazım hatası: "Algebra University **Collage**".
-- Çekirdek dosyalarda eski ekibin yaptığı değişiklikler (`index.php`, `admin/index.php`, `login/*`) duruyor.
+- Çekirdek dosyalarda eski ekibin yaptığı değişiklikler (`admin/index.php`, `login/*`) duruyor. `index.php` içindeki
+  "giriş yapanı her zaman dashboard'a gönder" satırı kaldırıldı; Home bağlantısı (`/?redirect=0`) artık landing'i açıyor.
 - İncelenen **Edwiser Reports** eklentisi kurulmadı: herhangi bir giriş yapmış kullanıcının kendine yönetici yetkisi
   verebildiği bir güvenlik açığı var.
 - **Canlı site HTTP ile açılacak** (alan adı yok): şifreler ağda şifrelenmeden gider, Moodle mobil uygulaması

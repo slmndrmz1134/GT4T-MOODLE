@@ -17,17 +17,18 @@
 {{!
     @template theme_diverse/landing_top
 
-    Landing page sections shown above the site home content for visitors.
+    Landing page sections shown above the site home content.
 
     Context variables required for this template:
-    * loginurl - URL of the login page
+    * loggedin - whether the viewer is logged in (not a guest)
+    * loginurl, dashboardurl - where the main button leads visitors and logged-in users
     * haspartners, partners, partnercount - active tenants the visitor can see
     * coursecount, usercount - live figures
     * hascourses, courses, allcoursesurl - featured courses
 
     Example context (json):
     {
-        "loginurl": "#", "allcoursesurl": "#",
+        "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#",
         "haspartners": true, "partnercount": 1,
         "partners": [{"name": "Technische Hochschule Rosenheim", "coursecount": 4, "url": "#"}],
         "coursecount": 17, "usercount": 18,
@@ -45,8 +46,9 @@
                 <p class="diverse-hero-tagline">{{#str}}landing_tagline, theme_diverse{{/str}}</p>
                 <p class="diverse-hero-intro">{{#str}}landing_intro, theme_diverse{{/str}}</p>
                 <div class="diverse-hero-actions">
-                    <a class="btn btn-lg diverse-btn-ink" href="{{loginurl}}">
-                        {{#str}}landing_getstarted, theme_diverse{{/str}}
+                    <a class="btn btn-lg diverse-btn-ink" href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
+                        {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}
+                        {{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
                     </a>
                     {{#haspartners}}
@@ -144,7 +146,9 @@
                 <h3 class="diverse-card-title">{{name}}</h3>
                 <div class="diverse-card-footer">
                     <span>{{#str}}partners_courses, theme_diverse, {{coursecount}}{{/str}}</span>
+                    {{^loggedin}}
                     <a href="{{url}}">{{#str}}partners_login, theme_diverse{{/str}} <span class="visually-hidden">{{name}}</span> <span aria-hidden="true">&rarr;</span></a>
+                    {{/loggedin}}
                 </div>
             </div>
             {{/partners}}
