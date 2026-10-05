@@ -41,6 +41,12 @@ $string['prescssinheritancesetting_desc'] = 'Bu ayar ile Boost Union\'dan gelen 
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Extra-SCSS miras alma';
 $string['extrascssinheritancesetting_desc'] = 'Bu ayar ile Boost Union\'dan gelen extra-SCSS kodunun miras mı alınacağını yoksa kopyalanacağını mı belirlersiniz.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Partner giriş sayfaları';
+$string['partnerlogin_desc'] = 'Ziyaretçi giriş sayfasındaki "Select Partner" menüsünden bir partner üniversite seçtiğinde, giriş formunun yanındaki panelde DIVERSE paneli yerine o üniversitenin fotoğrafı, logosu ve adı görünür. Logo, her üniversitenin kendi kullanıcıları için yüklediği logodur (tenant > Appearance > Logos). Fotoğraf yoksa panelde DIVERSE deseni ve üniversitenin adı görünür.';
+$string['partnerlogin_none'] = 'Giriş sayfasında listelenen partner üniversite henüz yok.';
+$string['loginphoto'] = 'Giriş fotoğrafı: {$a}';
+$string['loginphoto_desc'] = 'En az 1600 piksel genişliğinde yatay bir fotoğraf. Giriş formunun yanındaki paneli doldurur; alt kısmı üniversitenin adının altında koyulaştırılır.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Hakkında';
@@ -80,6 +86,8 @@ $string['footer_privacy'] = 'Gizlilik özeti';
 // Login page brand panel.
 $string['login_tagline'] = 'Sınırların ötesindeki ortaklarla birlikte öğrenin';
 $string['login_intro'] = 'Ortak üniversitelerimizin sunduğu ortak eğitimler ve uygulamalı inovasyon projeleri tek bir yerde.';
+$string['login_partner_intro'] = '{$a} hesabınızla giriş yapın.';
+$string['login_partner_member'] = 'DIVERSE Avrupa Üniversitesi Birliği üyesi';
 
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE teması kullanıcılar hakkında hiçbir kişisel veri depolamaz.';

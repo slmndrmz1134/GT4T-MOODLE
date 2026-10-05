@@ -112,8 +112,63 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return string
      */
     public function render_login(\core_auth\output\login $form) {
-        $brandpanel = $this->render_from_template('theme_diverse/login_brand', (new landing())->export_for_login($this));
+        $context = (new landing())->export_for_login($this);
+
+        // A partner chosen in the "Select Partner" menu gets its own panel: photo, logo and name.
+        $partner = \theme_diverse\local\partners::current();
+        if ($partner) {
+            $photo = \theme_diverse\local\partners::photo_url($partner->id);
+            $logo = $this->tenant_image_url(\core\output\renderer_base::get_logo_url(null, 200));
+            $context['partner'] = [
+                'name' => $partner->name,
+                'intro' => get_string('login_partner_intro', 'theme_diverse', $partner->name),
+                'photourl' => $photo ? $photo->out(false) : null,
+                'logourl' => $logo ? $logo->out(false) : null,
+            ];
+        }
+
+        $brandpanel = $this->render_from_template('theme_diverse/login_brand', $context);
         return $brandpanel . parent::render_login($form);
+    }
+
+    /**
+     * Render the "Select Partner" menu of the login page.
+     *
+     * Unlike the tool_mutenancy original, the button names the partner that is currently chosen and the
+     * menu lists every partner, the chosen one marked, so visitors can see where they are logging in.
+     *
+     * @param \tool_mutenancy\output\logintenantselector $selector
+     * @return string
+     */
+    public function render_logintenantselector(\tool_mutenancy\output\logintenantselector $selector) {
+        global $DB;
+
+        $current = \theme_diverse\local\partners::current();
+        $partners = \theme_diverse\local\partners::login_list();
+        if (!$current && !$partners) {
+            return '';
+        }
+
+        $menu = new \core\output\action_menu();
+        $menu->set_menu_trigger($current ? $current->name : get_string('login_tenant_select', 'tool_mutenancy'));
+        $menu->set_boundary('window');
+        $checked = new \core\output\pix_icon('i/checked', get_string('selected', 'form'));
+
+        // The shared DIVERSE site, under the site's own name (not the partner's site name shown on this page).
+        $sitename = $DB->get_field('course', 'fullname', ['category' => 0]);
+        $menu->add(new \core\output\action_menu\link_secondary(
+            new \core\url('/login/', ['tenant' => 0]),
+            $current ? null : $checked,
+            format_string($sitename)
+        ));
+        foreach ($partners as $partner) {
+            $menu->add(new \core\output\action_menu\link_secondary(
+                new \core\url('/login/', ['tenant' => $partner->idnumber]),
+                ($current && $current->id == $partner->id) ? $checked : null,
+                $partner->name
+            ));
+        }
+        return \core\output\html_writer::div($this->render($menu), 'diverse-partner-select');
     }
 
     /**

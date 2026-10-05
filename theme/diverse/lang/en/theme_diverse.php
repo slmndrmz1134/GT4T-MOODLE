@@ -46,6 +46,12 @@ $string['prescssinheritancesetting_desc'] = 'With this setting, you control if t
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Extra SCSS inheritance';
 $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if the extra SCSS code from Boost Union should be inherited or duplicated.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Partner login pages';
+$string['partnerlogin_desc'] = 'When a visitor chooses a partner university in the "Select Partner" menu of the login page, the panel next to the login form shows that university\'s photo, logo and name instead of the DIVERSE panel. The logo is the one each university uploads for its users (tenant > Appearance > Logos). Without a photo the panel shows the DIVERSE pattern with the university\'s name.';
+$string['partnerlogin_none'] = 'No partner universities are listed on the login page yet.';
+$string['loginphoto'] = 'Login photo: {$a}';
+$string['loginphoto_desc'] = 'A landscape photo, at least 1600 pixels wide. It fills the panel next to the login form; the bottom part is darkened under the university\'s name.';
 
 /**************************************************************
  * EXTENSION POINT:
@@ -90,6 +96,8 @@ $string['footer_privacy'] = 'Privacy summary';
 // Login page brand panel.
 $string['login_tagline'] = 'Learn with partners across borders';
 $string['login_intro'] = 'Joint training and hands-on innovation projects from our partner universities, in one place.';
+$string['login_partner_intro'] = 'Log in with your {$a} account.';
+$string['login_partner_member'] = 'Member of the DIVERSE European University Alliance';
 
 // Privacy API.
 $string['privacy:metadata'] = 'The DIVERSE theme does not store any personal data about any user.';

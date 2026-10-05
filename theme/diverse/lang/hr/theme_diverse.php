@@ -41,6 +41,12 @@ $string['prescssinheritancesetting_desc'] = 'Određuje treba li pre-SCSS kod iz 
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Nasljeđivanje Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Određuje treba li extra-SCSS kod iz teme Boost Union biti naslijeđen ili dupliciran.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Stranice za prijavu partnera';
+$string['partnerlogin_desc'] = 'Kada posjetitelj u izborniku "Select Partner" na stranici za prijavu odabere partnersko sveučilište, ploča pokraj obrasca za prijavu umjesto DIVERSE ploče prikazuje fotografiju, logotip i naziv tog sveučilišta. Logotip je onaj koji svako sveučilište prenosi za svoje korisnike (tenant > Appearance > Logos). Bez fotografije ploča prikazuje DIVERSE uzorak s nazivom sveučilišta.';
+$string['partnerlogin_none'] = 'Na stranici za prijavu još nema navedenih partnerskih sveučilišta.';
+$string['loginphoto'] = 'Fotografija za prijavu: {$a}';
+$string['loginphoto_desc'] = 'Vodoravna fotografija, široka najmanje 1600 piksela. Ispunjava ploču pokraj obrasca za prijavu; donji dio je zatamnjen ispod naziva sveučilišta.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'O nama';
@@ -80,6 +86,8 @@ $string['footer_privacy'] = 'Sažetak o privatnosti';
 // Login page brand panel.
 $string['login_tagline'] = 'Učite s partnerima preko granica';
 $string['login_intro'] = 'Zajedničke edukacije i praktični inovacijski projekti naših partnerskih sveučilišta, na jednom mjestu.';
+$string['login_partner_intro'] = 'Prijavite se svojim računom ustanove {$a}.';
+$string['login_partner_member'] = 'Član Europskog sveučilišnog saveza DIVERSE';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE ne pohranjuje osobne podatke o korisnicima.';

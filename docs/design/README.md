@@ -23,8 +23,12 @@ ayrılmasın diye burada tekrar edilmez.
 4. **Partner markası:** DIVERSE çerçevesi sabit kalır (giriş paneli, landing, footer); giriş yapan kullanıcı menüde kendi
    üniversitesinin logosunu görür. Logoyu her üniversitenin yöneticisi `tool_mutenancy` ile yükler (üniversite >
    Appearance > Logos); logo yüklenmemişse ya da dosyası yoksa DIVERSE logosu gösterilir.
-   Üniversitelerin kendi tema ayarları (ör. giriş sayfası arka plan resmi) kullanılmaz: giriş sayfası ve platform
+   Üniversitelerin kendi tema ayarları (ör. giriş sayfası arka plan resmi) kullanılmaz; renkler, fontlar ve form
    herkes için ortak DIVERSE tasarımıyla kalır (proje sahibinin kararı, 27 Eylül).
+   **Giriş sayfası istisnası (5 Ekim):** ziyaretçi "Select Partner" menüsünden bir üniversite seçince formun yanındaki
+   panel o üniversitenin fotoğrafını, logosunu ve adını gösterir; altta "DIVERSE üyesi" bağlantısı kalır. Fotoğraf
+   tema ayarlarından yüklenir (DIVERSE > Partner giriş sayfaları), logo `tool_mutenancy` logosudur. Fotoğraf yoksa
+   DIVERSE deseni ve üniversitenin adı görünür.
 5. **Önce mobil**, animasyon minimumda.
 
 ## Taslak ekranlar (`mockups/`)

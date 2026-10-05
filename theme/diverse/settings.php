@@ -135,6 +135,44 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
          * Add your DIVERSE settings here.
          *********************************************************/
 
+        // Create partner login pages tab: one login photo per partner university (tool_mutenancy tenant).
+        $tab = new admin_settingpage(
+            'theme_diverse_partners',
+            get_string('partnerlogin', 'theme_diverse', null, true)
+        );
+
+        $name = 'theme_diverse/partnerloginheading';
+        $title = get_string('partnerlogin', 'theme_diverse', null, true);
+        $description = get_string('partnerlogin_desc', 'theme_diverse', null, true);
+        $tab->add(new admin_setting_heading($name, $title, $description));
+
+        $partners = \theme_diverse\local\partners::login_list();
+        foreach ($partners as $partner) {
+            // Setting: Login photo of this partner.
+            $name = 'theme_diverse/loginphoto_' . $partner->id;
+            $title = get_string('loginphoto', 'theme_diverse', $partner->name, true);
+            $description = get_string('loginphoto_desc', 'theme_diverse', null, true);
+            $setting = new admin_setting_configstoredfile(
+                $name,
+                $title,
+                $description,
+                \theme_diverse\local\partners::PHOTO_AREA,
+                $partner->id,
+                ['maxfiles' => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp']]
+            );
+            $tab->add($setting);
+        }
+        if (!$partners) {
+            $tab->add(new admin_setting_heading(
+                'theme_diverse/partnerloginnone',
+                '',
+                get_string('partnerlogin_none', 'theme_diverse', null, true)
+            ));
+        }
+
+        // Add tab to settings page.
+        $page->add($tab);
+
         // Add settings page to the admin settings category.
         $ADMIN->add('theme_boost_union', $page);
     }

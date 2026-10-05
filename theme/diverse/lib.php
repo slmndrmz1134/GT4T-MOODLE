@@ -158,3 +158,30 @@ function theme_diverse_alter_css_urls(&$urls) {
     // Call Boost Union's theme_boost_union_alter_css_urls() function which implements the logic to change the CSS URL for flavours.
     theme_boost_union_alter_css_urls($urls);
 }
+
+/**
+ * Serve the files of this theme: the partner login photos, which the login page shows to visitors.
+ *
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param context $context
+ * @param string $filearea
+ * @param array $args
+ * @param bool $forcedownload
+ * @param array $options
+ * @return bool False if the file is not found.
+ */
+function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
+    if ($context->contextlevel != CONTEXT_SYSTEM || $filearea !== \theme_diverse\local\partners::PHOTO_AREA) {
+        return false;
+    }
+    $itemid = (int)array_shift($args);
+    $filename = array_pop($args);
+    $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
+    $file = get_file_storage()->get_file($context->id, 'theme_diverse', $filearea, $itemid, $filepath, $filename);
+    if (!$file || $file->is_directory()) {
+        return false;
+    }
+    // The URL stays the same when a photo is replaced, so browsers keep it only for an hour.
+    send_stored_file($file, HOURSECS, 0, $forcedownload, $options);
+}

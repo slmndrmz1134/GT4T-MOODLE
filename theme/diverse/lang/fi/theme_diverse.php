@@ -41,6 +41,12 @@ $string['prescssinheritancesetting_desc'] = 'Tällä asetuksella määritetään
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Extra-SCSS-periytyminen';
 $string['extrascssinheritancesetting_desc'] = 'Tällä asetuksella määritetään, peritäänkö vai monistaanko Boost Unionin Extra-SCSS-koodi.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Kumppanien kirjautumissivut';
+$string['partnerlogin_desc'] = 'Kun vierailija valitsee kirjautumissivun "Select Partner" -valikosta kumppanikorkeakoulun, kirjautumislomakkeen vieressä näkyy DIVERSE-paneelin sijaan korkeakoulun kuva, logo ja nimi. Logo on se, jonka kukin korkeakoulu lataa käyttäjilleen (tenant > Appearance > Logos). Ilman kuvaa paneelissa näkyy DIVERSE-kuvio ja korkeakoulun nimi.';
+$string['partnerlogin_none'] = 'Kirjautumissivulla ei ole vielä kumppanikorkeakouluja.';
+$string['loginphoto'] = 'Kirjautumiskuva: {$a}';
+$string['loginphoto_desc'] = 'Vaakakuva, vähintään 1600 pikseliä leveä. Se täyttää kirjautumislomakkeen viereisen paneelin; alaosaa tummennetaan korkeakoulun nimen alla.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Tietoa';
@@ -80,6 +86,8 @@ $string['footer_privacy'] = 'Tietosuojayhteenveto';
 // Login page brand panel.
 $string['login_tagline'] = 'Opiskele kumppaneiden kanssa yli rajojen';
 $string['login_intro'] = 'Kumppaniyliopistojen yhteiset koulutukset ja käytännön innovaatioprojektit yhdessä paikassa.';
+$string['login_partner_intro'] = 'Kirjaudu {$a} -tunnuksillasi.';
+$string['login_partner_member'] = 'DIVERSE European University Alliance -liittouman jäsen';
 
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE-teema ei tallenna henkilökohtaisia tietoja käyttäjistä.';

@@ -41,6 +41,12 @@ $string['prescssinheritancesetting_desc'] = 'Rialaíonn an socrú seo an ndéanf
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Oidhreacht Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Rialaíonn an socrú seo an ndéanfar cód Extra-SCSS Boost Union a oidhreacht nó a dhúbladh.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Leathanaigh logála isteach na gcomhpháirtithe';
+$string['partnerlogin_desc'] = 'Nuair a roghnaíonn cuairteoir ollscoil chomhpháirtíochta sa roghchlár "Select Partner" ar an leathanach logála isteach, taispeánann an painéal in aice leis an bhfoirm grianghraf, lógó agus ainm na hollscoile sin in ionad phainéal DIVERSE. Is é an lógó an ceann a uaslódálann gach ollscoil dá húsáideoirí (tenant > Appearance > Logos). Gan grianghraf, taispeánann an painéal patrún DIVERSE le hainm na hollscoile.';
+$string['partnerlogin_none'] = 'Níl aon ollscoil chomhpháirtíochta liostaithe ar an leathanach logála isteach fós.';
+$string['loginphoto'] = 'Grianghraf logála isteach: {$a}';
+$string['loginphoto_desc'] = 'Grianghraf tírdhreacha, 1600 picteilín ar leithead ar a laghad. Líonann sé an painéal in aice leis an bhfoirm logála isteach; dorchaítear an chuid íochtair faoi ainm na hollscoile.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Fúinn';
@@ -80,6 +86,8 @@ $string['footer_privacy'] = 'Achoimre príobháideachais';
 // Login page brand panel.
 $string['login_tagline'] = 'Foghlaim le comhpháirtithe thar theorainneacha';
 $string['login_intro'] = 'Oiliúint chomhpháirteach agus tionscadail nuálaíochta praiticiúla ónár n-ollscoileanna comhpháirtíochta, in aon áit amháin.';
+$string['login_partner_intro'] = 'Logáil isteach le do chuntas {$a}.';
+$string['login_partner_member'] = 'Ball de Chomhghuaillíocht Ollscoile Eorpach DIVERSE';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Ní stórálann téama DIVERSE aon sonraí pearsanta faoi aon úsáideoir.';

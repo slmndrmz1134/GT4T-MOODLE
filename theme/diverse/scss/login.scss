@@ -110,6 +110,68 @@ $diverse-login-panel-width: 42vw;
     font-weight: 600;
 }
 
+// Panel of a chosen partner university: its logo, name and the DIVERSE membership line.
+.diverse-login-brand-member {
+    align-self: flex-start;
+    font-size: .875rem;
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .2em;
+
+    &:hover,
+    &:focus {
+        color: inherit;
+        text-decoration-thickness: 2px;
+    }
+}
+
+// With a photo, the photo fills the panel and darkens towards the bottom, where the white text sits.
+.diverse-login-brand-photo {
+    isolation: isolate;
+    background-color: $diverse-ink;
+    color: $white;
+
+    .diverse-login-photo {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(to top, $diverse-ink 0%, $diverse-ink 30%, transparent 80%);
+        opacity: .9;
+    }
+
+    .diverse-login-brand-body {
+        margin-top: auto;
+    }
+}
+
+// "Select Partner" menu: a row of its own above the form, so a long university name never covers the logo.
+.float-end:has(> .diverse-partner-select) {
+    float: none !important;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .75rem;
+}
+
+.diverse-partner-select {
+    max-width: 100%;
+
+    .dropdown-toggle {
+        white-space: normal;
+        text-align: right;
+    }
+}
+
 // Login form container: refined border, subtle shadow, modern spacing.
 .login-container {
     border: 1px solid $diverse-border;

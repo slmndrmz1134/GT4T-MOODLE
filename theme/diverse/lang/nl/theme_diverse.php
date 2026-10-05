@@ -41,6 +41,12 @@ $string['prescssinheritancesetting_desc'] = 'Hiermee bepaalt u of de Pre-SCSS-co
 // ... ... Setting: Extra SCSS inheritance setting.
 $string['extrascssinheritancesetting'] = 'Extra-SCSS-overerving';
 $string['extrascssinheritancesetting_desc'] = 'Hiermee bepaalt u of de Extra-SCSS-code van Boost Union wordt overgeërfd of gedupliceerd.';
+// ... Partner login pages.
+$string['partnerlogin'] = 'Inlogpagina\'s van partners';
+$string['partnerlogin_desc'] = 'Als een bezoeker in het menu "Select Partner" van de inlogpagina een partnerinstelling kiest, toont het paneel naast het inlogformulier de foto, het logo en de naam van die instelling in plaats van het DIVERSE-paneel. Het logo is het logo dat elke instelling voor haar gebruikers uploadt (tenant > Appearance > Logos). Zonder foto toont het paneel het DIVERSE-patroon met de naam van de instelling.';
+$string['partnerlogin_none'] = 'Er staan nog geen partnerinstellingen op de inlogpagina.';
+$string['loginphoto'] = 'Inlogfoto: {$a}';
+$string['loginphoto_desc'] = 'Een liggende foto van minstens 1600 pixels breed. Hij vult het paneel naast het inlogformulier; het onderste deel wordt onder de naam van de instelling donkerder gemaakt.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Over';
@@ -80,6 +86,8 @@ $string['footer_privacy'] = 'Privacysamenvatting';
 // Login page brand panel.
 $string['login_tagline'] = 'Leer samen met partners over grenzen heen';
 $string['login_intro'] = 'Gezamenlijke opleidingen en praktische innovatieprojecten van onze partneruniversiteiten, op één plek.';
+$string['login_partner_intro'] = 'Log in met je account van {$a}.';
+$string['login_partner_member'] = 'Lid van de DIVERSE European University Alliance';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Het DIVERSE-thema slaat geen persoonlijke gegevens op over gebruikers.';
