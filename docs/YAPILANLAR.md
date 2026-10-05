@@ -179,7 +179,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   (SAMK, Furthr, Griffith, Ikigaia, Wild Campus, Windesheim) mevcutlarla aynı seçeneklerle oluşturulur: girişte
   listelenir, kendi ders kategorisi ve kullanıcı grupları olur, kullanıcı sınırı yoktur. Var olan ya da arşivlenmiş
   tenant'lara dokunulmaz; Algebra GT4T ortağı olmadığı halde tenant olarak kalır. Liste betikte ve landing'deki
-  `PROJECT_PARTNERS`'ta ayrı tutuluyor; ortak eklenirse ikisi birlikte güncellenir. `database/moodle.sql` bu
+  `PROJECT_PARTNERS`'ta ayrı tutuluyor; ortak eklenirse ikisi birlikte güncellenir. GT4T projesinin kendisi de
+  (`gt4t`) giriş seçeneği olarak açılır, ama landing'deki ortak listesinde yer almaz. `database/moodle.sql` bu
   tenant'ları içermez, canlıda betik oluşturur.
 
 **Tasarım ilkeleri**

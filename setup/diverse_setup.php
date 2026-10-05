@@ -271,12 +271,14 @@ if (!core_component::get_component_directory('mod_bigbluebuttonbn')) {
 // 8. GT4T project partners as partner organisations (tool_mutenancy tenants), so that each one is in the
 // "Select Partner" menu of the login page and gets its own course category and users. Only missing ones are
 // created, with the same options the existing partners have; existing (also archived) partners are left alone.
-// Keep in step with PROJECT_PARTNERS of the landing page (theme/diverse/classes/output/landing.php).
+// Keep in step with PROJECT_PARTNERS of the landing page (theme/diverse/classes/output/landing.php); the GT4T
+// project itself is a login option too, but not one of the partners listed on the landing page.
 if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
     diverse_setup_report('WARN', 'Partner organisations (tool_mutenancy) are not active: GT4T partners not checked.');
 } else {
     // Tenant idnumber => [name, short name].
     $gt4tpartners = [
+        'gt4t' => ['GT4T – GreenTech4Transformation', 'GT4T'],
         'samk' => ['Satakunta University of Applied Sciences (SAMK)', 'SAMK'],
         'beykent' => ['İstanbul Beykent Üniversitesi', 'Beykent'],
         'furthr' => ['Dublin Business Innovation Centre (Furthr)', 'Furthr'],

@@ -70,6 +70,9 @@ $diverse-login-panel-width: 42vw;
     font-size: clamp(2.25rem, 3.4vw, 3.25rem);
     font-weight: 700;
     line-height: 1.05;
+    // Long single words in partner names (e.g. "GreenTech4Transformation") wrap instead of leaving the panel.
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .diverse-login-brand-intro {
