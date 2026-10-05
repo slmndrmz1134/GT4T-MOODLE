@@ -173,7 +173,14 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 **Yapılan**
 - Veritabanında duran site ayarlarını canlı sunucuda tek komutla uygulayan betik:
   tema, ders sayfası genişliği, debug görüntüleme, çok dil filtresi, dil paketleri, dashboard bloğu,
-  BigBlueButton ve (`--production` ile) canlı debug seviyesi.
+  BigBlueButton, GT4T partnerleri ve (`--production` ile) canlı debug seviyesi.
+- **GT4T partnerleri (Ekim 2026, proje sahibinin onayıyla):** ana sayfadaki 8 GT4T ortağının her biri giriş
+  sayfasının "Select Partner" listesinde olsun diye `tool_mutenancy` tenant'ı olarak açılır. Eksik olanlar
+  (SAMK, Furthr, Griffith, Ikigaia, Wild Campus, Windesheim) mevcutlarla aynı seçeneklerle oluşturulur: girişte
+  listelenir, kendi ders kategorisi ve kullanıcı grupları olur, kullanıcı sınırı yoktur. Var olan ya da arşivlenmiş
+  tenant'lara dokunulmaz; Algebra GT4T ortağı olmadığı halde tenant olarak kalır. Liste betikte ve landing'deki
+  `PROJECT_PARTNERS`'ta ayrı tutuluyor; ortak eklenirse ikisi birlikte güncellenir. `database/moodle.sql` bu
+  tenant'ları içermez, canlıda betik oluşturur.
 
 **Tasarım ilkeleri**
 - **Sadece eksik olanı ekler; tekrar çalıştırmak güvenli.** Yöneticinin bilerek seçtiği değerlere dokunmaz

@@ -17,7 +17,8 @@
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
- * BigBlueButton live classes, and with --production the live server debug level).
+ * BigBlueButton live classes, the GT4T project partners as partner organisations, and with --production the
+ * live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -267,7 +268,48 @@ if (!core_component::get_component_directory('mod_bigbluebuttonbn')) {
     }
 }
 
-// 8. Live server settings (--production only): debug level Minimal and developer-only settings off.
+// 8. GT4T project partners as partner organisations (tool_mutenancy tenants), so that each one is in the
+// "Select Partner" menu of the login page and gets its own course category and users. Only missing ones are
+// created, with the same options the existing partners have; existing (also archived) partners are left alone.
+// Keep in step with PROJECT_PARTNERS of the landing page (theme/diverse/classes/output/landing.php).
+if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
+    diverse_setup_report('WARN', 'Partner organisations (tool_mutenancy) are not active: GT4T partners not checked.');
+} else {
+    // Tenant idnumber => [name, short name].
+    $gt4tpartners = [
+        'samk' => ['Satakunta University of Applied Sciences (SAMK)', 'SAMK'],
+        'beykent' => ['İstanbul Beykent Üniversitesi', 'Beykent'],
+        'furthr' => ['Dublin Business Innovation Centre (Furthr)', 'Furthr'],
+        'griffith' => ['Griffith College', 'Griffith'],
+        'ikigaia' => ['Ikigaia Oy', 'Ikigaia'],
+        'rosenheim' => ['Technische Hochschule Rosenheim', 'TH Rosenheim'],
+        'wildcampus' => ['Wild Campus GmbH', 'Wild Campus'],
+        'windesheim' => ['Windesheim University of Applied Sciences', 'Windesheim'],
+    ];
+    foreach ($gt4tpartners as $idnumber => [$name, $shortname]) {
+        $tenant = $DB->get_record_select('tool_mutenancy_tenant', 'LOWER(idnumber) = LOWER(?)', [$idnumber]);
+        if ($tenant && $tenant->archived) {
+            diverse_setup_report('SKIP', "Partner \"$tenant->name\" was archived by an admin: left as is.");
+        } else if ($tenant) {
+            diverse_setup_report('OK', "Partner \"$tenant->name\" exists" . ($tenant->loginshow ? '.' : ' (not listed on the login page).'));
+        } else if ($dryrun) {
+            diverse_setup_report('WOULD', "Create partner \"$name\" ($idnumber) with its course category, listed on the login page.");
+        } else {
+            \tool_mutenancy\local\tenant::create((object)[
+                'name' => $name,
+                'idnumber' => $idnumber,
+                'sitefullname' => $name,
+                'siteshortname' => $shortname,
+                'loginshow' => 1,
+                'assoccohortcreate' => 1,
+            ]);
+            diverse_setup_report('SET', "Created partner \"$name\" ($idnumber) with its course category, listed on the login page.");
+            $changed = true;
+        }
+    }
+}
+
+// 9. Live server settings (--production only): debug level Minimal and developer-only settings off.
 // A debug level an admin set below Minimal (None) is kept.
 if ($options['production']) {
     $debug = (int) get_config('core', 'debug');
