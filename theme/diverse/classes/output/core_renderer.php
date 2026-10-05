@@ -48,20 +48,13 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     protected function add_landing_navigation_nodes() {
         if (!isloggedin() || isguestuser()) {
             $primarynav = $this->page->primarynav;
-            if ($primarynav && !$primarynav->find('diverse_collab', \navigation_node::TYPE_CUSTOM)) {
+            if ($primarynav && !$primarynav->find('diverse_about', \navigation_node::TYPE_CUSTOM)) {
                 $primarynav->add(
-                    get_string('nav_collab', 'theme_diverse'),
-                    new \moodle_url('/#diverse-collaborate'),
+                    get_string('nav_about', 'theme_diverse'),
+                    new \moodle_url('/#diverse-about'),
                     \navigation_node::TYPE_CUSTOM,
                     null,
-                    'diverse_collab'
-                );
-                $primarynav->add(
-                    get_string('nav_impact', 'theme_diverse'),
-                    new \moodle_url('/#diverse-impact'),
-                    \navigation_node::TYPE_CUSTOM,
-                    null,
-                    'diverse_impact'
+                    'diverse_about'
                 );
                 $primarynav->add(
                     get_string('nav_partners', 'theme_diverse'),

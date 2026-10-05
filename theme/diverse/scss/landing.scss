@@ -329,7 +329,6 @@ $diverse-tiles: (
 }
 
 .diverse-section-head,
-.diverse-collab,
 .diverse-cards {
     max-width: 80rem;
     margin-left: auto;
@@ -385,71 +384,8 @@ $diverse-tiles: (
     text-decoration: none;
 }
 
-// How we collaborate.
-.diverse-collab {
-    display: grid;
-    gap: 3rem;
-
-    @include media-breakpoint-up(lg) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4.5rem;
-        align-items: start;
-    }
-}
-
-.diverse-collab-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-
-.diverse-numbered {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: .75rem;
-
-    li {
-        padding: 1.125rem 1.375rem;
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-        background-color: $diverse-surface;
-        border: 1px solid $diverse-border;
-        border-radius: $border-radius-lg;
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: $diverse-ink;
-        transition: transform .2s ease, border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
-
-        &:hover {
-            background-color: $white;
-            border-color: $diverse-action-orange;
-            transform: translateX(4px);
-            box-shadow: $box-shadow-sm;
-        }
-    }
-}
-
-.diverse-numbered-no {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50rem;
-    background-color: $diverse-soft-orange;
-    color: $diverse-action-orange;
-    font-family: $headings-font-family;
-    font-size: .9375rem;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-// Long-term impact.
-.diverse-impact {
+// About GT4T.
+.diverse-about {
     background-color: $diverse-soft-orange;
 }
 
@@ -458,7 +394,7 @@ $diverse-tiles: (
     padding-top: 0;
 }
 
-// Card grids (impact, partners, courses).
+// Card grids (focus areas, partners, courses).
 .diverse-cards {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -544,6 +480,34 @@ $diverse-tiles: (
             color: $diverse-action-orange-hover;
         }
     }
+}
+
+// Project partners: compact cards in a plain list.
+.diverse-partner-list {
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.diverse-partner {
+    padding: 1.5rem;
+    gap: .5rem;
+}
+
+.diverse-partner-badge {
+    align-self: flex-start;
+    padding: .25rem .7rem;
+    border-radius: 50rem;
+    background-color: $diverse-brand-orange;
+    color: $diverse-ink;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.diverse-partner-name {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.25;
 }
 
 // Course cards.

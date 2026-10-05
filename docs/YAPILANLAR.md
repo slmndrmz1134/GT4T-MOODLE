@@ -120,6 +120,15 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   listesinde herkese açık.
 - Kapak resmi dosyası okunamayan derslerde desenli kapak kullanılıyor; eksik dosyalar PHP uyarısına yol açıyordu.
 
+**Sonraki düzenleme (Ekim 2026)**
+- Landing sadeleşti: "How we collaborate" ve "Long-term impact" yerine tek bir "Hakkında" bölümü (kısa GT4T
+  tanıtımı ve üç odak alanı). Rakamlar: proje ortağı, ülke, ders sayısı.
+- Partner kartları artık platformdaki tenant'ları değil, GT4T projesinin 8 tam ortağını gösteriyor (kaynak:
+  gt4t.intelligent-industry.fi/about-us). Liste `classes/output/landing.php` içindeki `PROJECT_PARTNERS` sabitinde;
+  ortak değişirse orada güncellenir. Ülke adları Moodle'ın çevrili ülke listesinden gelir. Giriş sayfasındaki
+  partner (tenant) listesi değişmedi.
+- Giriş yapmış kullanıcı da Home bağlantısıyla landing'i görüyor; "Başlayın" düğmesi onlar için Dashboard'a gider.
+
 ## 6. Dashboard, Kurslarım ve ders sayfası
 
 **Yapılan**

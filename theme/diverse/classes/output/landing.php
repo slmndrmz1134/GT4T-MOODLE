@@ -25,8 +25,9 @@ use core_course_list_element;
 /**
  * Theme DIVERSE - Data for the landing page and the login brand panel.
  *
- * All figures are read live from the site: partners are the active tenants of tool_mutenancy,
- * courses and categories are filtered by what the current (usually anonymous) visitor may see.
+ * The landing lists the GT4T project partners (PROJECT_PARTNERS). The login brand panel lists the
+ * partner universities on this platform: the active tenants of tool_mutenancy. Course figures are read
+ * live and filtered by what the current (usually anonymous) visitor may see.
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -43,29 +44,41 @@ class landing implements renderable, templatable {
     const COVER_SHAPES = ['ring', 'plus', 'half', 'hash'];
 
     /**
+     * @var array[] Full partners of the GT4T project, lead partner first: name, ISO country code, website.
+     *
+     * Source: https://gt4t.intelligent-industry.fi/about-us/ (Wild Campus and Windesheim link to the wrong
+     * site there; their own addresses are used here).
+     */
+    const PROJECT_PARTNERS = [
+        ['name' => 'Satakunta University of Applied Sciences (SAMK)', 'country' => 'FI', 'url' => 'https://www.samk.fi/',
+            'lead' => true],
+        ['name' => 'Beykent University', 'country' => 'TR', 'url' => 'https://www.beykent.edu.tr/en'],
+        ['name' => 'Dublin Business Innovation Centre (Furthr)', 'country' => 'IE', 'url' => 'https://www.furthr.ie/'],
+        ['name' => 'Griffith College', 'country' => 'IE', 'url' => 'https://www.griffith.ie/'],
+        ['name' => 'Ikigaia Oy', 'country' => 'FI', 'url' => 'https://www.ikigaia.fi/'],
+        ['name' => 'Technische Hochschule Rosenheim', 'country' => 'DE', 'url' => 'https://www.th-rosenheim.de/'],
+        ['name' => 'Wild Campus GmbH', 'country' => 'DE', 'url' => 'https://wildcampus.de/'],
+        ['name' => 'Windesheim University of Applied Sciences', 'country' => 'NL', 'url' => 'https://www.windesheim.nl/'],
+    ];
+
+    /**
      * Export the landing page data.
      *
      * @param renderer_base $output
      * @return array
      */
     public function export_for_template(renderer_base $output): array {
-        global $CFG, $DB;
+        global $DB;
 
-        $partners = $this->get_partners();
+        $partners = $this->get_project_partners();
         $courses = $this->get_featured_courses();
         $coursecount = $DB->count_records_select('course', 'id <> :siteid AND visible = 1', ['siteid' => SITEID]);
-        $usercount = $DB->count_records_select(
-            'user',
-            'deleted = 0 AND suspended = 0 AND confirmed = 1 AND id <> :guestid',
-            ['guestid' => $CFG->siteguest]
-        );
 
         return [
             'partners' => $partners,
-            'haspartners' => !empty($partners),
             'partnercount' => count($partners),
+            'countrycount' => count(array_unique(array_column(self::PROJECT_PARTNERS, 'country'))),
             'coursecount' => $coursecount,
-            'usercount' => $usercount,
             'courses' => $courses,
             'hascourses' => !empty($courses),
             'loggedin' => isloggedin() && !isguestuser(),
@@ -92,6 +105,26 @@ class landing implements renderable, templatable {
             'homeurl' => (new \core\url('/'))->out(false),
             'logourl' => $output ? $output->image_url('logo', 'theme_diverse')->out(false) : '',
         ];
+    }
+
+    /**
+     * Get the GT4T project partners with their country name in the current language.
+     *
+     * @return array
+     */
+    protected function get_project_partners(): array {
+        $countries = get_string_manager()->get_list_of_countries();
+        $partners = [];
+        foreach (self::PROJECT_PARTNERS as $partner) {
+            $partners[] = [
+                'name' => $partner['name'],
+                'country' => $countries[$partner['country']] ?? $partner['country'],
+                'url' => $partner['url'],
+                'domain' => preg_replace('/^www\./', '', parse_url($partner['url'], PHP_URL_HOST)),
+                'lead' => !empty($partner['lead']),
+            ];
+        }
+        return $partners;
     }
 
     /**
