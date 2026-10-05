@@ -34,6 +34,116 @@ class partners {
     /** @var string File area of the partner logos on the login form (system context, item id = tenant id). */
     const LOGO_AREA = 'loginlogo';
 
+    /** @var string File area of the trimmed copies of the partner logos (see logo_url()). */
+    const LOGO_TRIMMED_AREA = 'loginlogotrimmed';
+
+    /** @var int Height in pixels of the trimmed logo copies: four times the 2.5rem the login form shows. */
+    const LOGO_HEIGHT = 160;
+
+    /**
+     * URL of a partner's login logo, without the empty margins the uploaded file may have.
+     *
+     * Logos are often uploaded with wide transparent or white margins, which make them look smaller than others
+     * at the same height on the login form. A copy cut to the visible logo is made once per uploaded file and
+     * kept in LOGO_TRIMMED_AREA; the upload itself is left as it is. SVG files and images this server cannot read
+     * are used as uploaded.
+     *
+     * @param int $tenantid
+     * @return \core\url|null
+     */
+    public static function logo_url(int $tenantid): ?\core\url {
+        $context = \core\context\system::instance();
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'theme_diverse', self::LOGO_AREA, $tenantid, 'filename', false);
+        $original = reset($files);
+        if (!$original) {
+            $fs->delete_area_files($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid);
+            return null;
+        }
+
+        $name = 'logo-' . substr($original->get_contenthash(), 0, 12) . '.png';
+        $trimmed = $fs->get_file($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid, '/', $name);
+        if (!$trimmed) {
+            $content = self::trim_image($original->get_content());
+            if ($content === null) {
+                return self::file_url(self::LOGO_AREA, $tenantid);
+            }
+            // The previous copy belongs to a replaced upload.
+            $fs->delete_area_files($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid);
+            $fs->create_file_from_string([
+                'contextid' => $context->id,
+                'component' => 'theme_diverse',
+                'filearea' => self::LOGO_TRIMMED_AREA,
+                'itemid' => $tenantid,
+                'filepath' => '/',
+                'filename' => $name,
+            ], $content);
+        }
+        return self::file_url(self::LOGO_TRIMMED_AREA, $tenantid);
+    }
+
+    /**
+     * Cut an image to its visible part (not transparent, not white) and scale it to LOGO_HEIGHT.
+     *
+     * @param string $content Image file content.
+     * @return string|null PNG content, or null if the image cannot be read (e.g. SVG).
+     */
+    protected static function trim_image(string $content): ?string {
+        $image = @imagecreatefromstring($content);
+        if (!$image) {
+            return null;
+        }
+        if (!imageistruecolor($image)) {
+            imagepalettetotruecolor($image);
+        }
+
+        // Look for the visible part on a small copy: much faster on large uploads, precise enough for margins.
+        [$width, $height] = [imagesx($image), imagesy($image)];
+        $scale = min(1, 400 / max($width, $height));
+        [$sw, $sh] = [max(1, (int)round($width * $scale)), max(1, (int)round($height * $scale))];
+        $small = imagecreatetruecolor($sw, $sh);
+        imagealphablending($small, false);
+        imagesavealpha($small, true);
+        imagecopyresampled($small, $image, 0, 0, 0, 0, $sw, $sh, $width, $height);
+
+        [$left, $top, $right, $bottom] = [$sw, $sh, -1, -1];
+        for ($y = 0; $y < $sh; $y++) {
+            for ($x = 0; $x < $sw; $x++) {
+                $rgba = imagecolorat($small, $x, $y);
+                $alpha = ($rgba >> 24) & 0x7F;
+                $white = (($rgba >> 16) & 0xFF) > 240 && (($rgba >> 8) & 0xFF) > 240 && ($rgba & 0xFF) > 240;
+                if ($alpha < 110 && !$white) {
+                    $left = min($left, $x);
+                    $right = max($right, $x);
+                    $top = min($top, $y);
+                    $bottom = max($bottom, $y);
+                }
+            }
+        }
+        if ($right < 0) {
+            // Nothing visible found (e.g. a white logo on transparency): keep the whole image.
+            [$left, $top, $right, $bottom] = [0, 0, $sw - 1, $sh - 1];
+        }
+
+        // Back to the original size, with one small pixel of room so that no edge is cut.
+        $x = max(0, (int)floor(($left - 1) / $scale));
+        $y = max(0, (int)floor(($top - 1) / $scale));
+        $w = min($width, (int)ceil(($right + 2) / $scale)) - $x;
+        $h = min($height, (int)ceil(($bottom + 2) / $scale)) - $y;
+
+        $outheight = min(self::LOGO_HEIGHT, $h);
+        $outwidth = max(1, (int)round($w * $outheight / $h));
+        $out = imagecreatetruecolor($outwidth, $outheight);
+        imagealphablending($out, false);
+        imagesavealpha($out, true);
+        imagefill($out, 0, 0, imagecolorallocatealpha($out, 0, 0, 0, 127));
+        imagecopyresampled($out, $image, 0, 0, $x, $y, $outwidth, $outheight, $w, $h);
+
+        ob_start();
+        imagepng($out);
+        return ob_get_clean();
+    }
+
     /**
      * Whether partner universities are in use on this site.
      *

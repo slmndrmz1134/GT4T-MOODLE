@@ -129,7 +129,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 'intro' => get_string('login_partner_intro', 'theme_diverse', $partner->name),
                 'ispartner' => true,
             ];
-            $this->loginlogo = partners::file_url(partners::LOGO_AREA, $partner->id);
+            $this->loginlogo = partners::logo_url($partner->id);
         } else {
             $context = [
                 'name' => get_string('landing_title', 'theme_diverse'),

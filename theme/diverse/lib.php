@@ -172,7 +172,11 @@ function theme_diverse_alter_css_urls(&$urls) {
  * @return bool False if the file is not found.
  */
 function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
-    $areas = [\theme_diverse\local\partners::PHOTO_AREA, \theme_diverse\local\partners::LOGO_AREA];
+    $areas = [
+        \theme_diverse\local\partners::PHOTO_AREA,
+        \theme_diverse\local\partners::LOGO_AREA,
+        \theme_diverse\local\partners::LOGO_TRIMMED_AREA,
+    ];
     if ($context->contextlevel != CONTEXT_SYSTEM || !in_array($filearea, $areas, true)) {
         return false;
     }
