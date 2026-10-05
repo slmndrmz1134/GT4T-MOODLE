@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS miras alma';
 $string['extrascssinheritancesetting_desc'] = 'Bu ayar ile Boost Union\'dan gelen extra-SCSS kodunun miras mı alınacağını yoksa kopyalanacağını mı belirlersiniz.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Partner giriş sayfaları';
-$string['partnerlogin_desc'] = 'Ziyaretçi giriş sayfasındaki "Select Partner" menüsünden bir partner üniversite seçtiğinde, giriş formunun yanındaki panelde DIVERSE paneli yerine o üniversitenin fotoğrafı, logosu ve adı görünür. Logo, her üniversitenin kendi kullanıcıları için yüklediği logodur (tenant > Appearance > Logos). Fotoğraf yoksa panelde DIVERSE deseni ve üniversitenin adı görünür.';
+$string['partnerlogin_desc'] = 'Giriş formunun yanındaki panel bir fotoğraf, bir ad ve tek bir cümle gösterir: partner seçilmemişken DIVERSE\'ün, ziyaretçi "Select Partner" menüsünden bir partner üniversite seçtiğinde o üniversitenin. Fotoğraf yoksa DIVERSE deseni görünür. Partnerin logosu giriş formundaki DIVERSE logosunun yerine geçer; yüklenmemişse üniversitenin kendi kullanıcıları için yüklediği logo (tenant > Appearance > Logos) kullanılır.';
 $string['partnerlogin_none'] = 'Giriş sayfasında listelenen partner üniversite henüz yok.';
 $string['loginphoto'] = 'Giriş fotoğrafı: {$a}';
 $string['loginphoto_desc'] = 'En az 1600 piksel genişliğinde yatay bir fotoğraf. Giriş formunun yanındaki paneli doldurur; alt kısmı üniversitenin adının altında koyulaştırılır.';
+$string['loginlogo'] = 'Giriş logosu: {$a}';
+$string['loginlogo_desc'] = 'Bu üniversite seçildiğinde giriş formunun üstünde görünür. Saydam ya da beyaz zeminli, yatay bir logo (PNG veya SVG) en iyi sonucu verir.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Hakkında';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T), Avrupa\'nın yeşil
 $string['landing_getstarted'] = 'Başlayın';
 $string['landing_meetpartners'] = 'Ortakları keşfedin';
 $string['landing_keyfigures'] = 'Önemli rakamlar';
-$string['stat_partners'] = 'Ortak üniversite';
 $string['stat_projectpartners'] = 'Proje ortağı';
 $string['stat_countries'] = 'Ülke';
 $string['stat_courses'] = 'Mevcut ders';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Gizlilik özeti';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Sınırların ötesindeki ortaklarla birlikte öğrenin';
 $string['login_intro'] = 'Ortak üniversitelerimizin sunduğu ortak eğitimler ve uygulamalı inovasyon projeleri tek bir yerde.';
 $string['login_partner_intro'] = '{$a} hesabınızla giriş yapın.';
 $string['login_partner_member'] = 'DIVERSE Avrupa Üniversitesi Birliği üyesi';

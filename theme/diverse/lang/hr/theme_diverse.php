@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Nasljeđivanje Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Određuje treba li extra-SCSS kod iz teme Boost Union biti naslijeđen ili dupliciran.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Stranice za prijavu partnera';
-$string['partnerlogin_desc'] = 'Kada posjetitelj u izborniku "Select Partner" na stranici za prijavu odabere partnersko sveučilište, ploča pokraj obrasca za prijavu umjesto DIVERSE ploče prikazuje fotografiju, logotip i naziv tog sveučilišta. Logotip je onaj koji svako sveučilište prenosi za svoje korisnike (tenant > Appearance > Logos). Bez fotografije ploča prikazuje DIVERSE uzorak s nazivom sveučilišta.';
+$string['partnerlogin_desc'] = 'Ploča pokraj obrasca za prijavu prikazuje fotografiju, naziv i jednu rečenicu: DIVERSE-ove dok partner nije odabran, a partnerskog sveučilišta kada ga posjetitelj odabere u izborniku "Select Partner". Bez fotografije prikazuje se DIVERSE uzorak. Logotip partnera zamjenjuje DIVERSE logotip na obrascu za prijavu; ako ga nema, koristi se logotip koji je sveučilište prenijelo za svoje korisnike (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Na stranici za prijavu još nema navedenih partnerskih sveučilišta.';
 $string['loginphoto'] = 'Fotografija za prijavu: {$a}';
 $string['loginphoto_desc'] = 'Vodoravna fotografija, široka najmanje 1600 piksela. Ispunjava ploču pokraj obrasca za prijavu; donji dio je zatamnjen ispod naziva sveučilišta.';
+$string['loginlogo'] = 'Logotip za prijavu: {$a}';
+$string['loginlogo_desc'] = 'Prikazuje se na vrhu obrasca za prijavu kada je odabrano ovo sveučilište. Najbolje odgovara širok logotip na prozirnoj ili bijeloj pozadini (PNG ili SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'O nama';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) okuplja sveučilišt
 $string['landing_getstarted'] = 'Započnite';
 $string['landing_meetpartners'] = 'Upoznajte partnere';
 $string['landing_keyfigures'] = 'Ključne brojke';
-$string['stat_partners'] = 'Partnerska sveučilišta';
 $string['stat_projectpartners'] = 'Partneri projekta';
 $string['stat_countries'] = 'Zemlje';
 $string['stat_courses'] = 'Dostupni e-kolegiji';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Platforma';
 $string['footer_privacy'] = 'Sažetak o privatnosti';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Učite s partnerima preko granica';
 $string['login_intro'] = 'Zajedničke edukacije i praktični inovacijski projekti naših partnerskih sveučilišta, na jednom mjestu.';
 $string['login_partner_intro'] = 'Prijavite se svojim računom ustanove {$a}.';
 $string['login_partner_member'] = 'Član Europskog sveučilišnog saveza DIVERSE';

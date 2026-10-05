@@ -48,10 +48,12 @@ $string['extrascssinheritancesetting'] = 'Extra SCSS inheritance';
 $string['extrascssinheritancesetting_desc'] = 'With this setting, you control if the extra SCSS code from Boost Union should be inherited or duplicated.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Partner login pages';
-$string['partnerlogin_desc'] = 'When a visitor chooses a partner university in the "Select Partner" menu of the login page, the panel next to the login form shows that university\'s photo, logo and name instead of the DIVERSE panel. The logo is the one each university uploads for its users (tenant > Appearance > Logos). Without a photo the panel shows the DIVERSE pattern with the university\'s name.';
+$string['partnerlogin_desc'] = 'The panel next to the login form shows a photo, a name and one sentence: DIVERSE\'s while no partner is chosen, and a partner university\'s when a visitor chooses it in the "Select Partner" menu. Without a photo the DIVERSE pattern is shown. A partner\'s logo replaces the DIVERSE logo on the login form; without one, the logo the university uploaded for its users (tenant > Appearance > Logos) is used.';
 $string['partnerlogin_none'] = 'No partner universities are listed on the login page yet.';
 $string['loginphoto'] = 'Login photo: {$a}';
 $string['loginphoto_desc'] = 'A landscape photo, at least 1600 pixels wide. It fills the panel next to the login form; the bottom part is darkened under the university\'s name.';
+$string['loginlogo'] = 'Login logo: {$a}';
+$string['loginlogo_desc'] = 'Shown at the top of the login form when this university is chosen. A wide logo on a transparent or white background (PNG or SVG) works best.';
 
 /**************************************************************
  * EXTENSION POINT:
@@ -69,7 +71,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) brings universities,
 $string['landing_getstarted'] = 'Get started';
 $string['landing_meetpartners'] = 'Meet the partners';
 $string['landing_keyfigures'] = 'Key figures';
-$string['stat_partners'] = 'Partner universities';
 $string['stat_projectpartners'] = 'Project partners';
 $string['stat_countries'] = 'Countries';
 $string['stat_courses'] = 'Courses available';
@@ -94,7 +95,6 @@ $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Privacy summary';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Learn with partners across borders';
 $string['login_intro'] = 'Joint training and hands-on innovation projects from our partner universities, in one place.';
 $string['login_partner_intro'] = 'Log in with your {$a} account.';
 $string['login_partner_member'] = 'Member of the DIVERSE European University Alliance';

@@ -160,7 +160,7 @@ function theme_diverse_alter_css_urls(&$urls) {
 }
 
 /**
- * Serve the files of this theme: the partner login photos, which the login page shows to visitors.
+ * Serve the files of this theme: the login photos and partner logos, which the login page shows to visitors.
  *
  * @param stdClass $course
  * @param stdClass $cm
@@ -172,7 +172,8 @@ function theme_diverse_alter_css_urls(&$urls) {
  * @return bool False if the file is not found.
  */
 function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
-    if ($context->contextlevel != CONTEXT_SYSTEM || $filearea !== \theme_diverse\local\partners::PHOTO_AREA) {
+    $areas = [\theme_diverse\local\partners::PHOTO_AREA, \theme_diverse\local\partners::LOGO_AREA];
+    if ($context->contextlevel != CONTEXT_SYSTEM || !in_array($filearea, $areas, true)) {
         return false;
     }
     $itemid = (int)array_shift($args);
@@ -182,6 +183,6 @@ function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $for
     if (!$file || $file->is_directory()) {
         return false;
     }
-    // The URL stays the same when a photo is replaced, so browsers keep it only for an hour.
+    // The URL stays the same when a file is replaced, so browsers keep it only for an hour.
     send_stored_file($file, HOURSECS, 0, $forcedownload, $options);
 }

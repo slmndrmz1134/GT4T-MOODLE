@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Herencia Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Esta configuración controla si el código Extra-SCSS de Boost Union debe heredarse o duplicarse.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Páginas de acceso de los socios';
-$string['partnerlogin_desc'] = 'Cuando un visitante elige una universidad socia en el menú "Select Partner" de la página de acceso, el panel junto al formulario muestra la foto, el logotipo y el nombre de esa universidad en lugar del panel de DIVERSE. El logotipo es el que cada universidad sube para sus usuarios (tenant > Appearance > Logos). Sin foto, el panel muestra el patrón de DIVERSE con el nombre de la universidad.';
+$string['partnerlogin_desc'] = 'El panel junto al formulario de acceso muestra una foto, un nombre y una frase: los de DIVERSE mientras no se elige ningún socio, y los de una universidad socia cuando un visitante la elige en el menú "Select Partner". Sin foto se muestra el patrón de DIVERSE. El logotipo del socio sustituye al de DIVERSE en el formulario; si no hay, se usa el logotipo que la universidad subió para sus usuarios (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Todavía no hay universidades socias en la página de acceso.';
 $string['loginphoto'] = 'Foto de acceso: {$a}';
 $string['loginphoto_desc'] = 'Una foto horizontal de al menos 1600 píxeles de ancho. Ocupa el panel junto al formulario de acceso; la parte inferior se oscurece bajo el nombre de la universidad.';
+$string['loginlogo'] = 'Logotipo de acceso: {$a}';
+$string['loginlogo_desc'] = 'Se muestra en la parte superior del formulario de acceso cuando se elige esta universidad. Funciona mejor un logotipo horizontal con fondo transparente o blanco (PNG o SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Acerca de';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) reúne a universidad
 $string['landing_getstarted'] = 'Comenzar';
 $string['landing_meetpartners'] = 'Conoce a los socios';
 $string['landing_keyfigures'] = 'Cifras clave';
-$string['stat_partners'] = 'Universidades asociadas';
 $string['stat_projectpartners'] = 'Socios del proyecto';
 $string['stat_countries'] = 'Países';
 $string['stat_courses'] = 'Cursos disponibles';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Plataforma';
 $string['footer_privacy'] = 'Resumen de privacidad';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Aprende con socios más allá de las fronteras';
 $string['login_intro'] = 'Formación conjunta y proyectos de innovación prácticos de nuestras universidades asociadas, en un solo lugar.';
 $string['login_partner_intro'] = 'Accede con tu cuenta de {$a}.';
 $string['login_partner_member'] = 'Miembro de la Alianza Universitaria Europea DIVERSE';

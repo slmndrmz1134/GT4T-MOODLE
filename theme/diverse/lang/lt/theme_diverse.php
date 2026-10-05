@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS paveldėjimas';
 $string['extrascssinheritancesetting_desc'] = 'Šis nustatymas valdo, ar „Boost Union" Extra-SCSS kodas turi būti paveldimas, ar dubliuojamas.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Partnerių prisijungimo puslapiai';
-$string['partnerlogin_desc'] = 'Kai lankytojas prisijungimo puslapio meniu "Select Partner" pasirenka partnerį universitetą, šalia prisijungimo formos vietoj DIVERSE skydelio rodoma to universiteto nuotrauka, logotipas ir pavadinimas. Logotipas yra tas, kurį kiekvienas universitetas įkelia savo naudotojams (tenant > Appearance > Logos). Be nuotraukos skydelyje rodomas DIVERSE raštas su universiteto pavadinimu.';
+$string['partnerlogin_desc'] = 'Skydelyje šalia prisijungimo formos rodoma nuotrauka, pavadinimas ir vienas sakinys: DIVERSE, kol partneris nepasirinktas, ir partnerio universiteto, kai lankytojas jį pasirenka meniu "Select Partner". Be nuotraukos rodomas DIVERSE raštas. Partnerio logotipas pakeičia DIVERSE logotipą prisijungimo formoje; jei jo nėra, naudojamas logotipas, kurį universitetas įkėlė savo naudotojams (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Prisijungimo puslapyje dar nėra partnerių universitetų.';
 $string['loginphoto'] = 'Prisijungimo nuotrauka: {$a}';
 $string['loginphoto_desc'] = 'Horizontali nuotrauka, ne mažiau kaip 1600 pikselių pločio. Ji užpildo skydelį šalia prisijungimo formos; apatinė dalis po universiteto pavadinimu patamsinama.';
+$string['loginlogo'] = 'Prisijungimo logotipas: {$a}';
+$string['loginlogo_desc'] = 'Rodomas prisijungimo formos viršuje, kai pasirinktas šis universitetas. Geriausiai tinka platus logotipas permatomame arba baltame fone (PNG arba SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Apie';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) suburia universitetu
 $string['landing_getstarted'] = 'Pradėti';
 $string['landing_meetpartners'] = 'Susipažinti su partneriais';
 $string['landing_keyfigures'] = 'Pagrindiniai skaičiai';
-$string['stat_partners'] = 'Partneriniai universitetai';
 $string['stat_projectpartners'] = 'Projekto partneriai';
 $string['stat_countries'] = 'Šalys';
 $string['stat_courses'] = 'Prieinami kursai';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Platforma';
 $string['footer_privacy'] = 'Privatumo santrauka';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Mokykitės su partneriais per sienas';
 $string['login_intro'] = 'Bendri mokymai ir praktiniai inovacijų projektai iš mūsų partnerinių universitetų – vienoje vietoje.';
 $string['login_partner_intro'] = 'Prisijunkite su savo {$a} paskyra.';
 $string['login_partner_member'] = 'DIVERSE Europos universitetų aljanso narys';

@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS-periytyminen';
 $string['extrascssinheritancesetting_desc'] = 'Tällä asetuksella määritetään, peritäänkö vai monistaanko Boost Unionin Extra-SCSS-koodi.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Kumppanien kirjautumissivut';
-$string['partnerlogin_desc'] = 'Kun vierailija valitsee kirjautumissivun "Select Partner" -valikosta kumppanikorkeakoulun, kirjautumislomakkeen vieressä näkyy DIVERSE-paneelin sijaan korkeakoulun kuva, logo ja nimi. Logo on se, jonka kukin korkeakoulu lataa käyttäjilleen (tenant > Appearance > Logos). Ilman kuvaa paneelissa näkyy DIVERSE-kuvio ja korkeakoulun nimi.';
+$string['partnerlogin_desc'] = 'Kirjautumislomakkeen vieressä oleva paneeli näyttää kuvan, nimen ja yhden lauseen: DIVERSEn, kun kumppania ei ole valittu, ja kumppanikorkeakoulun, kun vierailija valitsee sen "Select Partner" -valikosta. Ilman kuvaa näytetään DIVERSE-kuvio. Kumppanin logo korvaa DIVERSE-logon kirjautumislomakkeessa; jos sitä ei ole, käytetään logoa, jonka korkeakoulu on ladannut käyttäjilleen (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Kirjautumissivulla ei ole vielä kumppanikorkeakouluja.';
 $string['loginphoto'] = 'Kirjautumiskuva: {$a}';
 $string['loginphoto_desc'] = 'Vaakakuva, vähintään 1600 pikseliä leveä. Se täyttää kirjautumislomakkeen viereisen paneelin; alaosaa tummennetaan korkeakoulun nimen alla.';
+$string['loginlogo'] = 'Kirjautumislogo: {$a}';
+$string['loginlogo_desc'] = 'Näytetään kirjautumislomakkeen yläosassa, kun tämä korkeakoulu on valittu. Parhaiten toimii leveä logo läpinäkyvällä tai valkoisella taustalla (PNG tai SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Tietoa';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) tuo yhteen korkeakou
 $string['landing_getstarted'] = 'Aloita';
 $string['landing_meetpartners'] = 'Tutustu kumppaneihin';
 $string['landing_keyfigures'] = 'Avainluvut';
-$string['stat_partners'] = 'Kumppaniyliopistot';
 $string['stat_projectpartners'] = 'Hankekumppania';
 $string['stat_countries'] = 'Maata';
 $string['stat_courses'] = 'Saatavilla olevat kurssit';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Alusta';
 $string['footer_privacy'] = 'Tietosuojayhteenveto';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Opiskele kumppaneiden kanssa yli rajojen';
 $string['login_intro'] = 'Kumppaniyliopistojen yhteiset koulutukset ja käytännön innovaatioprojektit yhdessä paikassa.';
 $string['login_partner_intro'] = 'Kirjaudu {$a} -tunnuksillasi.';
 $string['login_partner_member'] = 'DIVERSE European University Alliance -liittouman jäsen';

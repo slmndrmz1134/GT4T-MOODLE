@@ -147,18 +147,42 @@ if ($hassiteconfig || has_capability('theme/boost_union:configure', context_syst
         $tab->add(new admin_setting_heading($name, $title, $description));
 
         $partners = \theme_diverse\local\partners::login_list();
+        $photooptions = ['maxfiles' => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp']];
+        $logooptions = ['maxfiles' => 1, 'accepted_types' => ['.png', '.svg', '.jpg', '.jpeg', '.webp']];
+
+        // Setting: Login photo of DIVERSE itself, shown while no partner is chosen.
+        $setting = new admin_setting_configstoredfile(
+            'theme_diverse/loginphoto_0',
+            get_string('loginphoto', 'theme_diverse', 'DIVERSE', true),
+            get_string('loginphoto_desc', 'theme_diverse', null, true),
+            \theme_diverse\local\partners::PHOTO_AREA,
+            0,
+            $photooptions
+        );
+        $tab->add($setting);
+
         foreach ($partners as $partner) {
+            $tab->add(new admin_setting_heading('theme_diverse/partnerheading_' . $partner->id, $partner->name, ''));
+
             // Setting: Login photo of this partner.
-            $name = 'theme_diverse/loginphoto_' . $partner->id;
-            $title = get_string('loginphoto', 'theme_diverse', $partner->name, true);
-            $description = get_string('loginphoto_desc', 'theme_diverse', null, true);
             $setting = new admin_setting_configstoredfile(
-                $name,
-                $title,
-                $description,
+                'theme_diverse/loginphoto_' . $partner->id,
+                get_string('loginphoto', 'theme_diverse', $partner->name, true),
+                get_string('loginphoto_desc', 'theme_diverse', null, true),
                 \theme_diverse\local\partners::PHOTO_AREA,
                 $partner->id,
-                ['maxfiles' => 1, 'accepted_types' => ['.jpg', '.jpeg', '.png', '.webp']]
+                $photooptions
+            );
+            $tab->add($setting);
+
+            // Setting: Logo of this partner on the login form.
+            $setting = new admin_setting_configstoredfile(
+                'theme_diverse/loginlogo_' . $partner->id,
+                get_string('loginlogo', 'theme_diverse', $partner->name, true),
+                get_string('loginlogo_desc', 'theme_diverse', null, true),
+                \theme_diverse\local\partners::LOGO_AREA,
+                $partner->id,
+                $logooptions
             );
             $tab->add($setting);
         }

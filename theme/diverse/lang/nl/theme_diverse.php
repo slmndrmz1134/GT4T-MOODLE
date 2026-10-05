@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Extra-SCSS-overerving';
 $string['extrascssinheritancesetting_desc'] = 'Hiermee bepaalt u of de Extra-SCSS-code van Boost Union wordt overgeërfd of gedupliceerd.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Inlogpagina\'s van partners';
-$string['partnerlogin_desc'] = 'Als een bezoeker in het menu "Select Partner" van de inlogpagina een partnerinstelling kiest, toont het paneel naast het inlogformulier de foto, het logo en de naam van die instelling in plaats van het DIVERSE-paneel. Het logo is het logo dat elke instelling voor haar gebruikers uploadt (tenant > Appearance > Logos). Zonder foto toont het paneel het DIVERSE-patroon met de naam van de instelling.';
+$string['partnerlogin_desc'] = 'Het paneel naast het inlogformulier toont een foto, een naam en één zin: die van DIVERSE zolang er geen partner is gekozen, en die van een partnerinstelling als een bezoeker die kiest in het menu "Select Partner". Zonder foto wordt het DIVERSE-patroon getoond. Het logo van de partner vervangt het DIVERSE-logo op het inlogformulier; zonder eigen logo wordt het logo gebruikt dat de instelling voor haar gebruikers heeft geüpload (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Er staan nog geen partnerinstellingen op de inlogpagina.';
 $string['loginphoto'] = 'Inlogfoto: {$a}';
 $string['loginphoto_desc'] = 'Een liggende foto van minstens 1600 pixels breed. Hij vult het paneel naast het inlogformulier; het onderste deel wordt onder de naam van de instelling donkerder gemaakt.';
+$string['loginlogo'] = 'Inloglogo: {$a}';
+$string['loginlogo_desc'] = 'Wordt boven het inlogformulier getoond als deze instelling gekozen is. Een breed logo op een transparante of witte achtergrond (PNG of SVG) werkt het best.';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Over';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) brengt hogescholen, 
 $string['landing_getstarted'] = 'Aan de slag';
 $string['landing_meetpartners'] = 'Ontdek de partners';
 $string['landing_keyfigures'] = 'Kerncijfers';
-$string['stat_partners'] = 'Partneruniversiteiten';
 $string['stat_projectpartners'] = 'Projectpartners';
 $string['stat_countries'] = 'Landen';
 $string['stat_courses'] = 'Beschikbare cursussen';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Privacysamenvatting';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Leer samen met partners over grenzen heen';
 $string['login_intro'] = 'Gezamenlijke opleidingen en praktische innovatieprojecten van onze partneruniversiteiten, op één plek.';
 $string['login_partner_intro'] = 'Log in met je account van {$a}.';
 $string['login_partner_member'] = 'Lid van de DIVERSE European University Alliance';

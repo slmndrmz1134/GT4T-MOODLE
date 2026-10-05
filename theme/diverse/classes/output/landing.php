@@ -23,11 +23,10 @@ use core_course_category;
 use core_course_list_element;
 
 /**
- * Theme DIVERSE - Data for the landing page and the login brand panel.
+ * Theme DIVERSE - Data for the landing page.
  *
- * The landing lists the GT4T project partners (PROJECT_PARTNERS). The login brand panel lists the
- * partner universities on this platform: the active tenants of tool_mutenancy. Course figures are read
- * live and filtered by what the current (usually anonymous) visitor may see.
+ * The landing lists the GT4T project partners (PROJECT_PARTNERS). Course figures are read live and
+ * filtered by what the current (usually anonymous) visitor may see.
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -92,22 +91,6 @@ class landing implements renderable, templatable {
     }
 
     /**
-     * Export the smaller data set for the brand panel next to the login form.
-     *
-     * @param \renderer_base|null $output Renderer, for the logo address; without it the panel shows the text wordmark.
-     * @return array
-     */
-    public function export_for_login(?\renderer_base $output = null): array {
-        $partners = $this->get_partners();
-        return [
-            'partners' => $partners,
-            'haspartners' => !empty($partners),
-            'homeurl' => (new \core\url('/'))->out(false),
-            'logourl' => $output ? $output->image_url('logo', 'theme_diverse')->out(false) : '',
-        ];
-    }
-
-    /**
      * Get the GT4T project partners with their country name in the current language.
      *
      * @return array
@@ -122,54 +105,6 @@ class landing implements renderable, templatable {
                 'url' => $partner['url'],
                 'domain' => preg_replace('/^www\./', '', parse_url($partner['url'], PHP_URL_HOST)),
                 'lead' => !empty($partner['lead']),
-            ];
-        }
-        return $partners;
-    }
-
-    /**
-     * Get the partner universities: the active tenants that are listed on the login page.
-     *
-     * Tenant categories are hidden from visitors by tool_mutenancy, so only the tenant name and the
-     * number of visible courses are shown (the same names the login page's tenant selector shows),
-     * and each card links to the tenant's own login page.
-     *
-     * @return array
-     */
-    protected function get_partners(): array {
-        global $DB;
-
-        if (
-            !\core_component::get_component_directory('tool_mutenancy') ||
-                !$DB->get_manager()->table_exists('tool_mutenancy_tenant')
-        ) {
-            return [];
-        }
-
-        $partners = [];
-        $records = $DB->get_records(
-            'tool_mutenancy_tenant',
-            ['archived' => 0, 'loginshow' => 1],
-            'name ASC',
-            'id, name, categoryid'
-        );
-        foreach ($records as $record) {
-            $path = $DB->get_field('course_categories', 'path', ['id' => $record->categoryid]);
-            if ($path === false) {
-                continue;
-            }
-            $coursecount = $DB->count_records_sql(
-                "SELECT COUNT(c.id)
-                   FROM {course} c
-                   JOIN {course_categories} cc ON cc.id = c.category
-                  WHERE c.visible = 1 AND (cc.path = :path OR " . $DB->sql_like('cc.path', ':pathlike') . ")",
-                ['path' => $path, 'pathlike' => $path . '/%']
-            );
-            $loginurl = \tool_mutenancy\local\tenant::get_login_url($record->id) ?? new \core\url('/login/index.php');
-            $partners[] = [
-                'name' => format_string($record->name, true, ['context' => \core\context\system::instance()]),
-                'coursecount' => $coursecount,
-                'url' => $loginurl->out(false),
             ];
         }
         return $partners;

@@ -16,6 +16,8 @@
 
 namespace theme_diverse\output;
 
+use theme_diverse\local\partners;
+
 /**
  * Theme DIVERSE - Core renderer.
  *
@@ -105,30 +107,43 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             $this->render_from_template('theme_diverse/landing_bottom', $context);
     }
 
+    /** @var \core\url|null Partner logo shown on the login form instead of the usual logo (see render_login()). */
+    protected $loginlogo = null;
+
     /**
-     * Render the login form with the DIVERSE brand panel next to it.
+     * Render the login form with the brand panel next to it.
+     *
+     * DIVERSE and every partner chosen in the "Select Partner" menu get the same panel: their photo
+     * (or the DIVERSE pattern), their name and one sentence. A partner's logo replaces the logo on the form.
      *
      * @param \core_auth\output\login $form The renderable.
      * @return string
      */
     public function render_login(\core_auth\output\login $form) {
-        $context = (new landing())->export_for_login($this);
+        $partner = partners::current();
+        $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0);
 
-        // A partner chosen in the "Select Partner" menu gets its own panel: photo, logo and name.
-        $partner = \theme_diverse\local\partners::current();
         if ($partner) {
-            $photo = \theme_diverse\local\partners::photo_url($partner->id);
-            $logo = $this->tenant_image_url(\core\output\renderer_base::get_logo_url(null, 200));
-            $context['partner'] = [
+            $context = [
                 'name' => $partner->name,
                 'intro' => get_string('login_partner_intro', 'theme_diverse', $partner->name),
-                'photourl' => $photo ? $photo->out(false) : null,
-                'logourl' => $logo ? $logo->out(false) : null,
+                'ispartner' => true,
+            ];
+            $this->loginlogo = partners::file_url(partners::LOGO_AREA, $partner->id);
+        } else {
+            $context = [
+                'name' => get_string('landing_title', 'theme_diverse'),
+                'intro' => get_string('login_intro', 'theme_diverse'),
+                'ispartner' => false,
             ];
         }
+        $context['photourl'] = $photo ? $photo->out(false) : null;
+        $context['homeurl'] = (new \core\url('/'))->out(false);
 
         $brandpanel = $this->render_from_template('theme_diverse/login_brand', $context);
-        return $brandpanel . parent::render_login($form);
+        $output = $brandpanel . parent::render_login($form);
+        $this->loginlogo = null;
+        return $output;
     }
 
     /**
@@ -143,8 +158,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     public function render_logintenantselector(\tool_mutenancy\output\logintenantselector $selector) {
         global $DB;
 
-        $current = \theme_diverse\local\partners::current();
-        $partners = \theme_diverse\local\partners::login_list();
+        $current = partners::current();
+        $partners = partners::login_list();
         if (!$current && !$partners) {
             return '';
         }
@@ -265,7 +280,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     /**
      * Return the site's main logo URL.
      *
-     * A partner university's own logo comes first (see tenant_image_url()). Otherwise falls back to the DIVERSE logo
+     * On the login form of a chosen partner, the logo uploaded for it in this theme's settings comes first.
+     * Then a partner university's own logo (see tenant_image_url()). Otherwise falls back to the DIVERSE logo
      * (theme/diverse/pix/logo.png) if no flavour or admin logo is configured in Boost Union.
      *
      * @param int $maxwidth
@@ -273,6 +289,11 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return \moodle_url|false
      */
     public function get_logo_url($maxwidth = null, $maxheight = 200) {
+        // On the login form of a chosen partner: the logo uploaded for it in the theme settings.
+        if ($this->loginlogo) {
+            return $this->loginlogo;
+        }
+
         $tenantlogo = $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight));
         if ($tenantlogo) {
             return $tenantlogo;

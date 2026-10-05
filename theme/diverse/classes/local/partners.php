@@ -21,15 +21,18 @@ namespace theme_diverse\local;
  *
  * A visitor picks a partner with the "Select Partner" menu of the login page; tool_mutenancy then
  * remembers that partner as the current tenant. Everything here only reads: the tenant list, the
- * current tenant and the login photo uploaded in this theme's settings.
+ * current tenant and the login photos and logos uploaded in this theme's settings.
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class partners {
-    /** @var string File area of the partner login photos (system context, item id = tenant id). */
+    /** @var string File area of the login photos (system context, item id = tenant id, 0 = DIVERSE). */
     const PHOTO_AREA = 'loginphoto';
+
+    /** @var string File area of the partner logos on the login form (system context, item id = tenant id). */
+    const LOGO_AREA = 'loginlogo';
 
     /**
      * Whether partner universities are in use on this site.
@@ -78,17 +81,18 @@ class partners {
     }
 
     /**
-     * URL of the login photo uploaded for a partner in the theme settings.
+     * URL of a login photo or logo uploaded in the theme settings.
      *
-     * @param int $tenantid
+     * @param string $filearea PHOTO_AREA or LOGO_AREA.
+     * @param int $tenantid Partner (tenant) id, 0 for DIVERSE itself.
      * @return \core\url|null
      */
-    public static function photo_url(int $tenantid): ?\core\url {
+    public static function file_url(string $filearea, int $tenantid): ?\core\url {
         $context = \core\context\system::instance();
         $files = get_file_storage()->get_area_files(
             $context->id,
             'theme_diverse',
-            self::PHOTO_AREA,
+            $filearea,
             $tenantid,
             'filename',
             false
@@ -100,7 +104,7 @@ class partners {
         return \core\url::make_pluginfile_url(
             $context->id,
             'theme_diverse',
-            self::PHOTO_AREA,
+            $filearea,
             $tenantid,
             $file->get_filepath(),
             $file->get_filename()

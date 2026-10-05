@@ -50,22 +50,8 @@ $diverse-login-panel-width: 42vw;
     display: flex;
     flex-direction: column;
     gap: 1.75rem;
-}
-
-// The DIVERSE logo on the orange panel: on a white tile, so its orange parts stay visible.
-.diverse-login-logo {
-    display: inline-flex;
-    align-items: center;
-    align-self: flex-start;
-    padding: .625rem 1rem;
-    border-radius: $border-radius-xl;
-    background-color: $white;
-
-    img {
-        display: block;
-        max-height: 2.5rem;
-        width: auto;
-    }
+    // Centred in the panel; with a photo it moves to the bottom (see .diverse-login-brand-photo).
+    margin-block: auto;
 }
 
 .diverse-pattern-small {
@@ -93,24 +79,7 @@ $diverse-login-panel-width: 42vw;
     line-height: 1.55;
 }
 
-.diverse-login-brand-partners {
-    font-size: .875rem;
-
-    ul {
-        list-style: none;
-        margin: .375rem 0 0;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: .25rem 1rem;
-    }
-}
-
-.diverse-login-brand-partners-heading {
-    font-weight: 600;
-}
-
-// Panel of a chosen partner university: its logo, name and the DIVERSE membership line.
+// Link to DIVERSE at the bottom of a partner's panel.
 .diverse-login-brand-member {
     align-self: flex-start;
     font-size: .875rem;
@@ -151,7 +120,7 @@ $diverse-login-panel-width: 42vw;
     }
 
     .diverse-login-brand-body {
-        margin-top: auto;
+        margin-bottom: 0;
     }
 }
 

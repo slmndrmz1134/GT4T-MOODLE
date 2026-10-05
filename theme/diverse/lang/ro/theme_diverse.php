@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Moștenire Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Această setare controlează dacă codul Extra-SCSS de la Boost Union trebuie moștenit sau duplicat.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Paginile de autentificare ale partenerilor';
-$string['partnerlogin_desc'] = 'Când un vizitator alege o universitate parteneră din meniul "Select Partner" al paginii de autentificare, panoul de lângă formular afișează fotografia, sigla și numele acelei universități în locul panoului DIVERSE. Sigla este cea pe care fiecare universitate o încarcă pentru utilizatorii săi (tenant > Appearance > Logos). Fără fotografie, panoul afișează modelul DIVERSE cu numele universității.';
+$string['partnerlogin_desc'] = 'Panoul de lângă formularul de autentificare afișează o fotografie, un nume și o propoziție: ale DIVERSE cât timp nu este ales niciun partener și ale unei universități partenere când un vizitator o alege din meniul "Select Partner". Fără fotografie se afișează modelul DIVERSE. Sigla partenerului înlocuiește sigla DIVERSE din formular; dacă lipsește, se folosește sigla încărcată de universitate pentru utilizatorii săi (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Pe pagina de autentificare nu există încă universități partenere.';
 $string['loginphoto'] = 'Fotografie de autentificare: {$a}';
 $string['loginphoto_desc'] = 'O fotografie orizontală, lată de cel puțin 1600 de pixeli. Umple panoul de lângă formularul de autentificare; partea de jos este întunecată sub numele universității.';
+$string['loginlogo'] = 'Siglă de autentificare: {$a}';
+$string['loginlogo_desc'] = 'Afișată în partea de sus a formularului de autentificare când este aleasă această universitate. Cel mai bine funcționează o siglă orizontală pe fundal transparent sau alb (PNG sau SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Despre';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'GreenTech4Transformation (GT4T) reunește universit�
 $string['landing_getstarted'] = 'Începe';
 $string['landing_meetpartners'] = 'Cunoaște partenerii';
 $string['landing_keyfigures'] = 'Cifre-cheie';
-$string['stat_partners'] = 'Universități partenere';
 $string['stat_projectpartners'] = 'Parteneri de proiect';
 $string['stat_countries'] = 'Țări';
 $string['stat_courses'] = 'Cursuri disponibile';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Platformă';
 $string['footer_privacy'] = 'Rezumat confidențialitate';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Învață cu parteneri dincolo de frontiere';
 $string['login_intro'] = 'Formări comune și proiecte de inovare practice de la universitățile noastre partenere, într-un singur loc.';
 $string['login_partner_intro'] = 'Autentifică-te cu contul tău {$a}.';
 $string['login_partner_member'] = 'Membru al Alianței Universitare Europene DIVERSE';

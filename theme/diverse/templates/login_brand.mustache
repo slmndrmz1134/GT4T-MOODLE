@@ -18,30 +18,25 @@
     @template theme_diverse/login_brand
 
     Brand panel shown next to the login form on large screens (hidden on small screens).
-    Without a chosen partner it shows DIVERSE; with one, the partner's photo, logo and name.
+    DIVERSE and each partner chosen in the "Select Partner" menu get the same panel: their photo
+    (or the DIVERSE pattern), their name and one sentence. A partner's panel ends with a link to DIVERSE.
 
     Context variables:
-    * homeurl, logourl - DIVERSE site home and logo
-    * haspartners, partners - partner universities listed under the DIVERSE panel
-    * partner - optional chosen partner: name, intro, photourl (optional), logourl (optional)
+    * name, intro - title and sentence of the panel
+    * photourl - optional photo filling the panel
+    * ispartner - whether a partner is chosen
+    * homeurl - DIVERSE site home
 
     Example context (json):
     {
-        "homeurl": "#", "logourl": "", "haspartners": true,
-        "partners": [{"name": "Algebra University College"}, {"name": "Technische Hochschule Rosenheim"}],
-        "partner": {"name": "Technische Hochschule Rosenheim", "intro": "Log in with your account.", "photourl": "", "logourl": ""}
+        "name": "Technische Hochschule Rosenheim", "intro": "Log in with your account.",
+        "photourl": "", "ispartner": true, "homeurl": "#"
     }
 }}
-{{#partner}}
-<aside class="diverse-login-brand diverse-login-brand-partner{{#photourl}} diverse-login-brand-photo{{/photourl}}" aria-label="{{name}}">
+<aside class="diverse-login-brand{{#photourl}} diverse-login-brand-photo{{/photourl}}" aria-label="{{name}}">
     {{#photourl}}
     <img class="diverse-login-photo" src="{{photourl}}" alt="">
     {{/photourl}}
-    {{#logourl}}
-    <span class="diverse-login-logo">
-        <img src="{{logourl}}" alt="{{name}}">
-    </span>
-    {{/logourl}}
     <div class="diverse-login-brand-body">
         {{^photourl}}
         <div class="diverse-pattern diverse-pattern-small" aria-hidden="true">
@@ -54,39 +49,7 @@
         <p class="diverse-login-brand-title">{{name}}</p>
         <p class="diverse-login-brand-intro">{{intro}}</p>
     </div>
+    {{#ispartner}}
     <a class="diverse-login-brand-member" href="{{homeurl}}">{{#str}}login_partner_member, theme_diverse{{/str}}</a>
+    {{/ispartner}}
 </aside>
-{{/partner}}
-{{^partner}}
-<aside class="diverse-login-brand" aria-label="DIVERSE">
-    {{#logourl}}
-    <a class="diverse-login-logo" href="{{homeurl}}">
-        <img src="{{logourl}}" alt="DIVERSE">
-    </a>
-    {{/logourl}}
-    {{^logourl}}
-    <a class="diverse-wordmark" href="{{homeurl}}">
-        <span class="diverse-wordmark-tile diverse-wordmark-tile-ink" aria-hidden="true">D</span>
-        <span class="diverse-wordmark-text">DIVERSE</span>
-    </a>
-    {{/logourl}}
-    <div class="diverse-login-brand-body">
-        <div class="diverse-pattern diverse-pattern-small" aria-hidden="true">
-            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-soft-ink"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
-            <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
-            <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
-        </div>
-        <p class="diverse-login-brand-title">{{#str}}login_tagline, theme_diverse{{/str}}</p>
-        <p class="diverse-login-brand-intro">{{#str}}login_intro, theme_diverse{{/str}}</p>
-    </div>
-    {{#haspartners}}
-    <div class="diverse-login-brand-partners">
-        <span class="diverse-login-brand-partners-heading">{{#str}}stat_partners, theme_diverse{{/str}}</span>
-        <ul>
-            {{#partners}}<li>{{name}}</li>{{/partners}}
-        </ul>
-    </div>
-    {{/haspartners}}
-</aside>
-{{/partner}}

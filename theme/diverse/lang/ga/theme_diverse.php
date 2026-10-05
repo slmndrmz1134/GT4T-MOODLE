@@ -43,10 +43,12 @@ $string['extrascssinheritancesetting'] = 'Oidhreacht Extra-SCSS';
 $string['extrascssinheritancesetting_desc'] = 'Rialaíonn an socrú seo an ndéanfar cód Extra-SCSS Boost Union a oidhreacht nó a dhúbladh.';
 // ... Partner login pages.
 $string['partnerlogin'] = 'Leathanaigh logála isteach na gcomhpháirtithe';
-$string['partnerlogin_desc'] = 'Nuair a roghnaíonn cuairteoir ollscoil chomhpháirtíochta sa roghchlár "Select Partner" ar an leathanach logála isteach, taispeánann an painéal in aice leis an bhfoirm grianghraf, lógó agus ainm na hollscoile sin in ionad phainéal DIVERSE. Is é an lógó an ceann a uaslódálann gach ollscoil dá húsáideoirí (tenant > Appearance > Logos). Gan grianghraf, taispeánann an painéal patrún DIVERSE le hainm na hollscoile.';
+$string['partnerlogin_desc'] = 'Taispeánann an painéal in aice leis an bhfoirm logála isteach grianghraf, ainm agus abairt amháin: iad siúd de DIVERSE fad nach bhfuil comhpháirtí roghnaithe, agus iad siúd d\'ollscoil chomhpháirtíochta nuair a roghnaíonn cuairteoir í sa roghchlár "Select Partner". Gan grianghraf, taispeántar patrún DIVERSE. Cuirtear lógó an chomhpháirtí in ionad lógó DIVERSE ar an bhfoirm; mura bhfuil ceann ann, úsáidtear an lógó a d\'uaslódáil an ollscoil dá húsáideoirí (tenant > Appearance > Logos).';
 $string['partnerlogin_none'] = 'Níl aon ollscoil chomhpháirtíochta liostaithe ar an leathanach logála isteach fós.';
 $string['loginphoto'] = 'Grianghraf logála isteach: {$a}';
 $string['loginphoto_desc'] = 'Grianghraf tírdhreacha, 1600 picteilín ar leithead ar a laghad. Líonann sé an painéal in aice leis an bhfoirm logála isteach; dorchaítear an chuid íochtair faoi ainm na hollscoile.';
+$string['loginlogo'] = 'Lógó logála isteach: {$a}';
+$string['loginlogo_desc'] = 'Taispeántar é ag barr na foirme logála isteach nuair a roghnaítear an ollscoil seo. Is fearr lógó leathan ar chúlra trédhearcach nó bán (PNG nó SVG).';
 
 // Landing page (site home for visitors).
 $string['nav_about'] = 'Fúinn';
@@ -59,7 +61,6 @@ $string['landing_intro'] = 'Tugann GreenTech4Transformation (GT4T) ollscoileanna
 $string['landing_getstarted'] = 'Tosaigh';
 $string['landing_meetpartners'] = 'Buail le comhpháirtithe';
 $string['landing_keyfigures'] = 'Príomhfhigiúirí';
-$string['stat_partners'] = 'Ollscoileanna comhpháirtíochta';
 $string['stat_projectpartners'] = 'Comhpháirtithe tionscadail';
 $string['stat_countries'] = 'Tíortha';
 $string['stat_courses'] = 'Cúrsaí ar fáil';
@@ -84,7 +85,6 @@ $string['footer_platform'] = 'Ardán';
 $string['footer_privacy'] = 'Achoimre príobháideachais';
 
 // Login page brand panel.
-$string['login_tagline'] = 'Foghlaim le comhpháirtithe thar theorainneacha';
 $string['login_intro'] = 'Oiliúint chomhpháirteach agus tionscadail nuálaíochta praiticiúla ónár n-ollscoileanna comhpháirtíochta, in aon áit amháin.';
 $string['login_partner_intro'] = 'Logáil isteach le do chuntas {$a}.';
 $string['login_partner_member'] = 'Ball de Chomhghuaillíocht Ollscoile Eorpach DIVERSE';
