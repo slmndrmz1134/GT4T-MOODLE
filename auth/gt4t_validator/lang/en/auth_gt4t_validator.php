@@ -33,3 +33,7 @@ $string['apikey'] = 'API Key';
 $string['apikey_desc'] = 'The API key to send in the X-API-Key header for authentication.';
 $string['registrationpending'] = 'Registration Pending';
 $string['pendingapproval'] = 'Your registration has been received and is pending approval by your university administrator. You will be able to log in once your account is approved.';
+$string['messageprovider:pendingsignup'] = 'New registrations waiting for approval';
+$string['pendingsignup_body'] = '{$a->name} ({$a->email}, student number {$a->idnumber}) registered and is waiting for your approval. Open the user list, check the details and choose "Confirm account": {$a->url}';
+$string['pendingsignup_link'] = 'Users waiting for approval';
+$string['pendingsignup_subject'] = 'New registration waiting for approval: {$a->name}';

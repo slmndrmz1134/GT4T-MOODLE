@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for auth_gt4t_validator
+ * Strings for auth_gt4t_validator plugin.
  *
  * @package    auth_gt4t_validator
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2026100700;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022041900;        // Requires Moodle 4.0+.
-$plugin->component = 'auth_gt4t_validator'; // Full name of the plugin.
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.1.0';
+$string['messageprovider:pendingsignup'] = 'Onay bekleyen yeni kayıtlar';
+$string['pendingapproval'] = 'Kaydınız alındı ve üniversitenizin yöneticisinin onayını bekliyor. Hesabınız onaylanınca giriş yapabilirsiniz.';
+$string['pendingsignup_body'] = '{$a->name} ({$a->email}, öğrenci no {$a->idnumber}) kayıt oldu ve onayınızı bekliyor. Kullanıcı listesini açın, bilgileri kontrol edin ve "Hesabı onayla"yı seçin: {$a->url}';
+$string['pendingsignup_link'] = 'Onay bekleyen kullanıcılar';
+$string['pendingsignup_subject'] = 'Onay bekleyen yeni kayıt: {$a->name}';
+$string['pluginname'] = 'DIVERSE Öğrenci Doğrulayıcı';
+$string['registrationpending'] = 'Kayıt onay bekliyor';

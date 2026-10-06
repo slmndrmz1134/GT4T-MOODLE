@@ -31,7 +31,9 @@ require_once($CFG->libdir . '/authlib.php');
  * DIVERSE Student Validator authentication plugin.
  *
  * Kayıt formu gönderildiğinde, öğrenci bilgilerini (öğrenci no, e-posta, isim, soyisim)
- * harici bir API'ye gönderip doğrulama yapar. API onay verirse kayıt tamamlanır.
+ * harici bir API'ye gönderip doğrulama yapar. API onay verirse hesap açılır, ama onaysızdır: kullanıcı, seçtiği
+ * partnerin yöneticisi (partner yoksa site yöneticisi) hesabı onaylayana kadar giriş yapamaz. Onaylayacak kişilere
+ * Moodle bildirimi gider.
  */
 class auth_plugin_gt4t_validator extends auth_plugin_base {
 
@@ -123,7 +125,12 @@ public function user_signup($user, $notify = true) {
         }
     }
 
-    $user->confirmed = 1;
+    // The account waits for the approval of its partner's manager (or of a site administrator); the secret lets
+    // them confirm it (user_confirm()).
+    $user->confirmed = 0;
+    if (empty($user->secret)) {
+        $user->secret = random_string(15);
+    }
 
     $plainpassword = $user->password;
     $user->password = hash_internal_user_password($user->password);
@@ -144,11 +151,84 @@ public function user_signup($user, $notify = true) {
 
     \core\event\user_created::create_from_userid($user->id)->trigger();
 
-    $user = get_complete_user_data('id', $user->id);
-    complete_user_login($user);
-    $urltogo = core_login_get_return_url();
-    redirect($urltogo);
+    $this->notify_approvers($DB->get_record('user', ['id' => $user->id], '*', MUST_EXIST));
+
+    if (!$notify) {
+        return true;
+    }
+    global $PAGE, $OUTPUT;
+    $title = get_string('registrationpending', 'auth_gt4t_validator');
+    $PAGE->navbar->add($title);
+    $PAGE->set_title($title);
+    $PAGE->set_heading($PAGE->course->fullname);
+    echo $OUTPUT->header();
+    notice(get_string('pendingapproval', 'auth_gt4t_validator'), "$CFG->wwwroot/login/index.php");
 }
+
+    /**
+     * Tell the people who can approve a new registration: the managers of the user's partner, or the site
+     * administrators when the user has no partner (or the partner has no manager).
+     *
+     * @param stdClass $user The new, unconfirmed account.
+     */
+    protected function notify_approvers(stdClass $user): void {
+        $recipients = [];
+        $url = new \core\url('/admin/user.php');
+        if (!empty($user->tenantid) && class_exists(\tool_mutenancy\local\manager::class)) {
+            $recipients = array_keys(\tool_mutenancy\local\manager::get_manager_users((int)$user->tenantid));
+            $url = new \core\url('/admin/tool/mutenancy/tenant_users.php', ['id' => $user->tenantid]);
+        }
+        if (!$recipients) {
+            $recipients = array_keys(get_admins());
+        }
+        $a = (object)[
+            'name' => fullname($user),
+            'email' => $user->email,
+            'idnumber' => $user->idnumber,
+            'url' => $url->out(false),
+        ];
+        foreach ($recipients as $recipientid) {
+            $message = new \core\message\message();
+            $message->component = 'auth_gt4t_validator';
+            $message->name = 'pendingsignup';
+            $message->userfrom = \core_user::get_noreply_user();
+            $message->userto = $recipientid;
+            $message->subject = get_string('pendingsignup_subject', 'auth_gt4t_validator', $a);
+            $message->fullmessage = get_string('pendingsignup_body', 'auth_gt4t_validator', $a);
+            $message->fullmessageformat = FORMAT_PLAIN;
+            $message->fullmessagehtml = '';
+            $message->smallmessage = $message->subject;
+            $message->notification = 1;
+            $message->contexturl = $a->url;
+            $message->contexturlname = get_string('pendingsignup_link', 'auth_gt4t_validator');
+            try {
+                message_send($message);
+            } catch (\Throwable $e) {
+                // The registration is kept even if a notification cannot be sent.
+                debugging('Could not notify about a new registration: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            }
+        }
+    }
+
+    /**
+     * Refuse the login of an account that is still waiting for approval, with a message that says so (instead of
+     * Moodle's "confirm your e-mail address" page, which does not apply here).
+     *
+     * Moodle calls this for every enabled authentication method after the password was accepted.
+     *
+     * @param stdClass $user
+     * @param string $username
+     * @param string $password
+     */
+    public function user_authenticated_hook(&$user, $username, $password) {
+        global $SCRIPT, $SESSION;
+        if ($SCRIPT === '/login/index.php' && !empty($user->id) && empty($user->confirmed)
+                && $user->auth === $this->authtype) {
+            // Shown on the login form itself.
+            $SESSION->logininfomsg = get_string('pendingapproval', 'auth_gt4t_validator');
+            redirect(new \core\url('/login/index.php'));
+        }
+    }
 
     /**
      * Onay (confirmation) destekliyor mu?
@@ -170,16 +250,16 @@ public function user_signup($user, $notify = true) {
         global $DB;
         $user = get_complete_user_data('username', $username);
 
-        if (!empty($user)) {
-            if ($user->auth != $this->authtype) {
-                return AUTH_CONFIRM_ERROR;
-            } else if ($user->secret === $confirmsecret && $user->confirmed) {
-                unset_user_preference('auth_gt4t_validator_wantsurl', $user);
-                return AUTH_CONFIRM_ALREADY;
-            }
+        if (empty($user) || $user->auth != $this->authtype || $user->secret !== $confirmsecret) {
+            return AUTH_CONFIRM_ERROR;
         }
-
-        return AUTH_CONFIRM_ERROR;
+        if ($user->confirmed) {
+            unset_user_preference('auth_gt4t_validator_wantsurl', $user);
+            return AUTH_CONFIRM_ALREADY;
+        }
+        // Approved by the partner's manager (tool_mutenancy "Confirm account") or a site administrator.
+        $DB->set_field('user', 'confirmed', 1, ['id' => $user->id]);
+        return AUTH_CONFIRM_OK;
     }
 
     /**

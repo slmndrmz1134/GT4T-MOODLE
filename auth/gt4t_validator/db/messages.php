@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details for auth_gt4t_validator
+ * Notifications of auth_gt4t_validator.
  *
  * @package    auth_gt4t_validator
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -23,8 +23,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2026100700;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022041900;        // Requires Moodle 4.0+.
-$plugin->component = 'auth_gt4t_validator'; // Full name of the plugin.
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.1.0';
+$messageproviders = [
+    // A new registration waits for approval (sent to the partner's managers or the site administrators).
+    'pendingsignup' => [
+        'defaults' => [
+            'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+        ],
+    ],
+];

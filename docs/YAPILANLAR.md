@@ -422,6 +422,11 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     yanlış şifredeki gibi "Hatalı giriş" alır (hesabın başka yerde var olduğu belli olmaz). Site yöneticileri her
     sayfadan girebilir. Yalnızca giriş formunu denetler; mobil uygulama ve web servisleri etkilenmez. `diverse_setup.php`
     eklentiyi bir kez etkinleştirir; yönetici kapatırsa tekrar açmaz. Kapatınca tool_mutenancy'nin eski davranışı döner.
+16. **Kayıt onayı (Ekim 2026, proje sahibinin isteğiyle):** `auth_gt4t_validator` kayıt olanı artık onaysız açar ve
+    giriş yaptırmaz. Öğrenci "Kaydınız alındı, üniversitenizin yöneticisinin onayını bekliyor" mesajını görür; onaylanana
+    kadar giriş formunda aynı mesajı alır. Seçtiği partnerin yöneticilerine (partner yoksa site yöneticilerine) Moodle
+    bildirimi gider; yönetici partnerin kullanıcı listesinde "Confirm account" ile onaylar. Önceden hesap anında açılıyordu.
+    Doğrulama API adresi hâlâ örnek adres (`example.com`): eklenti bu durumda doğrulamayı atlar; onay adımı asıl korumadır.
 
 ## 18. Commit listesi
 
