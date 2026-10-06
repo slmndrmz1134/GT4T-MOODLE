@@ -32,10 +32,10 @@ değiştir > Öğrenci" yaparsa öğrencinin gördüğü asistanı görür.
 - **Ne isteyebilir:** yeni sayfa ("3. bölüme sözleşme türleri hakkında bir sayfa ekle"), yeni metin ve medya alanı,
   bir etkinliğin adını/açıklamasını ya da sayfa içeriğini yeniden yazma ("bu sayfayı sadeleştir"), bölüm adı ve özeti,
   **çok dilli yapma** ("bu sayfayı İngilizce ve Türkçe yap": metin `{mlang en}…{mlang}{mlang tr}…{mlang}` bloklarıyla
-  yazılır). Hazır öneriler de var (etkinlik sayfasında: sadeleştir, 4 dile çevir, örnek ekle; ders sayfasında: yeni
+  yazılır). Hazır öneriler de var (etkinlik sayfasında: sadeleştir, çok dilli yap (EN/TR/DE/FI/NL/HR), örnek ekle; ders sayfasında: yeni
   sayfa, bölüm özetleri, ders yapısını gözden geçir).
 - **AI hiçbir şeyi kendisi değiştirmez.** Değişiklikler cevabın altında **öneri kartı** olarak gelir: ne değişiyor,
-  hangi bölümde, "Mevcut" ve "Önerilen" metin (çok dilli metinlerde her dil EN/TR/DE/HR etiketiyle görünür). Kartta:
+  hangi bölümde, "Mevcut" ve "Önerilen" metin (çok dilli metinlerde her dil kendi etiketiyle görünür: EN, TR, DE, FI, NL, HR). Kartta:
   - **Uygula:** sayfa, metin ve medya alanı ve bölümlerde tek tıkla derse uygulanır (Moodle'ın kendi işlevleriyle:
     olaylar, kayıtlar, geri dönüşüm kutusu normal çalışır). Uygulanınca **Görüntüle** ve **Geri al** çıkar.
   - **Formda aç:** Moodle'ın düzenleme formu AI metniyle dolu açılır; öğretmen kontrol edip **Kaydet**'e basar.

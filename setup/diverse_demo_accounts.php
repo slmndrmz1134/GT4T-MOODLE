@@ -24,7 +24,8 @@
  * real domains. Teachers and students are kept in one cohort per partner and role ("SAMK Teachers",
  * "SAMK Students"); courses enrol these cohorts, so a new account only has to be added to its cohort.
  *
- * - Each partner's own courses (in its course category) enrol its teachers and students.
+ * - Each partner's own courses (in its course category) enrol its teachers and students, and its partner manager
+ *   ("<Partner> Admins" cohort) as course manager, so that the partner manager can message its users directly.
  * - Shared courses (in "Shared Courses", outside the partners) enrol the teachers and students of several
  *   partners, each partner in its own group.
  * - Demo accounts take part in these courses only through their role cohorts: other enrolments and course roles
@@ -147,6 +148,17 @@ $owncourses = [
     'griffith' => ['GRI-DMI-101', 'Digital Media and Innovation',
         'Digital media, content strategy and innovation for organisations.',
         ['Digital media today', 'Content strategy', 'Innovation methods', 'Portfolio']],
+    // Partners that only take part in shared courses get a community course, so that their partner manager, teacher
+    // and students share a course (and the manager can message them).
+    'furthr' => ['FUR-COM-101', 'Furthr Community', 'Announcements, resources and questions for Furthr participants.',
+        ['Welcome', 'Resources', 'Events', 'Questions']],
+    'ikigaia' => ['IKI-COM-101', 'Ikigaia Community', 'Announcements, resources and questions for Ikigaia participants.',
+        ['Welcome', 'Resources', 'Events', 'Questions']],
+    'wildcampus' => ['WC-COM-101', 'Wild Campus Community',
+        'Announcements, resources and questions for Wild Campus participants.',
+        ['Welcome', 'Resources', 'Events', 'Questions']],
+    'gt4t' => ['GT4T-COM-101', 'GT4T Project Community', 'Announcements, resources and questions for the GT4T project team.',
+        ['Welcome', 'Resources', 'Events', 'Questions']],
 ];
 
 // Shared courses: shortname => [full name, summary, section names, teaching partners, partners whose students
@@ -234,17 +246,17 @@ if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
 }
 \core\session\manager::set_user(get_admin());
 
-if (!$dryrun) {
+// Passwords are asked for up front only with --reset-passwords; otherwise only when an account is created or renamed.
+if (!$dryrun && $options['reset-passwords']) {
     diverse_demo_password('account password', 'DIVERSE_USER_PASSWORD');
-    if ($options['reset-passwords']) {
-        diverse_demo_password('admin password', 'DIVERSE_ADMIN_PASSWORD');
-    }
+    diverse_demo_password('admin password', 'DIVERSE_ADMIN_PASSWORD');
 }
 
 $syscontext = context_system::instance();
 $roleids = [
     'teacher' => (int)$DB->get_field('role', 'id', ['shortname' => 'editingteacher'], MUST_EXIST),
     'student' => (int)$DB->get_field('role', 'id', ['shortname' => 'student'], MUST_EXIST),
+    'admin' => (int)$DB->get_field('role', 'id', ['shortname' => 'manager'], MUST_EXIST),
 ];
 
 // 1. Tenants.
@@ -309,12 +321,12 @@ if (!$removed) {
     }
 }
 
-// 4. Role cohorts: "<Partner> Teachers" and "<Partner> Students", in the system context so that shared courses
-// outside the partners' categories can enrol them.
+// 4. Role cohorts: "<Partner> Admins", "<Partner> Teachers" and "<Partner> Students", in the system context so that
+// shared courses outside the partners' categories can enrol them.
 $cohorts = [];
 foreach ($tenants as $idnumber => $tenant) {
     $label = $partners[$idnumber][0];
-    foreach (['teacher' => 'Teachers', 'student' => 'Students'] as $role => $plural) {
+    foreach (['admin' => 'Admins', 'teacher' => 'Teachers', 'student' => 'Students'] as $role => $plural) {
         $cohortidnumber = "{$idnumber}_" . strtolower($plural);
         $name = "$label $plural";
         $cohort = $DB->get_record('cohort', ['idnumber' => $cohortidnumber]);
@@ -430,12 +442,11 @@ foreach ($tenants as $idnumber => $tenant) {
                 \tool_mutenancy\local\manager::add($tenant->id, $user->id);
                 diverse_demo_report('SET', "\"$username\" now manages $tenant->name.");
             }
-        } else {
-            $cohort = $cohorts[$idnumber][$slot === 'teacher' ? 'teacher' : 'student'];
-            if (!empty($cohort->id) && !$dryrun && !cohort_is_member($cohort->id, $user->id)) {
-                cohort_add_member($cohort->id, $user->id);
-                diverse_demo_report('SET', "\"$username\" added to cohort \"$cohort->name\".");
-            }
+        }
+        $cohort = $cohorts[$idnumber][$slot === 'admin' ? 'admin' : ($slot === 'teacher' ? 'teacher' : 'student')];
+        if (!empty($cohort->id) && !$dryrun && !cohort_is_member($cohort->id, $user->id)) {
+            cohort_add_member($cohort->id, $user->id);
+            diverse_demo_report('SET', "\"$username\" added to cohort \"$cohort->name\".");
         }
         $accounts[$idnumber][$slot] = $user;
     }
@@ -613,6 +624,7 @@ foreach ($tenants as $idnumber => $tenant) {
         $course = get_course($course->id);
         diverse_demo_remove_tenant_cohorts($course, $dryrun);
         diverse_demo_tidy_course($course, $demouserids, $dryrun);
+        diverse_demo_enrol_cohort($course, $cohorts[$idnumber]['admin'], $roleids['admin'], 0, $dryrun);
         diverse_demo_enrol_cohort($course, $cohorts[$idnumber]['teacher'], $roleids['teacher'], 0, $dryrun);
         diverse_demo_enrol_cohort($course, $cohorts[$idnumber]['student'], $roleids['student'], 0, $dryrun);
         if (!$dryrun) {

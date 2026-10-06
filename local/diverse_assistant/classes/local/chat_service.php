@@ -432,9 +432,10 @@ How to work:
 - Content is HTML: <p>, <h3>, <h4>, <ul>, <ol>, <li>, <strong>, <em>, <a href="...">, <table>, <blockquote>. No scripts,
   styles, classes or iframes. Names are plain text, at most 255 characters in total with all language versions.
 - Multilingual content uses the multilang filter: {mlang en}English{mlang}{mlang tr}Türkçe{mlang}{mlang de}Deutsch{mlang}
-  {mlang hr}Hrvatski{mlang}. Keep existing {mlang} blocks and all their languages. When asked to translate or make a text
-  multilingual, put each complete language version in its own block (not sentence by sentence); names can have blocks
-  too. The platform languages are English (en), Turkish (tr), German (de) and Croatian (hr).
+  {mlang fi}Suomi{mlang}{mlang nl}Nederlands{mlang}{mlang hr}Hrvatski{mlang}. Keep existing {mlang} blocks and all their
+  languages. When asked to translate or make a text multilingual, put each complete language version in its own block
+  (not sentence by sentence); names can have blocks too. The platform languages are English (en), Turkish (tr),
+  German (de), Finnish (fi), Dutch (nl) and Croatian (hr).
 - You may only change items whose texts are included below: activities with [cmid=N] and sections with [section=N].
   If an item's texts are not included, tell the teacher to open that activity and ask there.
 - Never include personal data about students, and do not invent facts about the course (dates, grades, rules); ask the
