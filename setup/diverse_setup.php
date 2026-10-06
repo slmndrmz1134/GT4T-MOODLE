@@ -30,7 +30,7 @@
  * is left alone.
  *
  * Usage:
- *   php setup/diverse_setup.php [--dry-run] [--langs=tr,de,hr] [--reset-dashboards] [--production]
+ *   php setup/diverse_setup.php [--dry-run] [--langs=tr,de,hr,fi,nl] [--reset-dashboards] [--production]
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -46,7 +46,7 @@ require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/my/lib.php');
 
 [$options, $unrecognised] = cli_get_params(
-    ['help' => false, 'dry-run' => false, 'langs' => 'tr,de,hr', 'reset-dashboards' => false, 'production' => false],
+    ['help' => false, 'dry-run' => false, 'langs' => 'tr,de,hr,fi,nl', 'reset-dashboards' => false, 'production' => false],
     ['h' => 'help', 'n' => 'dry-run']
 );
 
@@ -59,7 +59,7 @@ if ($options['help']) {
 
 Options:
   -n, --dry-run          Show what would change without changing anything.
-      --langs=LIST       Language packs to install when missing (default: tr,de,hr).
+      --langs=LIST       Language packs to install when missing (default: tr,de,hr,fi,nl).
       --reset-dashboards Reset every user's dashboard to the default one, so that everybody
                          gets the default blocks. This removes users' own dashboard changes.
       --production       Live server settings: debug level Minimal (only serious errors are

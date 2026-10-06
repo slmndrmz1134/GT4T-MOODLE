@@ -12,7 +12,7 @@ geliştiriciye anlatır ve karar ister.
 - **Moodle 5.0.7** (sürüm 2025041407). DIVERSE European University Alliance üyesi üniversitelerin ortak LMS'i.
 - **Tema:** `theme/diverse`, **Boost Union** (v5.0-r26) alt teması. Renkler ve fontlar: [DESIGN.md](DESIGN.md).
 - **Partnerler:** `tool_mutenancy` + `tool_mulib` ile her üniversite bir tenant.
-- **Çok dil:** `filter/multilang2` (`{mlang xx}...{mlang}`) ve EN / TR / DE / HR dil paketleri.
+- **Çok dil:** `filter/multilang2` (`{mlang xx}...{mlang}`) ve EN / TR / DE / HR / FI / NL dil paketleri (FI ve NL yeni partnerler için, Ekim 2026).
 - **Canlı ders:** Moodle'ın kendi BigBlueButton modülü (`mod/bigbluebuttonbn`).
 - **AI ders asistanı:** `local/diverse_assistant` ([docs/AI.md](docs/AI.md)). Sohbetlerin saklama süresini öğrenci seçer;
   yönetici ayarı değildir. Öğretmenler aynı panelde içerik önerileri alır; AI onaysız hiçbir şeyi değiştirmez.
