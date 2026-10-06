@@ -53,12 +53,12 @@ yeniden üretilir; ona elle eklenen satırlar (ör. PHPUnit ayarları) gider.
 **cPanel'de en kolay yol: şifre dosyası.** `config.php`, `public_html`'in yanındaki `.moodle-smtp.env` dosyasını
 okur (bkz. [`setup/cpanel/config.php.dist`](../setup/cpanel/config.php.dist)). Dosya web kökünün dışındadır, site ve
 cron aynı dosyayı kullanır; Apache, php-fpm ya da cron satırında ayar gerekmez. Canlı sunucuda (Ekim 2026) bu yol
-kullanılıyor, hesap `beykenthinkhub@gmail.com`:
+kullanılıyor, hesap `dcafer551@gmail.com`:
 
 ```bash
 # /home/thinkhub/.moodle-smtp.env  (sahibi thinkhub, chmod 600)
-SMTP_USER=beykenthinkhub@gmail.com
-SMTP_FROM=beykenthinkhub@gmail.com
+SMTP_USER=dcafer551@gmail.com
+SMTP_FROM=dcafer551@gmail.com
 SMTP_PASS=uygulamasifresi16k
 ```
 
