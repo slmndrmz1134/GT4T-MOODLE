@@ -72,6 +72,8 @@ $sessions = [
         'Students pitch their sustainable business ideas to the company partners.'],
     'CTP001' => ['16:00', 'Live session: Welcome to the common training programme',
         'Welcome session of the common training programme for all GT4T partners.'],
+    'IBM401' => ['17:00', 'Live session: Doing business across cultures',
+        'Griffith and Beykent teachers discuss international business cases with students from three partners.'],
 ];
 
 /**
