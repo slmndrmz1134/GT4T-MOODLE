@@ -17,8 +17,8 @@
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
- * BigBlueButton live classes, the GT4T project partners as partner organisations, and with --production the
- * live server debug level).
+ * BigBlueButton live classes, the GT4T project partners as partner organisations, the partner login check, and
+ * with --production the live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -315,7 +315,24 @@ if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
     }
 }
 
-// 9. Live server settings (--production only): debug level Minimal and developer-only settings off.
+// 9. Partner login check (auth_diverse_partner, the project owner's request): a partner's account can only log in on the
+// login page of its own partner. Enabled once; if an admin disables it later, it is not enabled again.
+if (!core_component::get_component_directory('auth_diverse_partner')) {
+    diverse_setup_report('WARN', 'auth_diverse_partner is not installed: run admin/cli/upgrade.php first.');
+} else if (in_array('diverse_partner', get_enabled_auth_plugins(), true)) {
+    diverse_setup_report('OK', 'Partner login check is enabled.');
+} else if (get_config('auth_diverse_partner', 'setupdone')) {
+    diverse_setup_report('SKIP', 'Partner login check was disabled by an admin: left disabled.');
+} else if ($dryrun) {
+    diverse_setup_report('WOULD', 'Enable the partner login check (accounts log in only on their own partner\'s login page).');
+} else {
+    \core\plugininfo\auth::enable_plugin('diverse_partner', true);
+    set_config('setupdone', 1, 'auth_diverse_partner');
+    diverse_setup_report('SET', 'Partner login check enabled (accounts log in only on their own partner\'s login page).');
+    $changed = true;
+}
+
+// 10. Live server settings (--production only): debug level Minimal and developer-only settings off.
 // A debug level an admin set below Minimal (None) is kept.
 if ($options['production']) {
     $debug = (int) get_config('core', 'debug');

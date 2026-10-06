@@ -417,6 +417,11 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     Resimler repoda değil (canlıda `/home/thinkhub/partner-images`, yerelde `D:\GT4T-MOODLE\partner-images`). 9 partnerin
     hepsinin logosu ve fotoğrafı yüklü. GT4T logosu proje raporundan alındı; Wild Campus'un verilen logosu beyaz
     olduğu için koyu renkli bir kopyası kullanıldı. Yeni resim gelince klasöre konup betik `--replace` ile çalıştırılır.
+15. **Partner giriş kilidi (Ekim 2026, proje sahibinin isteğiyle):** `auth/diverse_partner` eklentisi. Bir partnerin
+    hesabı yalnızca kendi partnerinin giriş sayfasından girebilir; DIVERSE sayfasında ya da başka partnerin sayfasında
+    yanlış şifredeki gibi "Hatalı giriş" alır (hesabın başka yerde var olduğu belli olmaz). Site yöneticileri her
+    sayfadan girebilir. Yalnızca giriş formunu denetler; mobil uygulama ve web servisleri etkilenmez. `diverse_setup.php`
+    eklentiyi bir kez etkinleştirir; yönetici kapatırsa tekrar açmaz. Kapatınca tool_mutenancy'nin eski davranışı döner.
 
 ## 18. Commit listesi
 

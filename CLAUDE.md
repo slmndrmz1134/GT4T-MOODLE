@@ -218,4 +218,5 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `database/moodle.sql` | Veritabanı dökümü (repoda kalır) |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar ve nedenleri, açık riskler |
 | `local/diverse_assistant/`, [docs/AI.md](docs/AI.md) | AI ders asistanı eklentisi ve belgesi |
+| `auth/diverse_partner/` | Partner giriş kilidi: hesap yalnızca kendi partnerinin giriş sayfasından girer |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |
