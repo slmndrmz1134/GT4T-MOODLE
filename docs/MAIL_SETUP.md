@@ -50,6 +50,20 @@ yeniden üretilir; ona elle eklenen satırlar (ör. PHPUnit ayarları) gider.
 
 ## Sunucu (Docker yok)
 
+**cPanel'de en kolay yol: şifre dosyası.** `config.php`, `public_html`'in yanındaki `.moodle-smtp.env` dosyasını
+okur (bkz. [`setup/cpanel/config.php.dist`](../setup/cpanel/config.php.dist)). Dosya web kökünün dışındadır, site ve
+cron aynı dosyayı kullanır; Apache, php-fpm ya da cron satırında ayar gerekmez. Canlı sunucuda (Ekim 2026) bu yol
+kullanılıyor, hesap `beykenthinkhub@gmail.com`:
+
+```bash
+# /home/thinkhub/.moodle-smtp.env  (sahibi thinkhub, chmod 600)
+SMTP_USER=beykenthinkhub@gmail.com
+SMTP_FROM=beykenthinkhub@gmail.com
+SMTP_PASS=uygulamasifresi16k
+```
+
+Aşağıdaki yollar, şifre dosyası kullanılmak istenmezse geçerlidir.
+
 Değişkenleri web sunucusu PHP'ye verir. Şifreyi repodaki `.htaccess`'e yazmayın: dosya git'te ve `git pull` onu
 değiştirir.
 
