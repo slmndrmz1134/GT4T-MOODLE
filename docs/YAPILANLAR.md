@@ -414,8 +414,9 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     gelmeden önce `admin` ve demo şifreleri değiştirilmeli.
 14. **Partner logoları ve giriş fotoğrafları (Ekim 2026):** `setup/diverse_partner_images.php --dir=...` her partner
     klasöründeki `logo.*` dosyasını giriş formuna ve partnerin menü logosuna, `photo.*` dosyasını giriş paneline yükler.
-    Resimler repoda değil (canlıda `/home/thinkhub/partner-images`). Wild Campus ve GT4T'nin logosu ve fotoğrafı,
-    Furthr ve Ikigaia'nın fotoğrafı henüz yok; gelince klasöre konup betik yeniden çalıştırılır.
+    Resimler repoda değil (canlıda `/home/thinkhub/partner-images`, yerelde `D:\GT4T-MOODLE\partner-images`). 9 partnerin
+    hepsinin logosu ve fotoğrafı yüklü. GT4T logosu proje raporundan alındı; Wild Campus'un verilen logosu beyaz
+    olduğu için koyu renkli bir kopyası kullanıldı. Yeni resim gelince klasöre konup betik `--replace` ile çalıştırılır.
 
 ## 18. Commit listesi
 
