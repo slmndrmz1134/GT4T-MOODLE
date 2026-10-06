@@ -276,10 +276,11 @@ if (!core_component::get_component_directory('mod_bigbluebuttonbn')) {
 if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
     diverse_setup_report('WARN', 'Partner organisations (tool_mutenancy) are not active: GT4T partners not checked.');
 } else {
-    // Tenant idnumber => [name, short name]. The idnumbers are the ones the partners already have on the live server
-    // (Satakunta is "satakunta", not "samk"): a different one would create the partner a second time.
+    // Tenant idnumber => [name, short name, site name shown on the login page and in page titles (default: the name)].
+    // The idnumbers are the ones the partners already have on the live server (Satakunta is "satakunta", not "samk"):
+    // a different one would create the partner a second time.
     $gt4tpartners = [
-        'gt4t' => ['GT4T – GreenTech4Transformation', 'GT4T'],
+        'gt4t' => ['GT4T – GreenTech4Transformation', 'GT4T', 'GT4T'],
         'satakunta' => ['Satakunta University of Applied Sciences (SAMK)', 'SAMK'],
         'beykent' => ['İstanbul Beykent Üniversitesi', 'Beykent'],
         'furthr' => ['Dublin Business Innovation Centre (Furthr)', 'Furthr'],
@@ -289,7 +290,9 @@ if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
         'wildcampus' => ['Wild Campus GmbH', 'Wild Campus'],
         'windesheim' => ['Windesheim University of Applied Sciences', 'Windesheim'],
     ];
-    foreach ($gt4tpartners as $idnumber => [$name, $shortname]) {
+    foreach ($gt4tpartners as $idnumber => $partner) {
+        [$name, $shortname] = $partner;
+        $sitefullname = $partner[2] ?? $name;
         $tenant = $DB->get_record_select('tool_mutenancy_tenant', 'LOWER(idnumber) = LOWER(?)', [$idnumber]);
         if ($tenant && $tenant->archived) {
             diverse_setup_report('SKIP', "Partner \"$tenant->name\" was archived by an admin: left as is.");
@@ -301,7 +304,7 @@ if (!function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
             \tool_mutenancy\local\tenant::create((object)[
                 'name' => $name,
                 'idnumber' => $idnumber,
-                'sitefullname' => $name,
+                'sitefullname' => $sitefullname,
                 'siteshortname' => $shortname,
                 'loginshow' => 1,
                 'assoccohortcreate' => 1,
