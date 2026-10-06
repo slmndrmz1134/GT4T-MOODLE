@@ -87,6 +87,9 @@ class landing implements renderable, templatable {
             'privacyurl' => (new \core\url('/admin/tool/dataprivacy/summary.php'))->out(false),
             'homeurl' => (new \core\url('/'))->out(false),
             'logourl' => $output->image_url('logo', 'theme_diverse')->out(false),
+            // The GT4T project, next to the DIVERSE logo in the closing band (owner's request).
+            'gt4tlogourl' => $output->image_url('gt4t-logo', 'theme_diverse')->out(false),
+            'gt4turl' => 'https://gt4t.intelligent-industry.fi/',
         ];
     }
 

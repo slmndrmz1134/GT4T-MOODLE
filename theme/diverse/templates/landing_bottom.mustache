@@ -21,24 +21,33 @@
 
     Example context (json):
     {
-        "homeurl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#"
+        "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#"
     }
 }}
 <div class="diverse-landing">
     <div class="diverse-landing-footer-wrap">
         <div class="diverse-landing-footer">
             <div class="diverse-landing-footer-about">
-                <a class="diverse-landing-footer-brand" href="{{homeurl}}">
-                    {{#logourl}}
-                    <img src="{{logourl}}" class="diverse-landing-footer-logo" alt="DIVERSE">
-                    {{/logourl}}
-                    {{^logourl}}
-                    <span class="diverse-wordmark diverse-wordmark-light">
-                        <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
-                        <span class="diverse-wordmark-text">DIVERSE</span>
-                    </span>
-                    {{/logourl}}
-                </a>
+                <div class="diverse-landing-footer-brands">
+                    <a class="diverse-landing-footer-brand" href="{{homeurl}}">
+                        {{#logourl}}
+                        <img src="{{logourl}}" class="diverse-landing-footer-logo" alt="DIVERSE">
+                        {{/logourl}}
+                        {{^logourl}}
+                        <span class="diverse-wordmark diverse-wordmark-light">
+                            <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
+                            <span class="diverse-wordmark-text">DIVERSE</span>
+                        </span>
+                        {{/logourl}}
+                    </a>
+                    {{#gt4tlogourl}}
+                    <a class="diverse-landing-footer-brand diverse-landing-footer-project" href="{{gt4turl}}"
+                        target="_blank" rel="noopener">
+                        <img src="{{gt4tlogourl}}" class="diverse-landing-footer-project-logo"
+                            alt="GT4T – GreenTech4Transformation">
+                    </a>
+                    {{/gt4tlogourl}}
+                </div>
                 <p>{{#str}}footer_about, theme_diverse{{/str}}</p>
             </div>
             <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">

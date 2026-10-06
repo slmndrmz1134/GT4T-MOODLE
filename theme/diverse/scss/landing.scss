@@ -711,6 +711,25 @@ $diverse-tiles: (
     object-fit: contain;
 }
 
+// DIVERSE and the GT4T project side by side, separated by a thin line.
+.diverse-landing-footer-brands {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.diverse-landing-footer-project {
+    padding-left: 1.25rem;
+    border-left: 1px solid $diverse-grey;
+}
+
+.diverse-landing-footer-project-logo {
+    max-height: 3.75rem;
+    width: auto;
+    object-fit: contain;
+}
+
 .diverse-landing-footer-links {
     display: flex;
     flex-direction: column;
