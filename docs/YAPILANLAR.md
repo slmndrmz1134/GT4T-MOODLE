@@ -412,6 +412,10 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     silindi. Şifreler betikte yazmaz, çalışırken sorulur; demo şifreleri sitenin şifre kuralına uymadığı için betik
     hesabı önce rastgele şifreyle açıp sonra seçilen şifreyi atar. Site internete açık: gerçek kullanıcılar
     gelmeden önce `admin` ve demo şifreleri değiştirilmeli.
+14. **Partner logoları ve giriş fotoğrafları (Ekim 2026):** `setup/diverse_partner_images.php --dir=...` her partner
+    klasöründeki `logo.*` dosyasını giriş formuna ve partnerin menü logosuna, `photo.*` dosyasını giriş paneline yükler.
+    Resimler repoda değil (canlıda `/home/thinkhub/partner-images`). Wild Campus ve GT4T'nin logosu ve fotoğrafı,
+    Furthr ve Ikigaia'nın fotoğrafı henüz yok; gelince klasöre konup betik yeniden çalıştırılır.
 
 ## 18. Commit listesi
 
