@@ -25,5 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['auth_diverse_partnerdescription'] = 'Partnerkonten können sich nur auf der Anmeldeseite ihrer eigenen Partnerorganisation (im Menü "Select Partner" gewählt) anmelden. Anderswo erhalten sie die übliche Meldung "Ungültige Anmeldedaten". Administrator/innen können sich auf jeder Seite anmelden. Diese Methode authentifiziert selbst niemanden.';
+$string['forgot_back'] = 'Zurück zur Anmeldeseite';
+$string['forgot_nopartner'] = 'Kennwörter werden von Ihrer Einrichtung zurückgesetzt, nicht per E-Mail. Bitte wenden Sie sich an die Partner-Administration Ihrer Hochschule oder Organisation; wenn Sie zu keinem Partner gehören, an die DIVERSE-Administration.';
+$string['forgot_partner'] = 'Kennwörter werden von Ihrer Einrichtung zurückgesetzt, nicht per E-Mail. Bitte wenden Sie sich an die Partner-Administration von {$a}.';
 $string['pluginname'] = 'DIVERSE-Partneranmeldung prüfen';
 $string['privacy:metadata'] = 'Die DIVERSE-Partneranmeldeprüfung speichert keine personenbezogenen Daten.';

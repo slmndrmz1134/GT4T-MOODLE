@@ -17,8 +17,8 @@
 /**
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
- * BigBlueButton live classes, the GT4T project partners as partner organisations, the partner login check, and
- * with --production the live server debug level).
+ * BigBlueButton live classes, the GT4T project partners as partner organisations, the partner login check, the
+ * forgotten password page, and with --production the live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -332,7 +332,26 @@ if (!core_component::get_component_directory('auth_diverse_partner')) {
     $changed = true;
 }
 
-// 10. Live server settings (--production only): debug level Minimal and developer-only settings off.
+// 10. "Forgotten password" without e-mail (the site sends no mail, owner's decision): Moodle's forgotten password link
+// opens auth_diverse_partner's page, which asks users to contact their partner's manager. An address an admin set is
+// kept.
+$forgoturl = $CFG->wwwroot . '/auth/diverse_partner/forgot.php';
+$currentforgot = (string)get_config('core', 'forgottenpasswordurl');
+if (!core_component::get_component_directory('auth_diverse_partner')) {
+    diverse_setup_report('WARN', 'auth_diverse_partner is not installed: forgotten password page not set.');
+} else if ($currentforgot === $forgoturl) {
+    diverse_setup_report('OK', 'Forgotten password link opens the "contact your partner manager" page.');
+} else if ($currentforgot !== '') {
+    diverse_setup_report('SKIP', "Forgotten password link was set by an admin ($currentforgot): left as is.");
+} else if ($dryrun) {
+    diverse_setup_report('WOULD', 'Point the forgotten password link to the "contact your partner manager" page.');
+} else {
+    set_config('forgottenpasswordurl', $forgoturl);
+    diverse_setup_report('SET', 'Forgotten password link now opens the "contact your partner manager" page.');
+    $changed = true;
+}
+
+// 11. Live server settings (--production only): debug level Minimal and developer-only settings off.
 // A debug level an admin set below Minimal (None) is kept.
 if ($options['production']) {
     $debug = (int) get_config('core', 'debug');

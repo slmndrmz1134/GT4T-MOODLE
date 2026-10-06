@@ -427,6 +427,11 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     kadar giriş formunda aynı mesajı alır. Seçtiği partnerin yöneticilerine (partner yoksa site yöneticilerine) Moodle
     bildirimi gider; yönetici partnerin kullanıcı listesinde "Confirm account" ile onaylar. Önceden hesap anında açılıyordu.
     Doğrulama API adresi hâlâ örnek adres (`example.com`): eklenti bu durumda doğrulamayı atlar; onay adımı asıl korumadır.
+17. **Şifremi unuttum, e-postasız (Ekim 2026, proje sahibinin kararı: SMTP yok):** "Şifrenizi mi unuttunuz?" bağlantısı
+    `auth/diverse_partner/forgot.php` sayfasını açar: şifreyi kurumun partner yöneticisi sıfırlar; ziyaretçi bir partner
+    seçtiyse partnerin adı yazar. Moodle'ın `forgottenpasswordurl` ayarı (`diverse_setup.php` boşsa ayarlar) sayesinde
+    eski e-postalı sıfırlama sayfası da buraya yönlenir. SMTP ileride kurulursa ayar boşaltılır, Moodle'ın kendi sıfırlaması
+    döner (Fatih'in SMTP kodu main'de hazır, bkz. `docs/MAIL_SETUP.md`).
 
 ## 18. Commit listesi
 

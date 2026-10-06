@@ -25,5 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['auth_diverse_partnerdescription'] = 'Partner hesapları yalnızca kendi kurumlarının giriş sayfasından ("Select Partner" menüsünde seçilen) giriş yapabilir. Başka sayfada olağan "Geçersiz giriş" mesajını alırlar. Site yöneticileri her sayfadan girebilir. Bu yöntem kendisi kimseyi doğrulamaz.';
+$string['forgot_back'] = 'Giriş sayfasına dön';
+$string['forgot_nopartner'] = 'Şifreler e-postayla değil, kurumunuz tarafından sıfırlanır. Lütfen üniversitenizin ya da kurumunuzun partner yöneticisine başvurun; bir partnere bağlı değilseniz DIVERSE site yöneticisine başvurun.';
+$string['forgot_partner'] = 'Şifreler e-postayla değil, kurumunuz tarafından sıfırlanır. Lütfen {$a} partner yöneticinize başvurun.';
 $string['pluginname'] = 'DIVERSE partner giriş kontrolü';
 $string['privacy:metadata'] = 'DIVERSE partner giriş kontrolü kişisel veri saklamaz.';

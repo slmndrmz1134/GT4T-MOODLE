@@ -25,5 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['auth_diverse_partnerdescription'] = 'Partner accounts can only log in on the login page of their own partner organisation (chosen in the "Select Partner" menu). Elsewhere they get the usual "Invalid login" message. Site administrators can log in on every page. This method does not authenticate anybody itself.';
+$string['forgot_back'] = 'Back to the login page';
+$string['forgot_nopartner'] = 'Passwords are reset by your institution, not by e-mail. Please contact the partner administrator of your university or organisation; if you do not belong to a partner, contact the DIVERSE site administrator.';
+$string['forgot_partner'] = 'Passwords are reset by your institution, not by e-mail. Please contact the partner administrator of {$a}.';
 $string['pluginname'] = 'DIVERSE partner login check';
 $string['privacy:metadata'] = 'The DIVERSE partner login check stores no personal data.';

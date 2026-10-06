@@ -25,5 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['auth_diverse_partnerdescription'] = 'Partnerski računi mogu se prijaviti samo na stranici za prijavu svoje partnerske organizacije (odabrane u izborniku "Select Partner"). Drugdje dobivaju uobičajenu poruku "Neispravna prijava". Administratori se mogu prijaviti na svakoj stranici. Ova metoda sama nikoga ne provjerava.';
+$string['forgot_back'] = 'Natrag na stranicu za prijavu';
+$string['forgot_nopartner'] = 'Lozinke ne resetira e-pošta nego vaša ustanova. Obratite se partnerskom administratoru svojeg sveučilišta ili organizacije; ako ne pripadate nijednom partneru, obratite se administratoru stranice DIVERSE.';
+$string['forgot_partner'] = 'Lozinke ne resetira e-pošta nego vaša ustanova. Obratite se partnerskom administratoru ustanove {$a}.';
 $string['pluginname'] = 'DIVERSE provjera partnerske prijave';
 $string['privacy:metadata'] = 'DIVERSE provjera partnerske prijave ne pohranjuje osobne podatke.';

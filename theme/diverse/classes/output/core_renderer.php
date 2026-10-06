@@ -121,6 +121,24 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      */
     public function render_login(\core_auth\output\login $form) {
         $partner = partners::current();
+        if ($partner) {
+            $this->loginlogo = partners::logo_url($partner->id);
+        }
+        $output = $this->login_brand_panel() . parent::render_login($form);
+        $this->loginlogo = null;
+        return $output;
+    }
+
+    /**
+     * The brand panel next to the login form: the chosen partner's (or DIVERSE's) photo, name and one sentence.
+     *
+     * Public so that other pages with the login layout (e.g. auth_diverse_partner's forgotten password page) show the
+     * same panel instead of an empty half.
+     *
+     * @return string
+     */
+    public function login_brand_panel(): string {
+        $partner = partners::current();
         $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0);
 
         if ($partner) {
@@ -129,7 +147,6 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 'intro' => get_string('login_partner_intro', 'theme_diverse', $partner->name),
                 'ispartner' => true,
             ];
-            $this->loginlogo = partners::logo_url($partner->id);
         } else {
             $context = [
                 'name' => get_string('landing_title', 'theme_diverse'),
@@ -140,10 +157,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         $context['photourl'] = $photo ? $photo->out(false) : null;
         $context['homeurl'] = (new \core\url('/'))->out(false);
 
-        $brandpanel = $this->render_from_template('theme_diverse/login_brand', $context);
-        $output = $brandpanel . parent::render_login($form);
-        $this->loginlogo = null;
-        return $output;
+        return $this->render_from_template('theme_diverse/login_brand', $context);
     }
 
     /**

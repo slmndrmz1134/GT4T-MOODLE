@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'auth_diverse_partner';
-$plugin->version = 2026100600;
-$plugin->release = '1.0.0';
+$plugin->version = 2026100700;
+$plugin->release = '1.1.0';
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_STABLE;
