@@ -99,6 +99,19 @@ if (function_exists('apcu_enabled') && apcu_enabled()) {
   \$CFG->localcachedir = '/var/www/moodledata/localcache';
 }
 
+// ── Outgoing mail (SMTP) from environment variables ────────────────────────
+// The password is never written to this file: set SMTP_USER and SMTP_PASS (optionally SMTP_HOST, SMTP_SECURE,
+// SMTP_FROM) in the environment, see docs/MAIL_SETUP.md. Without SMTP_USER nothing is set here.
+// These override the SMTP values above.
+if (getenv('SMTP_USER')) {
+  \$CFG->smtphosts      = getenv('SMTP_HOST') ?: 'smtp.gmail.com:587';
+  \$CFG->smtpsecure     = getenv('SMTP_SECURE') ?: 'tls';
+  \$CFG->smtpauthtype   = 'LOGIN';
+  \$CFG->smtpuser       = getenv('SMTP_USER');
+  \$CFG->smtppass       = (string)getenv('SMTP_PASS');
+  \$CFG->noreplyaddress = getenv('SMTP_FROM') ?: getenv('SMTP_USER');
+}
+
 require_once(__DIR__ . '/lib/setup.php');
 EOF
   chown www-data:www-data /var/www/html/config.php

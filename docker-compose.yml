@@ -67,6 +67,12 @@ services:
       - MOODLE_CACHE_REDIS_HOST=redis
       - MOODLE_CACHE_REDIS_PORT=6379
       - MOODLE_CACHE_REDIS_PREFIX=gt4t_
+      # Outgoing mail (Gmail SMTP), from .env (see .env.example and docs/MAIL_SETUP.md). Empty SMTP_USER: no SMTP.
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_SECURE=${SMTP_SECURE:-}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_FROM=${SMTP_FROM:-}
     volumes:
       - moodledata:/var/www/moodledata
     # The code is copied into the image (see Dockerfile), not bind-mounted: a bind mount is very slow on Windows.
