@@ -27,7 +27,7 @@
  * - photo: the partner's login photo (theme_diverse > Partner login pages).
  *
  * An image an admin has already uploaded is kept unless --replace is given; uploads whose file is missing on this
- * site are replaced. The images themselves are not part of the repository.
+ * site and images this script uploaded earlier are replaced. The images themselves are not part of the repository.
  *
  * Usage:
  *   php setup/diverse_partner_images.php --dir=/path/to/partner-images [--dry-run] [--replace]
@@ -125,7 +125,9 @@ function diverse_images_store(string $path, int $contextid, string $component, s
         return null;
     }
     $readable = $file && $fs->get_file_system()->is_file_readable_locally_by_storedfile($file);
-    if ($readable && !$replace) {
+    // An image this script uploaded earlier is not an admin's choice: a new image in the folder replaces it.
+    $ours = $file && str_starts_with((string)$file->get_source(), 'diverse_partner_images:');
+    if ($readable && !$replace && !$ours) {
         diverse_images_report('SKIP', "$what: an admin uploaded \"" . $file->get_filename() . '"; kept (use --replace).');
         return null;
     }
