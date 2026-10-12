@@ -125,6 +125,26 @@ $diverse-login-panel-width: 42vw;
     .diverse-login-brand-body {
         margin-bottom: 0;
     }
+
+    // The pattern stands in for a missing photo only (it stays in the markup for the signup page's partner switch).
+    .diverse-pattern-small {
+        display: none;
+    }
+}
+
+// Privacy notice under the login button: one sentence and a button opening the notice (PDF).
+.diverse-login-policy {
+    margin-top: 1.25rem;
+    font-size: .875rem;
+    color: $diverse-grey;
+
+    p {
+        margin-bottom: .5rem;
+    }
+
+    .btn .icon {
+        margin-right: .375rem;
+    }
 }
 
 // "Select Partner" menu: a row of its own above the form, so a long university name never covers the logo.

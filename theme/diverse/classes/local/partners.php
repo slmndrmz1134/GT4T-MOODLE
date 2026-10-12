@@ -174,6 +174,21 @@ class partners {
     }
 
     /**
+     * All partners that are not archived (also those not listed on the login page), by name.
+     *
+     * @return \stdClass[] id, idnumber and display name of each partner.
+     */
+    public static function all(): array {
+        global $DB;
+
+        if (!self::enabled()) {
+            return [];
+        }
+        $records = $DB->get_records('tool_mutenancy_tenant', ['archived' => 0], 'name ASC', 'id, idnumber, name, sitefullname');
+        return array_values(array_map([self::class, 'export'], $records));
+    }
+
+    /**
      * The partner chosen on the login page (or the partner of the logged-in user), if any.
      *
      * @return \stdClass|null id, idnumber and display name.

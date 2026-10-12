@@ -432,6 +432,27 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     seçtiyse partnerin adı yazar. Moodle'ın `forgottenpasswordurl` ayarı (`diverse_setup.php` boşsa ayarlar) sayesinde
     eski e-postalı sıfırlama sayfası da buraya yönlenir. SMTP ileride kurulursa ayar boşaltılır, Moodle'ın kendi sıfırlaması
     döner (Fatih'in SMTP kodu main'de hazır, bkz. `docs/MAIL_SETUP.md`).
+18. **Gizlilik bildirimi ve kayıtlı onay (Ekim 2026, sunum öncesi görev, proje sahibinin onayıyla):**
+    - Metin: `docs/privacy/privacy-notice.md`, İngilizce ve Türkçe; GDPR m. 13–14 ve KVKK m. 10 için.
+      - Veri sorumlusu Beykent Üniversitesi, iletişim adresi beykent-gt4t@beykent.edu.tr (proje sahibinin verdiği adres).
+      - Hukuk/KVKK birimi bir kez okumalı. Özellikle AB'den Türkiye'deki sunucuya aktarımın dayanağı (standart sözleşme
+        hükümleri) teyit edilmeli.
+    - PDF: `python docs/privacy/build_pdf.py` ile `theme/diverse/policy/diverse-privacy-notice.pdf` dosyasına üretilir.
+      Metin değişince PDF yeniden üretilir; sürüm ve tarih de güncellenir.
+    - Giriş formunun altında "Giriş yaparak ... kabul ettiğinizi onaylarsınız" cümlesi ve PDF düğmesi (12 dil) var.
+    - `diverse_setup.php` adım 10b: Moodle'ın `sitepolicy` ayarı bu PDF'e bağlanır.
+      - Kayıt formunda zorunlu "Anladım ve kabul ediyorum" kutusu çıkar.
+      - Her kullanıcı bir sonraki girişinde bir kez onay verir; onay `user.policyagreed` alanında saklanır.
+      - Geri almak için ayar boşaltılır.
+      - Yeni sürümde herkesin yeniden onay vermesi gerekirse yöneticiler `policyagreed` alanını sıfırlar.
+19. **Giriş/kayıt paneli ve ana sayfa logosu (Ekim 2026):**
+    - Kayıt sayfası da giriş sayfasındaki marka panelini gösterir; formdaki "University" seçimi değişince panelin
+      fotoğrafı, adı ve cümlesi o partnere geçer.
+    - Ana sayfa (site home) her ziyaretçiye DIVERSE logosunu gösterir. Partnerin logosu diğer sayfalarda (dashboard,
+      dersler, giriş formu) aynen kalır.
+    - GT4T'nin giriş fotoğrafı değişti: grup fotoğrafı yerine parktaki çalışma fotoğrafı (proje sahibinin seçimi).
+    - `diverse_partner_images.php` kendi yüklediği eski fotoğrafı artık `--replace` olmadan da yenisiyle değiştirir;
+      yöneticinin elle yüklediği görseller yine korunur.
 
 ## 18. Commit listesi
 

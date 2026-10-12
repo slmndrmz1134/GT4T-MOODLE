@@ -26,6 +26,11 @@
     * photourl - optional photo filling the panel
     * ispartner - whether a partner is chosen
     * homeurl - DIVERSE site home
+    * brandsjson - optional (signup page): name, intro, photourl and ispartner of DIVERSE ("0") and of each partner
+      by id, so that the panel follows the university chosen in the form (core_renderer::SIGNUP_BRAND_JS)
+
+    The photo, the pattern and the link are always in the markup, hidden when not used, so that the signup page
+    can switch between partners.
 
     Example context (json):
     {
@@ -33,23 +38,17 @@
         "photourl": "", "ispartner": true, "homeurl": "#"
     }
 }}
-<aside class="diverse-login-brand{{#photourl}} diverse-login-brand-photo{{/photourl}}" aria-label="{{name}}">
-    {{#photourl}}
-    <img class="diverse-login-photo" src="{{photourl}}" alt="">
-    {{/photourl}}
+<aside class="diverse-login-brand{{#photourl}} diverse-login-brand-photo{{/photourl}}" aria-label="{{name}}"{{#brandsjson}} data-brands="{{brandsjson}}"{{/brandsjson}}>
+    <img class="diverse-login-photo" {{#photourl}}src="{{photourl}}"{{/photourl}}{{^photourl}}hidden{{/photourl}} alt="">
     <div class="diverse-login-brand-body">
-        {{^photourl}}
         <div class="diverse-pattern diverse-pattern-small" aria-hidden="true">
             <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path></svg></div>
             <div class="diverse-tile diverse-tile-soft-ink"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="12"></circle></svg></div>
             <div class="diverse-tile diverse-tile-white-brand"><svg viewBox="0 0 100 100"><path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path></svg></div>
             <div class="diverse-tile diverse-tile-ink-brand"><svg viewBox="0 0 100 100"><path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path></svg></div>
         </div>
-        {{/photourl}}
         <p class="diverse-login-brand-title">{{name}}</p>
         <p class="diverse-login-brand-intro">{{intro}}</p>
     </div>
-    {{#ispartner}}
-    <a class="diverse-login-brand-member" href="{{homeurl}}">{{#str}}login_partner_member, theme_diverse{{/str}}</a>
-    {{/ispartner}}
+    <a class="diverse-login-brand-member" href="{{homeurl}}"{{^ispartner}} hidden{{/ispartner}}>{{#str}}login_partner_member, theme_diverse{{/str}}</a>
 </aside>

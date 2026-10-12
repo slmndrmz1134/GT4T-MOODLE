@@ -124,9 +124,56 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         if ($partner) {
             $this->loginlogo = partners::logo_url($partner->id);
         }
-        $output = $this->login_brand_panel() . parent::render_login($form);
+        $form = parent::render_login($form);
         $this->loginlogo = null;
-        return $output;
+
+        // The privacy notice right below the login button (or at the end if the form markup is not found).
+        $notice = $this->login_policy_notice();
+        $end = strpos($form, '</form>');
+        $form = $end === false ? $form . $notice : substr_replace($form, $notice, $end + strlen('</form>'), 0);
+
+        return $this->login_brand_panel() . $form;
+    }
+
+    /**
+     * Render the signup form with the brand panel next to it, which follows the university chosen in the form.
+     *
+     * @param \login_signup_form $form
+     * @return string
+     */
+    public function render_login_signup_form($form) {
+        return $this->login_brand_panel('signup') . parent::render_login_signup_form($form);
+    }
+
+    /**
+     * URL of the privacy notice: the site policy set in the site administration, or the DIVERSE privacy notice.
+     *
+     * @return \core\url
+     */
+    public function privacy_notice_url(): \core\url {
+        global $CFG;
+        if (!empty($CFG->sitepolicy)) {
+            return new \core\url($CFG->sitepolicy);
+        }
+        return new \core\url('/theme/diverse/policy/diverse-privacy-notice.pdf');
+    }
+
+    /**
+     * The sentence under the login form saying that logging in means accepting the privacy notice, with a button
+     * opening the notice (PDF).
+     *
+     * @return string
+     */
+    protected function login_policy_notice(): string {
+        $button = \html_writer::link(
+            $this->privacy_notice_url(),
+            $this->pix_icon('f/pdf', '') . get_string('policy_open', 'theme_diverse'),
+            ['class' => 'btn btn-outline-secondary btn-sm', 'target' => '_blank', 'rel' => 'noopener']
+        );
+        return \html_writer::div(
+            \html_writer::tag('p', get_string('policy_login_notice', 'theme_diverse')) . $button,
+            'diverse-login-policy'
+        );
     }
 
     /**
@@ -135,30 +182,78 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * Public so that other pages with the login layout (e.g. auth_diverse_partner's forgotten password page) show the
      * same panel instead of an empty half.
      *
+     * On the signup page the panel follows the university chosen in the form's "University" field.
+     *
+     * @param string $page 'login' or 'signup' (changes the sentence and follows the university field).
      * @return string
      */
-    public function login_brand_panel(): string {
-        $partner = partners::current();
-        $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0);
-
-        if ($partner) {
-            $context = [
-                'name' => $partner->name,
-                'intro' => get_string('login_partner_intro', 'theme_diverse', $partner->name),
-                'ispartner' => true,
-            ];
-        } else {
-            $context = [
-                'name' => get_string('landing_title', 'theme_diverse'),
-                'intro' => get_string('login_intro', 'theme_diverse'),
-                'ispartner' => false,
-            ];
-        }
-        $context['photourl'] = $photo ? $photo->out(false) : null;
+    public function login_brand_panel(string $page = 'login'): string {
+        $signup = $page === 'signup';
+        $current = partners::current();
+        $context = $this->login_brand_content($current, $signup);
         $context['homeurl'] = (new \core\url('/'))->out(false);
+
+        if ($signup && partners::enabled()) {
+            // Name, sentence and photo of DIVERSE (0) and of every partner, for the university field of the form.
+            $brands = ['0' => $this->login_brand_content(null, true)];
+            foreach (partners::all() as $partner) {
+                $brands[(string)$partner->id] = $this->login_brand_content($partner, true);
+            }
+            $context['brandsjson'] = json_encode($brands);
+            $this->page->requires->js_amd_inline(self::SIGNUP_BRAND_JS);
+        }
 
         return $this->render_from_template('theme_diverse/login_brand', $context);
     }
+
+    /**
+     * Name, sentence and photo of the brand panel for a partner or, without one, for DIVERSE.
+     *
+     * @param \stdClass|null $partner
+     * @param bool $signup Signup page sentence instead of the login one.
+     * @return array name, intro, photourl, ispartner
+     */
+    protected function login_brand_content(?\stdClass $partner, bool $signup): array {
+        $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0);
+        if ($partner) {
+            $intro = get_string($signup ? 'signup_partner_intro' : 'login_partner_intro', 'theme_diverse', $partner->name);
+        } else {
+            $intro = get_string($signup ? 'signup_intro' : 'login_intro', 'theme_diverse');
+        }
+        return [
+            'name' => $partner ? $partner->name : get_string('landing_title', 'theme_diverse'),
+            'intro' => $intro,
+            'photourl' => $photo ? $photo->out(false) : null,
+            'ispartner' => (bool)$partner,
+        ];
+    }
+
+    /** @var string Signup page: show the brand of the university chosen in the form's "University" field. */
+    const SIGNUP_BRAND_JS = <<<'JS'
+(function() {
+    var panel = document.querySelector('.diverse-login-brand[data-brands]');
+    var field = document.querySelector('select[name="tenantid"]');
+    if (!panel || !field) {
+        return;
+    }
+    var brands = JSON.parse(panel.getAttribute('data-brands'));
+    var photo = panel.querySelector('.diverse-login-photo');
+    field.addEventListener('change', function() {
+        var brand = brands[field.value] || brands['0'];
+        panel.setAttribute('aria-label', brand.name);
+        panel.querySelector('.diverse-login-brand-title').textContent = brand.name;
+        panel.querySelector('.diverse-login-brand-intro').textContent = brand.intro;
+        panel.classList.toggle('diverse-login-brand-photo', !!brand.photourl);
+        photo.hidden = !brand.photourl;
+        if (brand.photourl) {
+            photo.src = brand.photourl;
+        } else {
+            photo.removeAttribute('src');
+        }
+        panel.querySelector('.diverse-login-brand-member').hidden = !brand.ispartner;
+    });
+})();
+JS;
 
     /**
      * Render the "Select Partner" menu of the login page.
@@ -270,7 +365,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     /**
      * Return the site's compact logo URL for the navbar.
      *
-     * A partner university's own compact logo comes first (see tenant_image_url()). Otherwise falls back to the
+     * A partner university's own compact logo comes first (see tenant_image_url()), except on the site home, which
+     * is DIVERSE's page for every visitor and always shows the DIVERSE logo. Otherwise falls back to the
      * DIVERSE logo (theme/diverse/pix/logo.png) if no flavour or admin compact logo is configured in Boost Union.
      *
      * @param int $maxwidth
@@ -278,7 +374,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return \moodle_url|false
      */
     public function get_compact_logo_url($maxwidth = 300, $maxheight = 300) {
-        $tenantlogo = $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight));
+        $tenantlogo = $this->is_landing_page() ? null
+            : $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight));
         if ($tenantlogo) {
             return $tenantlogo;
         }
@@ -295,7 +392,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * Return the site's main logo URL.
      *
      * On the login form of a chosen partner, the logo uploaded for it in this theme's settings comes first.
-     * Then a partner university's own logo (see tenant_image_url()). Otherwise falls back to the DIVERSE logo
+     * Then a partner university's own logo (see tenant_image_url()), except on the site home (always the DIVERSE logo,
+     * see get_compact_logo_url()). Otherwise falls back to the DIVERSE logo
      * (theme/diverse/pix/logo.png) if no flavour or admin logo is configured in Boost Union.
      *
      * @param int $maxwidth
@@ -308,7 +406,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             return $this->loginlogo;
         }
 
-        $tenantlogo = $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight));
+        $tenantlogo = $this->is_landing_page() ? null
+            : $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight));
         if ($tenantlogo) {
             return $tenantlogo;
         }

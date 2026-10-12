@@ -98,6 +98,10 @@ $string['footer_privacy'] = 'Privacy summary';
 $string['login_intro'] = 'Joint training and hands-on innovation projects from our partner universities, in one place.';
 $string['login_partner_intro'] = 'Log in with your {$a} account.';
 $string['login_partner_member'] = 'Member of the DIVERSE European University Alliance';
+$string['policy_login_notice'] = 'By logging in, you confirm that you have read the privacy notice and accept the terms of use.';
+$string['policy_open'] = 'Privacy notice (PDF)';
+$string['signup_intro'] = 'Create your account and join the shared courses of the DIVERSE partner universities.';
+$string['signup_partner_intro'] = 'Create your {$a} account.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'The DIVERSE theme does not store any personal data about any user.';

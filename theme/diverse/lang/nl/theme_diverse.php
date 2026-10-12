@@ -88,6 +88,10 @@ $string['footer_privacy'] = 'Privacysamenvatting';
 $string['login_intro'] = 'Gezamenlijke opleidingen en praktische innovatieprojecten van onze partneruniversiteiten, op één plek.';
 $string['login_partner_intro'] = 'Log in met je account van {$a}.';
 $string['login_partner_member'] = 'Lid van de DIVERSE European University Alliance';
+$string['policy_login_notice'] = 'Door in te loggen bevestig je dat je de privacyverklaring hebt gelezen en de gebruiksvoorwaarden accepteert.';
+$string['policy_open'] = 'Privacyverklaring (PDF)';
+$string['signup_intro'] = 'Maak je account aan en neem deel aan de gezamenlijke cursussen van de DIVERSE-partneruniversiteiten.';
+$string['signup_partner_intro'] = 'Maak je account van {$a} aan.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Het DIVERSE-thema slaat geen persoonlijke gegevens op over gebruikers.';

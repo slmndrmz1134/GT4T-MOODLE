@@ -88,6 +88,10 @@ $string['footer_privacy'] = 'Rezumat confidențialitate';
 $string['login_intro'] = 'Formări comune și proiecte de inovare practice de la universitățile noastre partenere, într-un singur loc.';
 $string['login_partner_intro'] = 'Autentifică-te cu contul tău {$a}.';
 $string['login_partner_member'] = 'Membru al Alianței Universitare Europene DIVERSE';
+$string['policy_login_notice'] = 'Prin autentificare, confirmi că ai citit nota de informare privind confidențialitatea și accepți condițiile de utilizare.';
+$string['policy_open'] = 'Notă de informare privind confidențialitatea (PDF)';
+$string['signup_intro'] = 'Creează-ți contul și alătură-te cursurilor comune ale universităților partenere DIVERSE.';
+$string['signup_partner_intro'] = 'Creează-ți contul {$a}.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE nu stochează niciun fel de date personale despre utilizatori.';

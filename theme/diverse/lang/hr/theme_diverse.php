@@ -88,6 +88,10 @@ $string['footer_privacy'] = 'Sažetak o privatnosti';
 $string['login_intro'] = 'Zajedničke edukacije i praktični inovacijski projekti naših partnerskih sveučilišta, na jednom mjestu.';
 $string['login_partner_intro'] = 'Prijavite se svojim računom ustanove {$a}.';
 $string['login_partner_member'] = 'Član Europskog sveučilišnog saveza DIVERSE';
+$string['policy_login_notice'] = 'Prijavom potvrđujete da ste pročitali obavijest o privatnosti i da prihvaćate uvjete korištenja.';
+$string['policy_open'] = 'Obavijest o privatnosti (PDF)';
+$string['signup_intro'] = 'Izradite račun i pridružite se zajedničkim kolegijima partnerskih sveučilišta saveza DIVERSE.';
+$string['signup_partner_intro'] = 'Izradite svoj račun ustanove {$a}.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE ne pohranjuje osobne podatke o korisnicima.';
