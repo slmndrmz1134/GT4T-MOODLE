@@ -455,6 +455,17 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     - `diverse_partner_images.php` kendi yüklediği eski fotoğrafı artık `--replace` olmadan da yenisiyle değiştirir;
       yöneticinin elle yüklediği görseller yine korunur.
 
+20. **Tanıtım günü hazırlıkları (14 Ekim 2026, proje sahibinin isteğiyle):**
+    - Yapay zekâ asistanının kenar sekmesi "DIVERSE Assistant" oldu. Temanın düğme efekti sekmeyi fare yaklaşınca
+      yerinden kaydırıyordu; sekme artık sabit.
+    - `setup/diverse_partner_visibility.php --partner=gt4t --hide` GT4T'yi giriş menüsünden, kayıt listesinden ve ders
+      kataloğundan gizler; `--show` eski hale getirir. Partner, kullanıcıları ve ortak dersler yerinde kalır.
+    - `setup/diverse_demo_messages.php` Beykent ve Griffith demo hesaplarına örnek mesajlar ve bildirimler ekler.
+      Bu 10 hesapta e-posta her bildirim türü için kapalı, bildirimler yalnızca site içinde. `--delete` hepsini
+      ve hesapların bildirim ayarlarını geri alır.
+    - `setup/diverse_demo_live_sessions.php --from --until`: o gün için rastgele canlı ders programı (30 dakikada
+      bir, Beykent, Griffith ve ortak derslerden).
+
 ## 18. Commit listesi
 
 | Commit | Tarih | Açıklama |

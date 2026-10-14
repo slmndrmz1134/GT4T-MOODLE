@@ -25,8 +25,13 @@
  * Run after setup/diverse_demo_accounts.php. It is idempotent: a session that already exists in a course (same
  * name) is left as it is.
  *
+ * With --from and --until the day gets a random schedule instead: a session every 30 minutes in a course picked at
+ * random from --courses (the same date and options always give the same schedule, so a dry run shows what a real run
+ * creates). Each session name carries the date and time, so the fixed sessions above are not touched.
+ *
  * Usage:
  *   php setup/diverse_demo_live_sessions.php --date=2026-10-07 [--dry-run]
+ *   php setup/diverse_demo_live_sessions.php --date=2026-10-14 --from=12:30 --until=20:00 [--courses=IBM401,...] [--dry-run]
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -39,7 +44,10 @@ require(__DIR__ . '/../config.php');
 require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->dirroot . '/course/lib.php');
 
-[$options, $unrecognised] = cli_get_params(['help' => false, 'dry-run' => false, 'date' => ''], ['h' => 'help', 'n' => 'dry-run']);
+[$options, $unrecognised] = cli_get_params(
+    ['help' => false, 'dry-run' => false, 'date' => '', 'from' => '', 'until' => '', 'courses' => ''],
+    ['h' => 'help', 'n' => 'dry-run']
+);
 
 if ($unrecognised) {
     cli_error(get_string('cliunknowoption', 'admin', implode(PHP_EOL . '  ', $unrecognised)));
@@ -50,11 +58,16 @@ if ($options['help'] || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $options['date'])) 
 
 Options:
       --date=YYYY-MM-DD  Day of the sessions (required).
+      --from=HH:MM       Random schedule: first start time (Istanbul time).
+      --until=HH:MM      Random schedule: every room is closed by this time.
+      --courses=A,B,...  Random schedule: course shortnames to pick from (default: the shared courses and the
+                         Beykent and Griffith courses).
   -n, --dry-run          Show what would change without changing anything.
   -h, --help             Print this help.
 
 Example:
-  php setup/diverse_demo_live_sessions.php --date=2026-10-07 --dry-run");
+  php setup/diverse_demo_live_sessions.php --date=2026-10-07 --dry-run
+  php setup/diverse_demo_live_sessions.php --date=2026-10-14 --from=12:30 --until=20:00 --dry-run");
     exit($options['help'] ? 0 : 1);
 }
 
@@ -75,6 +88,43 @@ $sessions = [
     'IBM401' => ['17:00', 'Live session: Doing business across cultures',
         'Griffith and Beykent teachers discuss international business cases with students from three partners.'],
 ];
+
+// Random schedule (--from/--until): a session every 30 minutes, the course and the topic picked at random.
+if ($options['from'] !== '' || $options['until'] !== '') {
+    if (!preg_match('/^\d{2}:\d{2}$/', $options['from']) || !preg_match('/^\d{2}:\d{2}$/', $options['until'])) {
+        cli_error('--from and --until must both be given as HH:MM.');
+    }
+    $pool = $options['courses'] !== '' ? array_map('trim', explode(',', $options['courses'])) : [
+        'IBM401', 'GT4T-101', 'GT4T-201', 'GT4T-301', 'GT4T-401', 'CTP001', 'GRI-DMI-101',
+        'BEY-DMG-101', 'BEY-MGT-301', 'BEY-SPM-201', 'MKT201', 'LAW202',
+    ];
+    $topics = [
+        ['Q&A with the teachers', 'Open questions on the topics of the week with the teachers.'],
+        ['Case study discussion', 'Students from the partner universities discuss a real company case in small groups.'],
+        ['Guest talk', 'A short talk by a company partner, followed by questions from the students.'],
+        ['Project team meeting', 'The student teams present their progress and plan the next steps.'],
+        ['Weekly lecture', 'Live lecture on the topic of the week, with time for questions.'],
+        ['Workshop', 'Hands-on workshop: the students work on a task together and share the results.'],
+        ['Presentation practice', 'The teams practise their final presentations and get feedback.'],
+    ];
+    mt_srand(crc32($options['date'] . $options['from'] . $options['until'] . implode(',', $pool)));
+    $timezone = new DateTimeZone('Europe/Istanbul');
+    $start = new DateTime($options['date'] . ' ' . $options['from'], $timezone);
+    $end = new DateTime($options['date'] . ' ' . $options['until'], $timezone);
+    $label = $start->format('j M');
+    $sessions = [];
+    $previous = null;
+    for (; $start->getTimestamp() + 45 * MINSECS <= $end->getTimestamp(); $start->modify('+30 minutes')) {
+        do {
+            $course = $pool[mt_rand(0, count($pool) - 1)];
+        } while (count($pool) > 1 && $course === $previous);
+        $previous = $course;
+        [$topic, $description] = $topics[mt_rand(0, count($topics) - 1)];
+        $time = $start->format('H:i');
+        // A course can get more than one session: the key only has to be unique.
+        $sessions["$course@$time"] = [$time, "Live session $label, $time: $topic", $description];
+    }
+}
 
 /**
  * Print one step result.
@@ -101,7 +151,8 @@ foreach (['editingteacher', 'teacher'] as $shortname) {
 }
 
 $timezone = new DateTimeZone('Europe/Istanbul');
-foreach ($sessions as $shortname => [$time, $name, $description]) {
+foreach ($sessions as $key => [$time, $name, $description]) {
+    $shortname = explode('@', $key)[0];
     $course = $DB->get_record('course', ['shortname' => $shortname]);
     if (!$course) {
         diverse_live_report('WARN', "Course $shortname does not exist: run setup/diverse_demo_accounts.php first. Skipped.");

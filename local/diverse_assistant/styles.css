@@ -27,6 +27,16 @@
     transform: rotate(90deg);
 }
 
+/* The tab stays where it is: themes that lift or shrink buttons on hover/click would replace the transform above,
+   so the tab jumped away from the pointer and was hard to click. */
+.btn.local-diverse-assistant-toggle,
+.btn.local-diverse-assistant-toggle:hover,
+.btn.local-diverse-assistant-toggle:focus,
+.btn.local-diverse-assistant-toggle:active {
+    transform: translateY(-50%) rotate(180deg);
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
 body.local-diverse-assistant-open .local-diverse-assistant-toggle {
     display: none;
 }
