@@ -140,7 +140,8 @@ class factory {
     public static function detect_key_vendor(string $apikey): string {
         return match (true) {
             str_starts_with($apikey, 'sk-ant-') => 'anthropic',
-            str_starts_with($apikey, 'AIza') => 'google',
+            // Google's keys start with AIza; newer Gemini keys from AI Studio start with AQ. (October 2026).
+            str_starts_with($apikey, 'AIza'), str_starts_with($apikey, 'AQ.') => 'google',
             str_starts_with($apikey, 'sk-or-') => 'openrouter',
             str_starts_with($apikey, 'sk-') => 'openai',
             default => '',

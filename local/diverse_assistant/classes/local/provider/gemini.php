@@ -33,7 +33,7 @@ class gemini extends openai_compatible {
     /**
      * Constructor.
      *
-     * @param string $apikey API key (AIza...).
+     * @param string $apikey API key (AIza... or AQ....).
      * @param string $model Model id, e.g. gemini-3.8-flash.
      * @param string $reasoningeffort low, medium or high; empty or none for the model's default.
      */

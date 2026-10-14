@@ -184,6 +184,7 @@ final class openai_test extends \advanced_testcase {
         $this->assertSame('anthropic', factory::detect_key_vendor('sk-ant-api03-abc'));
         $this->assertSame('openai', factory::detect_key_vendor('sk-proj-abc'));
         $this->assertSame('google', factory::detect_key_vendor('AIzaSyAbc'));
+        $this->assertSame('google', factory::detect_key_vendor('AQ.Abc'));
         $this->assertSame('openrouter', factory::detect_key_vendor('sk-or-v1-abc'));
         $this->assertSame('', factory::detect_key_vendor('abc'));
 
