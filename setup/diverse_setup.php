@@ -18,7 +18,7 @@
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
  * BigBlueButton live classes, the GT4T project partners as partner organisations, the partner login check, the
- * forgotten password page, the privacy notice users accept, and with --production the live server debug level).
+ * forgotten password page, the policy checkboxes at signup, and with --production the live server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -351,25 +351,26 @@ if (!core_component::get_component_directory('auth_diverse_partner')) {
     $changed = true;
 }
 
-// 10b. Privacy notice (GDPR/KVKK, owner's decision October 2026): Moodle's site policy points to the DIVERSE privacy
-// notice PDF, so the signup form asks new users to accept it and every user accepts it once at the next login; the
-// acceptance is recorded per user. The login page links the same notice. A policy an admin set is kept.
-$policyurl = $CFG->wwwroot . '/theme/diverse/policy/diverse-privacy-notice.pdf';
+// 10b. Privacy Policy and Terms of Use (GDPR, project partners' decision October 2026): local_diverse_policy adds two
+// checkboxes to the signup form and the login page links both PDFs. Moodle's own site policy (an embedded document
+// after login with one checkbox) is not wanted: the policy this script set on 12 October 2026 is removed again. A
+// policy an admin set is kept.
+$oldpolicyurl = $CFG->wwwroot . '/theme/diverse/policy/diverse-privacy-notice.pdf';
 $currentpolicy = (string)get_config('core', 'sitepolicy');
-$policyhandler = (string)get_config('core', 'sitepolicyhandler');
-if (!is_file($CFG->dirroot . '/theme/diverse/policy/diverse-privacy-notice.pdf')) {
-    diverse_setup_report('WARN', 'theme/diverse/policy/diverse-privacy-notice.pdf is missing: site policy not set.');
-} else if ($policyhandler !== '') {
-    diverse_setup_report('SKIP', "Site policies are handled by $policyhandler: left as is.");
-} else if ($currentpolicy === $policyurl) {
-    diverse_setup_report('OK', 'Users accept the DIVERSE privacy notice (site policy).');
-} else if ($currentpolicy !== '') {
+if (!core_component::get_component_directory('local_diverse_policy')) {
+    diverse_setup_report('WARN', 'local_diverse_policy is not installed: no policy checkboxes on the signup form.');
+} else {
+    diverse_setup_report('OK', 'Signup asks for the Privacy Policy and the Terms of Use (local_diverse_policy).');
+}
+if ($currentpolicy === '') {
+    diverse_setup_report('OK', 'The site policy page after login is off.');
+} else if ($currentpolicy !== $oldpolicyurl) {
     diverse_setup_report('SKIP', "Site policy was set by an admin ($currentpolicy): left as is.");
 } else if ($dryrun) {
-    diverse_setup_report('WOULD', 'Ask users to accept the DIVERSE privacy notice (site policy).');
+    diverse_setup_report('WOULD', 'Turn off the site policy page after login (replaced by local_diverse_policy).');
 } else {
-    set_config('sitepolicy', $policyurl);
-    diverse_setup_report('SET', 'Users now accept the DIVERSE privacy notice: at signup and once at their next login.');
+    set_config('sitepolicy', '');
+    diverse_setup_report('SET', 'The site policy page after login is off (replaced by local_diverse_policy).');
     $changed = true;
 }
 

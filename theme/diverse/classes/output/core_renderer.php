@@ -127,10 +127,12 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         $form = parent::render_login($form);
         $this->loginlogo = null;
 
-        // The privacy notice right below the login button (or at the end if the form markup is not found).
-        $notice = $this->login_policy_notice();
-        $end = strpos($form, '</form>');
-        $form = $end === false ? $form . $notice : substr_replace($form, $notice, $end + strlen('</form>'), 0);
+        // The Privacy Policy and the Terms of Use next to the cookies notice in the footer of the form.
+        $cookies = strpos($form, 'cookiesenabled_help_html');
+        $after = $cookies === false ? false : strpos($form, '</button>', $cookies);
+        if ($after !== false) {
+            $form = substr_replace($form, $this->login_policy_links(), $after + strlen('</button>'), 0);
+        }
 
         return $this->login_brand_panel() . $form;
     }
@@ -146,34 +148,19 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     }
 
     /**
-     * URL of the privacy notice: the site policy set in the site administration, or the DIVERSE privacy notice.
+     * Buttons opening the Privacy Policy and the Terms of Use (local_diverse_policy), styled like the cookies notice.
      *
-     * @return \core\url
+     * @return string Nothing if local_diverse_policy is not installed.
      */
-    public function privacy_notice_url(): \core\url {
-        global $CFG;
-        if (!empty($CFG->sitepolicy)) {
-            return new \core\url($CFG->sitepolicy);
+    protected function login_policy_links(): string {
+        if (!class_exists(\local_diverse_policy\policies::class)) {
+            return '';
         }
-        return new \core\url('/theme/diverse/policy/diverse-privacy-notice.pdf');
-    }
-
-    /**
-     * The sentence under the login form saying that logging in means accepting the privacy notice, with a button
-     * opening the notice (PDF).
-     *
-     * @return string
-     */
-    protected function login_policy_notice(): string {
-        $button = \html_writer::link(
-            $this->privacy_notice_url(),
-            $this->pix_icon('f/pdf', '') . get_string('policy_open', 'theme_diverse'),
-            ['class' => 'btn btn-outline-secondary btn-sm', 'target' => '_blank', 'rel' => 'noopener']
-        );
-        return \html_writer::div(
-            \html_writer::tag('p', get_string('policy_login_notice', 'theme_diverse')) . $button,
-            'diverse-login-policy'
-        );
+        $links = '';
+        foreach ([\local_diverse_policy\policies::PRIVACY, \local_diverse_policy\policies::TERMS] as $document) {
+            $links .= \local_diverse_policy\policies::link($document, ['class' => 'btn btn-secondary diverse-login-policy-link']);
+        }
+        return $links;
     }
 
     /**

@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Resumen de privacidad';
 $string['login_intro'] = 'Formación conjunta y proyectos de innovación prácticos de nuestras universidades asociadas, en un solo lugar.';
 $string['login_partner_intro'] = 'Accede con tu cuenta de {$a}.';
 $string['login_partner_member'] = 'Miembro de la Alianza Universitaria Europea DIVERSE';
-$string['policy_login_notice'] = 'Al acceder, confirmas que has leído el aviso de privacidad y aceptas las condiciones de uso.';
-$string['policy_open'] = 'Aviso de privacidad (PDF)';
 $string['signup_intro'] = 'Crea tu cuenta y únete a los cursos compartidos de las universidades asociadas de DIVERSE.';
 $string['signup_partner_intro'] = 'Crea tu cuenta de {$a}.';
 

@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Tietosuojayhteenveto';
 $string['login_intro'] = 'Kumppaniyliopistojen yhteiset koulutukset ja käytännön innovaatioprojektit yhdessä paikassa.';
 $string['login_partner_intro'] = 'Kirjaudu {$a} -tunnuksillasi.';
 $string['login_partner_member'] = 'DIVERSE European University Alliance -liittouman jäsen';
-$string['policy_login_notice'] = 'Kirjautumalla vahvistat, että olet lukenut tietosuojaselosteen ja hyväksyt käyttöehdot.';
-$string['policy_open'] = 'Tietosuojaseloste (PDF)';
 $string['signup_intro'] = 'Luo tili ja osallistu DIVERSE-kumppaniyliopistojen yhteisille kursseille.';
 $string['signup_partner_intro'] = 'Luo {$a} -tunnus.';
 

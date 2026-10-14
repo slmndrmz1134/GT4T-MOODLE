@@ -1,10 +1,10 @@
-"""Build the privacy notice PDF linked on the login page from privacy-notice.md.
+"""Build the Privacy Policy and Terms of Use PDFs (local_diverse_policy) from privacy-policy.md and terms-of-use.md.
 
 The Markdown is kept simple: "# " starts a document (each on a new page), "## " a section, "- " a list item,
 "  - " a nested list item, **text** is bold; other lines are paragraphs.
 
-Usage (Python 3 with reportlab):  python docs/privacy/build_pdf.py
-Output: theme/diverse/policy/diverse-privacy-notice.pdf
+Usage (Python 3 with reportlab):  python docs/policies/build_pdf.py
+Output: local/diverse_policy/pdf/privacy-policy.pdf and terms-of-use.pdf
 """
 import pathlib
 import re
@@ -18,8 +18,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import ListFlowable, ListItem, PageBreak, Paragraph, SimpleDocTemplate, Spacer
 
 HERE = pathlib.Path(__file__).resolve().parent
-SOURCE = HERE / 'privacy-notice.md'
-OUT = HERE.parent.parent / 'theme' / 'diverse' / 'policy' / 'diverse-privacy-notice.pdf'
+OUTDIR = HERE.parent.parent / 'local' / 'diverse_policy' / 'pdf'
+DOCUMENTS = ['privacy-policy', 'terms-of-use']
 
 # A font with Turkish and other European characters: Segoe UI (Windows) or DejaVu Sans (Linux).
 FONTS = [
@@ -57,7 +57,9 @@ def bullets(items):
     return ListFlowable(flow, bulletType='bullet', start='•', leftIndent=12, bulletFontName='Sans')
 
 
-def build():
+def build(name):
+    source = HERE / (name + '.md')
+    out = OUTDIR / (name + '.pdf')
     story = []
     items = []
     first_document = True
@@ -67,7 +69,7 @@ def build():
             story.append(bullets(list(items)))
             items.clear()
 
-    lines = SOURCE.read_text(encoding='utf-8').splitlines()
+    lines = source.read_text(encoding='utf-8').splitlines()
     for i, line in enumerate(lines):
         if line.startswith('# '):
             flush()
@@ -97,12 +99,14 @@ def build():
         canvas.drawRightString(A4[0] - 18 * mm, 10 * mm, str(doc.page))
         canvas.restoreState()
 
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    doc = SimpleDocTemplate(str(OUT), pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm,
-                            bottomMargin=18 * mm, title='DIVERSE Learning Platform – Privacy Notice and Terms of Use',
+    out.parent.mkdir(parents=True, exist_ok=True)
+    doc_title = lines[0][2:]
+    doc = SimpleDocTemplate(str(out), pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm,
+                            bottomMargin=18 * mm, title=doc_title,
                             author='Istanbul Beykent University (GT4T)')
     doc.build(story + [Spacer(1, 1)], onFirstPage=footer, onLaterPages=footer)
-    print(OUT)
+    print(out)
 
 
-build()
+for document in DOCUMENTS:
+    build(document)

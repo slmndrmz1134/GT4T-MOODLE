@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Gizlilik özeti';
 $string['login_intro'] = 'Ortak üniversitelerimizin sunduğu ortak eğitimler ve uygulamalı inovasyon projeleri tek bir yerde.';
 $string['login_partner_intro'] = '{$a} hesabınızla giriş yapın.';
 $string['login_partner_member'] = 'DIVERSE Avrupa Üniversitesi Birliği üyesi';
-$string['policy_login_notice'] = 'Giriş yaparak gizlilik bildirimini okuduğunuzu ve kullanım koşullarını kabul ettiğinizi onaylarsınız.';
-$string['policy_open'] = 'Gizlilik bildirimi (PDF)';
 $string['signup_intro'] = 'Hesabınızı oluşturun ve DIVERSE ortak üniversitelerinin ortak derslerine katılın.';
 $string['signup_partner_intro'] = '{$a} hesabınızı oluşturun.';
 

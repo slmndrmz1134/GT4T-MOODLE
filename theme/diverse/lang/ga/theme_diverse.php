@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Achoimre príobháideachais';
 $string['login_intro'] = 'Oiliúint chomhpháirteach agus tionscadail nuálaíochta praiticiúla ónár n-ollscoileanna comhpháirtíochta, in aon áit amháin.';
 $string['login_partner_intro'] = 'Logáil isteach le do chuntas {$a}.';
 $string['login_partner_member'] = 'Ball de Chomhghuaillíocht Ollscoile Eorpach DIVERSE';
-$string['policy_login_notice'] = 'Trí logáil isteach, deimhníonn tú gur léigh tú an fógra príobháideachais agus go nglacann tú leis na téarmaí úsáide.';
-$string['policy_open'] = 'Fógra príobháideachais (PDF)';
 $string['signup_intro'] = 'Cruthaigh do chuntas agus glac páirt i gcúrsaí comhroinnte ollscoileanna comhpháirtíochta DIVERSE.';
 $string['signup_partner_intro'] = 'Cruthaigh do chuntas {$a}.';
 

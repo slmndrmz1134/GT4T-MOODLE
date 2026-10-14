@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Privatumo santrauka';
 $string['login_intro'] = 'Bendri mokymai ir praktiniai inovacijų projektai iš mūsų partnerinių universitetų – vienoje vietoje.';
 $string['login_partner_intro'] = 'Prisijunkite su savo {$a} paskyra.';
 $string['login_partner_member'] = 'DIVERSE Europos universitetų aljanso narys';
-$string['policy_login_notice'] = 'Prisijungdami patvirtinate, kad perskaitėte privatumo pranešimą ir sutinkate su naudojimo sąlygomis.';
-$string['policy_open'] = 'Privatumo pranešimas (PDF)';
 $string['signup_intro'] = 'Susikurkite paskyrą ir prisijunkite prie bendrų DIVERSE partnerinių universitetų kursų.';
 $string['signup_partner_intro'] = 'Susikurkite savo {$a} paskyrą.';
 

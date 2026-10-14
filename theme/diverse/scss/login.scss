@@ -132,19 +132,12 @@ $diverse-login-panel-width: 42vw;
     }
 }
 
-// Privacy notice under the login button: one sentence and a button opening the notice (PDF).
-.diverse-login-policy {
-    margin-top: 1.25rem;
-    font-size: .875rem;
-    color: $diverse-grey;
-
-    p {
-        margin-bottom: .5rem;
-    }
-
-    .btn .icon {
-        margin-right: .375rem;
-    }
+// Footer of the login form: language menu, cookies notice, Privacy Policy and Terms of Use (local_diverse_policy).
+// The buttons wrap to a new line on narrow screens instead of leaving the card.
+.d-flex:has(> .diverse-login-policy-link) {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
 }
 
 // "Select Partner" menu: a row of its own above the form, so a long university name never covers the logo.

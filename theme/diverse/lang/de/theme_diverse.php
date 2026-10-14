@@ -88,8 +88,6 @@ $string['footer_privacy'] = 'Datenschutzübersicht';
 $string['login_intro'] = 'Gemeinsame Weiterbildungen und praxisnahe Innovationsprojekte unserer Partnerhochschulen an einem Ort.';
 $string['login_partner_intro'] = 'Melden Sie sich mit Ihrem Konto der {$a} an.';
 $string['login_partner_member'] = 'Mitglied der DIVERSE European University Alliance';
-$string['policy_login_notice'] = 'Mit der Anmeldung bestätigen Sie, dass Sie die Datenschutzerklärung gelesen haben und die Nutzungsbedingungen akzeptieren.';
-$string['policy_open'] = 'Datenschutzerklärung (PDF)';
 $string['signup_intro'] = 'Erstellen Sie Ihr Konto und nehmen Sie an den gemeinsamen Kursen der DIVERSE-Partnerhochschulen teil.';
 $string['signup_partner_intro'] = 'Erstellen Sie Ihr Konto der {$a}.';
 

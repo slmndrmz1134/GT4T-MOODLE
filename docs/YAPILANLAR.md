@@ -432,19 +432,20 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     seçtiyse partnerin adı yazar. Moodle'ın `forgottenpasswordurl` ayarı (`diverse_setup.php` boşsa ayarlar) sayesinde
     eski e-postalı sıfırlama sayfası da buraya yönlenir. SMTP ileride kurulursa ayar boşaltılır, Moodle'ın kendi sıfırlaması
     döner (Fatih'in SMTP kodu main'de hazır, bkz. `docs/MAIL_SETUP.md`).
-18. **Gizlilik bildirimi ve kayıtlı onay (Ekim 2026, sunum öncesi görev, proje sahibinin onayıyla):**
-    - Metin: `docs/privacy/privacy-notice.md`, İngilizce ve Türkçe; GDPR m. 13–14 ve KVKK m. 10 için.
+18. **Gizlilik Politikası ve Kullanım Koşulları (Ekim 2026, proje ortaklarının isteğiyle):**
+    - İki ayrı belge, İngilizce, AB GDPR'ına göre: `docs/policies/privacy-policy.md` ve `docs/policies/terms-of-use.md`.
       - Veri sorumlusu Beykent Üniversitesi, iletişim adresi beykent-gt4t@beykent.edu.tr (proje sahibinin verdiği adres).
       - Hukuk/KVKK birimi bir kez okumalı. Özellikle AB'den Türkiye'deki sunucuya aktarımın dayanağı (standart sözleşme
         hükümleri) teyit edilmeli.
-    - PDF: `python docs/privacy/build_pdf.py` ile `theme/diverse/policy/diverse-privacy-notice.pdf` dosyasına üretilir.
-      Metin değişince PDF yeniden üretilir; sürüm ve tarih de güncellenir.
-    - Giriş formunun altında "Giriş yaparak ... kabul ettiğinizi onaylarsınız" cümlesi ve PDF düğmesi (12 dil) var.
-    - `diverse_setup.php` adım 10b: Moodle'ın `sitepolicy` ayarı bu PDF'e bağlanır.
-      - Kayıt formunda zorunlu "Anladım ve kabul ediyorum" kutusu çıkar.
-      - Her kullanıcı bir sonraki girişinde bir kez onay verir; onay `user.policyagreed` alanında saklanır.
-      - Geri almak için ayar boşaltılır.
-      - Yeni sürümde herkesin yeniden onay vermesi gerekirse yöneticiler `policyagreed` alanını sıfırlar.
+    - PDF'ler `python docs/policies/build_pdf.py` ile `local/diverse_policy/pdf/` klasörüne üretilir. Metin değişince
+      PDF'ler yeniden üretilir; sürüm ve tarih de güncellenir.
+    - `local_diverse_policy` eklentisi kayıt formuna iki ayrı zorunlu kutu ekler: "Gizlilik Politikası'nı okudum" ve
+      "Kullanım Koşulları'nı kabul ediyorum". Her birinde PDF'i yeni sekmede açan bağlantı var. Kabul, yeni hesapta
+      Moodle'ın `user.policyagreed` alanına yazılır. Belgeler başka bir adreste yayımlanırsa eklenti ayarlarından
+      değiştirilir.
+    - Giriş sayfası iki belgeyi "Çerez bildirimi" düğmesinin yanında, aynı görünümde düğme olarak gösterir.
+    - Moodle'ın kendi site politikası (girişten sonra yarım açılan PDF ve en altta tek onay kutusu) kullanılmıyor.
+      Ortaklar istemedi. 12 Ekim'de açılmıştı; `diverse_setup.php` adım 10b onu kapatır.
 19. **Giriş/kayıt paneli ve ana sayfa logosu (Ekim 2026):**
     - Kayıt sayfası da giriş sayfasındaki marka panelini gösterir; formdaki "University" seçimi değişince panelin
       fotoğrafı, adı ve cümlesi o partnere geçer.
