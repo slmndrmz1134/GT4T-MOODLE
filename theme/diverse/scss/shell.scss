@@ -46,15 +46,9 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
         padding-bottom: env(safe-area-inset-bottom);
         background-color: $diverse-ink;
 
-        svg {
-            width: 1.375rem;
-            height: 1.375rem;
+        .fa {
             flex-shrink: 0;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            font-size: 1.375rem;
         }
     }
 
@@ -148,7 +142,7 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
         background-color: $white;
         border-bottom: 1px solid $diverse-border;
 
-        svg {
+        .fa {
             display: none;
         }
     }

@@ -1,24 +1,82 @@
 /****************************************************************
- * DIVERSE outline icons.
- * Moodle's Font Awesome icons are mostly solid. The ones seen most often are redrawn here with thin lines, in the
- * style of Feather and Lucide (both MIT-like licensed), without changing Moodle's markup: an icon keeps its class,
- * only the glyph changes. An icon not listed here stays Moodle's. Values are the "d" of a 24 x 24 SVG path.
+ * DIVERSE icons.
+ * Moodle's Font Awesome icons are replaced without changing Moodle's markup: an icon keeps its class, only the
+ * picture changes. An icon not listed here stays Moodle's.
+ * - $diverse-icon-files: the set chosen by the project owner, pictures in pix/icons (from Flaticon, see docs/YAPILANLAR.md).
+ * - $diverse-icons: the rest, thin lines in the same spirit; values are the "d" of a 24 x 24 SVG path.
  ***************************************************************/
 
+@mixin diverse-icon($url) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    content: "";
+    vertical-align: -.125em;
+    -webkit-mask: $url center / contain no-repeat;
+    mask: $url center / contain no-repeat;
+}
+
+$diverse-icon-files: (
+    "arrow-left": "arrow",
+    "arrow-right": "arrow",
+    "arrow-up": "arrow",
+    "arrow-down": "arrow",
+    "bell": "bell",
+    "calendar": "calendar",
+    "comment": "message",
+    "comments": "message",
+    "eye": "eye",
+    "eye-slash": "eye-slash",
+    "gear": "gear",
+    "magnifying-glass": "search",
+    "message": "message",
+    "pen": "pencil",
+    "plus": "plus",
+    "star": "star-filled",
+    "trash-can": "trash",
+    "user": "user",
+    "xmark": "xmark",
+);
+
+@each $name, $file in $diverse-icon-files {
+    body .fa-#{$name}::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/#{$file}]]));
+    }
+}
+
+body {
+    .fa-regular.fa-star::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/star]]));
+    }
+
+    // The bell fills up when there is something to read.
+    .popover-region:has(.count-container:not(.hidden)) .fa-bell::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/bell-filled]]));
+    }
+
+    .fa-arrow-left::before {
+        transform: rotate(180deg);
+    }
+
+    .fa-arrow-up::before {
+        transform: rotate(-90deg);
+    }
+
+    .fa-arrow-down::before {
+        transform: rotate(90deg);
+    }
+}
+
 $diverse-circle: "M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0";
-$diverse-message: "M12 2.5c5.8 0 10.5 3.8 10.5 8.5S17.8 19.5 12 19.5c-1 0-2-.1-2.9-.3C7.6 20.6 5.4 21.5 2.5 21.5c1.3-1.1 2.1-2.4 2.3-4.2C2.9 15.8 1.5 13.5 1.5 11 1.5 6.3 6.2 2.5 12 2.5z";
 $diverse-ellipsis-h: "M12 12h.01M19 12h.01M5 12h.01";
 $diverse-ellipsis-v: "M12 12h.01M12 5h.01M12 19h.01";
-$diverse-arrow-up: "M12 19V5M5 12l7-7 7 7";
-$diverse-arrow-down: "M12 5v14M19 12l-7 7-7-7";
 
 $diverse-icons: (
-    "arrow-down": $diverse-arrow-down,
-    "arrow-up": $diverse-arrow-up,
     "arrow-up-right-from-square": "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3",
-    "bell": "M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0",
+    "award": "M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM8.2 13.9 7 23l5-3 5 3-1.2-9.1",
     "book": "M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5",
-    "calendar": "M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM16 2v4M8 2v4M3 10h18",
+    "building": "M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4",
     "check": "M20 6 9 17l-5-5",
     "chevron-down": "M6 9l6 6 6-6",
     "chevron-left": "M15 18l-6-6 6-6",
@@ -31,47 +89,31 @@ $diverse-icons: (
     "circle-xmark": "#{$diverse-circle}M15 9l-6 6M9 9l6 6",
     "clock": "#{$diverse-circle}M12 6v6l4 2",
     "clone": "M11 9h9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2zM5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1",
-    "comment": $diverse-message,
-    "comments": $diverse-message,
     "download": "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
     "ellipsis": $diverse-ellipsis-h,
     "ellipsis-h": $diverse-ellipsis-h,
     "ellipsis-v": $diverse-ellipsis-v,
     "ellipsis-vertical": $diverse-ellipsis-v,
     "envelope": "M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6",
-    "eye": "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0",
-    "eye-slash": "M17.94 17.94A10 10 0 0 1 12 20c-7 0-11-8-11-8a18 18 0 0 1 5.06-5.94M9.9 4.24A9 9 0 0 1 12 4c7 0 11 8 11 8a18 18 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24M1 1l22 22",
     "face-smile": "#{$diverse-circle}M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01",
     "filter": "M22 3H2l8 9.46V19l4 2v-8.54z",
     "flag": "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7",
-    "gear": "M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2zM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0",
     "graduation-cap": "M22 10 12 5 2 10l10 5zM6 12v5c3 3 9 3 12 0v-5",
+    "house": "M3 11l9-8 9 8M5 10v10h14V10M9 20v-6h6v6",
     "life-ring": "#{$diverse-circle}M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M14.83 9.17l4.24-4.24M4.93 19.07l4.24-4.24",
     "list": "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
     "lock": "M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zM7 11V7a5 5 0 0 1 10 0v4",
-    "magnifying-glass": "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35",
-    "message": $diverse-message,
     "minus": "M5 12h14",
     "paper-plane": "M22 2 11 13M22 2l-7 20-4-9-9-4z",
-    "pen": "M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z",
-    "plus": "M12 5v14M5 12h14",
-    "star": "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z",
-    "trash-can": "M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6",
-    "user": "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0",
-    "xmark": "M18 6 6 18M6 6l12 12",
+    "sliders": "M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6",
+    "table-cells-large": "M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z",
+    "users": "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8",
 );
 
 @each $name, $path in $diverse-icons {
     $svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='#{$path}'/%3E%3C/svg%3E";
 
     body .fa-#{$name}::before {
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        background-color: currentColor;
-        content: "";
-        vertical-align: -.125em;
-        -webkit-mask: url($svg) center / contain no-repeat;
-        mask: url($svg) center / contain no-repeat;
+        @include diverse-icon(url($svg));
     }
 }

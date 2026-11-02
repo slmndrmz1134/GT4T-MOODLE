@@ -20,23 +20,23 @@
     Application navigation for logged-in users: a row of links under the top bar, a tab bar at the bottom on phones.
 
     Context variables required for this template:
-    * main - the main places: label, url, icon (SVG path), current
+    * main - the main places: label, url, icon (icon class), current
     * manage, hasmanage - management places of partner managers and site administrators
     * managecurrent - whether one of the management places is open
     * home - the public site home
 
     Example context (json):
     {
-        "main": [{"label": "Dashboard", "url": "#", "icon": "M3 3h7v7H3z", "current": true}],
+        "main": [{"label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
         "manage": [], "hasmanage": false, "managecurrent": false,
-        "home": {"label": "Home", "url": "#", "icon": "M3 11l9-8 9 8", "current": false}
+        "home": {"label": "Home", "url": "#", "icon": "fa-house", "current": false}
     }
 }}
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
     <ul class="diverse-nav-list">
         {{#main}}
         <li{{#nophone}} class="diverse-nav-nophone"{{/nophone}}><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
+            <i class="fa {{icon}}" aria-hidden="true"></i>
             <span>{{label}}</span>
         </a></li>
         {{/main}}
@@ -56,7 +56,7 @@
     <ul class="diverse-nav-list diverse-nav-end">
         {{#home}}
         <li><a class="diverse-nav-link" href="{{url}}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
+            <i class="fa {{icon}}" aria-hidden="true"></i>
             <span>{{label}}</span>
         </a></li>
         {{/home}}
