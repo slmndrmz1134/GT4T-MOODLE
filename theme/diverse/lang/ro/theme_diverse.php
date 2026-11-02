@@ -94,6 +94,14 @@ $string['signup_partner_intro'] = 'Creează-ți contul {$a}.';
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Navigare principală';
 $string['messages_select'] = 'Selectați o conversație pentru a o citi aici.';
+$string['mycourses_all'] = 'Toate';
+$string['mycourses_notstarted'] = 'Neîncepute';
+$string['mycourses_inprogress'] = 'În desfășurare';
+$string['mycourses_completed'] = 'Finalizate';
+$string['mycourses_favourites'] = 'Favorite';
+$string['mycourses_none'] = 'Încă nu este nimic aici.';
+$string['card_favourite'] = 'Adaugă {$a} la favorite';
+$string['card_unfavourite'] = 'Elimină {$a} din favorite';
 $string['nav_discover'] = 'Descoperă';
 $string['nav_search'] = 'Ce vrei să înveți?';
 $string['dash_resume'] = 'Continuă să înveți';

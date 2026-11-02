@@ -24,7 +24,8 @@
         "url": "#", "name": "Business Law", "category": "Shared Courses", "teachers": "Ada Yilmaz",
         "summary": "Contracts, liability and companies.", "activities": 7, "people": 12, "enrolled": true,
         "selfenrol": false, "hasprogress": true, "progress": 40, "coverstyle": "brand", "isplus": true,
-        "action": "Continue", "actionprimary": true
+        "action": "Continue", "actionprimary": true, "id": 2, "favourite": false, "favouriteurl": "#", "returnurl": "/my/",
+        "sesskey": "abc"
     }
 }}
 <li class="diverse-card-course">
@@ -55,4 +56,16 @@
             </span>
         </span>
     </a>
+    {{#enrolled}}
+    <form class="diverse-favourite" method="post" action="{{favouriteurl}}">
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="favourite" value="{{^favourite}}1{{/favourite}}{{#favourite}}0{{/favourite}}">
+        <input type="hidden" name="returnurl" value="{{returnurl}}">
+        <input type="hidden" name="sesskey" value="{{sesskey}}">
+        <button type="submit" aria-pressed="{{#favourite}}true{{/favourite}}{{^favourite}}false{{/favourite}}"
+                aria-label="{{#favourite}}{{#str}}card_unfavourite, theme_diverse, {{name}}{{/str}}{{/favourite}}{{^favourite}}{{#str}}card_favourite, theme_diverse, {{name}}{{/str}}{{/favourite}}">
+            <span><i class="fa {{^favourite}}fa-regular {{/favourite}}fa-star" aria-hidden="true"></i></span>
+        </button>
+    </form>
+    {{/enrolled}}
 </li>

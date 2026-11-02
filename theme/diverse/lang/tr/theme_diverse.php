@@ -94,6 +94,14 @@ $string['signup_partner_intro'] = '{$a} hesabınızı oluşturun.';
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Ana gezinme';
 $string['messages_select'] = 'Okumak için bir konuşma seçin.';
+$string['mycourses_all'] = 'Tümü';
+$string['mycourses_notstarted'] = 'Başlanmadı';
+$string['mycourses_inprogress'] = 'Devam ediyor';
+$string['mycourses_completed'] = 'Tamamlandı';
+$string['mycourses_favourites'] = 'Favoriler';
+$string['mycourses_none'] = 'Burada henüz bir şey yok.';
+$string['card_favourite'] = '{$a} dersini favorilere ekle';
+$string['card_unfavourite'] = '{$a} dersini favorilerden çıkar';
 $string['nav_discover'] = 'Keşfet';
 $string['nav_search'] = 'Ne öğrenmek istiyorsunuz?';
 $string['dash_resume'] = 'Öğrenmeye devam edin';

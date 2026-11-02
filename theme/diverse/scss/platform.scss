@@ -850,7 +850,8 @@ body.pagelayout-mycourses.diverse-shell {
         white-space: nowrap;
 
         &:hover,
-        &:focus-visible {
+        &:focus-visible,
+        &.active {
             border-bottom-color: $diverse-action-orange;
             color: $diverse-ink;
         }
@@ -944,6 +945,7 @@ body.pagelayout-mycourses.diverse-shell {
 }
 
 .diverse-card-course {
+    position: relative;
     min-width: 0;
 
     > a {
@@ -1037,12 +1039,55 @@ body.pagelayout-mycourses.diverse-shell {
     }
 }
 
+// Star on a card: the button is 44 px for fingers, the white square inside it is what shows.
+.diverse-favourite {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        background: none;
+        border: 0;
+        color: $diverse-action-orange;
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        background-color: $white;
+        border-radius: $btn-border-radius;
+    }
+
+    button:hover span,
+    button:focus-visible span {
+        background-color: $diverse-soft-orange;
+    }
+
+    button:focus-visible {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: -2px;
+    }
+}
+
 // My courses: the same cards instead of Moodle's block.
 body:has(.diverse-mycourses) .block_myoverview {
     display: none;
 }
 
 .diverse-mycourses {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
     margin-bottom: 2rem;
 }
 

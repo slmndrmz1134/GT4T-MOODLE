@@ -166,6 +166,9 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 - İkonlar Lucide oldu (`theme/diverse/pix/icons`, ISC lisansı, `thirdpartylibs.xml`): tek kalınlıkta, SVG ve sitede kaynak yazısı
   gerektirmiyor. Yalnızca oval mesaj balonu proje sahibinin beğenisine göre DIVERSE için çizildi. Yeni ikon eklemek için SVG
   dosyası kopyalanıp `icons.scss` listesine yazılır.
+- Derslerim'e durum sekmeleri (Tümü, Başlanmadı, Devam ediyor, Tamamlandı, Favoriler) eklendi. Favoriler Moodle'ın yıldızlı ders
+  kaydını kullanır (`core_favourites`), yeni tablo yoktur. Tamamlama takibi kapalı derste durum, dersin ziyaret edilip edilmediğine
+  göre belirlenir.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

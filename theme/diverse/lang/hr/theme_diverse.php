@@ -94,6 +94,14 @@ $string['signup_partner_intro'] = 'Izradite svoj račun ustanove {$a}.';
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Glavna navigacija';
 $string['messages_select'] = 'Odaberite razgovor da biste ga ovdje pročitali.';
+$string['mycourses_all'] = 'Svi';
+$string['mycourses_notstarted'] = 'Nije započeto';
+$string['mycourses_inprogress'] = 'U tijeku';
+$string['mycourses_completed'] = 'Završeno';
+$string['mycourses_favourites'] = 'Favoriti';
+$string['mycourses_none'] = 'Ovdje još nema ničega.';
+$string['card_favourite'] = 'Dodaj {$a} u favorite';
+$string['card_unfavourite'] = 'Ukloni {$a} iz favorita';
 $string['nav_discover'] = 'Otkrij';
 $string['nav_search'] = 'Što želite naučiti?';
 $string['dash_resume'] = 'Nastavite učiti';

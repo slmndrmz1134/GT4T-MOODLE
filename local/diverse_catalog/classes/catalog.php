@@ -134,13 +134,74 @@ class catalog {
     }
 
     /**
-     * The courses the current user is enrolled in.
+     * The courses the current user is enrolled in, for the My courses page.
      *
-     * @return array Cards.
+     * Status comes from completion and, in courses without completion tracking, from whether the user has visited.
+     * The courses someone teaches have no status: they are listed under All and Favourites only.
+     *
+     * @param string $filter all, notstarted, inprogress, completed or favourites.
+     * @return array courses, hascourses, tabs
      */
-    public static function mine(): array {
+    public static function mine(string $filter): array {
+        global $DB, $USER;
+
         $courses = enrol_get_my_courses(['summary', 'summaryformat'], 'fullname ASC');
-        return self::cards(array_map(fn($course) => new core_course_list_element($course), $courses));
+        $cards = self::cards(array_map(fn($course) => new core_course_list_element($course), $courses));
+        $visited = $DB->get_records_menu('user_lastaccess', ['userid' => $USER->id], '', 'courseid, timeaccess');
+
+        $filters = ['all' => [], 'notstarted' => [], 'inprogress' => [], 'completed' => [], 'favourites' => []];
+        foreach ($cards as $card) {
+            $filters['all'][] = $card;
+            if ($card['favourite']) {
+                $filters['favourites'][] = $card;
+            }
+            if ($card['studies']) {
+                if ($card['progress'] >= 100) {
+                    $filters['completed'][] = $card;
+                } else if ($card['progress'] > 0 || isset($visited[$card['id']])) {
+                    $filters['inprogress'][] = $card;
+                } else {
+                    $filters['notstarted'][] = $card;
+                }
+            }
+        }
+
+        $filter = isset($filters[$filter]) ? $filter : 'all';
+        $studies = (bool)array_filter($cards, fn($card) => $card['studies']);
+        $tabs = [];
+        foreach ($filters as $name => $list) {
+            if ($studies || in_array($name, ['all', 'favourites'])) {
+                $tabs[] = [
+                    'label' => get_string('mycourses_' . $name, 'theme_diverse'),
+                    'count' => count($list),
+                    'url' => (new \core\url('/my/courses.php', ['filter' => $name]))->out(false),
+                    'current' => $name === $filter,
+                ];
+            }
+        }
+        return ['courses' => $filters[$filter], 'hascourses' => !empty($filters[$filter]), 'tabs' => $tabs];
+    }
+
+    /**
+     * Add a course to the favourites of the current user or remove it: the same stars as in Moodle's own course overview.
+     *
+     * @param int $courseid A course the user is enrolled in; other courses are ignored.
+     * @param bool $favourite
+     */
+    public static function set_favourite(int $courseid, bool $favourite): void {
+        global $USER;
+
+        if (!array_key_exists($courseid, enrol_get_my_courses('id'))) {
+            return;
+        }
+        $service = \core_favourites\service_factory::get_service_for_user_context(\core\context\user::instance($USER->id));
+        $context = \core\context\course::instance($courseid);
+        $exists = $service->favourite_exists('core_course', 'courses', $courseid, $context);
+        if ($favourite && !$exists) {
+            $service->create_favourite('core_course', 'courses', $courseid, $context);
+        } else if (!$favourite && $exists) {
+            $service->delete_favourite('core_course', 'courses', $courseid, $context);
+        }
     }
 
     /**
@@ -150,7 +211,7 @@ class catalog {
      * @return array
      */
     public static function cards(array $courses): array {
-        global $DB;
+        global $DB, $USER;
 
         if (!$courses) {
             return [];
@@ -172,6 +233,10 @@ class catalog {
         );
         $open = $DB->get_records_select_menu('enrol', "courseid $insql AND enrol = 'self' AND status = 0", $params, '', 'courseid, id');
         $enrolled = array_keys(enrol_get_my_courses('id'));
+        $service = \core_favourites\service_factory::get_service_for_user_context(\core\context\user::instance($USER->id));
+        $favourites = array_map(fn($item) => (int)$item->itemid, $service->find_favourites_by_type('core_course', 'courses'));
+        $favouriteurl = (new \core\url('/local/diverse_catalog/favourite.php'))->out(false);
+        $returnurl = (new \core\url(qualified_me()))->out_as_local_url(false);
 
         $cards = [];
         foreach ($courses as $id => $course) {
@@ -190,6 +255,11 @@ class catalog {
                 'activities' => (int)($activities[$id] ?? 0),
                 'people' => (int)($people[$id] ?? 0),
                 'enrolled' => $isenrolled,
+                'studies' => $studies,
+                'favourite' => in_array((int)$id, $favourites, true),
+                'favouriteurl' => $favouriteurl,
+                'returnurl' => $returnurl,
+                'sesskey' => sesskey(),
                 'selfenrol' => !$isenrolled && isset($open[$id]),
                 'hasprogress' => $progress !== null,
                 'progress' => $progress !== null ? (int)floor($progress) : 0,

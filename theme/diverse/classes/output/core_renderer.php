@@ -103,11 +103,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         }
         if ($this->page->pagelayout === 'mycourses' && shell::applies($this->page) &&
                 class_exists(\local_diverse_catalog\catalog::class)) {
-            $courses = \local_diverse_catalog\catalog::mine();
-            return $this->render_from_template('theme_diverse/my_courses', [
-                'courses' => $courses,
-                'hascourses' => !empty($courses),
-            ]) . $maincontent;
+            $courses = \local_diverse_catalog\catalog::mine(optional_param('filter', 'all', PARAM_ALPHA));
+            return $this->render_from_template('theme_diverse/my_courses', $courses) . $maincontent;
         }
         if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {
             return $maincontent . \html_writer::tag(

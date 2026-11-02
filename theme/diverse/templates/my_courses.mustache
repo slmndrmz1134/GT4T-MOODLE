@@ -17,18 +17,22 @@
 {{!
     @template theme_diverse/my_courses
 
-    The courses of the user, with the same cards as the dashboard and the catalogue.
+    The courses of the user, by status, with the same cards as the dashboard and the catalogue.
 
     Example context (json):
     {
-        "courses": [], "hascourses": false
+        "courses": [], "hascourses": false,
+        "tabs": [{"label": "All", "count": 3, "url": "#", "current": true}]
     }
 }}
 <div class="diverse-mycourses">
+    <nav class="diverse-category-strip" aria-label="{{#str}}mycourses{{/str}}">
+        {{#tabs}}<a href="{{url}}"{{#current}} class="active" aria-current="page"{{/current}}>{{label}} <span>{{count}}</span></a>{{/tabs}}
+    </nav>
     {{#hascourses}}
     <ul class="diverse-card-grid">
         {{#courses}}{{> theme_diverse/course_card }}{{/courses}}
     </ul>
     {{/hascourses}}
-    {{^hascourses}}<p class="diverse-empty">{{#str}}nocourses{{/str}}</p>{{/hascourses}}
+    {{^hascourses}}<p class="diverse-empty">{{#str}}mycourses_none, theme_diverse{{/str}}</p>{{/hascourses}}
 </div>
