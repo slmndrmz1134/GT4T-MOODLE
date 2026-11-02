@@ -155,7 +155,7 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   eklendi. Eklenti ders listesini yalnızca okur; tablo ve ayar eklemez. Kaldırılırsa tema Keşfet bağlantılarını gizler.
 - Ders sekmeleri (Ders, Ayarlar, Katılımcılar, Notlar, Etkinlikler, Daha fazla) Moodle'da farklı sayfa düzenleriyle açıldığı
   için başlık ve müfredat paneli sekmeden sekmeye değişiyordu. Tema artık düzene değil bağlama bakar: ders bağlamındaki her
-  sayfa `diverse-course-tab`, ders içindeki her sayfa `diverse-course` sınıfını alır. Başlık ve ders bölümleri kart olmaktan
+  sayfa `diverse-course-tab`, ders içindeki her sayfa `diverse-in-course` sınıfını alır. Başlık ve ders bölümleri kart olmaktan
   çıktı, ayraçla ayrılır.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 

@@ -124,7 +124,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         if (shell::applies($this->page)) {
             $additionalclasses[] = 'diverse-shell';
             if ($this->page->course->id != SITEID) {
-                $additionalclasses[] = 'diverse-course';
+                $additionalclasses[] = 'diverse-in-course';
             }
             if ($this->is_course_tab()) {
                 $additionalclasses[] = 'diverse-course-tab';

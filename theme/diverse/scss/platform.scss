@@ -548,7 +548,7 @@ table.diverse-table {
 @include media-breakpoint-up(md) {
     .diverse-hero-course,
     .diverse-lesson-bar,
-    body.diverse-course .secondary-navigation .moremenu.navigation {
+    body.diverse-in-course .secondary-navigation .moremenu.navigation {
         margin-right: .9375rem;
         margin-left: .9375rem;
     }
@@ -715,7 +715,7 @@ body.diverse-course-tab {
 }
 
 // Sections of a course, and the groups on its Activities tab: rows between dividers, not cards.
-body.diverse-course {
+body.diverse-in-course {
     .secondary-navigation .moremenu {
         margin-right: 0;
         margin-left: 0;

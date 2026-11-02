@@ -211,7 +211,7 @@ $diverse-tabbar-height: 4rem;
 // Course and activity pages: the contents of the course on the right, next to what is being studied. While editing,
 // and on phones, Moodle's own places stay: teachers need the block drawer on the right then.
 @include media-breakpoint-up(md) {
-    body.diverse-shell.diverse-course:not(.editing) {
+    body.diverse-shell.diverse-in-course:not(.editing) {
         .drawer.drawer-left {
             right: calc(-#{$drawer-left-width} - 1.25rem);
             left: auto;
