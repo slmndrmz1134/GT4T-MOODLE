@@ -169,6 +169,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 - Derslerim'e durum sekmeleri (Tümü, Başlanmadı, Devam ediyor, Tamamlandı, Favoriler) eklendi. Favoriler Moodle'ın yıldızlı ders
   kaydını kullanır (`core_favourites`), yeni tablo yoktur. Tamamlama takibi kapalı derste durum, dersin ziyaret edilip edilmediğine
   göre belirlenir.
+- Font denemesi: site Plus Jakarta Sans'a geçti. Diğer geliştiriciler beğenmezse tek commit geri alınır; Inter ve Source Sans 3 dosyaları
+  bu yüzden silinmedi.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

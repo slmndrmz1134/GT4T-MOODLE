@@ -45,15 +45,16 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 
 | Kullanım | Font | Kalınlık | Dosya |
 |---|---|---|---|
-| Başlıklar | **Source Sans 3** | 700 | `theme/diverse/fonts/source-sans-3-variable.woff2` |
-| Arayüz ve gövde | **Inter** | 400–600 (buton 600) | `theme/diverse/fonts/inter-variable.woff2`, `inter-variable-italic.woff2` |
+| Başlıklar | **Plus Jakarta Sans** | 700 | `theme/diverse/fonts/plus-jakarta-sans-*.woff2` |
+| Arayüz ve gövde | **Plus Jakarta Sans** | 400–600 (buton 600) | Aynı dosyalar |
 
 - Yedek fontlar: `system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`.
 - Gövde metni en az **16 px** (`$font-size-base: 1rem`).
 - Fontlar **kendi sunucumuzdan** gelir (`@font-face` tanımları `post.scss` içinde, lisanslar `fonts/` altında
   ve `thirdpartylibs.xml` içinde, SIL OFL 1.1). Google Fonts veya başka bir CDN kullanılmaz: Almanya'da
   GDPR ihlali sayılabiliyor (partnerlerden biri TH Rosenheim).
-- Source Sans 3, DIVERSE'in kullandığı lisanslı Myriad Pro'ya en yakın ücretsiz seçenektir.
+- Plus Jakarta Sans deneme amaçlıdır (Kasım 2026, proje sahibinin kararı). Eski fontlar repoda duruyor: geri dönmek için `pre.scss`
+  içinde gövde `"Inter"`, başlık `"Source Sans 3"` yapılır. Source Sans 3, DIVERSE'in lisanslı Myriad Pro'suna en yakın ücretsiz fonttur.
 
 ## Köşe yuvarlaklıkları
 
@@ -99,7 +100,7 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 - **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
 - **İkonlar:** Lucide (`pix/icons`, `icons.scss`), mesaj balonu DIVERSE'e özel oval çizim. Moodle'ın işaretlemesi değişmez, yalnızca
   çizim değişir; listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.
-- **Ders kartları:** kayıtlı olunan derste sağ üstte favori yıldızı, kapakta etkinlik sayacı, üstte tür etiketi, altta ilerleme ve eylem düğmesi (Başla, Devam et, Görüntüle). Başlık Source Sans 3 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
+- **Ders kartları:** kayıtlı olunan derste sağ üstte favori yıldızı, kapakta etkinlik sayacı, üstte tür etiketi, altta ilerleme ve eylem düğmesi (Başla, Devam et, Görüntüle). Başlık 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
   (ink/turuncu, soft/ink, turuncu/ink, şeftali/ink...). Yeni zemin/yazı eşleşmesi kontrast ölçülmeden eklenmez.
 
