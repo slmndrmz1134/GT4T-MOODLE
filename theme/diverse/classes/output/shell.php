@@ -152,6 +152,10 @@ class shell implements renderable, templatable {
         foreach ($paths as $path) {
             $iscurrent = $iscurrent || str_starts_with($current, $path);
         }
+        // Every tab of a course belongs to My courses; the information page of another course is still browsing.
+        if ($this->page->course->id != SITEID && !str_starts_with($current, '/course/info.php')) {
+            $iscurrent = $icon === 'courses';
+        }
         return [
             'label' => $label,
             'url' => (new \core\url($url))->out(false),

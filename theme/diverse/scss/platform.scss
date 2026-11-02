@@ -544,22 +544,35 @@ table.diverse-table {
     }
 }
 
-// Course page: a dark band with what the course is about, and a card with the next step.
+// Everything in a course starts on the same line as the content of Moodle's #region-main, which has no gutter on phones.
+@include media-breakpoint-up(md) {
+    .diverse-hero-course,
+    .diverse-lesson-bar,
+    body.diverse-course .secondary-navigation .moremenu.navigation {
+        margin-right: .9375rem;
+        margin-left: .9375rem;
+    }
+}
+
+// Course header on every tab of a course: text on the page, a divider below it, no card.
 .diverse-hero-course {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
-    width: 100%;
-    margin: 1rem 0 1.25rem;
-    padding: 1.5rem;
-    background-color: $diverse-ink;
-    border-radius: 1rem;
-    color: $white;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid $diverse-border;
 
     @include media-breakpoint-up(lg) {
         grid-template-columns: minmax(0, 1fr) 20rem;
         align-items: center;
-        padding: 2rem;
+        gap: 2rem;
+    }
+
+    .breadcrumb {
+        margin-bottom: .5rem;
+        padding: 0;
+        background-color: transparent;
+        font-size: .875rem;
     }
 }
 
@@ -569,14 +582,13 @@ table.diverse-table {
 
 .diverse-hero-course-category {
     margin: 0 0 .25rem;
-    color: $diverse-brand-orange;
+    color: $diverse-action-orange;
     font-size: .875rem;
     font-weight: 700;
 }
 
 .diverse-hero-course-title {
     margin: 0;
-    color: $white;
     font-size: clamp(1.75rem, 3vw, 2.75rem);
     line-height: 1.1;
 }
@@ -584,7 +596,7 @@ table.diverse-table {
 .diverse-hero-course-summary {
     max-width: 48rem;
     margin: .75rem 0 0;
-    color: $diverse-on-dark-muted;
+    color: $diverse-grey;
     font-size: 1.125rem;
     line-height: 1.5;
 }
@@ -594,7 +606,7 @@ table.diverse-table {
     flex-wrap: wrap;
     gap: .25rem 1.25rem;
     margin: .75rem 0 0;
-    color: $diverse-on-dark-muted;
+    color: $diverse-grey;
     font-size: .9375rem;
 }
 
@@ -602,10 +614,11 @@ table.diverse-table {
     display: flex;
     flex-direction: column;
     gap: .625rem;
-    padding: .75rem .75rem 1rem;
-    background-color: $white;
-    border-radius: .875rem;
-    color: $diverse-ink;
+
+    @include media-breakpoint-up(lg) {
+        padding-left: 2rem;
+        border-left: 1px solid $diverse-border;
+    }
 
     .diverse-course-cover {
         display: block;
@@ -623,7 +636,7 @@ table.diverse-table {
             display: none;
         }
 
-        // Without progress or a next step (teachers) nothing is left in the card.
+        // Without progress or a next step (teachers) nothing is left here.
         &.diverse-hero-course-cardonly {
             display: none;
         }
@@ -642,12 +655,8 @@ table.diverse-table {
     flex-wrap: wrap;
     align-items: center;
     gap: .5rem 1.25rem;
-    width: 100%;
-    margin: 1rem 0 .75rem;
-    padding: .75rem 1.25rem;
-    background-color: $diverse-ink;
-    border-radius: .75rem;
-    color: $white;
+    padding: .75rem 0;
+    border-bottom: 1px solid $diverse-border;
 
     .diverse-progress {
         flex: 1;
@@ -655,22 +664,10 @@ table.diverse-table {
         max-width: 24rem;
         margin: 0;
     }
-
-    .diverse-progress-track {
-        background-color: $diverse-grey;
-
-        span {
-            background-color: $diverse-brand-orange;
-        }
-    }
-
-    .diverse-progress-value {
-        color: $diverse-on-dark-muted;
-    }
 }
 
 .diverse-lesson-course {
-    color: $white;
+    color: $diverse-ink;
     font-family: $headings-font-family;
     font-size: 1.125rem;
     font-weight: 700;
@@ -678,13 +675,13 @@ table.diverse-table {
 
     &:hover,
     &:focus {
-        color: $white;
+        color: $diverse-action-orange;
         text-decoration: underline;
     }
 }
 
 .diverse-lesson-position {
-    color: $diverse-on-dark-muted;
+    color: $diverse-grey;
     font-size: .875rem;
 }
 
@@ -694,42 +691,64 @@ table.diverse-table {
     margin-left: auto;
 }
 
-.diverse-btn-on-dark {
-    border: 1px solid $diverse-on-dark-muted;
-    color: $white;
-
-    &:hover,
-    &:focus {
-        background-color: $white;
-        color: $diverse-ink;
-    }
-}
-
-body.diverse-shell.path-course-view {
+// Tabs of a course: the course header replaces Moodle's title, and the way back moves into it.
+body.diverse-course-tab {
     #page-header .page-header-headings,
-    #page-header .page-context-header {
+    #page-header .page-context-header,
+    #page-header #page-navbar {
         display: none;
     }
 
     #page-header {
-        padding-top: 0;
+        margin: 0;
+        padding: 0;
     }
 
     .secondary-navigation {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
 
-    // Sections as cards on the surface.
+    #region-main h2:not(.accesshide) {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+    }
+}
+
+// Sections of a course, and the groups on its Activities tab: rows between dividers, not cards.
+body.diverse-course {
+    .secondary-navigation .moremenu {
+        margin-right: 0;
+        margin-left: 0;
+        padding: 0;
+    }
+
+    .tertiary-navigation {
+        margin-right: 0;
+        margin-left: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
     .course-section {
-        padding: 1rem 1.25rem;
-        background-color: $white;
-        border: 1px solid $diverse-border;
-        border-radius: 1rem;
+        margin: 0;
+        padding: 1rem 0;
+        border-bottom: 1px solid $diverse-border;
     }
 
     .course-section .section-item {
         padding: 0;
         border: 0;
+    }
+
+    .collapsable-section {
+        margin-bottom: 0 !important;
+        padding: 1rem 0 !important;
+        border-width: 0 0 1px !important;
+        border-radius: 0 !important;
+    }
+
+    .activity-item:hover {
+        background-color: $diverse-soft-orange;
     }
 
     // Sections without any content say nothing to a student; while editing they stay visible.

@@ -123,8 +123,24 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         }
         if (shell::applies($this->page)) {
             $additionalclasses[] = 'diverse-shell';
+            if ($this->page->course->id != SITEID) {
+                $additionalclasses[] = 'diverse-course';
+            }
+            if ($this->is_course_tab()) {
+                $additionalclasses[] = 'diverse-course-tab';
+            }
         }
         return parent::body_attributes($additionalclasses);
+    }
+
+    /**
+     * Whether this is a page of the course itself (the course, its settings, participants, grades...), not of an activity.
+     *
+     * @return bool
+     */
+    protected function is_course_tab(): bool {
+        return shell::applies($this->page) && $this->page->course->id != SITEID && !$this->page->cm &&
+            $this->page->context->contextlevel === CONTEXT_COURSE;
     }
 
     /**
@@ -144,20 +160,18 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     }
 
     /**
-     * The page header, with the DIVERSE course header on course pages.
+     * The page header, with the DIVERSE course header on every tab of a course.
      *
      * @return string
      */
     public function full_header() {
         $header = parent::full_header();
-        if (!shell::applies($this->page) || $this->page->course->id == SITEID) {
-            return $header;
-        }
-        if (str_starts_with($this->page->pagetype, 'course-view-')) {
+        if ($this->is_course_tab()) {
             $hero = (new course_hero($this->page->course))->export_for_template($this);
+            $hero['navbar'] = $this->navbar();
             return $this->render_from_template('theme_diverse/course_hero', $hero) . $header;
         }
-        if ($this->page->pagelayout === 'incourse' && $this->page->cm) {
+        if (shell::applies($this->page) && $this->page->course->id != SITEID && $this->page->cm) {
             $bar = course_hero::lesson_bar($this->page->course, $this->page->cm);
             return $this->render_from_template('theme_diverse/lesson_bar', $bar) . $header;
         }

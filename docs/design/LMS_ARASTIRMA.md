@@ -13,8 +13,9 @@ içerik ve müfredat yan yana duruyor, hiç LMS kullanmamış biri de aradığı
 - **Keşfet sayfası** (`local/diverse_catalog`): arama, kategori ve durum filtresi, sıralama, ders kartları.
 - **Panom:** karşılama, kategori şeridi, doğrudan sıradaki etkinliğe giden "Öğrenmeye devam edin" kartları, ders kartları
   ve kayıtlı olunmayan dersler.
-- **Ders sayfası:** koyu üst bant, açıklama, sağda ilerleme ve "Devam et" kartı; müfredat sağ panelde.
-- **Etkinlik sayfası:** üstte ders bandı (konum, ilerleme, Önceki/Sonraki), müfredat sağ panelde.
+- **Ders sayfası:** başlık, açıklama, sağda ilerleme ve "Devam et"; müfredat sağ panelde. Başlık ve bölümler kart değildir,
+  ayraçla ayrılır (proje sahibinin kararı, Kasım 2026). Aynı başlık dersin bütün sekmelerinde görünür.
+- **Etkinlik sayfası:** üstte ders satırı (konum, ilerleme, Önceki/Sonraki), müfredat sağ panelde.
 - **Sekmeler:** kenarlıksız, köşesiz, altı çizgili.
 
 Bizde karşılığı olmadığı için alınmayanlar: puan, satış rozetleri, fiyat, süre. Bu veriler Moodle'da yok, uydurma rakam

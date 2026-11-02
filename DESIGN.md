@@ -89,6 +89,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   yazı ve altında 3 px etkileşim turuncusu çizgi (`platform.scss`). Ders ve yönetim sayfalarının hepsinde aynıdır.
 - **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 16 px köşe. Sayfa zemini `$diverse-surface` olur,
   böylece kartlar ayrışır. Boş kart gösterilmez.
+- **Ders sayfaları:** ders başlığı, sekmeler ve ders bölümleri kart değildir; `$diverse-border` ayraçlarıyla ayrılır. Başlık
+  ve müfredat paneli dersin bütün sekmelerinde aynı yerdedir (`platform.scss`, `shell.scss`).
 - **Sol menü:** ink zemin, ikon ve altında etiket. Aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
 - **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
 - **Ders kartları:** başlık Source Sans 3 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.

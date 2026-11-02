@@ -17,11 +17,11 @@
 {{!
     @template theme_diverse/course_hero
 
-    Header of the course page: cover, name, teachers, progress and the next step.
+    Header of every tab of a course: the way back, name, teachers, cover, progress and the next step.
 
     Example context (json):
     {
-        "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
+        "navbar": "", "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
         "summary": "Contracts, liability and companies.", "stats": "5 sections, 7 activities", "people": 12,
         "coverstyle": "brand", "isplus": true, "hasprogress": true, "progress": 40,
         "hasnext": true, "nexturl": "#", "nextname": "What is Business Law?", "nextlabel": "Continue"
@@ -29,6 +29,7 @@
 }}
 <section class="diverse-hero-course" aria-label="{{name}}">
     <div class="diverse-hero-course-text">
+        {{{navbar}}}
         {{#category}}<p class="diverse-hero-course-category">{{category}}</p>{{/category}}
         <h1 class="diverse-hero-course-title">{{name}}</h1>
         {{#summary}}<p class="diverse-hero-course-summary">{{summary}}</p>{{/summary}}
