@@ -100,7 +100,7 @@ body {
     background-color: $white;
 
     .container-fluid {
-        max-width: 80rem;
+        max-width: $diverse-content-max-width;
         margin-left: auto;
         margin-right: auto;
         display: flex;
@@ -352,12 +352,12 @@ body {
     object-fit: contain;
 }
 
-// Platform footer content container width (1280px / 80rem).
+// Platform footer content container width.
 #page-footer {
 
     .footer-content-popover,
     .footer-section {
-        max-width: 80rem;
+        max-width: $diverse-content-max-width;
         margin-left: auto;
         margin-right: auto;
     }

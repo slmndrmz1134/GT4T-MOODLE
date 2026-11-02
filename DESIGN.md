@@ -69,8 +69,8 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 
 | Öğe | Değer | Nerede |
 |---|---|---|
-| Ders sayfası içerik genişliği | `1280px` (80rem), diğer platform sayfalarıyla aynı | `platform.scss`; Boost Union ayarı `coursecontentmaxwidth` da 1280px (`setup/diverse_setup.php` yazar) |
-| Dashboard, Derslerim ve diğer platform sayfaları | `80rem` (1280 px) | `platform.scss` |
+| Ders sayfası içerik genişliği | Sınır yok (deneme, Kasım 2026): içerik sol menünün yanını doldurur | `pre.scss`: `$course-content-maxwidth`. Boost Union ayarı `coursecontentmaxwidth` 1280px olarak duruyor, SCSS bunu ezer |
+| Dashboard, Derslerim, landing, üst çubuk ve footer | Sınır yok (deneme, Kasım 2026); eskiden `80rem` (1280 px) | `pre.scss`: `$diverse-content-max-width` |
 | Landing yan boşluğu | `4rem` masaüstü, `1.25rem` mobil | `landing.scss`: `$diverse-gutter`, `$diverse-gutter-sm` |
 | Giriş sayfası marka paneli | Ekranın `42vw` kadarı | `login.scss`: `$diverse-login-panel-width` |
 | Sol menü | `5.5rem` (88 px), `md` ve üstü | `shell.scss`: `$diverse-rail-width` |

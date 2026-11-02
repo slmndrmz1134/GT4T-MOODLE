@@ -29,6 +29,11 @@ $diverse-on-dark-muted: #D4D4D8;       // Secondary text on the dark ink footer 
 $diverse-track: #EDEDEF;               // Progress bar track.
 
 // Bootstrap / Moodle theme colours.
+// Page width: no limit, the content fills the space next to the side navigation. To limit it again, give both a
+// length such as 80rem. The second one wins over Boost Union's course width setting without changing that setting.
+$diverse-content-max-width: none;
+$course-content-maxwidth: 100%;
+
 $primary: $diverse-action-orange;
 
 // Activity icons in the palette instead of Moodle's own pink, blue and purple.
