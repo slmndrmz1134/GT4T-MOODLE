@@ -95,8 +95,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 - **Üst menü:** beyaz zemin, sekmelerle aynı alt çizgi; ikon yok. Yönetim bağlantıları "Administration" açılır menüsündedir.
   Telefonda alt menü ink zemin, ikon ve altında etiket; aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
 - **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
-- **İkonlar:** proje sahibinin seçtiği set (`pix/icons`, `icons.scss`). Moodle'ın işaretlemesi değişmez, yalnızca çizim değişir;
-  listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.
+- **İkonlar:** Lucide (`pix/icons`, `icons.scss`), mesaj balonu DIVERSE'e özel oval çizim. Moodle'ın işaretlemesi değişmez, yalnızca
+  çizim değişir; listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.
 - **Ders kartları:** kapakta etkinlik sayacı, üstte tür etiketi, altta ilerleme ve eylem düğmesi (Başla, Devam et, Görüntüle). Başlık Source Sans 3 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
   (ink/turuncu, soft/ink, turuncu/ink, şeftali/ink...). Yeni zemin/yazı eşleşmesi kontrast ölçülmeden eklenmez.

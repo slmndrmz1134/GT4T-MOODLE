@@ -163,8 +163,9 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   çubuğun altındaki satırda, yönetim bağlantıları açılır menüde. Telefondaki alt menü aynı kaldı.
 - Ders kartlarına tür etiketi, etkinlik sayacı ve eylem düğmesi eklendi. Derslerim sayfası Moodle'ın bloğu yerine aynı kartları
   gösterir; blok silinmez, gizlenir. Sık görülen ikonlar `icons.scss` ile çizgili hale geldi.
-- `theme/diverse/pix/icons` içindeki 16 ikonu proje sahibi Flaticon'dan seçti. Ücretsiz lisansla alındıysa sitede kaynak gösterilmesi
-  gerekir; lisans bilgisi proje sahibindedir.
+- İkonlar Lucide oldu (`theme/diverse/pix/icons`, ISC lisansı, `thirdpartylibs.xml`): tek kalınlıkta, SVG ve sitede kaynak yazısı
+  gerektirmiyor. Yalnızca oval mesaj balonu proje sahibinin beğenisine göre DIVERSE için çizildi. Yeni ikon eklemek için SVG
+  dosyası kopyalanıp `icons.scss` listesine yazılır.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration
