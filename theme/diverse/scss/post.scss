@@ -48,16 +48,28 @@ body.pagelayout-mycourses #page {
 }
 
 // Secondary buttons: white with a neutral outline instead of Bootstrap grey.
-.btn-secondary {
+.btn-secondary,
+.btn-outline-secondary {
     --#{$prefix}btn-color: #{$diverse-ink};
     --#{$prefix}btn-bg: #{$white};
     --#{$prefix}btn-border-color: #{$diverse-border-strong};
     --#{$prefix}btn-hover-color: #{$diverse-ink};
     --#{$prefix}btn-hover-bg: #{$diverse-surface};
-    --#{$prefix}btn-hover-border-color: #{$diverse-ink};
+    --#{$prefix}btn-hover-border-color: #{$diverse-action-orange};
     --#{$prefix}btn-active-color: #{$diverse-ink};
-    --#{$prefix}btn-active-bg: #{$diverse-border};
-    --#{$prefix}btn-active-border-color: #{$diverse-ink};
+    --#{$prefix}btn-active-bg: #{$diverse-surface};
+    --#{$prefix}btn-active-border-color: #{$diverse-action-orange};
+}
+
+// Buttons without a colour of their own (user menu, action menus): Bootstrap leaves their pressed and open state undefined,
+// and the browser then draws a border in the text colour.
+.btn:not([class*="btn-"]),
+.btn-submit,
+.btn-subtle-body,
+.btn-footer-popover {
+    --#{$prefix}btn-active-color: currentColor;
+    --#{$prefix}btn-active-bg: transparent;
+    --#{$prefix}btn-active-border-color: transparent;
 }
 
 // Cards: neutral hairline border.
