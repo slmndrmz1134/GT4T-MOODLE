@@ -161,6 +161,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   ekranı dolduran iki sütuna geçti (`messages.scss`); telefonda tek sütun görünür.
 - Proje sahibinin kararıyla tam genişlik denemesi bitti, sayfa genişliği yeniden `80rem`. Sol menü de kalktı: gezinme üst
   çubuğun altındaki satırda, yönetim bağlantıları açılır menüde. Telefondaki alt menü aynı kaldı.
+- Ders kartlarına tür etiketi, etkinlik sayacı ve eylem düğmesi eklendi. Derslerim sayfası Moodle'ın bloğu yerine aynı kartları
+  gösterir; blok silinmez, gizlenir. Sık görülen ikonlar `icons.scss` ile çizgili hale geldi.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

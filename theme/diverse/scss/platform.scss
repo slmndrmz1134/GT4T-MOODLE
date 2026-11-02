@@ -84,6 +84,13 @@
 body.diverse-shell {
     background-color: $diverse-surface;
 
+    // Titles and content start on the same line as the navigation above them.
+    #page-header,
+    #page.drawers div[role="main"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
     #page,
     #page.drawers .main-inner,
     #region-main {
@@ -713,12 +720,6 @@ body.diverse-course-tab {
 
 // Sections of a course, and the groups on its Activities tab: rows between dividers, not cards.
 body.diverse-in-course {
-    // Everything in a course starts on the same line as the navigation above it.
-    #page.drawers div[role="main"] {
-        padding-right: 0;
-        padding-left: 0;
-    }
-
     .secondary-navigation .moremenu {
         margin-right: 0;
         margin-left: 0;
@@ -888,11 +889,6 @@ body.pagelayout-mycourses.diverse-shell {
         border-color: $diverse-action-orange;
         color: $diverse-ink;
         text-decoration: none;
-
-        .diverse-resume-play {
-            background-color: $diverse-action-orange;
-            color: $white;
-        }
     }
 }
 
@@ -904,28 +900,6 @@ body.pagelayout-mycourses.diverse-shell {
         display: block;
         height: 100%;
         min-height: 8.5rem;
-    }
-}
-
-.diverse-resume-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    transform: translate(-50%, -50%);
-    background-color: $white;
-    border-radius: 50%;
-    color: $diverse-ink;
-    transition: background-color .15s ease, color .15s ease;
-
-    svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        fill: currentColor;
     }
 }
 
@@ -1012,6 +986,65 @@ body.pagelayout-mycourses.diverse-shell {
     }
 }
 
+.diverse-card-course-cover {
+    position: relative;
+    display: block;
+}
+
+// How much is in a course, on its cover.
+.diverse-cover-count {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    padding: .125rem .5rem;
+    background-color: $diverse-ink;
+    border-radius: $btn-border-radius;
+    color: $white;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.diverse-card-course-type {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    color: $diverse-grey;
+    font-size: .8125rem;
+    font-weight: 600;
+}
+
+// Progress or a figure on the left, what to do next on the right.
+.diverse-card-course-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    margin-top: auto;
+    padding-top: .75rem;
+
+    // The button moves under a progress bar that would get too short next to it.
+    .diverse-progress {
+        flex: 1 1 9rem;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .btn {
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+}
+
+// My courses: the same cards instead of Moodle's block.
+body:has(.diverse-mycourses) .block_myoverview {
+    display: none;
+}
+
+.diverse-mycourses {
+    margin-bottom: 2rem;
+}
+
 .diverse-card-course-body {
     display: flex;
     flex: 1;
@@ -1047,7 +1080,6 @@ body.pagelayout-mycourses.diverse-shell {
     display: flex;
     flex-wrap: wrap;
     gap: .25rem;
-    margin-top: auto;
     padding-top: .5rem;
 }
 

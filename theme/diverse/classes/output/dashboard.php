@@ -141,6 +141,8 @@ class dashboard implements renderable, templatable {
         foreach (array_slice($courses, 0, self::MAX_RESUME, true) as $course) {
             $next = course_hero::next_activity($course);
             $resume[] = $this->export_course($course, $output) + [
+                'activities' => count(course_hero::activities($course)),
+                'action' => get_string($lastaccess[$course->id] ?? 0 ? 'hero_continue' : 'hero_start', 'theme_diverse'),
                 'url' => ($next ? $next->url : new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
                 'next' => $next ? self::text($next->name) : '',
                 'type' => $next ? $next->get_module_type_name() : '',

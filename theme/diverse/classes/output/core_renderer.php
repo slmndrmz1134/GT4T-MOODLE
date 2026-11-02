@@ -101,6 +101,14 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             return $this->render_from_template('theme_diverse/dashboard', (new dashboard())->export_for_template($this)) .
                 $maincontent;
         }
+        if ($this->page->pagelayout === 'mycourses' && shell::applies($this->page) &&
+                class_exists(\local_diverse_catalog\catalog::class)) {
+            $courses = \local_diverse_catalog\catalog::mine();
+            return $this->render_from_template('theme_diverse/my_courses', [
+                'courses' => $courses,
+                'hascourses' => !empty($courses),
+            ]) . $maincontent;
+        }
         if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {
             return $maincontent . \html_writer::tag(
                 'p',

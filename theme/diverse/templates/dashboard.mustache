@@ -98,18 +98,21 @@
             <li><a class="diverse-resume" href="{{url}}">
                 <span class="diverse-resume-cover">
                     {{> theme_diverse/course_cover }}
-                    <span class="diverse-resume-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span>
+                    <span class="diverse-cover-count">{{#str}}card_activities, theme_diverse, {{activities}}{{/str}}</span>
                 </span>
                 <span class="diverse-resume-body">
                     <span class="diverse-resume-course">{{name}}</span>
                     <span class="diverse-resume-next">{{#next}}{{next}}{{/next}}{{^next}}{{name}}{{/next}}</span>
                     <span class="diverse-resume-meta">{{type}}{{#lastaccess}}{{#type}} · {{/type}}{{lastaccess}}{{/lastaccess}}</span>
-                    {{#hasprogress}}
-                    <span class="diverse-progress">
-                        <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
-                        <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+                    <span class="diverse-card-course-footer">
+                        {{#hasprogress}}
+                        <span class="diverse-progress">
+                            <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
+                            <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+                        </span>
+                        {{/hasprogress}}
+                        <span class="btn btn-sm btn-primary">{{action}}</span>
                     </span>
-                    {{/hasprogress}}
                 </span>
             </a></li>
             {{/resume}}

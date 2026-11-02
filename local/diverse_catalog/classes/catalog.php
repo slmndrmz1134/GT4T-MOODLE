@@ -134,6 +134,16 @@ class catalog {
     }
 
     /**
+     * The courses the current user is enrolled in.
+     *
+     * @return array Cards.
+     */
+    public static function mine(): array {
+        $courses = enrol_get_my_courses(['summary', 'summaryformat'], 'fullname ASC');
+        return self::cards(array_map(fn($course) => new core_course_list_element($course), $courses));
+    }
+
+    /**
      * What the course cards show.
      *
      * @param core_course_list_element[] $courses Keyed by course id.
@@ -166,7 +176,10 @@ class catalog {
         $cards = [];
         foreach ($courses as $id => $course) {
             $isenrolled = in_array($id, $enrolled);
-            $progress = $isenrolled ? \core_completion\progress::get_course_progress_percentage(get_course($id)) : null;
+            $teaches = has_capability('moodle/grade:viewall', \core\context\course::instance($id));
+            $studies = $isenrolled && !$teaches;
+            $progress = $studies ? \core_completion\progress::get_course_progress_percentage(get_course($id)) : null;
+            $unfinished = $studies && ($progress ?? 0) < 100;
             $summary = trim(html_to_text(format_text((string)$course->summary, $course->summaryformat), 0, false));
             $cards[] = \theme_diverse\output\landing::course_cover($course) + [
                 'id' => $id,
@@ -180,6 +193,10 @@ class catalog {
                 'selfenrol' => !$isenrolled && isset($open[$id]),
                 'hasprogress' => $progress !== null,
                 'progress' => $progress !== null ? (int)floor($progress) : 0,
+                'action' => $unfinished
+                    ? get_string(($progress ?? 0) > 0 ? 'hero_continue' : 'hero_start', 'theme_diverse')
+                    : get_string('view'),
+                'actionprimary' => $unfinished,
                 'timecreated' => (int)$course->timecreated,
                 'url' => (new \core\url($isenrolled ? '/course/view.php' : '/course/info.php', ['id' => $id]))->out(false),
             ];
