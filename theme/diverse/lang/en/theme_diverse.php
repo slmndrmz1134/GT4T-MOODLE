@@ -103,6 +103,7 @@ $string['signup_partner_intro'] = 'Create your {$a} account.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Main navigation';
+$string['messages_select'] = 'Select a conversation to read it here.';
 $string['nav_discover'] = 'Discover';
 $string['nav_search'] = 'What do you want to learn?';
 $string['dash_resume'] = 'Keep learning';

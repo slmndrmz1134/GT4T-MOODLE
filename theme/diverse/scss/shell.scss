@@ -118,7 +118,7 @@ $diverse-tabbar-height: 4rem;
             left: auto;
 
             .btn {
-                border-radius: 200px 0 0 200px;
+                border-radius: $btn-border-radius 0 0 $btn-border-radius;
             }
         }
 
@@ -235,7 +235,7 @@ $diverse-tabbar-height: 4rem;
             left: auto;
 
             .btn {
-                border-radius: 200px 0 0 200px;
+                border-radius: $btn-border-radius 0 0 $btn-border-radius;
             }
         }
 

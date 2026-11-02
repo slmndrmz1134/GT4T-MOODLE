@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Susikurkite savo {$a} paskyrą.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Pagrindinė navigacija';
+$string['messages_select'] = 'Pasirinkite pokalbį, kad jį čia perskaitytumėte.';
 $string['nav_discover'] = 'Atrasti';
 $string['nav_search'] = 'Ko norite išmokti?';
 $string['dash_resume'] = 'Tęskite mokymąsi';

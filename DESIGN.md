@@ -59,9 +59,9 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 
 | Öğe | Değer | SCSS değişkeni |
 |---|---|---|
-| Butonlar (her boy) | Oval (pill), `50rem` | `$btn-border-radius`, `-sm`, `-lg` |
+| Butonlar (her boy) | `.375rem` (6 px) | `$diverse-control-radius`, `$btn-border-radius` |
 | Kartlar | `1rem` (16 px) | `$card-border-radius`, `$border-radius-xl` |
-| Form alanları | `.625rem` (10 px), küçükler `.5rem` | `$input-border-radius`, `-lg`, `-sm` |
+| Form alanları | `.375rem` (6 px), butonlarla aynı | `$diverse-control-radius`, `$input-border-radius` |
 | Genel | `.5rem` / büyük `.75rem` | `$border-radius`, `$border-radius-lg` |
 | Sekmeler | Köşesiz, `0` | `platform.scss` |
 | İlerleme çubuğu | Oval, `50rem` | `post.scss` |
@@ -84,9 +84,10 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 
 ## Bileşenler
 
-- **Butonlar:** oval, etkileşim turuncusu zemin ve beyaz yazı. Hover'da `$diverse-action-orange-hover`.
+- **Butonlar:** az yuvarlak köşeli (6 px, proje sahibinin kararı, Kasım 2026), etkileşim turuncusu zemin ve beyaz yazı. Hover'da `$diverse-action-orange-hover`.
 - **Sekmeler:** kenarlıksız ve köşesiz düz yazı; altta `$diverse-border` çizgisi. Pasif sekme gri yazı, aktif sekme ink
-  yazı ve altında 3 px etkileşim turuncusu çizgi (`platform.scss`). Ders ve yönetim sayfalarının hepsinde aynıdır.
+  yazı ve altında 3 px etkileşim turuncusu çizgi (`platform.scss`). Ders ve yönetim sayfalarının hepsinde, Panom'daki
+  kategori satırında da aynıdır.
 - **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 16 px köşe. Sayfa zemini `$diverse-surface` olur,
   böylece kartlar ayrışır. Boş kart gösterilmez.
 - **Ders sayfaları:** ders başlığı, sekmeler ve ders bölümleri kart değildir; `$diverse-border` ayraçlarıyla ayrılır. Başlık

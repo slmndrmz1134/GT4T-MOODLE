@@ -157,6 +157,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   için başlık ve müfredat paneli sekmeden sekmeye değişiyordu. Tema artık düzene değil bağlama bakar: ders bağlamındaki her
   sayfa `diverse-course-tab`, ders içindeki her sayfa `diverse-in-course` sınıfını alır. Başlık ve ders bölümleri kart olmaktan
   çıktı, ayraçla ayrılır.
+- Butonlar ve form alanları oval olmaktan çıktı, tek köşe değeri kullanır (`$diverse-control-radius`, 6 px). Mesajlar sayfası
+  ekranı dolduran iki sütuna geçti (`messages.scss`); telefonda tek sütun görünür.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

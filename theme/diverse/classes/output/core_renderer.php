@@ -101,6 +101,13 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             return $this->render_from_template('theme_diverse/dashboard', (new dashboard())->export_for_template($this)) .
                 $maincontent;
         }
+        if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {
+            return $maincontent . \html_writer::tag(
+                'p',
+                get_string('messages_select', 'theme_diverse'),
+                ['class' => 'diverse-message-empty']
+            );
+        }
         if (!$this->is_landing_page()) {
             return $maincontent;
         }

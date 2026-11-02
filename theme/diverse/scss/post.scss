@@ -60,12 +60,6 @@ body.pagelayout-mycourses #page {
     --#{$prefix}btn-active-border-color: #{$diverse-ink};
 }
 
-// Buttons attached to form controls (e.g. the password "show" toggle) keep the input's
-// corner radius instead of the pill shape, so they join the field cleanly.
-.input-group>.btn {
-    --#{$prefix}btn-border-radius: #{$input-border-radius};
-}
-
 // Cards: neutral hairline border.
 .card {
     --#{$prefix}card-border-color: #{$diverse-border};
@@ -206,7 +200,7 @@ body {
             font-size: .875rem;
             font-weight: 500;
             padding: .4rem .75rem;
-            border-radius: 50rem;
+            border-radius: $btn-border-radius;
             color: $diverse-ink;
             border: 1px solid transparent !important;
             outline: none !important;
@@ -239,7 +233,7 @@ body {
         a {
             background-color: $diverse-action-orange;
             color: $white;
-            border-radius: 50rem;
+            border-radius: $btn-border-radius;
             padding: .45rem 1.25rem;
             font-weight: 600;
             font-size: .9375rem;
@@ -260,7 +254,7 @@ body {
     }
 }
 
-// Navbar search bar: modern compact pill search input.
+// Navbar search bar.
 .diverse-navbar-search {
     position: relative;
 
@@ -287,7 +281,7 @@ body {
         padding-left: 2.25rem;
         padding-right: .875rem;
         font-size: .875rem;
-        border-radius: 50rem;
+        border-radius: $input-border-radius;
         border: 1px solid $diverse-border-strong;
         background-color: $diverse-surface;
         color: $diverse-ink;

@@ -1,0 +1,178 @@
+/****************************************************************
+ * DIVERSE messages page (/message/index.php).
+ * Only styles Moodle's own markup: conversations on the left, the open one next to them, filling the screen.
+ * On phones one column at a time. The message drawer opened from the top bar stays Moodle's.
+ ***************************************************************/
+
+$diverse-messages-list-width: 22rem;
+
+body#page-message-index.diverse-shell {
+    #page.drawers {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    #page.drawers .main-inner,
+    #region-main,
+    #region-main > div {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    #page-content {
+        padding-bottom: 0 !important;
+    }
+
+    #region-main {
+        position: relative;
+    }
+
+    #page-footer {
+        display: none;
+    }
+
+    // Moodle's own height comes with two ids: this selector has to be as strong.
+    #region-main div[role="main"] .message-app.main {
+        height: calc(100vh - #{$navbar-height});
+        height: calc(100dvh - #{$navbar-height});
+    }
+
+    .message-app {
+        background-color: $diverse-surface !important;
+        border: 0 !important;
+
+        > .container-fluid {
+            height: 100%;
+            padding: 0;
+        }
+
+        .conversationcontainer {
+            flex: 0 0 $diverse-messages-list-width;
+            width: $diverse-messages-list-width;
+            max-width: none;
+            background-color: $white;
+            border-right: 1px solid $diverse-border;
+
+            > .border-end {
+                border: 0 !important;
+            }
+        }
+
+        .col-8 {
+            flex: 1;
+            width: auto;
+            min-width: 0;
+            max-width: none;
+        }
+
+        // Starred, group and private conversations: headings between dividers.
+        .section,
+        .section .card-header {
+            background-color: $white;
+        }
+
+        .section .card-header {
+            border-bottom: 1px solid $diverse-border;
+        }
+
+        .section .btn-link {
+            color: $diverse-ink;
+            text-decoration: none;
+        }
+
+        .list-group-item {
+            border-width: 0 0 1px;
+            border-color: $diverse-border;
+
+            &:hover,
+            &:focus {
+                background-color: $diverse-soft-orange;
+            }
+        }
+
+        textarea {
+            background-color: $white !important;
+        }
+
+        // Messages: sent ones on the right in the brand's soft colour, as wide as their text.
+        .message {
+            width: fit-content;
+            min-width: 10rem;
+            max-width: min(75%, 40rem);
+            border: 1px solid $diverse-border;
+
+            .tail {
+                display: none;
+            }
+
+            &.send {
+                margin-right: .25rem !important;
+                margin-left: auto !important;
+                background-color: $diverse-soft-orange;
+                border-color: $diverse-peach;
+                color: $diverse-ink;
+            }
+
+            &.received {
+                margin-right: auto !important;
+                margin-left: .25rem !important;
+                background-color: $white;
+                color: $diverse-ink;
+            }
+        }
+    }
+
+    // Shown until a conversation, the contacts or the settings open on the right.
+    .diverse-message-empty {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: $diverse-messages-list-width;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 1rem;
+        color: $diverse-grey;
+        pointer-events: none;
+    }
+
+    &:has(.message-app .col-8 .body-container > :not(.hidden)) .diverse-message-empty {
+        display: none;
+    }
+
+    @include media-breakpoint-down(md) {
+        #region-main div[role="main"] .message-app.main {
+            height: calc(100vh - #{$navbar-height} - #{$diverse-tabbar-height});
+            height: calc(100dvh - #{$navbar-height} - #{$diverse-tabbar-height});
+        }
+
+        .message-app {
+            .conversationcontainer {
+                flex: 0 0 100%;
+                width: 100%;
+                border-right: 0;
+            }
+
+            .col-8 {
+                display: none !important;
+            }
+
+            .row:has(.col-8 .body-container > :not(.hidden)) {
+                .conversationcontainer {
+                    display: none !important;
+                }
+
+                .col-8 {
+                    display: flex !important;
+                }
+            }
+        }
+
+        .diverse-message-empty {
+            display: none;
+        }
+    }
+}

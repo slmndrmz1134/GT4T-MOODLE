@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Izradite svoj račun ustanove {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Glavna navigacija';
+$string['messages_select'] = 'Odaberite razgovor da biste ga ovdje pročitali.';
 $string['nav_discover'] = 'Otkrij';
 $string['nav_search'] = 'Što želite naučiti?';
 $string['dash_resume'] = 'Nastavite učiti';

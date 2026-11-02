@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = '{$a} hesabınızı oluşturun.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Ana gezinme';
+$string['messages_select'] = 'Okumak için bir konuşma seçin.';
 $string['nav_discover'] = 'Keşfet';
 $string['nav_search'] = 'Ne öğrenmek istiyorsunuz?';
 $string['dash_resume'] = 'Öğrenmeye devam edin';

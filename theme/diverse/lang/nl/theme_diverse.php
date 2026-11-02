@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Maak je account van {$a} aan.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Hoofdnavigatie';
+$string['messages_select'] = 'Selecteer een gesprek om het hier te lezen.';
 $string['nav_discover'] = 'Ontdekken';
 $string['nav_search'] = 'Wat wil je leren?';
 $string['dash_resume'] = 'Verder leren';

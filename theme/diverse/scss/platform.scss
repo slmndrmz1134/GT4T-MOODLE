@@ -812,33 +812,45 @@ body.pagelayout-mycourses.diverse-shell {
     min-width: 12rem;
 }
 
-// Categories of courses, one click into the catalogue.
+// Categories of courses, one click into the catalogue: the same line as the tabs of a course.
+// The same for the plain links on these screens; keyboard users still see where they are.
+.diverse-dash a:focus,
+.diverse-catalog a:focus {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.diverse-dash a:focus-visible,
+.diverse-catalog a:focus-visible {
+    outline: 2px solid $diverse-action-orange;
+    outline-offset: 2px;
+}
+
 .diverse-category-strip {
     display: flex;
-    flex-wrap: wrap;
-    gap: .5rem;
+    gap: 1.5rem;
+    overflow-x: auto;
+    border-bottom: 1px solid $diverse-border;
 
     a {
         display: inline-flex;
         align-items: center;
         gap: .375rem;
         min-height: 2.75rem;
-        padding: .375rem 1rem;
-        background-color: $white;
-        border: 1px solid $diverse-border-strong;
-        border-radius: 50rem;
-        color: $diverse-ink;
+        padding: .625rem .125rem;
+        border-bottom: 3px solid transparent;
+        color: $diverse-grey;
         font-weight: 600;
         text-decoration: none;
+        white-space: nowrap;
 
         &:hover,
-        &:focus {
-            border-color: $diverse-action-orange;
-            color: $diverse-action-orange;
+        &:focus-visible {
+            border-bottom-color: $diverse-action-orange;
+            color: $diverse-ink;
         }
 
         span {
-            color: $diverse-grey;
             font-weight: 400;
         }
     }
@@ -969,7 +981,7 @@ body.pagelayout-mycourses.diverse-shell {
         transition: border-color .15s ease;
 
         &:hover,
-        &:focus {
+        &:focus-visible {
             border-color: $diverse-action-orange;
             color: $diverse-ink;
             text-decoration: none;
@@ -977,6 +989,17 @@ body.pagelayout-mycourses.diverse-shell {
             .diverse-card-course-name {
                 color: $diverse-action-orange;
             }
+        }
+
+        // Moodle paints links without a class when they are clicked: on a whole card that looks like a fault.
+        &:focus {
+            background-color: $white;
+            box-shadow: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $diverse-action-orange;
+            outline-offset: 2px;
         }
     }
 
@@ -1075,8 +1098,6 @@ body.pagelayout-mycourses.diverse-shell {
 
     .form-control {
         min-height: 3rem;
-        border-radius: 50rem;
-        padding-left: 1.25rem;
     }
 }
 

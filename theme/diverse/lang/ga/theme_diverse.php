@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Cruthaigh do chuntas {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Príomhnascleanúint';
+$string['messages_select'] = 'Roghnaigh comhrá chun é a léamh anseo.';
 $string['nav_discover'] = 'Faigh amach';
 $string['nav_search'] = 'Cad ba mhaith leat a fhoghlaim?';
 $string['dash_resume'] = 'Lean ort ag foghlaim';

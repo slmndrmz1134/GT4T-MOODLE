@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Creează-ți contul {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Navigare principală';
+$string['messages_select'] = 'Selectați o conversație pentru a o citi aici.';
 $string['nav_discover'] = 'Descoperă';
 $string['nav_search'] = 'Ce vrei să înveți?';
 $string['dash_resume'] = 'Continuă să înveți';

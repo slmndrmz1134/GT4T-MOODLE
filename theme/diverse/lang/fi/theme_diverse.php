@@ -93,6 +93,7 @@ $string['signup_partner_intro'] = 'Luo {$a} -tunnus.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Päänavigointi';
+$string['messages_select'] = 'Valitse keskustelu luettavaksi tässä.';
 $string['nav_discover'] = 'Löydä';
 $string['nav_search'] = 'Mitä haluat oppia?';
 $string['dash_resume'] = 'Jatka oppimista';

@@ -44,6 +44,7 @@ geliştiriciye anlatır ve karar ister.
   | `login.scss` | Giriş sayfası |
   | `shell.scss` | Giriş sonrası sol menü ve mobil alt menü |
   | `platform.scss` | Dashboard, Derslerim, ders sayfası |
+| `messages.scss` | Mesajlar sayfası |
   | `admin.scss` | Site administration |
 
   Yeni bir sayfa dosyası gerekiyorsa `theme/diverse/lib.php` içindeki listeye eklenir.

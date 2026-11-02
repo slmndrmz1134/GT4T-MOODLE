@@ -61,10 +61,11 @@ $btn-font-weight: 600;
 $border-radius: .5rem;
 $border-radius-lg: .75rem;
 $border-radius-xl: 1rem;
-$btn-border-radius: 50rem;
-$btn-border-radius-sm: 50rem;
-$btn-border-radius-lg: 50rem;
-$input-border-radius: .625rem;
-$input-border-radius-lg: .625rem;
-$input-border-radius-sm: .5rem;
+$diverse-control-radius: .375rem;      // Buttons and form fields, the same everywhere.
+$btn-border-radius: $diverse-control-radius;
+$btn-border-radius-sm: $diverse-control-radius;
+$btn-border-radius-lg: $diverse-control-radius;
+$input-border-radius: $diverse-control-radius;
+$input-border-radius-lg: $diverse-control-radius;
+$input-border-radius-sm: $diverse-control-radius;
 $card-border-radius: 1rem;
