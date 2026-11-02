@@ -36,7 +36,7 @@ $string['chooselanguagesub'] = 'Mesedez, aukeratu instalaziorako hizkuntza bat. 
 $string['clialreadyconfigured'] = 'Dagoeneko badago config.php konfigurazio-fitxategia. Mesedez erabili admin/cli/install_database.php Moodle gune honetan instalatu nahi baduzu.';
 $string['clialreadyinstalled'] = 'Dagoeneko badago config.php konfigurazio-fitxategia. Mesedez erabili admin/cli/upgrade.php zure Moodle gunea eguneratu nahi baduzu.';
 $string['cliinstallheader'] = 'Moodle {$a} komando-lerro bidezko instalaziorako programa';
-$string['clitablesexist'] = 'Datu-base taulak dagoeneko existitzen dira. CLI instalazioak ezin du jarraitu.';
+$string['clitablesexist'] = 'Datu-base taulak dagoeneko existitzen dira. Komando Lerroko Interfaze (CLI) bidezko instalazioak ezin du jarraitu.';
 $string['databasehost'] = 'Datu-basearen ostalaria';
 $string['databasename'] = 'Datu-basearen izena';
 $string['databasetypehead'] = 'Aukeratu datu-base kontrolatzailea';
@@ -61,7 +61,7 @@ $string['pathssubdataroot'] = '<p>Moodlek erabiltzaileek igotako fitxategien edu
 <p>Direktorioa existitzen ez bada, instalazioan sortzeko saiakera egingo da.</p>';
 $string['pathssubdirroot'] = '<p>Moodleko kodea daukan direktorioaren bide osoa.</p>';
 $string['pathssubwwwroot'] = '<p>Moodle eskuragarri egongo den helbide osoa, hau da, erabiltzaileek Moodlen sartzeko nabigatzailearen helbide barran idatziko duten helbidea</p>
-<p>Moodle ezin da hainbat helbidetatik eskuragarri egon. Zure gunea hainbat helbidetatik eskuragarri badago errazena aukeratu eta bertara beste helbideetatik behin-betiko berbideraketak konfiguratu itzazu.</p>
+<p>Moodle ezin da hainbat helbidetatik eskuragarri egon. Zure gunea hainbat helbidetatik eskuragarri badago errazena aukeratu eta bertara beste helbideetatik behin betiko berbideraketak konfiguratu itzazu.</p>
 <p>Zure gunea Internetetik eta barne-sare batetik eskuragarri badago (batzuetan Intranet deitutakoa), hemen helbide publikoa erabili ezazu.</p>
 <p>Oraingo helbidea egokia ez bada, mesedez aldatu ezazu URLa zure nabigatzailean eta instalazioa berriz abiatu ezazu.</p>';
 $string['pathsunsecuredataroot'] = 'Dataroot-en kokapena ez da segurua';

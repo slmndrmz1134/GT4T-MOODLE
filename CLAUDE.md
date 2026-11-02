@@ -9,7 +9,7 @@ geliştiriciye anlatır ve karar ister.
 
 ## Proje özeti
 
-- **Moodle 5.0.7** (sürüm 2025041407). DIVERSE European University Alliance üyesi üniversitelerin ortak LMS'i.
+- **Moodle 5.0.11** (sürüm 2025041411, MuTMS 5.0.11-01 yamasıyla; Kasım 2026). DIVERSE European University Alliance üyesi üniversitelerin ortak LMS'i.
 - **Tema:** `theme/diverse`, **Boost Union** (v5.0-r26) alt teması. Renkler ve fontlar: [DESIGN.md](DESIGN.md).
 - **Partnerler:** `tool_mutenancy` + `tool_mulib` ile her üniversite bir tenant.
 - **Çok dil:** `filter/multilang2` (`{mlang xx}...{mlang}`) ve EN / TR / DE / HR / FI / NL dil paketleri (FI ve NL yeni partnerler için, Ekim 2026).

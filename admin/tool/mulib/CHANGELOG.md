@@ -4,6 +4,38 @@ Plugin versioning is derived from Moodle releases, it does not comply with the s
 
 The format of this change log follows the advice given at [Keep a CHANGELOG](https://keepachangelog.com).
 
+## [v5.0.11.01](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.10.03...v5.0.11.01) - 2026-09-20
+
+- No changes
+
+## [v5.0.10.03](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.10.02...v5.0.10.03) - 2026-09-20
+
+- version pinned to 2026092000
+
+## [v5.0.10.02](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.10.01...v5.0.10.02) - 2026-09-18
+
+### Added
+
+- CAMP registry support
+
+### Changed
+
+- Security only fixes for Moodle 4.5 – 5.2, version pinned to 2026091850.xx
+
+## [v5.0.10.01](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.9.01...v5.0.10.01) - 2026-09-13
+
+### Fixed
+
+- Added uninstallation of materialized default user role assignment
+
+## [v5.0.9.01](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.8.01...v5.0.9.01) - 2026-06-05
+
+- No changes
+
+## [v5.0.8.01](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.7.01...v5.0.8.01) - 2026-06-05
+
+- No changes
+
 ## [v5.0.7.01](https://github.com/mutms/moodle-tool_mulib/compare/v5.0.6.06...v5.0.7.01) - 2026-04-19
 
 - No changes

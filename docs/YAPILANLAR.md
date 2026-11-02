@@ -484,6 +484,14 @@ Kod incelemesinde bulunan ve henüz düzeltilmeyen konular:
     - `setup/diverse_demo_live_sessions.php --from --until`: o gün için rastgele canlı ders programı (30 dakikada
       bir, Beykent, Griffith ve ortak derslerden).
 
+21. **Moodle 5.0.7 → 5.0.11 güvenlik güncellemesi (Kasım 2026):** 5.0.7'den sonra yayımlanan 18 Moodle güvenlik
+    açığı (MSA-26-0027…0044, yedisi "Serious") için. Güncelleme MuTMS'in `MuTMS-5.0.7-01` → `MuTMS-5.0.11-01`
+    farkı olarak uygulandı (Moodle 5.0.11 + tool_mutenancy/tool_mulib 5.0.11.01 + çok kiracılık çekirdek yaması);
+    repoda olmayan MuTMS eklentileri alınmadı. Eski ekibin çekirdek değişiklikleri (`login/*`, `lib/authlib.php`
+    vb.) çakışmadan korundu. Sonraki güncellemeler de aynı yolla yapılır:
+    `git diff MuTMS-<eski> MuTMS-<yeni> -- <repoda olan dosyalar>` ve `git apply --3way`.
+    Açık iş: ilk ekipten kalan eski dosyalar (`h5p/h5plib/v127`, birkaç eski çekirdek dosyası) temizlenmeli.
+
 ## 18. Commit listesi
 
 | Commit | Tarih | Açıklama |
