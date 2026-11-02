@@ -89,7 +89,8 @@ $diverse-tabbar-height: 4rem;
     }
 
     .diverse-rail-manage,
-    .diverse-rail-end {
+    .diverse-rail-end,
+    .diverse-rail-nophone {
         display: none;
     }
 
@@ -108,6 +109,18 @@ $diverse-tabbar-height: 4rem;
 
     body.diverse-shell {
         padding-bottom: $diverse-tabbar-height;
+
+        // The course contents button sits on the right, where it covers no tabs or text.
+        .drawer-toggles .drawer-left-toggle {
+            top: auto;
+            right: 0;
+            bottom: #{$diverse-tabbar-height + 4rem};
+            left: auto;
+
+            .btn {
+                border-radius: 200px 0 0 200px;
+            }
+        }
 
         // The help button stays above the tab bar.
         .btn-footer-popover,
@@ -161,6 +174,86 @@ $diverse-tabbar-height: 4rem;
 
         .drawer.drawer-left.show {
             left: $diverse-rail-width;
+        }
+
+        // The search is the main way into the site: it takes the free space of the top bar.
+        #usernavigation {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .diverse-navbar-search {
+            display: flex !important;
+            flex: 1;
+            max-width: 44rem;
+            margin: 0 auto 0 1.5rem;
+
+            .diverse-search-form,
+            .diverse-search-box {
+                flex: 1;
+                width: 100%;
+            }
+
+            .diverse-search-input,
+            .diverse-search-input:focus {
+                width: 100%;
+                height: 2.75rem;
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+// Course and activity pages: the contents of the course on the right, next to what is being studied. While editing,
+// and on phones, Moodle's own places stay: teachers need the block drawer on the right then.
+@include media-breakpoint-up(md) {
+    body.diverse-shell.pagelayout-course:not(.editing),
+    body.diverse-shell.pagelayout-incourse:not(.editing) {
+        .drawer.drawer-left {
+            right: calc(-#{$drawer-left-width} - 1.25rem);
+            left: auto;
+            border-right: 0;
+            border-left: 1px solid $diverse-border;
+            background-color: $white;
+
+            &.show {
+                right: 0;
+                left: auto;
+            }
+        }
+
+        .drawer.drawer-right,
+        .drawer-toggles .drawer-right-toggle {
+            display: none;
+        }
+
+        .drawer-toggles .drawer-left-toggle {
+            right: 0;
+            left: auto;
+
+            .btn {
+                border-radius: 200px 0 0 200px;
+            }
+        }
+
+        #page.drawers {
+            &.show-drawer-left,
+            &.show-drawer-left.show-drawer-right {
+                margin-right: $drawer-left-width;
+                margin-left: 0;
+                padding-right: 1rem;
+                padding-left: 0;
+            }
+
+            &.show-drawer-right {
+                margin-right: 0;
+                padding-right: 0;
+            }
+        }
+
+        &.drawer-open-left #page.drawers {
+            margin-left: 0;
+            padding-left: 0;
         }
     }
 }

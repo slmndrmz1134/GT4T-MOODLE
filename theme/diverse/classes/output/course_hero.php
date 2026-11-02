@@ -63,7 +63,7 @@ class course_hero implements renderable, templatable {
         $progress = $teaches ? null : \core_completion\progress::get_course_progress_percentage($course);
 
         $modinfo = get_fast_modinfo($course);
-        $activities = array_filter($modinfo->get_cms(), fn($cm) => $cm->uservisible && $cm->has_view());
+        $activities = self::activities($course);
 
         $sections = 0;
         foreach ($modinfo->get_section_info_all() as $section) {
@@ -72,15 +72,18 @@ class course_hero implements renderable, templatable {
             }
         }
 
-        $next = $teaches ? null : $this->next_activity($activities);
+        $next = $teaches ? null : self::next_activity($course);
+        $element = new \core_course_list_element($course);
         $teachers = [];
-        foreach ((new \core_course_list_element($course))->get_course_contacts() as $contact) {
+        foreach ($element->get_course_contacts() as $contact) {
             $teachers[] = $contact['username'];
         }
+        $summary = trim(html_to_text(format_text((string)$course->summary, $course->summaryformat), 0, false));
 
-        return self::cover($course, $output) + [
+        return landing::course_cover($element) + [
             'name' => self::text($course->fullname),
             'category' => self::category_name($course),
+            'summary' => shorten_text($summary, 240),
             'teachers' => implode(', ', array_unique($teachers)),
             'hasprogress' => $progress !== null,
             'progress' => $progress !== null ? (int)floor($progress) : 0,
@@ -88,6 +91,7 @@ class course_hero implements renderable, templatable {
                 'sections' => $sections,
                 'activities' => count($activities),
             ]),
+            'people' => count_enrolled_users($context),
             'hasnext' => $next !== null,
             'nexturl' => $next ? $next->url->out(false) : '',
             'nextname' => $next ? self::text($next->name) : '',
@@ -96,51 +100,74 @@ class course_hero implements renderable, templatable {
     }
 
     /**
-     * The first activity the user has not completed, or simply the first one without completion tracking.
+     * The bar above an activity: where the user is in the course and the way on.
      *
-     * @param \cm_info[] $activities In course order.
+     * @param \stdClass $course
+     * @param \cm_info $cm
+     * @return array
+     */
+    public static function lesson_bar(\stdClass $course, \cm_info $cm): array {
+        $activities = array_values(self::activities($course));
+        $index = array_search($cm->id, array_map(fn($item) => $item->id, $activities));
+        $teaches = has_capability('moodle/grade:viewall', \context_course::instance($course->id));
+        $progress = $teaches ? null : \core_completion\progress::get_course_progress_percentage($course);
+        $previous = $index > 0 ? $activities[$index - 1] : null;
+        $next = $index !== false && isset($activities[$index + 1]) ? $activities[$index + 1] : null;
+
+        return [
+            'courseurl' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
+            'coursename' => self::text($course->fullname),
+            'position' => $index === false ? '' : ($index + 1) . ' / ' . count($activities),
+            'hasprogress' => $progress !== null,
+            'progress' => $progress !== null ? (int)floor($progress) : 0,
+            'hasprevious' => $previous !== null,
+            'previousurl' => $previous ? $previous->url->out(false) : '',
+            'hasnext' => $next !== null,
+            'nexturl' => $next ? $next->url->out(false) : '',
+        ];
+    }
+
+    /**
+     * The activities the user can open, in course order.
+     *
+     * @param \stdClass $course
+     * @return \cm_info[]
+     */
+    public static function activities(\stdClass $course): array {
+        $modinfo = get_fast_modinfo($course);
+        $activities = [];
+        foreach ($modinfo->sections as $cmids) {
+            foreach ($cmids as $cmid) {
+                $cm = $modinfo->get_cm($cmid);
+                if ($cm->uservisible && $cm->has_view() && $cm->url) {
+                    $activities[$cmid] = $cm;
+                }
+            }
+        }
+        return $activities;
+    }
+
+    /**
+     * The first activity the user has not completed, or simply the first one in a course without completion tracking.
+     *
+     * @param \stdClass $course
      * @return \cm_info|null
      */
-    protected function next_activity(array $activities): ?\cm_info {
-        $completion = new \completion_info($this->course);
+    public static function next_activity(\stdClass $course): ?\cm_info {
+        $activities = self::activities($course);
+        $completion = new \completion_info($course);
+        $tracked = false;
         foreach ($activities as $cm) {
             if ($completion->is_enabled($cm) == COMPLETION_TRACKING_NONE) {
                 continue;
             }
-            $state = $completion->get_data($cm, true)->completionstate;
-            if ($state == COMPLETION_INCOMPLETE) {
+            $tracked = true;
+            if ($completion->get_data($cm, true)->completionstate == COMPLETION_INCOMPLETE) {
                 return $cm;
             }
         }
         // All tracked work is done, or nothing is tracked: only a course without tracking offers a start.
-        $tracked = array_filter($activities, fn($cm) => $completion->is_enabled($cm) != COMPLETION_TRACKING_NONE);
         return $tracked ? null : (reset($activities) ?: null);
-    }
-
-    /**
-     * The cover of a course: its overview image, or Moodle's pattern in DIVERSE colours. A file missing from
-     * moodledata falls back to the pattern, so that no broken image is shown.
-     *
-     * @param \stdClass $course
-     * @param renderer_base $output
-     * @return array coverurl
-     */
-    public static function cover(\stdClass $course, renderer_base $output): array {
-        $filesystem = get_file_storage()->get_file_system();
-        foreach ((new \core_course_list_element($course))->get_course_overviewfiles() as $file) {
-            if ($filesystem->is_file_readable_locally_by_storedfile($file) && $file->is_valid_image()) {
-                $url = \core\url::make_pluginfile_url(
-                    $file->get_contextid(),
-                    $file->get_component(),
-                    $file->get_filearea(),
-                    null,
-                    $file->get_filepath(),
-                    $file->get_filename()
-                );
-                return ['coverurl' => $url->out(false)];
-            }
-        }
-        return ['coverurl' => $output->get_generated_image_for_id($course->id)];
     }
 
     /**

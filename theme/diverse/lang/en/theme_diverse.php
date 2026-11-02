@@ -103,15 +103,24 @@ $string['signup_partner_intro'] = 'Create your {$a} account.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Main navigation';
+$string['nav_discover'] = 'Discover';
+$string['nav_search'] = 'What do you want to learn?';
+$string['dash_resume'] = 'Keep learning';
+$string['dash_recommended'] = 'More courses for you';
+$string['dash_allcategories'] = 'All courses';
+$string['card_activities'] = 'Activities: {$a}';
+$string['card_people'] = 'People: {$a}';
+$string['card_enrolled'] = 'Enrolled';
+$string['card_open'] = 'Open enrolment';
+$string['lesson_previous'] = 'Previous';
+$string['lesson_next'] = 'Next';
 $string['shell_mypartner'] = 'My partner';
 $string['shell_siteadmin'] = 'Site admin';
-$string['dash_hello'] = 'Hello, {$a}';
+$string['dash_hello'] = 'Welcome back, {$a}';
 $string['dash_summary_overdue'] = 'Overdue items: {$a}. Start there.';
 $string['dash_summary_grading'] = 'Submissions waiting for your grade: {$a}.';
 $string['dash_summary_todo'] = 'Due in the next 30 days: {$a}.';
 $string['dash_summary_clear'] = 'Nothing is due at the moment.';
-$string['dash_continue'] = 'Continue where you left off';
-$string['dash_start'] = 'Start here';
 $string['dash_lastvisit'] = 'last visit {$a} ago';
 $string['dash_progress'] = '{$a}% complete';
 $string['dash_todo'] = 'To do';

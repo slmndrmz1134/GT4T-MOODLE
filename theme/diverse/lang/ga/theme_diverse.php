@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Cruthaigh do chuntas {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Príomhnascleanúint';
+$string['nav_discover'] = 'Faigh amach';
+$string['nav_search'] = 'Cad ba mhaith leat a fhoghlaim?';
+$string['dash_resume'] = 'Lean ort ag foghlaim';
+$string['dash_recommended'] = 'Tuilleadh cúrsaí duit';
+$string['dash_allcategories'] = 'Gach cúrsa';
+$string['card_activities'] = 'Gníomhaíochtaí: {$a}';
+$string['card_people'] = 'Daoine: {$a}';
+$string['card_enrolled'] = 'Cláraithe';
+$string['card_open'] = 'Clárú oscailte';
+$string['lesson_previous'] = 'Roimhe seo';
+$string['lesson_next'] = 'Ar aghaidh';
 $string['shell_mypartner'] = 'Mo chomhpháirtí';
 $string['shell_siteadmin'] = 'Riarachán an tsuímh';
-$string['dash_hello'] = 'Dia duit, {$a}';
+$string['dash_hello'] = 'Fáilte ar ais, {$a}';
 $string['dash_summary_overdue'] = 'Thar téarma: {$a}. Tosaigh anseo.';
 $string['dash_summary_grading'] = 'Aighneachtaí ag fanacht le do ghrád: {$a}.';
 $string['dash_summary_todo'] = 'Dlite sna 30 lá amach romhainn: {$a}.';
 $string['dash_summary_clear'] = 'Níl aon rud dlite faoi láthair.';
-$string['dash_continue'] = 'Lean ar aghaidh ón áit ar stop tú';
-$string['dash_start'] = 'Tosaigh anseo';
 $string['dash_lastvisit'] = 'cuairt dheireanach {$a} ó shin';
 $string['dash_progress'] = '{$a}% críochnaithe';
 $string['dash_todo'] = 'Le déanamh';

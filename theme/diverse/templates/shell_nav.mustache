@@ -34,7 +34,7 @@
 <nav class="diverse-rail" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
     <ul class="diverse-rail-list">
         {{#main}}
-        <li><a class="diverse-rail-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
+        <li{{#nophone}} class="diverse-rail-nophone"{{/nophone}}><a class="diverse-rail-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
             <span>{{label}}</span>
         </a></li>

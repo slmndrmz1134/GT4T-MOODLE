@@ -63,7 +63,8 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 | Kartlar | `1rem` (16 px) | `$card-border-radius`, `$border-radius-xl` |
 | Form alanları | `.625rem` (10 px), küçükler `.5rem` | `$input-border-radius`, `-lg`, `-sm` |
 | Genel | `.5rem` / büyük `.75rem` | `$border-radius`, `$border-radius-lg` |
-| Sekmeler ve ilerleme çubuğu | Oval, `50rem` | `admin.scss`, `post.scss` |
+| Sekmeler | Köşesiz, `0` | `platform.scss` |
+| İlerleme çubuğu | Oval, `50rem` | `post.scss` |
 
 ## Ölçüler ve yerleşim
 
@@ -84,8 +85,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 ## Bileşenler
 
 - **Butonlar:** oval, etkileşim turuncusu zemin ve beyaz yazı. Hover'da `$diverse-action-orange-hover`.
-- **Sekmeler ("kutu sekmeler"):** her sekme oval bir kutudur. Pasif sekme beyaz zemin, `$diverse-border-strong`
-  kenarlık ve ink yazı. Aktif sekme etkileşim turuncusu zemin ve beyaz yazı (örnek: Site administration, `admin.scss`).
+- **Sekmeler:** kenarlıksız ve köşesiz düz yazı; altta `$diverse-border` çizgisi. Pasif sekme gri yazı, aktif sekme ink
+  yazı ve altında 3 px etkileşim turuncusu çizgi (`platform.scss`). Ders ve yönetim sayfalarının hepsinde aynıdır.
 - **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 16 px köşe. Sayfa zemini `$diverse-surface` olur,
   böylece kartlar ayrışır. Boş kart gösterilmez.
 - **Sol menü:** ink zemin, ikon ve altında etiket. Aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).

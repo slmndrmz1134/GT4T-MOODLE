@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = '{$a} hesabınızı oluşturun.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Ana gezinme';
+$string['nav_discover'] = 'Keşfet';
+$string['nav_search'] = 'Ne öğrenmek istiyorsunuz?';
+$string['dash_resume'] = 'Öğrenmeye devam edin';
+$string['dash_recommended'] = 'Sizin için diğer dersler';
+$string['dash_allcategories'] = 'Tüm dersler';
+$string['card_activities'] = '{$a} etkinlik';
+$string['card_people'] = '{$a} kişi';
+$string['card_enrolled'] = 'Kayıtlısınız';
+$string['card_open'] = 'Kayıt açık';
+$string['lesson_previous'] = 'Önceki';
+$string['lesson_next'] = 'Sonraki';
 $string['shell_mypartner'] = 'Partnerim';
 $string['shell_siteadmin'] = 'Site yönetimi';
-$string['dash_hello'] = 'Merhaba, {$a}';
+$string['dash_hello'] = 'Tekrar hoş geldiniz, {$a}';
 $string['dash_summary_overdue'] = 'Geciken iş: {$a}. Buradan başlayın.';
 $string['dash_summary_grading'] = 'Notunuzu bekleyen teslim: {$a}.';
 $string['dash_summary_todo'] = 'Önümüzdeki 30 günde teslim: {$a}.';
 $string['dash_summary_clear'] = 'Şu anda bekleyen bir iş yok.';
-$string['dash_continue'] = 'Kaldığınız yerden devam edin';
-$string['dash_start'] = 'Buradan başlayın';
 $string['dash_lastvisit'] = 'son ziyaret {$a} önce';
 $string['dash_progress'] = '%{$a} tamamlandı';
 $string['dash_todo'] = 'Yapılacaklar';

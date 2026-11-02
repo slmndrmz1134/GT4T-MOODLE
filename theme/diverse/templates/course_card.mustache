@@ -1,0 +1,50 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/course_card
+
+    One course in a list: used on the dashboard and in the course catalogue.
+
+    Example context (json):
+    {
+        "url": "#", "name": "Business Law", "category": "Shared Courses", "teachers": "Ada Yilmaz",
+        "summary": "Contracts, liability and companies.", "activities": 7, "people": 12, "enrolled": true,
+        "selfenrol": false, "hasprogress": true, "progress": 40, "coverstyle": "brand", "isplus": true
+    }
+}}
+<li class="diverse-card-course">
+    <a href="{{url}}">
+        {{> theme_diverse/course_cover }}
+        <span class="diverse-card-course-body">
+            <span class="diverse-card-course-name">{{name}}</span>
+            {{#teachers}}<span class="diverse-card-course-teachers">{{teachers}}</span>{{/teachers}}
+            {{#summary}}<span class="diverse-card-course-summary">{{summary}}</span>{{/summary}}
+            {{#hasprogress}}
+            <span class="diverse-progress">
+                <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
+                <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+            </span>
+            {{/hasprogress}}
+            <span class="diverse-card-course-tags">
+                {{#enrolled}}<span class="diverse-badge diverse-badge-done">{{#str}}card_enrolled, theme_diverse{{/str}}</span>{{/enrolled}}
+                {{#selfenrol}}<span class="diverse-badge diverse-badge-open">{{#str}}card_open, theme_diverse{{/str}}</span>{{/selfenrol}}
+                {{#category}}<span class="diverse-badge">{{category}}</span>{{/category}}
+            </span>
+            {{#activities}}<span class="diverse-card-course-meta">{{#str}}card_activities, theme_diverse, {{activities}}{{/str}} · {{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>{{/activities}}
+        </span>
+    </a>
+</li>

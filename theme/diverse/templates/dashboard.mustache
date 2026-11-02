@@ -27,13 +27,20 @@
 }}
 <div class="diverse-dash">
     <header class="diverse-dash-head">
-        <div>
-            <p class="diverse-dash-date">{{today}}</p>
+        <div class="diverse-dash-avatar">{{{avatar}}}</div>
+        <div class="diverse-dash-welcome">
             <h1 class="diverse-dash-title">{{greeting}}</h1>
             <p class="diverse-dash-summary">{{summary}}</p>
         </div>
         {{#isadmin}}<a class="btn btn-primary" href="{{admin.actions.0.url}}">{{admin.actions.0.label}}</a>{{/isadmin}}
     </header>
+
+    {{#hascategories}}
+    <nav class="diverse-category-strip" aria-label="{{#str}}nav_discover, theme_diverse{{/str}}">
+        <a href="{{catalogurl}}">{{#str}}dash_allcategories, theme_diverse{{/str}}</a>
+        {{#categories}}<a href="{{url}}">{{name}} <span>{{count}}</span></a>{{/categories}}
+    </nav>
+    {{/hascategories}}
 
     {{#admin}}
     <section class="diverse-dash-section" aria-labelledby="diverse-dash-site">
@@ -81,22 +88,33 @@
     {{/admin}}
 
     {{#learning}}
-    {{#continue}}
-    <a class="diverse-continue" href="{{url}}">
-        <span class="diverse-continue-cover" style="background-image: url('{{coverurl}}');" aria-hidden="true"></span>
-        <span class="diverse-continue-body">
-            <span class="diverse-continue-label">{{#started}}{{#str}}dash_continue, theme_diverse{{/str}}{{/started}}{{^started}}{{#str}}dash_start, theme_diverse{{/str}}{{/started}}</span>
-            <span class="diverse-continue-name">{{name}}</span>
-            <span class="diverse-continue-meta">{{category}}{{#lastaccess}} · {{lastaccess}}{{/lastaccess}}</span>
-            {{#hasprogress}}
-            <span class="diverse-progress">
-                <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
-                <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
-            </span>
-            {{/hasprogress}}
-        </span>
-    </a>
-    {{/continue}}
+    <section class="diverse-dash-section" aria-labelledby="diverse-dash-resume">
+        <div class="diverse-dash-row">
+            <h2 class="diverse-dash-heading" id="diverse-dash-resume">{{#str}}dash_resume, theme_diverse{{/str}}</h2>
+            <a class="diverse-more-link" href="{{allcoursesurl}}">{{#str}}mycourses{{/str}}</a>
+        </div>
+        <ul class="diverse-resume-grid">
+            {{#resume}}
+            <li><a class="diverse-resume" href="{{url}}">
+                <span class="diverse-resume-cover">
+                    {{> theme_diverse/course_cover }}
+                    <span class="diverse-resume-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span>
+                </span>
+                <span class="diverse-resume-body">
+                    <span class="diverse-resume-course">{{name}}</span>
+                    <span class="diverse-resume-next">{{#next}}{{next}}{{/next}}{{^next}}{{name}}{{/next}}</span>
+                    <span class="diverse-resume-meta">{{type}}{{#lastaccess}}{{#type}} · {{/type}}{{lastaccess}}{{/lastaccess}}</span>
+                    {{#hasprogress}}
+                    <span class="diverse-progress">
+                        <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
+                        <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+                    </span>
+                    {{/hasprogress}}
+                </span>
+            </a></li>
+            {{/resume}}
+        </ul>
+    </section>
     {{/learning}}
 
     {{#teaching}}
@@ -120,7 +138,7 @@
         <ul class="diverse-course-grid">
             {{#courses}}
             <li class="diverse-tile-course">
-                <a class="diverse-tile-course-cover" href="{{url}}" style="background-image: url('{{coverurl}}');" tabindex="-1" aria-hidden="true"></a>
+                <a class="diverse-tile-course-cover" href="{{url}}" tabindex="-1" aria-hidden="true">{{> theme_diverse/course_cover }}</a>
                 <div class="diverse-tile-course-body">
                     <span class="diverse-tile-course-category">{{category}}</span>
                     <a class="diverse-tile-course-name" href="{{url}}">{{name}}</a>
@@ -183,28 +201,28 @@
     {{#learning}}
     {{#hascourses}}
     <section class="diverse-dash-section" aria-labelledby="diverse-dash-courses">
-        <h2 class="diverse-dash-heading" id="diverse-dash-courses">{{#str}}mycourses{{/str}}</h2>
-        <ul class="diverse-course-grid">
-            {{#courses}}
-            <li class="diverse-tile-course">
-                <a class="diverse-tile-course-cover" href="{{url}}" style="background-image: url('{{coverurl}}');" tabindex="-1" aria-hidden="true"></a>
-                <div class="diverse-tile-course-body">
-                    <span class="diverse-tile-course-category">{{category}}</span>
-                    <a class="diverse-tile-course-name" href="{{url}}">{{name}}</a>
-                    {{#hasprogress}}
-                    <div class="diverse-progress">
-                        <div class="diverse-progress-track"><span style="width: {{progress}}%;"></span></div>
-                        <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
-                    </div>
-                    {{/hasprogress}}
-                </div>
-            </li>
-            {{/courses}}
+        <div class="diverse-dash-row">
+            <h2 class="diverse-dash-heading" id="diverse-dash-courses">{{#str}}mycourses{{/str}}</h2>
+            {{#more}}<a class="diverse-more-link" href="{{allcoursesurl}}">{{#str}}dash_allcourses, theme_diverse{{/str}}</a>{{/more}}
+        </div>
+        <ul class="diverse-card-grid">
+            {{#courses}}{{> theme_diverse/course_card }}{{/courses}}
         </ul>
-        {{#more}}<p class="diverse-more"><a href="{{allcoursesurl}}">{{#str}}dash_allcourses, theme_diverse{{/str}}</a></p>{{/more}}
     </section>
     {{/hascourses}}
     {{/learning}}
+
+    {{#hasrecommended}}
+    <section class="diverse-dash-section" aria-labelledby="diverse-dash-recommended">
+        <div class="diverse-dash-row">
+            <h2 class="diverse-dash-heading" id="diverse-dash-recommended">{{#str}}dash_recommended, theme_diverse{{/str}}</h2>
+            <a class="diverse-more-link" href="{{catalogurl}}">{{#str}}nav_discover, theme_diverse{{/str}}</a>
+        </div>
+        <ul class="diverse-card-grid">
+            {{#recommended}}{{> theme_diverse/course_card }}{{/recommended}}
+        </ul>
+    </section>
+    {{/hasrecommended}}
 
     {{#nocontent}}
     <div class="diverse-panel"><p class="diverse-empty">{{#str}}dash_nocourses, theme_diverse{{/str}}</p></div>

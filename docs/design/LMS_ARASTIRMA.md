@@ -4,6 +4,26 @@ Giriş sonrası ekranlar yeniden tasarlanırken (Kasım 2026) diğer LMS'lere ba
 neyin yapılmadığını anlatır. Kaynakların çoğu üniversite yardım sayfalarıdır; üretici belgesi ya da hakemli çalışma
 değildir, bu yüzden bulgular yön gösterici kabul edilmelidir.
 
+## İkinci tur: Udemy örneği (Kasım 2026)
+
+Proje sahibi ilk sonucu "her yer boş" bulup Udemy'yi örnek gösterdi: ilk ekran sürekli içerik sunuyor, ders ekranında
+içerik ve müfredat yan yana duruyor, hiç LMS kullanmamış biri de aradığını bulabiliyor. Buna göre eklenenler:
+
+- **Üstte büyük arama** ("Ne öğrenmek istiyorsunuz?") ve sol menüde/mobil alt menüde **Keşfet**.
+- **Keşfet sayfası** (`local/diverse_catalog`): arama, kategori ve durum filtresi, sıralama, ders kartları.
+- **Panom:** karşılama, kategori şeridi, doğrudan sıradaki etkinliğe giden "Öğrenmeye devam edin" kartları, ders kartları
+  ve kayıtlı olunmayan dersler.
+- **Ders sayfası:** koyu üst bant, açıklama, sağda ilerleme ve "Devam et" kartı; müfredat sağ panelde.
+- **Etkinlik sayfası:** üstte ders bandı (konum, ilerleme, Önceki/Sonraki), müfredat sağ panelde.
+- **Sekmeler:** kenarlıksız, köşesiz, altı çizgili.
+
+Bizde karşılığı olmadığı için alınmayanlar: puan, satış rozetleri, fiyat, süre. Bu veriler Moodle'da yok, uydurma rakam
+gösterilmez. Kartlarda yalnızca gerçek veri vardır: öğretmen, etkinlik ve kişi sayısı. Öneriler kişiselleştirilmiş değildir:
+kullanıcının görebildiği ama kayıtlı olmadığı derslerdir. Partner ayrımı korunur.
+
+**Kayıt:** kendi kendine kayıt tüm derslerde kapalı olduğu için kayıtlı olunmayan ders kartı yalnızca ders bilgi sayfasını açar.
+Kayıt açılırsa kartta "Kayıt açık" rozeti kendiliğinden görünür.
+
 ## Moodle'da görülen sorunlar (öğrenci hesabıyla ölçüldü)
 
 - Dashboard boşken ekranı "Timeline" ve dev bir takvim dolduruyordu (sayfa 1950 px); dersler dashboard'da yoktu.

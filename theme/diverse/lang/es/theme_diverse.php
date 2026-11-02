@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Crea tu cuenta de {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Navegación principal';
+$string['nav_discover'] = 'Descubrir';
+$string['nav_search'] = '¿Qué quieres aprender?';
+$string['dash_resume'] = 'Sigue aprendiendo';
+$string['dash_recommended'] = 'Más cursos para ti';
+$string['dash_allcategories'] = 'Todos los cursos';
+$string['card_activities'] = 'Actividades: {$a}';
+$string['card_people'] = 'Personas: {$a}';
+$string['card_enrolled'] = 'Matriculado';
+$string['card_open'] = 'Matrícula abierta';
+$string['lesson_previous'] = 'Anterior';
+$string['lesson_next'] = 'Siguiente';
 $string['shell_mypartner'] = 'Mi socio';
 $string['shell_siteadmin'] = 'Administración del sitio';
-$string['dash_hello'] = 'Hola, {$a}';
+$string['dash_hello'] = 'Bienvenido de nuevo, {$a}';
 $string['dash_summary_overdue'] = 'Tareas atrasadas: {$a}. Empieza por aquí.';
 $string['dash_summary_grading'] = 'Entregas pendientes de tu calificación: {$a}.';
 $string['dash_summary_todo'] = 'Vence en los próximos 30 días: {$a}.';
 $string['dash_summary_clear'] = 'No hay nada pendiente por ahora.';
-$string['dash_continue'] = 'Continúa donde lo dejaste';
-$string['dash_start'] = 'Empieza aquí';
 $string['dash_lastvisit'] = 'última visita hace {$a}';
 $string['dash_progress'] = '{$a} % completado';
 $string['dash_todo'] = 'Por hacer';

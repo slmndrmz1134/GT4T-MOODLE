@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Luo {$a} -tunnus.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Päänavigointi';
+$string['nav_discover'] = 'Löydä';
+$string['nav_search'] = 'Mitä haluat oppia?';
+$string['dash_resume'] = 'Jatka oppimista';
+$string['dash_recommended'] = 'Lisää kursseja sinulle';
+$string['dash_allcategories'] = 'Kaikki kurssit';
+$string['card_activities'] = 'Aktiviteetit: {$a}';
+$string['card_people'] = 'Henkilöt: {$a}';
+$string['card_enrolled'] = 'Ilmoittautunut';
+$string['card_open'] = 'Avoin ilmoittautuminen';
+$string['lesson_previous'] = 'Edellinen';
+$string['lesson_next'] = 'Seuraava';
 $string['shell_mypartner'] = 'Oma kumppani';
 $string['shell_siteadmin'] = 'Sivuston ylläpito';
-$string['dash_hello'] = 'Hei, {$a}';
+$string['dash_hello'] = 'Tervetuloa takaisin, {$a}';
 $string['dash_summary_overdue'] = 'Myöhässä: {$a}. Aloita näistä.';
 $string['dash_summary_grading'] = 'Arviointia odottavat palautukset: {$a}.';
 $string['dash_summary_todo'] = 'Määräaika 30 päivän sisällä: {$a}.';
 $string['dash_summary_clear'] = 'Mitään ei ole juuri nyt erääntymässä.';
-$string['dash_continue'] = 'Jatka siitä, mihin jäit';
-$string['dash_start'] = 'Aloita tästä';
 $string['dash_lastvisit'] = 'edellinen käynti {$a} sitten';
 $string['dash_progress'] = '{$a} % valmis';
 $string['dash_todo'] = 'Tehtävät';

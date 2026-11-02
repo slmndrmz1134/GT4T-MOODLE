@@ -21,22 +21,25 @@
 
     Example context (json):
     {
-        "coverurl": "", "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
-        "stats": "5 sections, 7 activities", "hasprogress": true, "progress": 40,
+        "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
+        "summary": "Contracts, liability and companies.", "stats": "5 sections, 7 activities", "people": 12,
+        "coverstyle": "brand", "isplus": true, "hasprogress": true, "progress": 40,
         "hasnext": true, "nexturl": "#", "nextname": "What is Business Law?", "nextlabel": "Continue"
     }
 }}
 <section class="diverse-hero-course" aria-label="{{name}}">
-    <div class="diverse-hero-course-cover" style="background-image: url('{{coverurl}}');" aria-hidden="true"></div>
-    <div class="diverse-hero-course-body">
-        <div class="diverse-hero-course-text">
-            {{#category}}<p class="diverse-hero-course-category">{{category}}</p>{{/category}}
-            <h1 class="diverse-hero-course-title">{{name}}</h1>
-            <p class="diverse-hero-course-meta">
-                {{#teachers}}<span>{{teachers}}</span>{{/teachers}}
-                <span>{{stats}}</span>
-            </p>
-        </div>
+    <div class="diverse-hero-course-text">
+        {{#category}}<p class="diverse-hero-course-category">{{category}}</p>{{/category}}
+        <h1 class="diverse-hero-course-title">{{name}}</h1>
+        {{#summary}}<p class="diverse-hero-course-summary">{{summary}}</p>{{/summary}}
+        <p class="diverse-hero-course-meta">
+            {{#teachers}}<span>{{teachers}}</span>{{/teachers}}
+            <span>{{stats}}</span>
+            <span>{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>
+        </p>
+    </div>
+    <div class="diverse-hero-course-card">
+        {{> theme_diverse/course_cover }}
         {{#hasprogress}}
         <div class="diverse-progress">
             <div class="diverse-progress-track"><span style="width: {{progress}}%;"></span></div>
@@ -44,10 +47,8 @@
         </div>
         {{/hasprogress}}
         {{#hasnext}}
-        <div class="diverse-hero-course-next">
-            <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}}</a>
-            <span class="diverse-hero-course-nextname">{{nextname}}</span>
-        </div>
+        <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}}</a>
+        <span class="diverse-hero-course-nextname">{{nextname}}</span>
         {{/hasnext}}
     </div>
 </section>

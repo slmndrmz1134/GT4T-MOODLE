@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Susikurkite savo {$a} paskyrą.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Pagrindinė navigacija';
+$string['nav_discover'] = 'Atrasti';
+$string['nav_search'] = 'Ko norite išmokti?';
+$string['dash_resume'] = 'Tęskite mokymąsi';
+$string['dash_recommended'] = 'Daugiau kursų jums';
+$string['dash_allcategories'] = 'Visi kursai';
+$string['card_activities'] = 'Veiklų: {$a}';
+$string['card_people'] = 'Žmonių: {$a}';
+$string['card_enrolled'] = 'Užsiregistravote';
+$string['card_open'] = 'Atvira registracija';
+$string['lesson_previous'] = 'Ankstesnis';
+$string['lesson_next'] = 'Kitas';
 $string['shell_mypartner'] = 'Mano partneris';
 $string['shell_siteadmin'] = 'Svetainės administravimas';
-$string['dash_hello'] = 'Sveiki, {$a}';
+$string['dash_hello'] = 'Sveiki sugrįžę, {$a}';
 $string['dash_summary_overdue'] = 'Vėluojančių darbų: {$a}. Pradėkite čia.';
 $string['dash_summary_grading'] = 'Pateikčių, laukiančių jūsų įvertinimo: {$a}.';
 $string['dash_summary_todo'] = 'Terminas per artimiausias 30 dienų: {$a}.';
 $string['dash_summary_clear'] = 'Šiuo metu nieko nereikia atlikti.';
-$string['dash_continue'] = 'Tęskite ten, kur baigėte';
-$string['dash_start'] = 'Pradėkite čia';
 $string['dash_lastvisit'] = 'paskutinį kartą prieš {$a}';
 $string['dash_progress'] = 'Atlikta {$a} %';
 $string['dash_todo'] = 'Reikia atlikti';

@@ -19,10 +19,11 @@ ayrılmasın diye burada tekrar edilmez.
 1. **Landing page gösterişli, platformun içi sade.** İç ekranlarda beyaz zemin ve bol boşluk kullanılır;
    turuncu yalnızca vurgu içindir. Cam efekti (glassmorphism), yıldızlı arka plan ve 3D kartlar kullanılmaz.
 2. **Dashboard "şimdi ne yapmalıyım?" sorusunu cevaplar:** role göre kurulur (öğrenci, öğretmen, yönetici). Öğrenci için
-   önce devam edilecek ders, sonra yapılacaklar, sonra ilerleme çubuklu dersler. Gerekçeler ve kaynaklar:
+   önce sıradaki etkinliğe götüren dersler, sonra yapılacaklar, sonra dersler ve keşfedilecekler. Ekranlar dolu ve keşif
+   odaklıdır; hiç LMS kullanmamış biri de arama ve Keşfet ile aradığını bulur. Gerekçeler ve kaynaklar:
    [`LMS_ARASTIRMA.md`](LMS_ARASTIRMA.md).
-3. **Giriş sonrası gezinme sol menüdedir;** telefonda alt menüdür. Ana menüde en fazla 5 öğe olur, yönetim öğeleri ayrı
-   grupta durur. Moodle'ın üst menüsü bu sayfalarda gizlidir. Dil seçici (EN / TR / DE / HR) her ekranda görünür.
+3. **Giriş sonrası gezinme sol menüdedir;** telefonda alt menüdür (5 öğe). Yönetim öğeleri ayrı grupta durur.
+   Ders ve etkinlik sayfalarında müfredat sağdadır, düzenleme modunda ve telefonda Moodle'ın yerleşimi kalır. Moodle'ın üst menüsü bu sayfalarda gizlidir. Dil seçici (EN / TR / DE / HR) her ekranda görünür.
 4. **Partner markası:** DIVERSE çerçevesi sabit kalır (giriş paneli, landing, footer); giriş yapan kullanıcı menüde kendi
    üniversitesinin logosunu görür. Logoyu her üniversitenin yöneticisi `tool_mutenancy` ile yükler (üniversite >
    Appearance > Logos); logo yüklenmemişse ya da dosyası yoksa DIVERSE logosu gösterilir.

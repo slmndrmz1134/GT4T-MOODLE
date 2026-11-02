@@ -39,6 +39,7 @@ class shell implements renderable, templatable {
     /** @var string[] SVG path of each navigation icon. */
     const ICONS = [
         'dashboard' => 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
+        'discover' => 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35',
         'courses' => 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5',
         'calendar' => 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM16 2v4M8 2v4M3 10h18',
         'grades' => 'M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM8.2 13.9 7 23l5-3 5 3-1.2-9.1',
@@ -72,6 +73,15 @@ class shell implements renderable, templatable {
     }
 
     /**
+     * Address of the course catalogue, if local_diverse_catalog is installed.
+     *
+     * @return \core\url|null
+     */
+    public static function catalog_url(): ?\core\url {
+        return class_exists(\local_diverse_catalog\catalog::class) ? new \core\url('/local/diverse_catalog/index.php') : null;
+    }
+
+    /**
      * Export the links.
      *
      * @param renderer_base $output
@@ -82,10 +92,19 @@ class shell implements renderable, templatable {
 
         $main = [
             $this->link('dashboard', get_string('myhome'), '/my/', ['/my/index.php']),
+        ];
+        $catalog = self::catalog_url();
+        if ($catalog) {
+            $main[] = $this->link('discover', get_string('nav_discover', 'theme_diverse'), $catalog->out_as_local_url(false), [
+                '/local/diverse_catalog/',
+                '/course/info.php',
+            ]);
+        }
+        $main = array_merge($main, [
             $this->link('courses', get_string('mycourses'), '/my/courses.php', ['/my/courses.php', '/course/view.php']),
             $this->link('calendar', get_string('calendar', 'core_calendar'), '/calendar/view.php?view=month', ['/calendar/']),
-            $this->link('grades', get_string('grades'), '/grade/report/mygrades.php', ['/grade/report/']),
-        ];
+            $this->link('grades', get_string('grades'), '/grade/report/mygrades.php', ['/grade/report/']) + ['nophone' => true],
+        ]);
         if (!empty($CFG->messaging)) {
             $main[] = $this->link('messages', get_string('messages', 'message'), '/message/index.php', ['/message/']);
         }

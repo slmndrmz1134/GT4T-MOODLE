@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Maak je account van {$a} aan.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Hoofdnavigatie';
+$string['nav_discover'] = 'Ontdekken';
+$string['nav_search'] = 'Wat wil je leren?';
+$string['dash_resume'] = 'Verder leren';
+$string['dash_recommended'] = 'Meer cursussen voor jou';
+$string['dash_allcategories'] = 'Alle cursussen';
+$string['card_activities'] = 'Activiteiten: {$a}';
+$string['card_people'] = 'Personen: {$a}';
+$string['card_enrolled'] = 'Ingeschreven';
+$string['card_open'] = 'Open inschrijving';
+$string['lesson_previous'] = 'Vorige';
+$string['lesson_next'] = 'Volgende';
 $string['shell_mypartner'] = 'Mijn partner';
 $string['shell_siteadmin'] = 'Sitebeheer';
-$string['dash_hello'] = 'Hallo, {$a}';
+$string['dash_hello'] = 'Welkom terug, {$a}';
 $string['dash_summary_overdue'] = 'Te laat: {$a}. Begin hier.';
 $string['dash_summary_grading'] = 'Inzendingen die op je beoordeling wachten: {$a}.';
 $string['dash_summary_todo'] = 'Deadline in de komende 30 dagen: {$a}.';
 $string['dash_summary_clear'] = 'Er staat op dit moment niets open.';
-$string['dash_continue'] = 'Ga verder waar je gebleven was';
-$string['dash_start'] = 'Begin hier';
 $string['dash_lastvisit'] = 'laatste bezoek {$a} geleden';
 $string['dash_progress'] = '{$a}% voltooid';
 $string['dash_todo'] = 'Te doen';

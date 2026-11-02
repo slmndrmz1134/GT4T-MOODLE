@@ -150,6 +150,9 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   Boost Union şablonu kopyalanmadı; Moodle'ın `primary-navigation` öğesi ve varsayılan Timeline/takvim blokları CSS ile
   gizleniyor, silinmedi.
 - Dashboard ve Derslerim'de "Edit mode" kaldırıldı; yöneticinin eklediği bloklar görünmeye devam eder.
+- Proje sahibinin kararıyla sayfa genişliği sınırı kaldırıldı (deneme) ve sekmeler alt çizgili oldu.
+- İkinci turda Udemy örneğine göre Keşfet sayfası (`local/diverse_catalog`), büyük üst arama, dolu bir Panom ve sağda müfredat
+  eklendi. Eklenti ders listesini yalnızca okur; tablo ve ayar eklemez. Kaldırılırsa tema Keşfet bağlantılarını gizler.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

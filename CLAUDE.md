@@ -50,8 +50,8 @@ geliştiriciye anlatır ve karar ister.
 - Boost Union veya Moodle şablonları (`templates/`, `layout/`) `theme/diverse` içine **kopyalanmaz**. Görünüm SCSS ile,
   davranış renderer'ı genişleterek (`classes/output/core_renderer.php`) değişir. Böylece Boost Union güncellemeleri
   temayı bozmaz.
-- Platformun içinde cam efekti (glassmorphism), yıldızlı arka plan ve 3D kart kullanılmaz. Sekmeler "kutu sekme"
-  (oval, aktif olan turuncu) olarak kalır.
+- Platformun içinde cam efekti (glassmorphism), yıldızlı arka plan ve 3D kart kullanılmaz. Sekmeler kenarlıksız ve
+  köşesizdir; aktif sekmenin altında turuncu çizgi olur (proje sahibinin kararı, Kasım 2026).
 - Erişilebilirlik: metin/zemin kontrastı en az 4.5:1 (WCAG 2.1 AA). Fontlar kendi sunucumuzdan gelir, CDN kullanılmaz.
 
 ## Kural 2: Ayarlar korunur, eklentiler bozulmaz, özel kod eklenti gibi bağımsız çalışır
@@ -219,6 +219,7 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `database/moodle.sql` | Veritabanı dökümü (repoda kalır) |
 | [docs/YAPILANLAR.md](docs/YAPILANLAR.md) | Şimdiye kadar yapılanlar ve nedenleri, açık riskler |
 | `local/diverse_assistant/`, [docs/AI.md](docs/AI.md) | AI ders asistanı eklentisi ve belgesi |
+| `local/diverse_catalog/` | Keşfet sayfası: görülebilen derslerde arama ve filtre |
 | `auth/diverse_partner/` | Partner giriş kilidi: hesap yalnızca kendi partnerinin giriş sayfasından girer |
 | `local/diverse_policy/`, `docs/policies/` | Gizlilik Politikası ve Kullanım Koşulları: PDF'ler, kayıt formundaki iki onay kutusu |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |

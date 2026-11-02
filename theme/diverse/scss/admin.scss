@@ -1,6 +1,6 @@
 /****************************************************************
  * DIVERSE Site administration overview (admin/search.php):
- * category tabs as pills and every category as a card.
+ * every category as a card; the tabs are the common ones in platform.scss.
  * Only restyles Moodle's own markup; no admin page, plugin or setting is changed.
  ***************************************************************/
 
@@ -15,35 +15,6 @@
     .secondary-navigation .moremenu,
     .secondary-navigation .moremenu .nav-tabs {
         background-color: transparent;
-    }
-
-    // Category tabs (a Moodle "more menu" of nav tabs): pill buttons, the active one in the action orange.
-    // Scoped to this page's tab menu; the primary navigation in the navbar is not a nav-tabs menu.
-    .moremenu .nav-tabs.more-nav {
-        gap: .5rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 0;
-
-        .nav-link {
-            padding: .5rem 1.125rem;
-            border: 1px solid $diverse-border-strong;
-            border-radius: 50rem;
-            background-color: $white;
-            color: $diverse-ink;
-            font-weight: 600;
-
-            &:hover,
-            &:focus {
-                border-color: $diverse-ink;
-                background-color: $diverse-surface;
-            }
-
-            &.active {
-                border-color: $diverse-action-orange;
-                background-color: $diverse-action-orange;
-                color: $white;
-            }
-        }
     }
 
     // Each category becomes a card. Cards flow in columns, so long and short

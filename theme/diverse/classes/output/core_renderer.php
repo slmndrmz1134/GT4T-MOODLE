@@ -150,12 +150,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      */
     public function full_header() {
         $header = parent::full_header();
-        if (
-            shell::applies($this->page) && $this->page->course->id != SITEID &&
-                str_starts_with($this->page->pagetype, 'course-view-')
-        ) {
+        if (!shell::applies($this->page) || $this->page->course->id == SITEID) {
+            return $header;
+        }
+        if (str_starts_with($this->page->pagetype, 'course-view-')) {
             $hero = (new course_hero($this->page->course))->export_for_template($this);
             return $this->render_from_template('theme_diverse/course_hero', $hero) . $header;
+        }
+        if ($this->page->pagelayout === 'incourse' && $this->page->cm) {
+            $bar = course_hero::lesson_bar($this->page->course, $this->page->cm);
+            return $this->render_from_template('theme_diverse/lesson_bar', $bar) . $header;
         }
         return $header;
     }
@@ -554,11 +558,12 @@ JS;
      * @return string HTML
      */
     public function search_box($id = false) {
-        $action = new \moodle_url('/course/search.php');
+        $catalog = shell::applies($this->page) ? shell::catalog_url() : null;
+        $action = $catalog ?? new \moodle_url('/course/search.php');
         $data = [
             'action' => $action->out(false),
-            'inputname' => 'search',
-            'searchstring' => get_string('searchcourses', 'core'),
+            'inputname' => $catalog ? 'q' : 'search',
+            'searchstring' => $catalog ? get_string('nav_search', 'theme_diverse') : get_string('searchcourses', 'core'),
         ];
         return $this->render_from_template('theme_diverse/navbar_search', $data);
     }

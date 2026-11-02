@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Creează-ți contul {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Navigare principală';
+$string['nav_discover'] = 'Descoperă';
+$string['nav_search'] = 'Ce vrei să înveți?';
+$string['dash_resume'] = 'Continuă să înveți';
+$string['dash_recommended'] = 'Mai multe cursuri pentru tine';
+$string['dash_allcategories'] = 'Toate cursurile';
+$string['card_activities'] = 'Activități: {$a}';
+$string['card_people'] = 'Persoane: {$a}';
+$string['card_enrolled'] = 'Înscris';
+$string['card_open'] = 'Înscriere deschisă';
+$string['lesson_previous'] = 'Anterior';
+$string['lesson_next'] = 'Următor';
 $string['shell_mypartner'] = 'Partenerul meu';
 $string['shell_siteadmin'] = 'Administrarea site-ului';
-$string['dash_hello'] = 'Bună, {$a}';
+$string['dash_hello'] = 'Bine ai revenit, {$a}';
 $string['dash_summary_overdue'] = 'Întârziate: {$a}. Începe de aici.';
 $string['dash_summary_grading'] = 'Predări care așteaptă nota ta: {$a}.';
 $string['dash_summary_todo'] = 'Termen în următoarele 30 de zile: {$a}.';
 $string['dash_summary_clear'] = 'Nu este nimic de predat momentan.';
-$string['dash_continue'] = 'Continuă de unde ai rămas';
-$string['dash_start'] = 'Începe aici';
 $string['dash_lastvisit'] = 'ultima vizită acum {$a}';
 $string['dash_progress'] = '{$a}% finalizat';
 $string['dash_todo'] = 'De făcut';

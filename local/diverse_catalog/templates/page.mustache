@@ -1,0 +1,82 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_catalog/page
+
+    Search box, filters and course cards. The filters are a plain form, so they also work without JavaScript.
+
+    Example context (json):
+    {
+        "actionurl": "#", "query": "", "categories": [{"id": 1, "name": "Shared Courses", "count": 2, "selected": false}],
+        "statuses": [{"value": "all", "label": "All", "selected": true}],
+        "sorts": [{"value": "name", "label": "Name", "selected": true}],
+        "results": "2 courses", "courses": [], "hascourses": false, "filtered": false
+    }
+}}
+<form class="diverse-catalog" id="diverse-catalog-form" action="{{actionurl}}" method="get">
+    <header class="diverse-catalog-head">
+        <h2 class="diverse-catalog-title">{{#str}}title, local_diverse_catalog{{/str}}</h2>
+        <div class="diverse-catalog-search">
+            <label class="visually-hidden" for="diverse-catalog-q">{{#str}}search, local_diverse_catalog{{/str}}</label>
+            <input type="search" class="form-control" id="diverse-catalog-q" name="q" value="{{query}}"
+                   placeholder="{{#str}}search, local_diverse_catalog{{/str}}">
+            <button type="submit" class="btn btn-primary">{{#str}}searchbutton, local_diverse_catalog{{/str}}</button>
+        </div>
+    </header>
+    <div class="diverse-catalog-body">
+        <aside class="diverse-catalog-filters">
+            <fieldset>
+                <legend>{{#str}}filter_category, local_diverse_catalog{{/str}}</legend>
+                {{#categories}}
+                <label><input type="checkbox" name="cat[]" value="{{id}}"{{#selected}} checked{{/selected}}> <span>{{name}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
+                {{/categories}}
+            </fieldset>
+            <fieldset>
+                <legend>{{#str}}filter_status, local_diverse_catalog{{/str}}</legend>
+                {{#statuses}}
+                <label><input type="radio" name="status" value="{{value}}"{{#selected}} checked{{/selected}}> <span>{{label}}</span></label>
+                {{/statuses}}
+            </fieldset>
+            <noscript><button type="submit" class="btn btn-primary">{{#str}}apply, local_diverse_catalog{{/str}}</button></noscript>
+            {{#filtered}}<a class="diverse-catalog-clear" href="{{actionurl}}">{{#str}}clear, local_diverse_catalog{{/str}}</a>{{/filtered}}
+        </aside>
+        <div class="diverse-catalog-results">
+            <div class="diverse-catalog-bar">
+                <p role="status">{{results}}</p>
+                <label>
+                    <span>{{#str}}sort, local_diverse_catalog{{/str}}</span>
+                    <select name="sort" class="form-select">
+                        {{#sorts}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/sorts}}
+                    </select>
+                </label>
+            </div>
+            {{#hascourses}}
+            <ul class="diverse-card-grid">
+                {{#courses}}{{> theme_diverse/course_card }}{{/courses}}
+            </ul>
+            {{/hascourses}}
+            {{^hascourses}}<p class="diverse-empty">{{#str}}empty, local_diverse_catalog{{/str}}</p>{{/hascourses}}
+        </div>
+    </div>
+</form>
+{{#js}}
+document.querySelectorAll('#diverse-catalog-form .diverse-catalog-filters input, #diverse-catalog-form select').forEach(function(input) {
+    input.addEventListener('change', function() {
+        this.form.submit();
+    });
+});
+{{/js}}

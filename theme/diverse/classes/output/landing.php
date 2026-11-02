@@ -146,7 +146,7 @@ class landing implements renderable, templatable {
 
         $items = [];
         foreach ($picked as $index => [$course, $category]) {
-            $imageurl = $this->get_course_image_url($course);
+            $imageurl = self::get_course_image_url($course);
             $shape = self::COVER_SHAPES[$index % count(self::COVER_SHAPES)];
             $items[] = [
                 'fullname' => $course->get_formatted_fullname(),
@@ -163,13 +163,29 @@ class landing implements renderable, templatable {
     }
 
     /**
+     * The cover of a course for theme_diverse/course_cover: always the same pattern for the same course.
+     *
+     * @param core_course_list_element $course
+     * @return array
+     */
+    public static function course_cover(core_course_list_element $course): array {
+        $imageurl = self::get_course_image_url($course);
+        return [
+            'imageurl' => $imageurl,
+            'hasimage' => $imageurl !== null,
+            'coverstyle' => self::COVER_STYLES[$course->id % count(self::COVER_STYLES)],
+            'is' . self::COVER_SHAPES[($course->id + 1) % count(self::COVER_SHAPES)] => true,
+        ];
+    }
+
+    /**
      * Get the URL of the course overview image, but only if its file can actually be read,
      * so that a missing file in moodledata falls back to a patterned cover instead of a broken image.
      *
      * @param core_course_list_element $course
      * @return string|null
      */
-    protected function get_course_image_url(core_course_list_element $course): ?string {
+    protected static function get_course_image_url(core_course_list_element $course): ?string {
         $filesystem = get_file_storage()->get_file_system();
         foreach ($course->get_course_overviewfiles() as $file) {
             // Check readability first: is_valid_image() reads the file and warns if it is missing.

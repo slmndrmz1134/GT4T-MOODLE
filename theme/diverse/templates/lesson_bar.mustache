@@ -1,0 +1,41 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/lesson_bar
+
+    Bar above an activity: the course, the place in it and the way to the previous and next activity.
+
+    Example context (json):
+    {
+        "courseurl": "#", "coursename": "Business Law", "position": "3 / 11", "hasprogress": true, "progress": 18,
+        "hasprevious": true, "previousurl": "#", "hasnext": true, "nexturl": "#"
+    }
+}}
+<nav class="diverse-lesson-bar" aria-label="{{coursename}}">
+    <a class="diverse-lesson-course" href="{{courseurl}}">{{coursename}}</a>
+    <span class="diverse-lesson-position">{{position}}</span>
+    {{#hasprogress}}
+    <span class="diverse-progress">
+        <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
+        <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+    </span>
+    {{/hasprogress}}
+    <span class="diverse-lesson-steps">
+        {{#hasprevious}}<a class="btn btn-sm diverse-btn-on-dark" href="{{previousurl}}">{{#str}}lesson_previous, theme_diverse{{/str}}</a>{{/hasprevious}}
+        {{#hasnext}}<a class="btn btn-sm btn-primary" href="{{nexturl}}">{{#str}}lesson_next, theme_diverse{{/str}}</a>{{/hasnext}}
+    </span>
+</nav>

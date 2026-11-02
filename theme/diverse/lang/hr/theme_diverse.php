@@ -93,15 +93,24 @@ $string['signup_partner_intro'] = 'Izradite svoj račun ustanove {$a}.';
 
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Glavna navigacija';
+$string['nav_discover'] = 'Otkrij';
+$string['nav_search'] = 'Što želite naučiti?';
+$string['dash_resume'] = 'Nastavite učiti';
+$string['dash_recommended'] = 'Još kolegija za vas';
+$string['dash_allcategories'] = 'Svi kolegiji';
+$string['card_activities'] = 'Aktivnosti: {$a}';
+$string['card_people'] = 'Osoba: {$a}';
+$string['card_enrolled'] = 'Upisani ste';
+$string['card_open'] = 'Otvoren upis';
+$string['lesson_previous'] = 'Prethodno';
+$string['lesson_next'] = 'Sljedeće';
 $string['shell_mypartner'] = 'Moj partner';
 $string['shell_siteadmin'] = 'Administracija sjedišta';
-$string['dash_hello'] = 'Pozdrav, {$a}';
+$string['dash_hello'] = 'Dobro došli natrag, {$a}';
 $string['dash_summary_overdue'] = 'Zakašnjelih stavki: {$a}. Počnite ovdje.';
 $string['dash_summary_grading'] = 'Predaja koje čekaju vašu ocjenu: {$a}.';
 $string['dash_summary_todo'] = 'Rok u sljedećih 30 dana: {$a}.';
 $string['dash_summary_clear'] = 'Trenutačno nema obveza.';
-$string['dash_continue'] = 'Nastavite gdje ste stali';
-$string['dash_start'] = 'Počnite ovdje';
 $string['dash_lastvisit'] = 'zadnji posjet prije {$a}';
 $string['dash_progress'] = '{$a} % dovršeno';
 $string['dash_todo'] = 'Za napraviti';

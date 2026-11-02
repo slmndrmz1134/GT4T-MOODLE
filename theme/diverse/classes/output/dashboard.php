@@ -19,6 +19,7 @@ namespace theme_diverse\output;
 use core\output\renderable;
 use core\output\renderer_base;
 use core\output\templatable;
+use local_diverse_catalog\catalog;
 use theme_diverse\local\partners;
 
 /**
@@ -42,7 +43,10 @@ class dashboard implements renderable, templatable {
     const MAX_TODO = 8;
 
     /** @var int Largest number of course cards shown in a section. */
-    const MAX_COURSES = 6;
+    const MAX_COURSES = 8;
+
+    /** @var int Number of courses offered to continue. */
+    const MAX_RESUME = 3;
 
     /**
      * Export the dashboard.
@@ -58,7 +62,7 @@ class dashboard implements renderable, templatable {
         $isadmin = has_capability('moodle/site:config', \context_system::instance());
 
         $data = [
-            'firstname' => self::text($USER->firstname),
+            'avatar' => $output->user_picture($USER, ['size' => 100, 'link' => false]),
             'greeting' => get_string('dash_hello', 'theme_diverse', self::text($USER->firstname)),
             'today' => userdate(time(), get_string('strftimedaydate', 'langconfig')),
             'allcoursesurl' => (new \core\url('/my/courses.php'))->out(false),
@@ -66,6 +70,14 @@ class dashboard implements renderable, templatable {
             'isadmin' => $isadmin,
         ] + $todo;
 
+        $hascatalog = class_exists(catalog::class);
+        if ($hascatalog && !$isadmin) {
+            $data['categories'] = catalog::categories();
+            $data['hascategories'] = !empty($data['categories']);
+            $data['catalogurl'] = (new \core\url('/local/diverse_catalog/index.php'))->out(false);
+            $data['recommended'] = catalog::recommended(self::MAX_COURSES);
+            $data['hasrecommended'] = !empty($data['recommended']);
+        }
         if ($learning) {
             $data['learning'] = $this->export_learning($learning, $output);
         }
@@ -125,23 +137,31 @@ class dashboard implements renderable, templatable {
         $lastaccess = $DB->get_records_menu('user_lastaccess', ['userid' => $USER->id], '', 'courseid, timeaccess');
         uasort($courses, fn($a, $b) => ($lastaccess[$b->id] ?? 0) <=> ($lastaccess[$a->id] ?? 0));
 
-        $cards = [];
-        foreach ($courses as $course) {
-            $cards[] = $this->export_course($course, $output) + [
+        $resume = [];
+        foreach (array_slice($courses, 0, self::MAX_RESUME, true) as $course) {
+            $next = course_hero::next_activity($course);
+            $resume[] = $this->export_course($course, $output) + [
+                'url' => ($next ? $next->url : new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
+                'next' => $next ? self::text($next->name) : '',
+                'type' => $next ? $next->get_module_type_name() : '',
                 'lastaccess' => isset($lastaccess[$course->id])
                     ? get_string('dash_lastvisit', 'theme_diverse', format_time(time() - $lastaccess[$course->id])) : '',
             ];
         }
 
-        $allcards = $cards;
-        $continue = reset($cards);
-        $continue['started'] = !empty($continue['lastaccess']);
+        if (class_exists(catalog::class)) {
+            $elements = array_map(fn($course) => new \core_course_list_element($course), $courses);
+            $cards = catalog::cards($elements);
+        } else {
+            $cards = array_map(fn($course) => $this->export_course($course, $output), array_values($courses));
+        }
+
         $recentgrades = $this->get_recent_grades($courses);
         return [
-            'continue' => $continue,
-            'courses' => array_slice($allcards, 0, self::MAX_COURSES),
-            'hascourses' => count($allcards) > 1,
-            'more' => count($allcards) > self::MAX_COURSES,
+            'resume' => $resume,
+            'courses' => array_slice($cards, 0, self::MAX_COURSES),
+            'hascourses' => !empty($cards),
+            'more' => count($cards) > self::MAX_COURSES,
             'grades' => $recentgrades,
             'hasgrades' => !empty($recentgrades),
             'gradesurl' => (new \core\url('/grade/report/mygrades.php'))->out(false),
@@ -384,7 +404,7 @@ class dashboard implements renderable, templatable {
      */
     protected function export_course(\stdClass $course, renderer_base $output): array {
         $progress = \core_completion\progress::get_course_progress_percentage($course);
-        return course_hero::cover($course, $output) + [
+        return landing::course_cover(new \core_course_list_element($course)) + [
             'name' => self::text($course->fullname),
             'category' => course_hero::category_name($course),
             'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
