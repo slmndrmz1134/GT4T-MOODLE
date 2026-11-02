@@ -211,7 +211,7 @@ class catalog {
      * @return array
      */
     public static function cards(array $courses): array {
-        global $DB, $USER;
+        global $DB, $FULLME, $USER;
 
         if (!$courses) {
             return [];
@@ -236,7 +236,7 @@ class catalog {
         $service = \core_favourites\service_factory::get_service_for_user_context(\core\context\user::instance($USER->id));
         $favourites = array_map(fn($item) => (int)$item->itemid, $service->find_favourites_by_type('core_course', 'courses'));
         $favouriteurl = (new \core\url('/local/diverse_catalog/favourite.php'))->out(false);
-        $returnurl = (new \core\url(qualified_me()))->out_as_local_url(false);
+        $returnurl = (new \core\url($FULLME))->out_as_local_url(false);
 
         $cards = [];
         foreach ($courses as $id => $course) {
