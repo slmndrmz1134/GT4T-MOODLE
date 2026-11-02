@@ -372,3 +372,86 @@ body {
         margin-top: auto;
     }
 }
+
+// Hover and focus, the same everywhere. Moodle paints a thick square on everything that is clicked: here a click leaves
+// nothing behind, and only keyboard users get a thin line. Hovering changes the colour smoothly.
+body {
+    a,
+    button,
+    .btn,
+    .nav-link,
+    .dropdown-item,
+    .list-group-item,
+    .activity-item,
+    [role="button"] {
+        transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+
+    a:not([class]):focus,
+    .aalink:focus {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    a:focus,
+    button:focus,
+    .btn:focus,
+    .aabtn:focus,
+    .nav-link:focus,
+    .dropdown-item:focus,
+    [role="button"]:focus {
+        outline: 0;
+        box-shadow: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible,
+    .aabtn:focus-visible,
+    .nav-link:focus-visible,
+    .dropdown-item:focus-visible,
+    [role="button"]:focus-visible {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: 2px;
+        box-shadow: none;
+    }
+
+    // Icon buttons: no box on hover, and the line follows the icon rather than the larger button around it.
+    .btn.btn-icon:not(.btn-footer-popover) {
+        --#{$prefix}btn-hover-bg: transparent;
+        --#{$prefix}btn-hover-border-color: transparent;
+        --#{$prefix}btn-active-bg: transparent;
+        --#{$prefix}btn-active-border-color: transparent;
+
+        &:hover {
+            color: $diverse-action-orange;
+        }
+
+        &:focus-visible {
+            outline-offset: -.375rem;
+        }
+    }
+
+    #usernavigation .popover-region .popover-region-toggle.nav-link {
+        display: inline-flex;
+        width: auto;
+        height: auto;
+        margin: 0 .25rem;
+        padding: .25rem;
+        border-radius: $btn-border-radius;
+
+        .fa-fw {
+            width: 1em;
+            margin: 0;
+            font-size: 1.125rem;
+        }
+
+        &:hover {
+            color: $diverse-action-orange;
+        }
+
+        &:focus-visible {
+            outline-offset: 0;
+        }
+    }
+}

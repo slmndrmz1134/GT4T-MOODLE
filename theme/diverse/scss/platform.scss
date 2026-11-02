@@ -817,19 +817,6 @@ body.pagelayout-mycourses.diverse-shell {
 }
 
 // Categories of courses, one click into the catalogue: the same line as the tabs of a course.
-// The same for the plain links on these screens; keyboard users still see where they are.
-.diverse-dash a:focus,
-.diverse-catalog a:focus {
-    background-color: transparent;
-    box-shadow: none;
-}
-
-.diverse-dash a:focus-visible,
-.diverse-catalog a:focus-visible {
-    outline: 2px solid $diverse-action-orange;
-    outline-offset: 2px;
-}
-
 .diverse-category-strip {
     display: flex;
     gap: 1.5rem;
@@ -971,16 +958,6 @@ body.pagelayout-mycourses.diverse-shell {
             }
         }
 
-        // Moodle paints links without a class when they are clicked: on a whole card that looks like a fault.
-        &:focus {
-            background-color: $white;
-            box-shadow: none;
-        }
-
-        &:focus-visible {
-            outline: 2px solid $diverse-action-orange;
-            outline-offset: 2px;
-        }
     }
 
     .diverse-course-cover {
@@ -1039,6 +1016,11 @@ body.pagelayout-mycourses.diverse-shell {
     }
 }
 
+// A clicked card keeps its white: the transparent focus in post.scss is for plain links.
+body .diverse-card-course > a:focus {
+    background-color: $white;
+}
+
 // Star on a card: the button is 44 px for fingers, the white square inside it is what shows.
 .diverse-favourite {
     position: absolute;
@@ -1074,8 +1056,12 @@ body.pagelayout-mycourses.diverse-shell {
     }
 
     button:focus-visible {
+        outline: 0;
+    }
+
+    button:focus-visible span {
         outline: 2px solid $diverse-action-orange;
-        outline-offset: -2px;
+        outline-offset: 1px;
     }
 }
 
