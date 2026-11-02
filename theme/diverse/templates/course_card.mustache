@@ -23,28 +23,49 @@
     {
         "url": "#", "name": "Business Law", "category": "Shared Courses", "teachers": "Ada Yilmaz",
         "summary": "Contracts, liability and companies.", "activities": 7, "people": 12, "enrolled": true,
-        "selfenrol": false, "hasprogress": true, "progress": 40, "coverstyle": "brand", "isplus": true
+        "selfenrol": false, "hasprogress": true, "progress": 40, "coverstyle": "brand", "isplus": true,
+        "action": "Continue", "actionprimary": true, "id": 2, "favourite": false, "favouriteurl": "#", "returnurl": "/my/",
+        "sesskey": "abc"
     }
 }}
 <li class="diverse-card-course">
     <a href="{{url}}">
-        {{> theme_diverse/course_cover }}
+        <span class="diverse-card-course-cover">
+            {{> theme_diverse/course_cover }}
+            {{#activities}}<span class="diverse-cover-count">{{#str}}card_activities, theme_diverse, {{activities}}{{/str}}</span>{{/activities}}
+        </span>
         <span class="diverse-card-course-body">
+            <span class="diverse-card-course-type"><i class="fa fa-book" aria-hidden="true"></i>{{#str}}course{{/str}}</span>
             <span class="diverse-card-course-name">{{name}}</span>
             {{#teachers}}<span class="diverse-card-course-teachers">{{teachers}}</span>{{/teachers}}
             {{#summary}}<span class="diverse-card-course-summary">{{summary}}</span>{{/summary}}
-            {{#hasprogress}}
-            <span class="diverse-progress">
-                <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
-                <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
-            </span>
-            {{/hasprogress}}
             <span class="diverse-card-course-tags">
                 {{#enrolled}}<span class="diverse-badge diverse-badge-done">{{#str}}card_enrolled, theme_diverse{{/str}}</span>{{/enrolled}}
                 {{#selfenrol}}<span class="diverse-badge diverse-badge-open">{{#str}}card_open, theme_diverse{{/str}}</span>{{/selfenrol}}
                 {{#category}}<span class="diverse-badge">{{category}}</span>{{/category}}
             </span>
-            {{#activities}}<span class="diverse-card-course-meta">{{#str}}card_activities, theme_diverse, {{activities}}{{/str}} · {{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>{{/activities}}
+            <span class="diverse-card-course-footer">
+                {{#hasprogress}}
+                <span class="diverse-progress">
+                    <span class="diverse-progress-track"><span style="width: {{progress}}%;"></span></span>
+                    <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+                </span>
+                {{/hasprogress}}
+                {{^hasprogress}}<span class="diverse-card-course-meta">{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>{{/hasprogress}}
+                <span class="btn btn-sm {{#actionprimary}}btn-primary{{/actionprimary}}{{^actionprimary}}btn-secondary{{/actionprimary}}">{{action}}</span>
+            </span>
         </span>
     </a>
+    {{#enrolled}}
+    <form class="diverse-favourite" method="post" action="{{favouriteurl}}">
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="hidden" name="favourite" value="{{^favourite}}1{{/favourite}}{{#favourite}}0{{/favourite}}">
+        <input type="hidden" name="returnurl" value="{{returnurl}}">
+        <input type="hidden" name="sesskey" value="{{sesskey}}">
+        <button type="submit" aria-pressed="{{#favourite}}true{{/favourite}}{{^favourite}}false{{/favourite}}"
+                aria-label="{{#favourite}}{{#str}}card_unfavourite, theme_diverse, {{name}}{{/str}}{{/favourite}}{{^favourite}}{{#str}}card_favourite, theme_diverse, {{name}}{{/str}}{{/favourite}}">
+            <span><i class="fa {{^favourite}}fa-regular {{/favourite}}fa-star" aria-hidden="true"></i></span>
+        </button>
+    </form>
+    {{/enrolled}}
 </li>

@@ -94,6 +94,14 @@ $string['signup_partner_intro'] = 'Luo {$a} -tunnus.';
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Päänavigointi';
 $string['messages_select'] = 'Valitse keskustelu luettavaksi tässä.';
+$string['mycourses_all'] = 'Kaikki';
+$string['mycourses_notstarted'] = 'Aloittamatta';
+$string['mycourses_inprogress'] = 'Kesken';
+$string['mycourses_completed'] = 'Suoritettu';
+$string['mycourses_favourites'] = 'Suosikit';
+$string['mycourses_none'] = 'Täällä ei ole vielä mitään.';
+$string['card_favourite'] = 'Lisää {$a} suosikkeihin';
+$string['card_unfavourite'] = 'Poista {$a} suosikeista';
 $string['nav_discover'] = 'Löydä';
 $string['nav_search'] = 'Mitä haluat oppia?';
 $string['dash_resume'] = 'Jatka oppimista';

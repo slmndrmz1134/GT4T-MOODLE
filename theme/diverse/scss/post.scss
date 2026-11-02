@@ -33,7 +33,31 @@
     src: url([[font:theme_diverse|source-sans-3-variable.woff2]]) format("woff2");
 }
 
-// Headings: slightly tighter tracking for the Source Sans 3 display sizes.
+// Plus Jakarta Sans comes in two files per style: browsers load the second only for letters such as ş, ğ and č.
+$diverse-jakarta-latin: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD";
+$diverse-jakarta-latin-ext: "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF";
+
+@each $style in normal, italic {
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: $style;
+        font-weight: 200 800;
+        font-display: swap;
+        src: url([[font:theme_diverse|plus-jakarta-sans-latin-wght-#{$style}.woff2]]) format("woff2");
+        unicode-range: #{$diverse-jakarta-latin};
+    }
+
+    @font-face {
+        font-family: "Plus Jakarta Sans";
+        font-style: $style;
+        font-weight: 200 800;
+        font-display: swap;
+        src: url([[font:theme_diverse|plus-jakarta-sans-latin-ext-wght-#{$style}.woff2]]) format("woff2");
+        unicode-range: #{$diverse-jakarta-latin-ext};
+    }
+}
+
+// Headings: slightly tighter tracking for the large sizes.
 h1,
 .h1,
 h2,
@@ -48,16 +72,28 @@ body.pagelayout-mycourses #page {
 }
 
 // Secondary buttons: white with a neutral outline instead of Bootstrap grey.
-.btn-secondary {
+.btn-secondary,
+.btn-outline-secondary {
     --#{$prefix}btn-color: #{$diverse-ink};
     --#{$prefix}btn-bg: #{$white};
     --#{$prefix}btn-border-color: #{$diverse-border-strong};
     --#{$prefix}btn-hover-color: #{$diverse-ink};
     --#{$prefix}btn-hover-bg: #{$diverse-surface};
-    --#{$prefix}btn-hover-border-color: #{$diverse-ink};
+    --#{$prefix}btn-hover-border-color: #{$diverse-action-orange};
     --#{$prefix}btn-active-color: #{$diverse-ink};
-    --#{$prefix}btn-active-bg: #{$diverse-border};
-    --#{$prefix}btn-active-border-color: #{$diverse-ink};
+    --#{$prefix}btn-active-bg: #{$diverse-surface};
+    --#{$prefix}btn-active-border-color: #{$diverse-action-orange};
+}
+
+// Buttons without a colour of their own (user menu, action menus): Bootstrap leaves their pressed and open state undefined,
+// and the browser then draws a border in the text colour.
+.btn:not([class*="btn-"]),
+.btn-submit,
+.btn-subtle-body,
+.btn-footer-popover {
+    --#{$prefix}btn-active-color: currentColor;
+    --#{$prefix}btn-active-bg: transparent;
+    --#{$prefix}btn-active-border-color: transparent;
 }
 
 // Cards: neutral hairline border.
@@ -94,7 +130,7 @@ body {
     background-color: $white;
 
     .container-fluid {
-        max-width: $diverse-content-max-width;
+        max-width: 80rem;
         margin-left: auto;
         margin-right: auto;
         display: flex;
@@ -346,12 +382,12 @@ body {
     object-fit: contain;
 }
 
-// Platform footer content container width.
+// Platform footer content container width (1280px / 80rem).
 #page-footer {
 
     .footer-content-popover,
     .footer-section {
-        max-width: $diverse-content-max-width;
+        max-width: 80rem;
         margin-left: auto;
         margin-right: auto;
     }
@@ -370,5 +406,88 @@ body {
 
     #page-footer {
         margin-top: auto;
+    }
+}
+
+// Hover and focus, the same everywhere. Moodle paints a thick square on everything that is clicked: here a click leaves
+// nothing behind, and only keyboard users get a thin line. Hovering changes the colour smoothly.
+body {
+    a,
+    button,
+    .btn,
+    .nav-link,
+    .dropdown-item,
+    .list-group-item,
+    .activity-item,
+    [role="button"] {
+        transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+    }
+
+    a:not([class]):focus,
+    .aalink:focus {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    a:focus,
+    button:focus,
+    .btn:focus,
+    .aabtn:focus,
+    .nav-link:focus,
+    .dropdown-item:focus,
+    [role="button"]:focus {
+        outline: 0;
+        box-shadow: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    .btn:focus-visible,
+    .aabtn:focus-visible,
+    .nav-link:focus-visible,
+    .dropdown-item:focus-visible,
+    [role="button"]:focus-visible {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: 2px;
+        box-shadow: none;
+    }
+
+    // Icon buttons: no box on hover, and the line follows the icon rather than the larger button around it.
+    .btn.btn-icon:not(.btn-footer-popover) {
+        --#{$prefix}btn-hover-bg: transparent;
+        --#{$prefix}btn-hover-border-color: transparent;
+        --#{$prefix}btn-active-bg: transparent;
+        --#{$prefix}btn-active-border-color: transparent;
+
+        &:hover {
+            color: $diverse-action-orange;
+        }
+
+        &:focus-visible {
+            outline-offset: -.375rem;
+        }
+    }
+
+    #usernavigation .popover-region .popover-region-toggle.nav-link {
+        display: inline-flex;
+        width: auto;
+        height: auto;
+        margin: 0 .25rem;
+        padding: .25rem;
+        border-radius: $btn-border-radius;
+
+        .fa-fw {
+            width: 1em;
+            margin: 0;
+            font-size: 1.125rem;
+        }
+
+        &:hover {
+            color: $diverse-action-orange;
+        }
+
+        &:focus-visible {
+            outline-offset: 0;
+        }
     }
 }

@@ -42,9 +42,10 @@ geliştiriciye anlatır ve karar ister.
   | `post.scss` | Fontların `@font-face` tanımları, genel bileşen ayrıntıları |
   | `landing.scss` | Ziyaretçi ana sayfası |
   | `login.scss` | Giriş sayfası |
-  | `shell.scss` | Giriş sonrası sol menü ve mobil alt menü |
+  | `shell.scss` | Giriş sonrası üst menü ve mobil alt menü |
   | `platform.scss` | Dashboard, Derslerim, ders sayfası |
 | `messages.scss` | Mesajlar sayfası |
+| `icons.scss` | Moodle ikonlarının çizgili (outline) karşılıkları |
   | `admin.scss` | Site administration |
 
   Yeni bir sayfa dosyası gerekiyorsa `theme/diverse/lib.php` içindeki listeye eklenir.

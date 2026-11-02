@@ -159,6 +159,18 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   çıktı, ayraçla ayrılır.
 - Butonlar ve form alanları oval olmaktan çıktı, tek köşe değeri kullanır (`$diverse-control-radius`, 6 px). Mesajlar sayfası
   ekranı dolduran iki sütuna geçti (`messages.scss`); telefonda tek sütun görünür.
+- Proje sahibinin kararıyla tam genişlik denemesi bitti, sayfa genişliği yeniden `80rem`. Sol menü de kalktı: gezinme üst
+  çubuğun altındaki satırda, yönetim bağlantıları açılır menüde. Telefondaki alt menü aynı kaldı.
+- Ders kartlarına tür etiketi, etkinlik sayacı ve eylem düğmesi eklendi. Derslerim sayfası Moodle'ın bloğu yerine aynı kartları
+  gösterir; blok silinmez, gizlenir. Sık görülen ikonlar `icons.scss` ile çizgili hale geldi.
+- İkonlar Lucide oldu (`theme/diverse/pix/icons`, ISC lisansı, `thirdpartylibs.xml`): tek kalınlıkta, SVG ve sitede kaynak yazısı
+  gerektirmiyor. Yalnızca oval mesaj balonu proje sahibinin beğenisine göre DIVERSE için çizildi. Yeni ikon eklemek için SVG
+  dosyası kopyalanıp `icons.scss` listesine yazılır.
+- Derslerim'e durum sekmeleri (Tümü, Başlanmadı, Devam ediyor, Tamamlandı, Favoriler) eklendi. Favoriler Moodle'ın yıldızlı ders
+  kaydını kullanır (`core_favourites`), yeni tablo yoktur. Tamamlama takibi kapalı derste durum, dersin ziyaret edilip edilmediğine
+  göre belirlenir.
+- Font denemesi: site Plus Jakarta Sans'a geçti. Diğer geliştiriciler beğenmezse tek commit geri alınır; Inter ve Source Sans 3 dosyaları
+  bu yüzden silinmedi.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

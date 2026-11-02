@@ -24,8 +24,8 @@ use theme_diverse\local\partners;
 /**
  * Theme DIVERSE - Application navigation for logged-in users.
  *
- * A permanent rail on the left (a tab bar at the bottom on phones) replaces Moodle's top menu, so that the
- * main places are one click away on every page. The links are built from the user's roles on each page,
+ * A permanent row of links under the top bar (a tab bar at the bottom on phones) replaces Moodle's top menu, so
+ * that the main places are one click away on every page. The links are built from the user's roles on each page,
  * so they must stay cheap: no course lists here.
  *
  * @package    theme_diverse
@@ -36,18 +36,18 @@ class shell implements renderable, templatable {
     /** @var string[] Page layouts without the navigation: pages that are not part of the application. */
     const EXCLUDED_LAYOUTS = ['embedded', 'frametop', 'frontpage', 'login', 'maintenance', 'popup', 'print', 'redirect', 'secure'];
 
-    /** @var string[] SVG path of each navigation icon. */
+    /** @var string[] Icon class of each navigation link (see scss/icons.scss). */
     const ICONS = [
-        'dashboard' => 'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
-        'discover' => 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35',
-        'courses' => 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5',
-        'calendar' => 'M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM16 2v4M8 2v4M3 10h18',
-        'grades' => 'M12 15a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM8.2 13.9 7 23l5-3 5 3-1.2-9.1',
-        'messages' => 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
-        'partner' => 'M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M10 21v-4h4v4',
-        'users' => 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
-        'admin' => 'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',
-        'home' => 'M3 11l9-8 9 8M5 10v10h14V10M9 20v-6h6v6',
+        'dashboard' => 'fa-table-cells-large',
+        'discover' => 'fa-magnifying-glass',
+        'courses' => 'fa-book',
+        'calendar' => 'fa-calendar',
+        'grades' => 'fa-award',
+        'messages' => 'fa-message',
+        'partner' => 'fa-building',
+        'users' => 'fa-users',
+        'admin' => 'fa-sliders',
+        'home' => 'fa-house',
     ];
 
     /** @var \moodle_page */
@@ -133,6 +133,7 @@ class shell implements renderable, templatable {
             'main' => $main,
             'manage' => $manage,
             'hasmanage' => !empty($manage),
+            'managecurrent' => in_array(true, array_column($manage, 'current'), true),
             'home' => $this->link('home', get_string('sitehome'), '/?redirect=0', []),
         ];
     }

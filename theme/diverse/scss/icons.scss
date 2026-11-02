@@ -1,0 +1,91 @@
+/****************************************************************
+ * DIVERSE icons: Lucide (pix/icons, ISC licence), plus an oval message bubble drawn for DIVERSE.
+ * Moodle's Font Awesome icons are replaced without changing Moodle's markup: an icon keeps its class, only the
+ * picture changes. An icon not listed here stays Moodle's. To add one: copy its SVG to pix/icons and list it here.
+ ***************************************************************/
+
+@mixin diverse-icon($url) {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    content: "";
+    vertical-align: -.125em;
+    -webkit-mask: $url center / contain no-repeat;
+    mask: $url center / contain no-repeat;
+}
+
+// Font Awesome name: file in pix/icons.
+$diverse-icons: (
+    "arrow-down": "arrow-down",
+    "arrow-left": "arrow-left",
+    "arrow-right": "arrow-right",
+    "arrow-up": "arrow-up",
+    "arrow-up-right-from-square": "external-link",
+    "award": "award",
+    "bell": "bell",
+    "book": "book",
+    "building": "building",
+    "calendar": "calendar-days",
+    "check": "check",
+    "chevron-down": "chevron-down",
+    "chevron-left": "chevron-left",
+    "chevron-right": "chevron-right",
+    "chevron-up": "chevron-up",
+    "circle-check": "circle-check",
+    "circle-exclamation": "circle-alert",
+    "circle-info": "info",
+    "circle-question": "circle-question-mark",
+    "circle-xmark": "circle-x",
+    "clock": "clock",
+    "clone": "copy",
+    "comment": "message",
+    "comments": "message",
+    "download": "download",
+    "ellipsis": "ellipsis",
+    "ellipsis-h": "ellipsis",
+    "ellipsis-v": "ellipsis-vertical",
+    "ellipsis-vertical": "ellipsis-vertical",
+    "envelope": "mail",
+    "eye": "eye",
+    "eye-slash": "eye-off",
+    "face-smile": "smile",
+    "filter": "funnel",
+    "flag": "flag",
+    "gear": "settings",
+    "graduation-cap": "graduation-cap",
+    "house": "house",
+    "life-ring": "life-buoy",
+    "list": "list",
+    "lock": "lock",
+    "magnifying-glass": "search",
+    "message": "message",
+    "minus": "minus",
+    "paper-plane": "send",
+    "pen": "pencil",
+    "plus": "plus",
+    "sliders": "sliders-vertical",
+    "star": "star-filled",
+    "table-cells-large": "layout-grid",
+    "trash-can": "trash-2",
+    "user": "user",
+    "users": "users",
+    "xmark": "x",
+);
+
+@each $name, $file in $diverse-icons {
+    body .fa-#{$name}::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/#{$file}]]));
+    }
+}
+
+body {
+    .fa-regular.fa-star::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/star]]));
+    }
+
+    // The bell fills up when there is something to read.
+    .popover-region:has(.count-container:not(.hidden)) .fa-bell::before {
+        @include diverse-icon(url([[pix:theme_diverse|icons/bell-filled]]));
+    }
+}

@@ -3,11 +3,18 @@
  * Only styles Moodle's own markup; the page structure stays Moodle's.
  ***************************************************************/
 
-// Same width on every platform page (dashboard, my courses, etc.).
+// Max width standard (1280px / 80rem) across platform pages (dashboard, my courses, etc.).
 @include media-breakpoint-up(md) {
     body.limitedwidth #page.drawers .main-inner,
     body#page-my-index.limitedwidth #page.drawers .main-inner {
-        max-width: $diverse-content-max-width;
+        max-width: 80rem;
+    }
+}
+
+// Every application page uses it, so that pages line up with the navigation. Only the grade table needs all the room there is.
+@include media-breakpoint-up(md) {
+    body.diverse-shell:not(#page-grade-report-grader-index) #page.drawers .main-inner {
+        max-width: 80rem;
     }
 }
 
@@ -76,6 +83,13 @@
 // Every application page: the light surface with white cards on it, not one long white sheet.
 body.diverse-shell {
     background-color: $diverse-surface;
+
+    // Titles and content start on the same line as the navigation above them.
+    #page-header,
+    #page.drawers div[role="main"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
 
     #page,
     #page.drawers .main-inner,
@@ -544,16 +558,6 @@ table.diverse-table {
     }
 }
 
-// Everything in a course starts on the same line as the content of Moodle's #region-main, which has no gutter on phones.
-@include media-breakpoint-up(md) {
-    .diverse-hero-course,
-    .diverse-lesson-bar,
-    body.diverse-in-course .secondary-navigation .moremenu.navigation {
-        margin-right: .9375rem;
-        margin-left: .9375rem;
-    }
-}
-
 // Course header on every tab of a course: text on the page, a divider below it, no card.
 .diverse-hero-course {
     display: grid;
@@ -813,23 +817,11 @@ body.pagelayout-mycourses.diverse-shell {
 }
 
 // Categories of courses, one click into the catalogue: the same line as the tabs of a course.
-// The same for the plain links on these screens; keyboard users still see where they are.
-.diverse-dash a:focus,
-.diverse-catalog a:focus {
-    background-color: transparent;
-    box-shadow: none;
-}
-
-.diverse-dash a:focus-visible,
-.diverse-catalog a:focus-visible {
-    outline: 2px solid $diverse-action-orange;
-    outline-offset: 2px;
-}
-
 .diverse-category-strip {
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
+    scrollbar-width: none;
     border-bottom: 1px solid $diverse-border;
 
     a {
@@ -845,7 +837,8 @@ body.pagelayout-mycourses.diverse-shell {
         white-space: nowrap;
 
         &:hover,
-        &:focus-visible {
+        &:focus-visible,
+        &.active {
             border-bottom-color: $diverse-action-orange;
             color: $diverse-ink;
         }
@@ -885,11 +878,6 @@ body.pagelayout-mycourses.diverse-shell {
         border-color: $diverse-action-orange;
         color: $diverse-ink;
         text-decoration: none;
-
-        .diverse-resume-play {
-            background-color: $diverse-action-orange;
-            color: $white;
-        }
     }
 }
 
@@ -901,28 +889,6 @@ body.pagelayout-mycourses.diverse-shell {
         display: block;
         height: 100%;
         min-height: 8.5rem;
-    }
-}
-
-.diverse-resume-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    transform: translate(-50%, -50%);
-    background-color: $white;
-    border-radius: 50%;
-    color: $diverse-ink;
-    transition: background-color .15s ease, color .15s ease;
-
-    svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        fill: currentColor;
     }
 }
 
@@ -966,6 +932,7 @@ body.pagelayout-mycourses.diverse-shell {
 }
 
 .diverse-card-course {
+    position: relative;
     min-width: 0;
 
     > a {
@@ -991,22 +958,123 @@ body.pagelayout-mycourses.diverse-shell {
             }
         }
 
-        // Moodle paints links without a class when they are clicked: on a whole card that looks like a fault.
-        &:focus {
-            background-color: $white;
-            box-shadow: none;
-        }
-
-        &:focus-visible {
-            outline: 2px solid $diverse-action-orange;
-            outline-offset: 2px;
-        }
     }
 
     .diverse-course-cover {
         display: block;
         height: 8rem;
     }
+}
+
+.diverse-card-course-cover {
+    position: relative;
+    display: block;
+}
+
+// How much is in a course, on its cover.
+.diverse-cover-count {
+    position: absolute;
+    top: .5rem;
+    left: .5rem;
+    padding: .125rem .5rem;
+    background-color: $diverse-ink;
+    border-radius: $btn-border-radius;
+    color: $white;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.diverse-card-course-type {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+    color: $diverse-grey;
+    font-size: .8125rem;
+    font-weight: 600;
+}
+
+// Progress or a figure on the left, what to do next on the right.
+.diverse-card-course-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    margin-top: auto;
+    padding-top: .75rem;
+
+    // The button moves under a progress bar that would get too short next to it.
+    .diverse-progress {
+        flex: 1 1 9rem;
+        min-width: 0;
+        margin: 0;
+    }
+
+    .btn {
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+}
+
+// A clicked card keeps its white: the transparent focus in post.scss is for plain links.
+body .diverse-card-course > a:focus {
+    background-color: $white;
+}
+
+// Star on a card: the button is 44 px for fingers, the white square inside it is what shows.
+.diverse-favourite {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        padding: 0;
+        background: none;
+        border: 0;
+        color: $diverse-action-orange;
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.75rem;
+        height: 1.75rem;
+        background-color: $white;
+        border-radius: $btn-border-radius;
+    }
+
+    button:hover span,
+    button:focus-visible span {
+        background-color: $diverse-soft-orange;
+    }
+
+    button:focus-visible {
+        outline: 0;
+    }
+
+    button:focus-visible span {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: 1px;
+    }
+}
+
+// My courses: the same cards instead of Moodle's block.
+body:has(.diverse-mycourses) .block_myoverview {
+    display: none;
+}
+
+.diverse-mycourses {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
 }
 
 .diverse-card-course-body {
@@ -1044,7 +1112,6 @@ body.pagelayout-mycourses.diverse-shell {
     display: flex;
     flex-wrap: wrap;
     gap: .25rem;
-    margin-top: auto;
     padding-top: .5rem;
 }
 

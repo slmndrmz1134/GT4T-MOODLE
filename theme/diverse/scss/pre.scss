@@ -29,11 +29,6 @@ $diverse-on-dark-muted: #D4D4D8;       // Secondary text on the dark ink footer 
 $diverse-track: #EDEDEF;               // Progress bar track.
 
 // Bootstrap / Moodle theme colours.
-// Page width: no limit, the content fills the space next to the side navigation. To limit it again, give both a
-// length such as 80rem. The second one wins over Boost Union's course width setting without changing that setting.
-$diverse-content-max-width: none;
-$course-content-maxwidth: 100%;
-
 $primary: $diverse-action-orange;
 
 // Activity icons in the palette instead of Moodle's own pink, blue and purple.
@@ -51,8 +46,8 @@ $link-color: $diverse-action-orange;
 $link-hover-color: $diverse-action-orange-hover;
 
 // Typography. The font files are bundled in fonts/ and declared in post.scss.
-$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$headings-font-family: "Source Sans 3", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+$font-family-sans-serif: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 $headings-font-weight: 700;
 $font-size-base: 1rem;
 $btn-font-weight: 600;

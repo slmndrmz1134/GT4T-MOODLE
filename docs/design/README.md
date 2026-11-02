@@ -22,7 +22,7 @@ ayrılmasın diye burada tekrar edilmez.
    önce sıradaki etkinliğe götüren dersler, sonra yapılacaklar, sonra dersler ve keşfedilecekler. Ekranlar dolu ve keşif
    odaklıdır; hiç LMS kullanmamış biri de arama ve Keşfet ile aradığını bulur. Gerekçeler ve kaynaklar:
    [`LMS_ARASTIRMA.md`](LMS_ARASTIRMA.md).
-3. **Giriş sonrası gezinme sol menüdedir;** telefonda alt menüdür (5 öğe). Yönetim öğeleri ayrı grupta durur.
+3. **Giriş sonrası gezinme üst çubuğun altındaki satırdadır;** telefonda alt menüdür (5 öğe). Yönetim öğeleri ayrı grupta durur.
    Ders ve etkinlik sayfalarında müfredat sağdadır, düzenleme modunda ve telefonda Moodle'ın yerleşimi kalır. Moodle'ın üst menüsü bu sayfalarda gizlidir. Dil seçici (EN / TR / DE / HR) her ekranda görünür.
 4. **Partner markası:** DIVERSE çerçevesi sabit kalır (giriş paneli, landing, footer); giriş yapan kullanıcı menüde kendi
    üniversitesinin logosunu görür. Logoyu her üniversitenin yöneticisi `tool_mutenancy` ile yükler (üniversite >

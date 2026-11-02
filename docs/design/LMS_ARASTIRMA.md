@@ -9,7 +9,7 @@ değildir, bu yüzden bulgular yön gösterici kabul edilmelidir.
 Proje sahibi ilk sonucu "her yer boş" bulup Udemy'yi örnek gösterdi: ilk ekran sürekli içerik sunuyor, ders ekranında
 içerik ve müfredat yan yana duruyor, hiç LMS kullanmamış biri de aradığını bulabiliyor. Buna göre eklenenler:
 
-- **Üstte büyük arama** ("Ne öğrenmek istiyorsunuz?") ve sol menüde/mobil alt menüde **Keşfet**.
+- **Üstte büyük arama** ("Ne öğrenmek istiyorsunuz?") ve üst menüde/mobil alt menüde **Keşfet**.
 - **Keşfet sayfası** (`local/diverse_catalog`): arama, kategori ve durum filtresi, sıralama, ders kartları.
 - **Panom:** karşılama, kategori şeridi, doğrudan sıradaki etkinliğe giden "Öğrenmeye devam edin" kartları, ders kartları
   ve kayıtlı olunmayan dersler.
@@ -37,7 +37,7 @@ Kayıt açılırsa kartta "Kayıt açık" rozeti kendiliğinden görünür.
 
 | Ürün | Örüntü | DIVERSE'teki karşılığı |
 |---|---|---|
-| Canvas, Blackboard Ultra | Sayfalardan bağımsız, kalıcı sol gezinme | Sol menü; telefonda alt sekme çubuğu |
+| Canvas, Blackboard Ultra | Sayfalardan bağımsız, kalıcı gezinme | Üst menü (önce sol menüydü); telefonda alt sekme çubuğu |
 | Blackboard Ultra | Etkinlik akışı: Important / Upcoming / Today / Recent | Yapılacaklar: Geciken / Bugün / Bu hafta / Daha sonra |
 | Google Classroom | Assigned / Missing / Done ayrımı | Geciken işler ayrı ve en üstte |
 | Brightspace | "Work To Do": elle liste yapmadan geciken ve yaklaşan işler | Liste Moodle takviminin işlerinden kendiliğinden gelir |

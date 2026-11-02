@@ -104,6 +104,14 @@ $string['signup_partner_intro'] = 'Create your {$a} account.';
 // Application: navigation, dashboard and course header.
 $string['shell_nav'] = 'Main navigation';
 $string['messages_select'] = 'Select a conversation to read it here.';
+$string['mycourses_all'] = 'All';
+$string['mycourses_notstarted'] = 'Not started';
+$string['mycourses_inprogress'] = 'In progress';
+$string['mycourses_completed'] = 'Completed';
+$string['mycourses_favourites'] = 'Favourites';
+$string['mycourses_none'] = 'Nothing here yet.';
+$string['card_favourite'] = 'Add {$a} to favourites';
+$string['card_unfavourite'] = 'Remove {$a} from favourites';
 $string['nav_discover'] = 'Discover';
 $string['nav_search'] = 'What do you want to learn?';
 $string['dash_resume'] = 'Keep learning';
