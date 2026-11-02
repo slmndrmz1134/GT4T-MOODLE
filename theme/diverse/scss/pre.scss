@@ -30,6 +30,14 @@ $diverse-track: #EDEDEF;               // Progress bar track.
 
 // Bootstrap / Moodle theme colours.
 $primary: $diverse-action-orange;
+
+// Activity icons in the palette instead of Moodle's own pink, blue and purple.
+$activity-icon-administration-bg: $diverse-action-orange;
+$activity-icon-assessment-bg: $diverse-action-orange;
+$activity-icon-collaboration-bg: $diverse-action-orange;
+$activity-icon-communication-bg: $diverse-action-orange;
+$activity-icon-content-bg: $diverse-ink;
+$activity-icon-interactivecontent-bg: $diverse-ink;
 $success: $diverse-success;
 $danger: $diverse-danger;
 $body-color: $diverse-ink;

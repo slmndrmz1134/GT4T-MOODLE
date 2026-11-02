@@ -35,7 +35,8 @@ Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alın
 
 Bootstrap/Moodle eşleşmesi (`pre.scss` içinde): `$primary` = etkileşim turuncusu, `$link-color` = etkileşim
 turuncusu, `$link-hover-color` = hover turuncusu, `$body-color` = ink, `$body-secondary-color` = gri,
-`$success` / `$danger` = yukarıdaki başarı / hata renkleri.
+`$success` / `$danger` = yukarıdaki başarı / hata renkleri. Moodle'ın etkinlik ikonu renkleri de palete bağlıdır:
+değerlendirme, iletişim, iş birliği ve yönetim ikonları etkileşim turuncusu, içerik ikonları ink.
 
 `pre.scss`, Boost ve Boost Union ayarlarından **sonra** yüklenir. Yöneticinin Boost Union ayarlarına girdiği marka
 rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scss` üzerinden yapılır.
@@ -72,6 +73,8 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 | Dashboard, Derslerim ve diğer platform sayfaları | `80rem` (1280 px) | `platform.scss` |
 | Landing yan boşluğu | `4rem` masaüstü, `1.25rem` mobil | `landing.scss`: `$diverse-gutter`, `$diverse-gutter-sm` |
 | Giriş sayfası marka paneli | Ekranın `42vw` kadarı | `login.scss`: `$diverse-login-panel-width` |
+| Sol menü | `5.5rem` (88 px), `md` ve üstü | `shell.scss`: `$diverse-rail-width` |
+| Mobil alt menü | `4rem` (64 px), `md` altı | `shell.scss`: `$diverse-tabbar-height` |
 | Tıklanabilir alan | En az 44 × 44 px | Butonlar, ikonlu linkler, menü öğeleri |
 | İlerleme çubuğu | `.375rem` yükseklik, oval | `post.scss` |
 
@@ -85,6 +88,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   kenarlık ve ink yazı. Aktif sekme etkileşim turuncusu zemin ve beyaz yazı (örnek: Site administration, `admin.scss`).
 - **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 16 px köşe. Sayfa zemini `$diverse-surface` olur,
   böylece kartlar ayrışır. Boş kart gösterilmez.
+- **Sol menü:** ink zemin, ikon ve altında etiket. Aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
+- **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
 - **Ders kartları:** başlık Source Sans 3 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
   (ink/turuncu, soft/ink, turuncu/ink, şeftali/ink...). Yeni zemin/yazı eşleşmesi kontrast ölçülmeden eklenmez.

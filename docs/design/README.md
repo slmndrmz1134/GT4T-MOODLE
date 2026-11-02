@@ -18,8 +18,11 @@ ayrılmasın diye burada tekrar edilmez.
 
 1. **Landing page gösterişli, platformun içi sade.** İç ekranlarda beyaz zemin ve bol boşluk kullanılır;
    turuncu yalnızca vurgu içindir. Cam efekti (glassmorphism), yıldızlı arka plan ve 3D kartlar kullanılmaz.
-2. **Dashboard "şimdi ne yapmalıyım?" sorusunu cevaplar:** önce yaklaşan işler, sonra ilerleme çubuklu ders kartları.
-3. **Üst menüde en fazla 5 öğe.** Dil seçici (EN / TR / DE / HR) her ekranda görünür.
+2. **Dashboard "şimdi ne yapmalıyım?" sorusunu cevaplar:** role göre kurulur (öğrenci, öğretmen, yönetici). Öğrenci için
+   önce devam edilecek ders, sonra yapılacaklar, sonra ilerleme çubuklu dersler. Gerekçeler ve kaynaklar:
+   [`LMS_ARASTIRMA.md`](LMS_ARASTIRMA.md).
+3. **Giriş sonrası gezinme sol menüdedir;** telefonda alt menüdür. Ana menüde en fazla 5 öğe olur, yönetim öğeleri ayrı
+   grupta durur. Moodle'ın üst menüsü bu sayfalarda gizlidir. Dil seçici (EN / TR / DE / HR) her ekranda görünür.
 4. **Partner markası:** DIVERSE çerçevesi sabit kalır (giriş paneli, landing, footer); giriş yapan kullanıcı menüde kendi
    üniversitesinin logosunu görür. Logoyu her üniversitenin yöneticisi `tool_mutenancy` ile yükler (üniversite >
    Appearance > Logos); logo yüklenmemişse ya da dosyası yoksa DIVERSE logosu gösterilir.
@@ -59,4 +62,4 @@ Taslaklardaki ilerleme yüzdeleri ve tarihler örnektir.
 - [x] Üniversite logoları: `theme_diverse` tenant logosunu gösteriyor (Boost Union bunu atlıyordu).
 - [ ] Üniversite logo dosyalarının yeniden yüklenmesi (dosyalar `moodledata`'da eksik).
 - [ ] Boost Union ayarları: footer, yasal sayfalar (Künye, erişilebilirlik beyanı).
-- [ ] Dashboard ve ders sayfası ince ayarları (giriş yapmış kullanıcıyla test).
+- [x] Giriş sonrası kabuk, rol bazlı dashboard ve ders üst alanı (üç rolle yerelde test edildi).

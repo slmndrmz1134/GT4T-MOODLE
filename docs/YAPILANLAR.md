@@ -143,6 +143,15 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
 - Ders sayfası genişliği temaya sabit yazılmadı, Boost Union'ın kendi ayarıyla yapıldı; yönetim panelinden
   değiştirilebilir kalsın diye.
 
+**Kasım 2026: giriş sonrası yenileme**
+- Moodle'ın üst menüsünün yerine kalıcı sol menü geldi (telefonda alt menü). Dashboard role göre kuruluyor; ders sayfasına
+  kapaklı üst alan, ilerleme ve "Devam et" eklendi. Bütün sekmeler kutu sekme oldu, boş bölümler öğrenciden gizlendi.
+- Kod `theme_diverse` içinde: `classes/output/shell.php`, `dashboard.php`, `course_hero.php` ve kendi şablonları. Moodle ya da
+  Boost Union şablonu kopyalanmadı; Moodle'ın `primary-navigation` öğesi ve varsayılan Timeline/takvim blokları CSS ile
+  gizleniyor, silinmedi.
+- Dashboard ve Derslerim'de "Edit mode" kaldırıldı; yöneticinin eklediği bloklar görünmeye devam eder.
+- Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
+
 ## 7. Site administration
 
 **Yapılan**

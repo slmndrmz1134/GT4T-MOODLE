@@ -1,0 +1,53 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/course_hero
+
+    Header of the course page: cover, name, teachers, progress and the next step.
+
+    Example context (json):
+    {
+        "coverurl": "", "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
+        "stats": "5 sections, 7 activities", "hasprogress": true, "progress": 40,
+        "hasnext": true, "nexturl": "#", "nextname": "What is Business Law?", "nextlabel": "Continue"
+    }
+}}
+<section class="diverse-hero-course" aria-label="{{name}}">
+    <div class="diverse-hero-course-cover" style="background-image: url('{{coverurl}}');" aria-hidden="true"></div>
+    <div class="diverse-hero-course-body">
+        <div class="diverse-hero-course-text">
+            {{#category}}<p class="diverse-hero-course-category">{{category}}</p>{{/category}}
+            <h1 class="diverse-hero-course-title">{{name}}</h1>
+            <p class="diverse-hero-course-meta">
+                {{#teachers}}<span>{{teachers}}</span>{{/teachers}}
+                <span>{{stats}}</span>
+            </p>
+        </div>
+        {{#hasprogress}}
+        <div class="diverse-progress">
+            <div class="diverse-progress-track"><span style="width: {{progress}}%;"></span></div>
+            <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
+        </div>
+        {{/hasprogress}}
+        {{#hasnext}}
+        <div class="diverse-hero-course-next">
+            <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}}</a>
+            <span class="diverse-hero-course-nextname">{{nextname}}</span>
+        </div>
+        {{/hasnext}}
+    </div>
+</section>

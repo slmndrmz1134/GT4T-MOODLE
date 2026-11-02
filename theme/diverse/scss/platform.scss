@@ -72,3 +72,639 @@
 .drawer {
     border-color: $diverse-border;
 }
+
+// Every application page: the light surface with white cards on it, not one long white sheet.
+body.diverse-shell {
+    background-color: $diverse-surface;
+
+    #page,
+    #page.drawers .main-inner,
+    #region-main {
+        background-color: transparent;
+    }
+
+    // Tabs of courses and other pages: "box tabs", as everywhere else in DIVERSE.
+    .secondary-navigation {
+        background-color: transparent;
+        border: 0;
+
+        .moremenu {
+            background-color: transparent;
+            border-bottom: 0;
+        }
+
+        .nav-tabs.more-nav {
+            gap: .5rem;
+            background-color: transparent;
+            border-bottom: 0;
+
+            .nav-link {
+                padding: .5rem 1.125rem;
+                border: 1px solid $diverse-border-strong;
+                border-radius: 50rem;
+                background-color: $white;
+                color: $diverse-ink;
+                font-weight: 600;
+
+                &:hover,
+                &:focus {
+                    border-color: $diverse-ink;
+                    background-color: $diverse-surface;
+                }
+
+                &.active {
+                    border-color: $diverse-action-orange;
+                    background-color: $diverse-action-orange;
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+// Dashboard: built by this theme (templates/dashboard.mustache). The greeting replaces the page title, and the
+// to-do list and the calendar in the navigation replace Moodle's default blocks; blocks an admin added stay.
+body.pagelayout-mydashboard.diverse-shell {
+    #page-header,
+    .block_timeline,
+    .block_calendar_month,
+    .block_recentlyaccessedcourses {
+        display: none;
+    }
+}
+
+// The block drawer's button is Moodle's own: these two pages have no blocks to open by default.
+body.diverse-shell.pagelayout-mydashboard,
+body.diverse-shell.pagelayout-mycourses {
+    .drawer-toggles .drawer-right-toggle {
+        display: none;
+    }
+}
+
+.diverse-dash {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.diverse-dash-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.diverse-dash-date {
+    margin: 0 0 .25rem;
+    color: $diverse-grey;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.diverse-dash-title {
+    margin: 0;
+    font-size: clamp(2rem, 3.2vw, 2.75rem);
+    line-height: 1.1;
+}
+
+.diverse-dash-summary {
+    margin: .5rem 0 0;
+    color: $diverse-grey;
+    font-size: 1.125rem;
+}
+
+.diverse-dash-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.diverse-dash-heading {
+    margin: 0;
+    font-size: 1.375rem;
+}
+
+.diverse-dash-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+
+        &.diverse-dash-grid-single {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+}
+
+.diverse-dash-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+}
+
+.diverse-panel {
+    padding: 1.25rem 1.5rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 1rem;
+}
+
+.diverse-panel-title {
+    margin: 0 0 .75rem;
+    font-size: 1.125rem;
+}
+
+.diverse-empty,
+.diverse-small-muted {
+    margin: 0;
+    color: $diverse-grey;
+}
+
+.diverse-more {
+    margin: .75rem 0 0;
+    font-weight: 600;
+}
+
+// Figures of the site or of a teacher's courses.
+.diverse-stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diverse-stat-tile {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    padding: 1rem 1.25rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 1rem;
+
+    strong {
+        font-family: $headings-font-family;
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    span {
+        color: $diverse-grey;
+        font-size: .875rem;
+    }
+
+    &.attention {
+        background-color: $diverse-soft-orange;
+        border-color: $diverse-peach;
+
+        strong {
+            color: $diverse-action-orange;
+        }
+
+        span {
+            color: $diverse-ink;
+        }
+    }
+}
+
+// "Continue where you left off": the largest thing on a student's dashboard.
+.diverse-continue {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    overflow: hidden;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 1rem;
+    color: $diverse-ink;
+    text-decoration: none;
+    transition: border-color .15s ease;
+
+    &:hover,
+    &:focus {
+        border-color: $diverse-action-orange;
+        color: $diverse-ink;
+        text-decoration: none;
+    }
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: 16rem minmax(0, 1fr);
+    }
+}
+
+.diverse-continue-cover {
+    min-height: 7rem;
+    background-position: center;
+    background-size: cover;
+}
+
+.diverse-continue-body {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    padding: 1.25rem 1.5rem;
+}
+
+.diverse-continue-label {
+    color: $diverse-action-orange;
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+.diverse-continue-name {
+    font-family: $headings-font-family;
+    font-size: 1.625rem;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.diverse-continue-meta {
+    color: $diverse-grey;
+    font-size: .875rem;
+}
+
+// Progress bar with its figure next to it.
+.diverse-progress {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-top: .5rem;
+}
+
+.diverse-progress-track {
+    flex: 1;
+    display: block;
+    height: .375rem;
+    overflow: hidden;
+    background-color: $diverse-track;
+    border-radius: 50rem;
+
+    span {
+        display: block;
+        height: 100%;
+        background-color: $diverse-action-orange;
+        border-radius: 50rem;
+    }
+}
+
+.diverse-progress-value {
+    color: $diverse-grey;
+    font-size: .8125rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+// Lists of work: to do, waiting to be graded, recent grades.
+.diverse-todo-group {
+    margin: 1rem 0 .25rem;
+    color: $diverse-grey;
+    font-family: $font-family-sans-serif;
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &.overdue {
+        color: $diverse-danger;
+    }
+}
+
+.diverse-work-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .625rem 0;
+        min-height: 2.75rem;
+
+        + li {
+            border-top: 1px solid $diverse-border;
+        }
+
+        > a:first-child,
+        > div:first-child {
+            min-width: 0;
+            color: $diverse-ink;
+            text-decoration: none;
+        }
+
+        > a:first-child:hover .diverse-work-name,
+        > a:first-child:focus .diverse-work-name {
+            color: $diverse-action-orange;
+        }
+    }
+}
+
+.diverse-work-name {
+    display: block;
+    font-weight: 600;
+}
+
+.diverse-work-meta,
+.diverse-work-feedback {
+    display: block;
+    color: $diverse-grey;
+    font-size: .8125rem;
+}
+
+.diverse-work-feedback {
+    margin-top: .25rem;
+    font-style: italic;
+}
+
+.diverse-grade {
+    font-family: $headings-font-family;
+    font-size: 1.25rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.diverse-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding: 0 .375rem;
+    background-color: $diverse-soft-orange;
+    border-radius: 50rem;
+    color: $diverse-action-orange;
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+// Course tiles on the dashboard.
+.diverse-course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diverse-tile-course {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 1rem;
+}
+
+.diverse-tile-course-cover {
+    display: block;
+    height: 5.5rem;
+    background-position: center;
+    background-size: cover;
+}
+
+.diverse-tile-course-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: .125rem;
+    padding: .875rem 1rem 1rem;
+}
+
+.diverse-tile-course-category {
+    color: $diverse-grey;
+    font-size: .8125rem;
+}
+
+.diverse-tile-course-name {
+    color: $diverse-ink;
+    font-family: $headings-font-family;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        color: $diverse-action-orange;
+    }
+}
+
+.diverse-tile-course-meta {
+    margin: .25rem 0 0;
+    color: $diverse-grey;
+    font-size: .875rem;
+}
+
+.diverse-tile-course-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .25rem 1rem;
+    margin: auto 0 0;
+    padding-top: .75rem;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+// Administrator: partners and common tasks.
+table.diverse-table {
+    width: 100%;
+    border: 0;
+
+    th,
+    td {
+        padding: .5rem 0;
+        border-width: 0;
+        font-weight: 400;
+    }
+
+    thead th {
+        color: $diverse-grey;
+        font-size: .8125rem;
+        font-weight: 600;
+    }
+
+    tbody tr {
+        border-top: 1px solid $diverse-border;
+    }
+
+    tbody th a {
+        color: $diverse-ink;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange;
+        }
+    }
+
+    .num {
+        width: 5rem;
+        text-align: right;
+    }
+}
+
+.diverse-link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+        display: flex;
+        align-items: center;
+        min-height: 2.75rem;
+        color: $diverse-ink;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange;
+        }
+    }
+
+    li + li {
+        border-top: 1px solid $diverse-border;
+    }
+}
+
+.diverse-status {
+    margin: 0 0 .25rem;
+    color: $diverse-success;
+    font-weight: 600;
+
+    &.attention {
+        color: $diverse-danger;
+    }
+}
+
+// Course page: the header replaces Moodle's title.
+.diverse-hero-course {
+    width: 100%;
+    margin: 1rem 0 1.25rem;
+    overflow: hidden;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 1rem;
+}
+
+.diverse-hero-course-cover {
+    height: 7rem;
+    background-position: center;
+    background-size: cover;
+}
+
+.diverse-hero-course-body {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.diverse-hero-course-category {
+    margin: 0;
+    color: $diverse-action-orange;
+    font-size: .875rem;
+    font-weight: 700;
+}
+
+.diverse-hero-course-title {
+    margin: 0;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.1;
+}
+
+.diverse-hero-course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem 1.25rem;
+    margin: .375rem 0 0;
+    color: $diverse-grey;
+    font-size: .9375rem;
+}
+
+.diverse-hero-course-next {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1rem;
+}
+
+.diverse-hero-course-nextname {
+    color: $diverse-grey;
+    font-size: .9375rem;
+}
+
+body.diverse-shell.path-course-view {
+    #page-header .page-header-headings,
+    #page-header .page-context-header {
+        display: none;
+    }
+
+    #page-header {
+        padding-top: 0;
+    }
+
+    .secondary-navigation {
+        margin-bottom: 1rem;
+    }
+
+    // Sections as cards on the surface.
+    .course-section {
+        padding: 1rem 1.25rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: 1rem;
+    }
+
+    .course-section .section-item {
+        padding: 0;
+        border: 0;
+    }
+
+    // Sections without any content say nothing to a student; while editing they stay visible.
+    &:not(.editing) .course-section:not(:has(.activity-item)):not(:has(.summarytext *)) {
+        display: none;
+    }
+}
+
+// My courses: Moodle's block frame goes, the course cards stand on the surface.
+body.pagelayout-mycourses.diverse-shell {
+    .block_myoverview,
+    .block_myoverview > .card-body {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+    }
+
+    .block_myoverview .card-title {
+        display: none;
+    }
+}
+
+// Course index: the current place stands out in the brand's colours.
+.courseindex {
+    .courseindex-item.pageitem {
+        background-color: $diverse-soft-orange;
+        border-radius: $border-radius;
+
+        a {
+            color: $diverse-action-orange;
+        }
+    }
+}

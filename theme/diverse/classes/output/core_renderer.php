@@ -97,6 +97,10 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      */
     public function main_content() {
         $maincontent = parent::main_content();
+        if ($this->page->pagelayout === 'mydashboard' && $this->page->pagetype === 'my-index' && shell::applies($this->page)) {
+            return $this->render_from_template('theme_diverse/dashboard', (new dashboard())->export_for_template($this)) .
+                $maincontent;
+        }
         if (!$this->is_landing_page()) {
             return $maincontent;
         }
@@ -105,6 +109,67 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         return $this->render_from_template('theme_diverse/landing_top', $context) .
             $maincontent .
             $this->render_from_template('theme_diverse/landing_bottom', $context);
+    }
+
+    /**
+     * Add the class of the application layout to the pages that have the application navigation.
+     *
+     * @param string|array $additionalclasses
+     * @return string
+     */
+    public function body_attributes($additionalclasses = []) {
+        if (!is_array($additionalclasses)) {
+            $additionalclasses = explode(' ', $additionalclasses);
+        }
+        if (shell::applies($this->page)) {
+            $additionalclasses[] = 'diverse-shell';
+        }
+        return parent::body_attributes($additionalclasses);
+    }
+
+    /**
+     * Add the application navigation at the top of the page.
+     *
+     * @return string
+     */
+    public function standard_top_of_body_html() {
+        $html = parent::standard_top_of_body_html();
+        if (shell::applies($this->page)) {
+            $html .= $this->render_from_template(
+                'theme_diverse/shell_nav',
+                (new shell($this->page))->export_for_template($this)
+            );
+        }
+        return $html;
+    }
+
+    /**
+     * The page header, with the DIVERSE course header on course pages.
+     *
+     * @return string
+     */
+    public function full_header() {
+        $header = parent::full_header();
+        if (
+            shell::applies($this->page) && $this->page->course->id != SITEID &&
+                str_starts_with($this->page->pagetype, 'course-view-')
+        ) {
+            $hero = (new course_hero($this->page->course))->export_for_template($this);
+            return $this->render_from_template('theme_diverse/course_hero', $hero) . $header;
+        }
+        return $header;
+    }
+
+    /**
+     * The edit mode switch: the dashboard and My courses are built from the user's roles, not edited by hand.
+     *
+     * @return string
+     */
+    public function edit_switch() {
+        if (shell::applies($this->page) && $this->page->pagetype === 'my-index') {
+            return '';
+        }
+        return parent::edit_switch();
     }
 
     /** @var \core\url|null Partner logo shown on the login form instead of the usual logo (see render_login()). */

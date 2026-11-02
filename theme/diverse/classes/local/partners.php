@@ -189,6 +189,43 @@ class partners {
     }
 
     /**
+     * Every active partner with its number of users and courses, for the administrator's dashboard.
+     *
+     * @return array[] name, url, users, courses
+     */
+    public static function overview(): array {
+        global $DB;
+
+        if (!self::enabled()) {
+            return [];
+        }
+        $rows = [];
+        $tenants = $DB->get_records(
+            'tool_mutenancy_tenant',
+            ['archived' => 0],
+            'name ASC',
+            'id, idnumber, name, sitefullname, categoryid'
+        );
+        foreach ($tenants as $tenant) {
+            $path = $DB->get_field('course_categories', 'path', ['id' => $tenant->categoryid]);
+            $courses = $path === false ? 0 : $DB->count_records_sql(
+                "SELECT COUNT(c.id)
+                   FROM {course} c
+                   JOIN {course_categories} cc ON cc.id = c.category
+                  WHERE cc.path = :path OR " . $DB->sql_like('cc.path', ':pathlike'),
+                ['path' => $path, 'pathlike' => $path . '/%']
+            );
+            $rows[] = [
+                'name' => self::export($tenant)->name,
+                'url' => (new \core\url('/admin/tool/mutenancy/tenant.php', ['id' => $tenant->id]))->out(false),
+                'users' => $DB->count_records('user', ['tenantid' => $tenant->id, 'deleted' => 0]),
+                'courses' => $courses,
+            ];
+        }
+        return $rows;
+    }
+
+    /**
      * The partner chosen on the login page (or the partner of the logged-in user), if any.
      *
      * @return \stdClass|null id, idnumber and display name.

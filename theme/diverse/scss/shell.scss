@@ -1,0 +1,173 @@
+/****************************************************************
+ * DIVERSE application navigation for logged-in users.
+ * Markup: templates/shell_nav.mustache, added at the top of the body by
+ * classes/output/core_renderer.php. A rail on the left on large
+ * screens, a tab bar at the bottom on phones. Pages with the
+ * navigation have the body class .diverse-shell.
+ ***************************************************************/
+
+$diverse-rail-width: 5.5rem;
+$diverse-tabbar-height: 4rem;
+
+.diverse-rail {
+    position: fixed;
+    z-index: 1029;
+    display: flex;
+    background-color: $diverse-ink;
+
+    svg {
+        width: 1.375rem;
+        height: 1.375rem;
+        flex-shrink: 0;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+}
+
+.diverse-rail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diverse-rail-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+    min-height: 2.75rem;
+    color: $diverse-on-dark-muted;
+    font-size: .6875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+
+    &:hover,
+    &:focus {
+        color: $white;
+        text-decoration: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $white;
+        outline-offset: -2px;
+    }
+
+    // Dark text on the brand orange: white would not reach the contrast the design rules ask for.
+    &.active,
+    &.active:hover,
+    &.active:focus {
+        background-color: $diverse-brand-orange;
+        color: $diverse-ink;
+    }
+}
+
+// Phones: the first places as a tab bar. Management and the public home stay in Moodle's side menu.
+@include media-breakpoint-down(md) {
+    .diverse-rail {
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: $diverse-tabbar-height;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .diverse-rail-list {
+        display: flex;
+        flex: 1;
+
+        li {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+
+    .diverse-rail-manage,
+    .diverse-rail-end {
+        display: none;
+    }
+
+    .diverse-rail-link {
+        height: 100%;
+        padding: 0 .125rem;
+
+        span {
+            max-width: 100%;
+            overflow: hidden;
+            font-size: .625rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    body.diverse-shell {
+        padding-bottom: $diverse-tabbar-height;
+
+        // The help button stays above the tab bar.
+        .btn-footer-popover,
+        .footer-popover-button,
+        #page-footer .btn-footer-popover {
+            bottom: #{$diverse-tabbar-height + .75rem};
+        }
+    }
+}
+
+// Tablets and larger: the rail runs under the top bar along the whole page.
+@include media-breakpoint-up(md) {
+    .diverse-rail {
+        top: $navbar-height;
+        bottom: 0;
+        left: 0;
+        width: $diverse-rail-width;
+        flex-direction: column;
+        gap: .25rem;
+        padding: .75rem 0;
+        overflow-y: auto;
+    }
+
+    .diverse-rail-link {
+        margin: .125rem .5rem;
+        padding: .625rem .25rem;
+        border-radius: $border-radius-lg;
+    }
+
+    .diverse-rail-manage {
+        margin-top: .5rem;
+        padding-top: .5rem;
+        border-top: 1px solid $diverse-grey;
+    }
+
+    .diverse-rail-end {
+        margin-top: auto;
+    }
+
+    body.diverse-shell {
+        // The rail replaces Moodle's top menu.
+        .primary-navigation {
+            display: none;
+        }
+
+        // Page, footer and drawers all start right of the rail.
+        #page-wrapper,
+        #page-footer {
+            padding-left: $diverse-rail-width;
+        }
+
+        .drawer.drawer-left.show {
+            left: $diverse-rail-width;
+        }
+    }
+}
+
+// The navigation is for the screen only.
+@media print {
+    .diverse-rail {
+        display: none;
+    }
+}
