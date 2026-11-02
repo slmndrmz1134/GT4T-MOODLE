@@ -38,7 +38,7 @@
             <span>{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>
         </p>
     </div>
-    <div class="diverse-hero-course-card">
+    <div class="diverse-hero-course-card{{^hasstep}} diverse-hero-course-cardonly{{/hasstep}}">
         {{> theme_diverse/course_cover }}
         {{#hasprogress}}
         <div class="diverse-progress">

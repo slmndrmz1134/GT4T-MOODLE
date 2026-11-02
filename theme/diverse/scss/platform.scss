@@ -623,7 +623,8 @@ table.diverse-table {
             display: none;
         }
 
-        &:not(:has(.btn)):not(:has(.diverse-progress)) {
+        // Without progress or a next step (teachers) nothing is left in the card.
+        &.diverse-hero-course-cardonly {
             display: none;
         }
     }

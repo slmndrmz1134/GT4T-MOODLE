@@ -92,6 +92,7 @@ class course_hero implements renderable, templatable {
                 'activities' => count($activities),
             ]),
             'people' => count_enrolled_users($context),
+            'hasstep' => $progress !== null || $next !== null,
             'hasnext' => $next !== null,
             'nexturl' => $next ? $next->url->out(false) : '',
             'nextname' => $next ? self::text($next->name) : '',
