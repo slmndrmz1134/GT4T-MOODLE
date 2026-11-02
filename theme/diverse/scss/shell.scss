@@ -1,84 +1,64 @@
 /****************************************************************
  * DIVERSE application navigation for logged-in users.
  * Markup: templates/shell_nav.mustache, added at the top of the body by
- * classes/output/core_renderer.php. A rail on the left on large
- * screens, a tab bar at the bottom on phones. Pages with the
+ * classes/output/core_renderer.php. A row of links under the top bar on
+ * large screens, a tab bar at the bottom on phones. Pages with the
  * navigation have the body class .diverse-shell.
  ***************************************************************/
 
-$diverse-rail-width: 5.5rem;
+$diverse-nav-height: 3rem;
 $diverse-tabbar-height: 4rem;
+$diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
 
-.diverse-rail {
+.diverse-nav {
     position: fixed;
     z-index: 1029;
     display: flex;
-    background-color: $diverse-ink;
-
-    svg {
-        width: 1.375rem;
-        height: 1.375rem;
-        flex-shrink: 0;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 2;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-    }
 }
 
-.diverse-rail-list {
+.diverse-nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.diverse-rail-link {
+.diverse-nav-link {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: .25rem;
     min-height: 2.75rem;
-    color: $diverse-on-dark-muted;
-    font-size: .6875rem;
     font-weight: 600;
-    line-height: 1.2;
-    text-align: center;
     text-decoration: none;
-    transition: background-color .15s ease, color .15s ease;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 
     &:hover,
     &:focus {
-        color: $white;
         text-decoration: none;
-    }
-
-    &:focus-visible {
-        outline: 2px solid $white;
-        outline-offset: -2px;
-    }
-
-    // Dark text on the brand orange: white would not reach the contrast the design rules ask for.
-    &.active,
-    &.active:hover,
-    &.active:focus {
-        background-color: $diverse-brand-orange;
-        color: $diverse-ink;
     }
 }
 
 // Phones: the first places as a tab bar. Management and the public home stay in Moodle's side menu.
 @include media-breakpoint-down(md) {
-    .diverse-rail {
+    .diverse-nav {
         right: 0;
         bottom: 0;
         left: 0;
         height: $diverse-tabbar-height;
         padding-bottom: env(safe-area-inset-bottom);
+        background-color: $diverse-ink;
+
+        svg {
+            width: 1.375rem;
+            height: 1.375rem;
+            flex-shrink: 0;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
     }
 
-    .diverse-rail-list {
+    .diverse-nav-list {
         display: flex;
         flex: 1;
 
@@ -88,15 +68,39 @@ $diverse-tabbar-height: 4rem;
         }
     }
 
-    .diverse-rail-manage,
-    .diverse-rail-end,
-    .diverse-rail-nophone {
+    .diverse-nav-manage,
+    .diverse-nav-end,
+    .diverse-nav-nophone {
         display: none;
     }
 
-    .diverse-rail-link {
+    .diverse-nav-link {
+        flex-direction: column;
+        justify-content: center;
+        gap: .25rem;
         height: 100%;
         padding: 0 .125rem;
+        color: $diverse-on-dark-muted;
+        line-height: 1.2;
+        text-align: center;
+
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $white;
+            outline-offset: -2px;
+        }
+
+        // Dark text on the brand orange: white would not reach the contrast the design rules ask for.
+        &.active,
+        &.active:hover,
+        &.active:focus {
+            background-color: $diverse-brand-orange;
+            color: $diverse-ink;
+        }
 
         span {
             max-width: 100%;
@@ -131,53 +135,107 @@ $diverse-tabbar-height: 4rem;
     }
 }
 
-// Tablets and larger: the rail runs under the top bar along the whole page.
+// Tablets and larger: a row of links under the top bar, as wide as the page and on the same lines.
 @include media-breakpoint-up(md) {
-    .diverse-rail {
+    .diverse-nav {
         top: $navbar-height;
-        bottom: 0;
+        right: 0;
         left: 0;
-        width: $diverse-rail-width;
-        flex-direction: column;
-        gap: .25rem;
-        padding: .75rem 0;
-        overflow-y: auto;
+        align-items: stretch;
+        gap: 1.5rem;
+        height: $diverse-nav-height;
+        padding: 0 #{"max(.5rem, calc((100% - 80rem) / 2 + .5rem))"};
+        background-color: $white;
+        border-bottom: 1px solid $diverse-border;
+
+        svg {
+            display: none;
+        }
     }
 
-    .diverse-rail-link {
-        margin: .125rem .5rem;
-        padding: .625rem .25rem;
-        border-radius: $border-radius-lg;
+    .diverse-nav-list {
+        display: flex;
+        gap: 1.5rem;
+
+        li {
+            display: flex;
+        }
     }
 
-    .diverse-rail-manage {
-        margin-top: .5rem;
-        padding-top: .5rem;
-        border-top: 1px solid $diverse-grey;
+    .diverse-nav-manage {
+        display: flex;
+        margin-left: auto;
     }
 
-    .diverse-rail-end {
-        margin-top: auto;
+    .diverse-nav-end {
+        margin-left: auto;
+    }
+
+    .diverse-nav-manage + .diverse-nav-end {
+        margin-left: 0;
+    }
+
+    .diverse-nav-link {
+        min-height: 0;
+        margin-bottom: -1px;
+        padding: 0 .125rem;
+        background: none;
+        border: 0;
+        border-bottom: 3px solid transparent;
+        color: $diverse-grey;
+        font-size: .9375rem;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus {
+            border-bottom-color: $diverse-border-strong;
+            color: $diverse-ink;
+        }
+
+        &:focus-visible {
+            outline: 2px solid $diverse-action-orange;
+            outline-offset: -2px;
+        }
+
+        &.active,
+        &.active:hover,
+        &.active:focus {
+            border-bottom-color: $diverse-action-orange;
+            color: $diverse-ink;
+        }
     }
 
     body.diverse-shell {
-        // The rail replaces Moodle's top menu.
+        // The row replaces Moodle's top menu.
         .primary-navigation {
             display: none;
         }
 
-        // Page, footer and drawers all start right of the rail.
-        #page-wrapper,
-        #page-footer {
-            padding-left: $diverse-rail-width;
+        .navbar.fixed-top .container-fluid {
+            padding-right: .5rem;
+            padding-left: .5rem;
         }
 
-        .drawer.drawer-left.show {
-            left: $diverse-rail-width;
+        // Everything Moodle places under the top bar moves below the row of links as well.
+        #page.drawers {
+            margin-top: $diverse-header-height;
         }
 
-        .drawer-toggles .drawer-left-toggle {
-            left: $diverse-rail-width;
+        .drawer.drawer-left,
+        .drawer.drawer-right {
+            top: $diverse-header-height;
+            height: calc(100vh - #{$navbar-height} - #{$diverse-nav-height});
+        }
+
+        .drawer-toggles .drawer-toggler {
+            top: calc(#{$navbar-height} + #{$diverse-nav-height} + .7rem);
+        }
+
+        &.path-grade-report-grader .gradeparent tr.heading,
+        #quiz-timer-wrapper,
+        .gradingtable thead tr,
+        .theme_boost_union-stickycategory {
+            top: $diverse-header-height;
         }
 
         // The search is the main way into the site: it takes the free space of the top bar.
@@ -245,7 +303,12 @@ $diverse-tabbar-height: 4rem;
                 margin-right: $drawer-left-width;
                 margin-left: 0;
                 padding-right: 1rem;
-                padding-left: 0;
+                // The page keeps the left edge of the navigation above it, the contents take the right side.
+                padding-left: #{"max(0px, calc((100% - 80rem) / 2))"};
+
+                .main-inner {
+                    margin-left: 0;
+                }
             }
 
             &.show-drawer-right {
@@ -256,14 +319,13 @@ $diverse-tabbar-height: 4rem;
 
         &.drawer-open-left #page.drawers {
             margin-left: 0;
-            padding-left: 0;
         }
     }
 }
 
 // The navigation is for the screen only.
 @media print {
-    .diverse-rail {
+    .diverse-nav {
         display: none;
     }
 }

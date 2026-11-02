@@ -17,42 +17,45 @@
 {{!
     @template theme_diverse/shell_nav
 
-    Application navigation for logged-in users: a rail on the left, a tab bar at the bottom on phones.
+    Application navigation for logged-in users: a row of links under the top bar, a tab bar at the bottom on phones.
 
     Context variables required for this template:
     * main - the main places: label, url, icon (SVG path), current
     * manage, hasmanage - management places of partner managers and site administrators
+    * managecurrent - whether one of the management places is open
     * home - the public site home
 
     Example context (json):
     {
         "main": [{"label": "Dashboard", "url": "#", "icon": "M3 3h7v7H3z", "current": true}],
-        "manage": [], "hasmanage": false,
+        "manage": [], "hasmanage": false, "managecurrent": false,
         "home": {"label": "Home", "url": "#", "icon": "M3 11l9-8 9 8", "current": false}
     }
 }}
-<nav class="diverse-rail" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
-    <ul class="diverse-rail-list">
+<nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
+    <ul class="diverse-nav-list">
         {{#main}}
-        <li{{#nophone}} class="diverse-rail-nophone"{{/nophone}}><a class="diverse-rail-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
+        <li{{#nophone}} class="diverse-nav-nophone"{{/nophone}}><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
             <span>{{label}}</span>
         </a></li>
         {{/main}}
     </ul>
     {{#hasmanage}}
-    <ul class="diverse-rail-list diverse-rail-manage">
-        {{#manage}}
-        <li><a class="diverse-rail-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
-            <span>{{label}}</span>
-        </a></li>
-        {{/manage}}
-    </ul>
+    <div class="dropdown diverse-nav-manage">
+        <button type="button" class="diverse-nav-link dropdown-toggle{{#managecurrent}} active{{/managecurrent}}" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>{{#str}}administration{{/str}}</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            {{#manage}}
+            <li><a class="dropdown-item{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>{{label}}</a></li>
+            {{/manage}}
+        </ul>
+    </div>
     {{/hasmanage}}
-    <ul class="diverse-rail-list diverse-rail-end">
+    <ul class="diverse-nav-list diverse-nav-end">
         {{#home}}
-        <li><a class="diverse-rail-link" href="{{url}}">
+        <li><a class="diverse-nav-link" href="{{url}}">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="{{icon}}"></path></svg>
             <span>{{label}}</span>
         </a></li>

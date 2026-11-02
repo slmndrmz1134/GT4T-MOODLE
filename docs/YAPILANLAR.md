@@ -159,6 +159,8 @@ Bu belge, projeye sonradan katılan birinin kararların gerekçesini anlaması i
   çıktı, ayraçla ayrılır.
 - Butonlar ve form alanları oval olmaktan çıktı, tek köşe değeri kullanır (`$diverse-control-radius`, 6 px). Mesajlar sayfası
   ekranı dolduran iki sütuna geçti (`messages.scss`); telefonda tek sütun görünür.
+- Proje sahibinin kararıyla tam genişlik denemesi bitti, sayfa genişliği yeniden `80rem`. Sol menü de kalktı: gezinme üst
+  çubuğun altındaki satırda, yönetim bağlantıları açılır menüde. Telefondaki alt menü aynı kaldı.
 - Ayrıntı ve kaynaklar: [`docs/design/LMS_ARASTIRMA.md`](design/LMS_ARASTIRMA.md).
 
 ## 7. Site administration

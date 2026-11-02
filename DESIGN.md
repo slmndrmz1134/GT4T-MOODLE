@@ -74,7 +74,7 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 | Dashboard, Derslerim ve diğer platform sayfaları | `80rem` (1280 px) | `platform.scss` |
 | Landing yan boşluğu | `4rem` masaüstü, `1.25rem` mobil | `landing.scss`: `$diverse-gutter`, `$diverse-gutter-sm` |
 | Giriş sayfası marka paneli | Ekranın `42vw` kadarı | `login.scss`: `$diverse-login-panel-width` |
-| Sol menü | `5.5rem` (88 px), `md` ve üstü | `shell.scss`: `$diverse-rail-width` |
+| Üst menü satırı | `3rem` (48 px), `md` ve üstü; üst çubuğun altında, sayfayla aynı genişlikte | `shell.scss`: `$diverse-nav-height` |
 | Mobil alt menü | `4rem` (64 px), `md` altı | `shell.scss`: `$diverse-tabbar-height` |
 | Tıklanabilir alan | En az 44 × 44 px | Butonlar, ikonlu linkler, menü öğeleri |
 | İlerleme çubuğu | `.375rem` yükseklik, oval | `post.scss` |
@@ -92,7 +92,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   böylece kartlar ayrışır. Boş kart gösterilmez.
 - **Ders sayfaları:** ders başlığı, sekmeler ve ders bölümleri kart değildir; `$diverse-border` ayraçlarıyla ayrılır. Başlık
   ve müfredat paneli dersin bütün sekmelerinde aynı yerdedir (`platform.scss`, `shell.scss`).
-- **Sol menü:** ink zemin, ikon ve altında etiket. Aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
+- **Üst menü:** beyaz zemin, sekmelerle aynı alt çizgi; ikon yok. Yönetim bağlantıları "Administration" açılır menüsündedir.
+  Telefonda alt menü ink zemin, ikon ve altında etiket; aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
 - **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
 - **Ders kartları:** başlık Source Sans 3 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır

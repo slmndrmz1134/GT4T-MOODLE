@@ -11,6 +11,13 @@
     }
 }
 
+// Every application page uses it, so that pages line up with the navigation. Only the grade table needs all the room there is.
+@include media-breakpoint-up(md) {
+    body.diverse-shell:not(#page-grade-report-grader-index) #page.drawers .main-inner {
+        max-width: 80rem;
+    }
+}
+
 // Course cards (My courses, recently accessed courses): modern elevation and smooth hover.
 .course-card {
     overflow: hidden;
@@ -544,16 +551,6 @@ table.diverse-table {
     }
 }
 
-// Everything in a course starts on the same line as the content of Moodle's #region-main, which has no gutter on phones.
-@include media-breakpoint-up(md) {
-    .diverse-hero-course,
-    .diverse-lesson-bar,
-    body.diverse-in-course .secondary-navigation .moremenu.navigation {
-        margin-right: .9375rem;
-        margin-left: .9375rem;
-    }
-}
-
 // Course header on every tab of a course: text on the page, a divider below it, no card.
 .diverse-hero-course {
     display: grid;
@@ -716,6 +713,12 @@ body.diverse-course-tab {
 
 // Sections of a course, and the groups on its Activities tab: rows between dividers, not cards.
 body.diverse-in-course {
+    // Everything in a course starts on the same line as the navigation above it.
+    #page.drawers div[role="main"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
     .secondary-navigation .moremenu {
         margin-right: 0;
         margin-left: 0;

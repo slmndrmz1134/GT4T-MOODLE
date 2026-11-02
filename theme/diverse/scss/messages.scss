@@ -34,8 +34,8 @@ body#page-message-index.diverse-shell {
 
     // Moodle's own height comes with two ids: this selector has to be as strong.
     #region-main div[role="main"] .message-app.main {
-        height: calc(100vh - #{$navbar-height});
-        height: calc(100dvh - #{$navbar-height});
+        height: calc(100vh - #{$navbar-height} - #{$diverse-nav-height});
+        height: calc(100dvh - #{$navbar-height} - #{$diverse-nav-height});
     }
 
     .message-app {

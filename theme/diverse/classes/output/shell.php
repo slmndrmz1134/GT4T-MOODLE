@@ -24,8 +24,8 @@ use theme_diverse\local\partners;
 /**
  * Theme DIVERSE - Application navigation for logged-in users.
  *
- * A permanent rail on the left (a tab bar at the bottom on phones) replaces Moodle's top menu, so that the
- * main places are one click away on every page. The links are built from the user's roles on each page,
+ * A permanent row of links under the top bar (a tab bar at the bottom on phones) replaces Moodle's top menu, so
+ * that the main places are one click away on every page. The links are built from the user's roles on each page,
  * so they must stay cheap: no course lists here.
  *
  * @package    theme_diverse
@@ -133,6 +133,7 @@ class shell implements renderable, templatable {
             'main' => $main,
             'manage' => $manage,
             'hasmanage' => !empty($manage),
+            'managecurrent' => in_array(true, array_column($manage, 'current'), true),
             'home' => $this->link('home', get_string('sitehome'), '/?redirect=0', []),
         ];
     }
