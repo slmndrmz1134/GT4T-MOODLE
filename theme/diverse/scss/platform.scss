@@ -834,6 +834,7 @@ body.pagelayout-mycourses.diverse-shell {
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
+    scrollbar-width: none;
     border-bottom: 1px solid $diverse-border;
 
     a {
