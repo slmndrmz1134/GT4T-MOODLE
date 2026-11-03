@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Hoofdpartner';
 $string['courses_title'] = 'Verken cursussen';
 $string['courses_all'] = 'Alle {$a} cursussen';
 $string['footer_about'] = 'DIVERSE Europese Universiteitsalliantie: innovatie, onderwijs en duurzaamheid voor een veerkrachtige toekomst.';
+$string['footer_explore'] = 'Ontdekken';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Privacysamenvatting';
 

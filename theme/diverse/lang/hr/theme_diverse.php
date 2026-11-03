@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Vodeći partner';
 $string['courses_title'] = 'Istražite kolegije';
 $string['courses_all'] = 'Svi kolegiji ({$a})';
 $string['footer_about'] = 'Savez europskih sveučilišta DIVERSE: inovacije, obrazovanje i održivost za otpornu budućnost.';
+$string['footer_explore'] = 'Istraži';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Platforma';
 $string['footer_privacy'] = 'Sažetak o privatnosti';
 

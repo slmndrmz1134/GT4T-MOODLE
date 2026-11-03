@@ -661,37 +661,40 @@ $diverse-tiles: (
     letter-spacing: .02em;
 }
 
-// Closing band.
+// Footer: brand and support on the left, two columns of links, a line with the copyright at the foot.
 .diverse-landing-footer-wrap {
-    background-color: $diverse-ink;
     width: 100%;
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
+    background-color: $diverse-ink;
+    color: $white;
 }
 
 .diverse-landing-footer {
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3.5rem $diverse-gutter-sm;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
-    color: $white;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 4rem $diverse-gutter-sm 3rem;
 
     @media (min-width: 82.5rem) {
-        padding-left: 0;
         padding-right: 0;
+        padding-left: 0;
+    }
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
 
     @include media-breakpoint-up(lg) {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: 4rem;
     }
 
     p {
+        max-width: 30rem;
         margin: 0;
-        max-width: 27.5rem;
         color: $diverse-on-dark-muted;
         line-height: 1.6;
     }
@@ -700,32 +703,42 @@ $diverse-tiles: (
 .diverse-landing-footer-about {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
+
+    @include media-breakpoint-up(md) {
+        grid-column: 1 / -1;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-column: auto;
+    }
+}
+
+.diverse-landing-footer-small {
+    font-size: .875rem;
+}
+
+.diverse-landing-footer-brands {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
 }
 
 .diverse-landing-footer-brand {
     display: inline-flex;
     align-items: center;
     text-decoration: none;
-
-    &:hover,
-    &:focus {
-        text-decoration: none;
-    }
 }
 
+// The logo file is dark on white: it sits on a white plate in the dark footer.
 .diverse-landing-footer-logo {
-    max-height: 2.75rem;
     width: auto;
+    max-height: 3.25rem;
+    padding: .5rem .75rem;
+    background-color: $white;
+    border-radius: $btn-border-radius;
     object-fit: contain;
-}
-
-// DIVERSE and the GT4T project side by side, separated by a thin line.
-.diverse-landing-footer-brands {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem;
 }
 
 .diverse-landing-footer-project {
@@ -734,14 +747,15 @@ $diverse-tiles: (
 }
 
 .diverse-landing-footer-project-logo {
-    max-height: 3.75rem;
     width: auto;
+    max-height: 3.25rem;
     object-fit: contain;
 }
 
 .diverse-landing-footer-links {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: .75rem;
 
     a {
@@ -751,14 +765,45 @@ $diverse-tiles: (
         &:hover,
         &:focus {
             color: $white;
-            text-decoration: underline;
         }
     }
 }
 
 .diverse-landing-footer-heading {
-    font-weight: 600;
+    margin-bottom: .25rem;
+    color: $white;
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
 
+.diverse-landing-footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .5rem 1.5rem;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 1.5rem $diverse-gutter-sm;
+    border-top: 1px solid $diverse-grey;
+    color: $diverse-on-dark-muted;
+    font-size: .875rem;
+
+    @media (min-width: 82.5rem) {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    a {
+        color: $diverse-on-dark-muted;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $white;
+        }
+    }
 }
 
 // Hero: a partner's campus under a dark shade, or the plain brand colour; the key figures at its foot.

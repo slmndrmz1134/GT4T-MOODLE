@@ -93,6 +93,8 @@ class landing implements renderable, templatable {
             'dashboardurl' => (new \core\url('/my/'))->out(false),
             'allcoursesurl' => (new \core\url('/course/index.php'))->out(false),
             'privacyurl' => (new \core\url('/admin/tool/dataprivacy/summary.php'))->out(false),
+            'supporturl' => (new \core\url('/user/contactsitesupport.php'))->out(false),
+            'copyright' => get_string('footer_copyright', 'theme_diverse', userdate(time(), '%Y')),
             'homeurl' => (new \core\url('/'))->out(false),
             'logourl' => $output->image_url('logo', 'theme_diverse')->out(false),
             // The GT4T project, next to the DIVERSE logo in the closing band (owner's request).

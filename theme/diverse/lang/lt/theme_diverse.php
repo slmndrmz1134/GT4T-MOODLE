@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Pagrindinis partneris';
 $string['courses_title'] = 'Naršyti kursus';
 $string['courses_all'] = 'Visi {$a} kursai';
 $string['footer_about'] = 'DIVERSE Europos universitetų aljansas: inovacijos, švietimas ir tvarumas atsparios ateities labui.';
+$string['footer_explore'] = 'Naršyti';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Platforma';
 $string['footer_privacy'] = 'Privatumo santrauka';
 

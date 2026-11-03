@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Parceiro coordenador';
 $string['courses_title'] = 'Explorar cursos';
 $string['courses_all'] = 'Todos os {$a} cursos';
 $string['footer_about'] = 'Aliança de Universidades Europeias DIVERSE: inovação, educação e sustentabilidade para um futuro resiliente.';
+$string['footer_explore'] = 'Explorar';
+$string['footer_copyright'] = '© {$a} Aliança Universitária Europeia DIVERSE';
 $string['footer_platform'] = 'Plataforma';
 $string['footer_privacy'] = 'Resumo de privacidade';
 

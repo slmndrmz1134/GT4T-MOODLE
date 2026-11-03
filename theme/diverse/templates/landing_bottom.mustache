@@ -22,7 +22,8 @@
     Example context (json):
     {
         "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#",
-        "ctatext": "Courses from 8 partners in 5 countries, in one place."
+        "ctatext": "Courses from 8 partners in 5 countries, in one place.",
+        "supporturl": "#", "copyright": "© 2026 DIVERSE European University Alliance"
     }
 }}
 <div class="diverse-landing">
@@ -40,38 +41,41 @@
             </div>
         </div>
     </section>
-    <div class="diverse-landing-footer-wrap">
+    <footer class="diverse-landing-footer-wrap">
         <div class="diverse-landing-footer">
             <div class="diverse-landing-footer-about">
                 <div class="diverse-landing-footer-brands">
                     <a class="diverse-landing-footer-brand" href="{{homeurl}}">
-                        {{#logourl}}
-                        <img src="{{logourl}}" class="diverse-landing-footer-logo" alt="DIVERSE">
-                        {{/logourl}}
-                        {{^logourl}}
-                        <span class="diverse-wordmark diverse-wordmark-light">
-                            <span class="diverse-wordmark-tile" aria-hidden="true">D</span>
-                            <span class="diverse-wordmark-text">DIVERSE</span>
-                        </span>
-                        {{/logourl}}
+                        {{#logourl}}<img src="{{logourl}}" class="diverse-landing-footer-logo" alt="DIVERSE">{{/logourl}}
+                        {{^logourl}}<span class="diverse-landing-footer-heading">DIVERSE</span>{{/logourl}}
                     </a>
                     {{#gt4tlogourl}}
-                    <a class="diverse-landing-footer-brand diverse-landing-footer-project" href="{{gt4turl}}"
-                        target="_blank" rel="noopener">
-                        <img src="{{gt4tlogourl}}" class="diverse-landing-footer-project-logo"
-                            alt="GT4T – GreenTech4Transformation">
+                    <a class="diverse-landing-footer-brand diverse-landing-footer-project" href="{{gt4turl}}" target="_blank" rel="noopener">
+                        <img src="{{gt4tlogourl}}" class="diverse-landing-footer-project-logo" alt="GT4T – GreenTech4Transformation">
                     </a>
                     {{/gt4tlogourl}}
                 </div>
                 <p>{{#str}}footer_about, theme_diverse{{/str}}</p>
+                <p class="diverse-landing-footer-small">{{#str}}about_support, theme_diverse{{/str}}</p>
             </div>
+            <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_explore, theme_diverse{{/str}}">
+                <span class="diverse-landing-footer-heading">{{#str}}footer_explore, theme_diverse{{/str}}</span>
+                <a href="{{homeurl}}#diverse-about">{{#str}}nav_about, theme_diverse{{/str}}</a>
+                <a href="{{homeurl}}#diverse-partners">{{#str}}nav_partners, theme_diverse{{/str}}</a>
+                <a href="{{homeurl}}#diverse-courses">{{#str}}nav_courses, theme_diverse{{/str}}</a>
+            </nav>
             <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_platform, theme_diverse{{/str}}">
                 <span class="diverse-landing-footer-heading">{{#str}}footer_platform, theme_diverse{{/str}}</span>
                 {{#loggedin}}<a href="{{dashboardurl}}">{{#str}}myhome{{/str}}</a>{{/loggedin}}
                 {{^loggedin}}<a href="{{loginurl}}">{{#str}}login{{/str}}</a>{{/loggedin}}
                 <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
                 <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
+                <a href="{{supporturl}}">{{#str}}contactsitesupport, admin{{/str}}</a>
             </nav>
         </div>
-    </div>
+        <div class="diverse-landing-footer-bottom">
+            <span>{{copyright}}</span>
+            <a href="{{gt4turl}}" target="_blank" rel="noopener">GT4T – GreenTech4Transformation <span aria-hidden="true">&nearr;</span></a>
+        </div>
+    </footer>
 </div>

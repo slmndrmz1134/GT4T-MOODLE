@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Päätoteuttaja';
 $string['courses_title'] = 'Tutustu kursseihin';
 $string['courses_all'] = 'Kaikki {$a} kurssia';
 $string['footer_about'] = 'DIVERSE-eurooppalainen yliopistoliitto: innovaatioita, koulutusta ja kestävyyttä resilienttiä tulevaisuutta varten.';
+$string['footer_explore'] = 'Tutustu';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Alusta';
 $string['footer_privacy'] = 'Tietosuojayhteenveto';
 

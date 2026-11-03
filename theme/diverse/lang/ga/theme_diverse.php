@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Príomhchomhpháirtí';
 $string['courses_title'] = 'Iniúch cúrsaí';
 $string['courses_all'] = 'Gach {$a} cúrsa';
 $string['footer_about'] = 'Comhaontas Ollscoileanna Eorpacha DIVERSE: nuálaíocht, oideachas agus inbhuanaitheacht le haghaidh todhchaí athléimneach.';
+$string['footer_explore'] = 'Taiscéal';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Ardán';
 $string['footer_privacy'] = 'Achoimre príobháideachais';
 

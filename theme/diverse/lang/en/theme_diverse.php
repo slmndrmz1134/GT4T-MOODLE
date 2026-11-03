@@ -91,6 +91,8 @@ $string['partners_lead'] = 'Lead partner';
 $string['courses_title'] = 'Explore courses';
 $string['courses_all'] = 'All {$a} courses';
 $string['footer_about'] = 'The DIVERSE European University Alliance: innovation, education and sustainability for a resilient future.';
+$string['footer_explore'] = 'Explore';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Privacy summary';
 

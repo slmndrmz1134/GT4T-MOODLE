@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Partener coordonator';
 $string['courses_title'] = 'Explorează cursuri';
 $string['courses_all'] = 'Toate cele {$a} cursuri';
 $string['footer_about'] = 'Alianța Europeană a Universităților DIVERSE: inovație, educație și sustenabilitate pentru un viitor rezilient.';
+$string['footer_explore'] = 'Explorează';
+$string['footer_copyright'] = '© {$a} Alianța Universitară Europeană DIVERSE';
 $string['footer_platform'] = 'Platformă';
 $string['footer_privacy'] = 'Rezumat confidențialitate';
 

@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Konsortialführer';
 $string['courses_title'] = 'Kurse entdecken';
 $string['courses_all'] = 'Alle {$a} Kurse';
 $string['footer_about'] = 'DIVERSE European University Alliance: Innovation, Bildung und Nachhaltigkeit für eine zukunftsfähige Gesellschaft.';
+$string['footer_explore'] = 'Entdecken';
+$string['footer_copyright'] = '© {$a} DIVERSE European University Alliance';
 $string['footer_platform'] = 'Plattform';
 $string['footer_privacy'] = 'Datenschutzübersicht';
 

@@ -81,6 +81,8 @@ $string['partners_lead'] = 'Lider ortak';
 $string['courses_title'] = 'Dersleri keşfedin';
 $string['courses_all'] = 'Tüm {$a} ders';
 $string['footer_about'] = 'DIVERSE Avrupa Üniversitesi Birliği: dirençli bir gelecek için inovasyon, eğitim ve sürdürülebilirlik.';
+$string['footer_explore'] = 'Keşfet';
+$string['footer_copyright'] = '© {$a} DIVERSE Avrupa Üniversitesi Birliği';
 $string['footer_platform'] = 'Platform';
 $string['footer_privacy'] = 'Gizlilik özeti';
 
