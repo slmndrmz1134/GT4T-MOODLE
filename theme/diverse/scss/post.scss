@@ -160,6 +160,12 @@ body {
             box-shadow: none !important;
             border: none !important;
         }
+
+        // The logo file is cropped tight: a smaller logo leaves room above and below it in the bar.
+        .logo {
+            height: 2.5rem;
+            max-height: 2.5rem;
+        }
     }
 
     @include media-breakpoint-up(md) {
