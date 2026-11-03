@@ -47,6 +47,7 @@ ayrılmasın diye burada tekrar edilmez.
 | `MyCourses-wide.html` | Derslerim: özet kutuları, sekmeler, kart/liste görünümü |
 | `Discover-wide.html` | Keşfet: büyük arama, solda filtreler, sonuç ızgarası |
 | `Course-wide.html` | Ders sayfası: başlık kartı, bölümler, sağda canlı ders / teslimler / asistan; metinler 48rem okuma genişliğinde |
+| `Landing-wide.html` | Ziyaretçi ana sayfası, tam genişlik ve Dashboard düzeninde: üst çubuk, fotoğraflı hero kartı yanında rakamlar ve üç adım, odak alanları, ders kartları, partner şeridi (taslak, onay bekliyor; `wide.js` kullanmaz, sol menü yok) |
 
 `*-wide.html` taslakları düz HTML'dir ve ortak `wide.css` / `wide.js` dosyalarını kullanır (sol ikon menüsü, alt
 menü, üst çubuk, sağ üstte turuncu/yeşil palet anahtarı). Masaüstünde sol ikon menüsü bugünkü üst sekme satırının

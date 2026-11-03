@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en" data-palette="orange">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing (full width)</title>
+<!--
+    DIVERSE: full-width landing page draft (November 2026). The visitors' home page in the language of the dashboard:
+    the whole width of the screen, white cards on the grey surface, the same buttons, figures and course cards. No
+    rail for visitors: a top bar with the logo, the sections, the search and the way in. Texts are the theme's
+    current landing strings; partner logos are shown as names, courses and counts are the local test site's.
+-->
+<link rel="stylesheet" href="wide.css">
+<style>
+body { padding-bottom: 0; }
+.landing { padding: 0 1.5rem 1.5rem; }
+.landing .grid { margin-bottom: var(--gap); }
+
+/* Top bar: sticks to the top, white like the cards. */
+.topbar {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 1.5rem; margin: 0 -1.5rem 1.25rem; padding: .75rem 1.5rem;
+    background: var(--white); border-bottom: 1px solid var(--border);
+}
+.topbar .logo img { display: block; height: 2rem; }
+.topbar nav { display: flex; gap: .25rem; }
+.topbar nav a { padding: .5rem .875rem; border-radius: 50rem; color: var(--grey); font-weight: 600; font-size: .875rem; }
+.topbar nav a:hover, .topbar nav a.active { background: var(--soft); color: var(--action); }
+.topbar .end { display: flex; align-items: center; gap: .5rem; margin-left: auto; }
+.topbar .search { width: 18rem; }
+
+/* Hero: a photo card next to a column of figures. */
+.hero {
+    position: relative; grid-column: span 8; display: flex; flex-direction: column; justify-content: flex-end; min-height: 30rem;
+    padding: 2.5rem; overflow: hidden; border-radius: var(--radius-card); color: #FFFFFF;
+    background: linear-gradient(to top, rgba(31, 35, 40, .92) 0%, rgba(31, 35, 40, .55) 55%, rgba(31, 35, 40, .15) 100%),
+        url("../../../theme/diverse/pix/hero.jpg") center / cover;
+}
+.hero .eyebrow {
+    align-self: flex-start; margin-bottom: 1rem; padding: .25rem .75rem; border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 50rem; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.hero h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; letter-spacing: -.02em; }
+.hero .tagline { margin: .75rem 0 .5rem; font-size: 1.375rem; font-weight: 700; max-width: 36rem; }
+.hero .intro { margin: 0 0 1.5rem; max-width: 40rem; color: rgba(255, 255, 255, .85); }
+.hero .actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.hero .btn-ghost { border-color: rgba(255, 255, 255, .7); color: #FFFFFF; }
+.hero .btn-ghost:hover { background: rgba(255, 255, 255, .12); color: #FFFFFF; }
+
+.side { grid-column: span 4; display: flex; flex-direction: column; gap: var(--gap); }
+.figures { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.figure { display: flex; flex-direction: row; align-items: center; gap: .875rem; padding: 1.125rem 1.25rem; }
+.figure .ic { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .75rem; background: var(--soft); color: var(--action); flex-shrink: 0; }
+.figure b { display: block; font-size: 1.75rem; line-height: 1.1; }
+.figure span { color: var(--grey); font-size: .8125rem; }
+.figure.wide { grid-column: span 2; }
+
+/* Next step for visitors: the three steps as a short list, like the deadlines card. */
+.steps-mini ol { display: flex; flex-direction: column; gap: .625rem; margin: 0; padding: 0; list-style: none; }
+.steps-mini li { display: flex; gap: .75rem; align-items: flex-start; padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius); }
+.num {
+    display: grid; place-items: center; flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--soft); color: var(--action); font-weight: 800; font-size: .875rem;
+}
+.steps-mini strong { display: block; font-size: .9375rem; }
+.steps-mini small { color: var(--grey); }
+
+/* About and the focus areas. */
+.about { grid-column: span 5; }
+.about .eyebrow, .section-eyebrow { color: var(--action); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.about h2 { margin: .5rem 0 .75rem; font-size: 1.75rem; line-height: 1.2; }
+.about p { margin: 0 0 1rem; color: var(--grey); }
+.about .support { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); font-size: .8125rem; }
+.focus { grid-column: span 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+.focus .card { gap: .75rem; }
+.focus .ic { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: .875rem; background: var(--soft); color: var(--action); }
+.focus h3 { margin: .25rem 0 0; font-size: 1.125rem; }
+.focus p { margin: 0; color: var(--grey); font-size: .9375rem; }
+
+/* Courses: the cards of Discover. */
+.courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--gap); margin: 0; padding: 0; list-style: none; }
+.course-body { display: flex; flex-direction: column; gap: .375rem; padding: 1rem 1.125rem 1.125rem; }
+.course-type { display: inline-flex; align-items: center; gap: .375rem; color: var(--grey); font-size: .75rem; font-weight: 600; }
+.course-name { font-size: 1.0625rem; font-weight: 700; line-height: 1.3; }
+.course-meta { color: var(--grey); font-size: .8125rem; }
+.tag { align-self: flex-start; display: inline-flex; align-items: center; gap: .375rem; padding: .125rem .625rem; border: 1px solid var(--border); border-radius: 50rem; font-size: .75rem; color: var(--grey); }
+.tag::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--brand); }
+
+/* Partners: names sliding by, as on the current landing. */
+.partners { overflow: hidden; padding: 1.25rem 0; }
+.partners .card-head { padding: 0 1.25rem; }
+.strip { display: flex; width: max-content; animation: slide 40s linear infinite; }
+.strip:hover { animation-play-state: paused; }
+.strip ul { display: flex; gap: 1rem; margin: 0; padding: 0 .5rem; list-style: none; }
+.strip li { padding: .875rem 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); color: var(--grey); font-weight: 700; white-space: nowrap; }
+@keyframes slide { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .strip { animation: none; flex-wrap: wrap; width: auto; } .strip ul[aria-hidden] { display: none; } }
+
+/* Closing band and footer. */
+.cta {
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+    padding: 2rem 2.5rem; border-radius: var(--radius-card); background: var(--ink); color: var(--white);
+}
+.cta h2 { margin: 0 0 .25rem; font-size: 1.75rem; }
+.cta p { margin: 0; color: var(--on-dark-muted); }
+.cta .btn-light { background: var(--white); border-color: var(--white); }
+.cta .btn-ghost { border-color: var(--on-dark-muted); color: var(--white); }
+
+.footer { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; margin: var(--gap) -1.5rem -1.5rem; padding: 2rem 1.5rem; background: var(--white); border-top: 1px solid var(--border); }
+.footer img { height: 2rem; }
+.footer p, .footer small { color: var(--grey); font-size: .875rem; }
+.footer h3 { margin: 0 0 .75rem; font-size: .75rem; color: var(--grey); letter-spacing: .06em; text-transform: uppercase; }
+.footer ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.footer ul a { color: var(--ink); font-weight: 600; font-size: .875rem; }
+
+.draft-note { position: fixed; right: 1rem; bottom: 1rem; z-index: 30; display: flex; gap: .5rem; }
+
+@media (max-width: 1200px) {
+    .hero, .side { grid-column: span 12; }
+    .figures { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .figure.wide { grid-column: span 1; }
+
+    .about, .focus { grid-column: span 12; }
+    .topbar nav { display: none; }
+}
+@media (max-width: 767px) {
+    .landing { padding: 0 1rem 1rem; }
+    .topbar { margin: 0 -1rem 1rem; padding: .625rem 1rem; }
+    .topbar .search, .topbar .chip-btn, .topbar .palette-switch { display: none; }
+    .hero { min-height: 26rem; padding: 1.5rem; }
+    .figures { grid-template-columns: 1fr 1fr; }
+    .focus { grid-template-columns: 1fr; }
+    .footer { grid-template-columns: 1fr; margin: var(--gap) -1rem -1rem; }
+    .cta { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1M10 21v-3h4v3"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6.5A2.5 2.5 0 0 0 4 20.5 2.5 2.5 0 0 0 6.5 23H20"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></symbol>
+    <symbol id="i-recycle" viewBox="0 0 24 24"><path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7L7 9.5M11 19h8.2a1.8 1.8 0 0 0 1.6-2.7l-1.2-2.1M14 16l-3 3 3 3M8.3 13.4 7 9.5l-3.9 1.3M9.3 5.6l1.1-1.9a1.8 1.8 0 0 1 3.1 0l3.9 6.8M13.4 9.6l3.9-1.3 1.3 3.9"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
+</svg>
+<div class="landing">
+    <header class="topbar">
+        <a class="logo" href="#"><img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE European University Alliance"></a>
+        <nav aria-label="Sections">
+            <a href="#about">About</a><a href="#steps">How it works</a><a href="#courses">Courses</a><a href="#partners">Partners</a>
+        </nav>
+        <div class="end">
+            <label class="search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search</span><input placeholder="What do you want to learn?"></label>
+            <div class="palette-switch" role="group" aria-label="Colours (draft only)"><button type="button" data-set="orange" aria-pressed="true">Orange</button><button type="button" data-set="green">Green</button></div>
+            <button class="chip-btn" type="button">EN <svg class="i sm"><use href="#i-down"/></svg></button>
+            <a class="btn btn-light" href="#">Log in</a>
+            <a class="btn btn-primary" href="#">Get started</a>
+        </div>
+    </header>
+
+    <div class="grid">
+        <section class="hero" aria-labelledby="hero-title">
+            <span class="eyebrow">European University Alliance</span>
+            <h1 id="hero-title">DIVERSE</h1>
+            <p class="tagline">Innovation, education and sustainability for a resilient future.</p>
+            <p class="intro">GreenTech4Transformation (GT4T) brings universities, innovators and businesses together to drive Europe's green and digital transformation.</p>
+            <div class="actions">
+                <a class="btn btn-primary" href="#">Get started <svg class="i sm"><use href="#i-arrow"/></svg></a>
+                <a class="btn btn-ghost" href="#partners">Meet the partners</a>
+            </div>
+        </section>
+        <div class="side">
+            <div class="figures" aria-label="Key figures">
+                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><span><b>8</b><span>Project partners</span></span></div>
+                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><span><b>5</b><span>Countries</span></span></div>
+                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span><b>18</b><span>Courses available</span></span></div>
+                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><span><b>6</b><span>Languages</span></span></div>
+            </div>
+            <section class="card steps-mini" id="steps" aria-labelledby="steps-title">
+                <div class="card-head"><h2 id="steps-title">Start learning in three steps</h2></div>
+                <ol>
+                    <li><span class="num">1</span><span><strong>Choose your university</strong><small>On the login page, pick your partner university or GT4T.</small></span></li>
+                    <li><span class="num">2</span><span><strong>Log in with your account</strong><small>Use the account your university gave you, or create one.</small></span></li>
+                    <li><span class="num">3</span><span><strong>Continue where you left off</strong><small>Your dashboard shows your next activity, your deadlines and your grades.</small></span></li>
+                </ol>
+            </section>
+        </div>
+    </div>
+
+    <div class="grid" id="about">
+        <section class="card about" aria-labelledby="about-title">
+            <span class="eyebrow">About GT4T</span>
+            <h2 id="about-title">From knowledge to practical solutions</h2>
+            <p>GT4T strengthens the role of universities in the green and digital transition by connecting higher education with industry and innovation ecosystems. Its mission is to turn ideas and knowledge into practical solutions for a more sustainable, inclusive and future-ready Europe.</p>
+            <p class="support">Supported by the EIT HEI Initiative, guided and co-funded by EIT Climate-KIC, and coordinated by Satakunta University of Applied Sciences (SAMK, Finland).</p>
+        </section>
+        <div class="focus">
+            <article class="card"><span class="ic"><svg class="i"><use href="#i-recycle"/></svg></span><h3>Circular economy</h3><p>Cleaner production, sustainable materials and responsible use of resources.</p></article>
+            <article class="card"><span class="ic"><svg class="i"><use href="#i-cpu"/></svg></span><h3>Digital transformation</h3><p>Skills in artificial intelligence, data analytics, automation and smart manufacturing.</p></article>
+            <article class="card"><span class="ic"><svg class="i"><use href="#i-bolt"/></svg></span><h3>Energy transition</h3><p>Innovation and entrepreneurship that support Europe's move to clean energy.</p></article>
+        </div>
+    </div>
+
+    <section class="card" id="courses" aria-labelledby="courses-title" style="margin-bottom: var(--gap);">
+        <div class="card-head"><h2 id="courses-title">Explore courses</h2><a class="more" href="#">All 18 courses <svg class="i sm"><use href="#i-arrow"/></svg></a></div>
+        <ul class="courses" id="course-list"></ul>
+    </section>
+
+    <section class="card partners" id="partners" aria-labelledby="partners-title" style="margin-bottom: var(--gap);">
+        <div class="card-head"><h2 id="partners-title">Who takes part in GT4T</h2><span class="more" style="color: var(--grey); font-weight: 500;">Universities, innovation hubs and companies from across Europe</span></div>
+        <div class="strip" id="strip"></div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+        <div><h2 id="cta-title">Ready to start learning?</h2><p>Courses from 8 partners in 5 countries, in one place.</p></div>
+        <div class="actions" style="display: flex; gap: .5rem; flex-wrap: wrap;">
+            <a class="btn btn-light" href="#">Get started</a>
+            <a class="btn btn-ghost" href="#">Courses</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div>
+            <img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE">
+            <p>The DIVERSE European University Alliance: innovation, education and sustainability for a resilient future.</p>
+            <small>© 2026 DIVERSE European University Alliance</small>
+        </div>
+        <div><h3>Explore</h3><ul><li><a href="#about">About</a></li><li><a href="#partners">Partners</a></li><li><a href="#courses">Courses</a></li></ul></div>
+        <div><h3>Platform</h3><ul><li><a href="#">Log in</a></li><li><a href="#">Courses</a></li><li><a href="#">Privacy summary</a></li><li><a href="#">Contact site support</a></li></ul></div>
+    </footer>
+</div>
+<script>
+// Sample courses and partners of the local test site; the palette switch of the drafts.
+(function () {
+    const courses = [
+        ['BL', 'Business Law', 'İstanbul Beykent Üniversitesi', 'Teacher 1, Ali Yılmaz', 11, 'c1'],
+        ['MM', 'Marketing Management', 'İstanbul Beykent Üniversitesi', 'Teacher 1', 5, 'c4'],
+        ['DM', 'Digital Marketing & Growth Hacking', 'Shared Courses', 'Admin User', 7, 'c3'],
+        ['SP', 'Strategic Project Management', 'Shared Courses', 'Admin User', 7, 'c2'],
+        ['MG', 'Microeconomics and Global Trade Policy', 'Algebra University College', 'Admin User', 7, 'c5'],
+        ['CE', 'Circular Economy Basics', 'Technische Hochschule Rosenheim', 'Teacher 2', 9, 'c1'],
+        ['AI', 'AI for Smart Manufacturing', 'Satakunta University of Applied Sciences', 'Teacher 3', 8, 'c2'],
+        ['ET', 'Energy Transition and Entrepreneurship', 'Windesheim University of Applied Sciences', 'Teacher 4', 6, 'c4'],
+    ];
+    document.getElementById('course-list').innerHTML = courses.map(([initials, name, category, teachers, activities, cover]) => `
+        <li class="course-card"><a href="#">
+            <span class="cover ${cover}"><span class="cover-count">${activities} activities</span>${initials}</span>
+            <span class="course-body">
+                <span class="course-type"><svg class="i sm"><use href="#i-book"/></svg>Course</span>
+                <span class="course-name">${name}</span>
+                <span class="course-meta">${teachers}</span>
+                <span class="tag">${category}</span>
+            </span>
+        </a></li>`).join('');
+
+    const partners = ['Satakunta University of Applied Sciences', 'İstanbul Beykent Üniversitesi', 'Technische Hochschule Rosenheim',
+        'Windesheim University of Applied Sciences', 'Griffith College', 'Algebra University', 'Ikigaia', 'Wild Campus', 'Furthr'];
+    const list = partners.map(p => `<li>${p}</li>`).join('');
+    document.getElementById('strip').innerHTML = `<ul>${list}</ul><ul aria-hidden="true">${list}</ul>`;
+
+    const set = (name) => {
+        document.documentElement.dataset.palette = name;
+        document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === name)));
+        try { localStorage.setItem('diverse-draft-palette', name); } catch (e) { /* Private window. */ }
+    };
+    let saved = 'orange';
+    try { saved = localStorage.getItem('diverse-draft-palette') || 'orange'; } catch (e) { /* Private window. */ }
+    set(saved);
+    document.addEventListener('click', e => { const b = e.target.closest('[data-set]'); if (b) { set(b.dataset.set); } });
+})();
+</script>
+</body>
+</html>
