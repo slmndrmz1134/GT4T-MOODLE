@@ -12,13 +12,14 @@ Platformun renkleri, fontları, köşe yuvarlaklıkları ve ölçüleri bu dosya
 ## Renkler
 
 Renkler [diverse-university.eu](https://diverse-university.eu/) sitesinden alındı. Tüm metin/zemin çiftleri
-**WCAG 2.1 AA** şartını (normal metin en az 4.5:1) karşılar.
+**WCAG 2.1 AA** şartını (normal metin en az 4.5:1) karşılar. Tek istisna: proje sahibinin kararıyla (Kasım 2026)
+butonlar ve linkler de marka turuncusu `#FF671F`; beyaz yazı ve beyaz zemindeki link 2.9:1 ile AA'nın altında.
 
 | SCSS değişkeni | Renk | Ne için | Kontrast |
 |---|---|---|---|
 | `$diverse-brand-orange` | `#FF671F` | Büyük yüzeyler, landing blokları, grafikler. Üstünde **koyu** metin. Asla gövde metni ya da beyaz yazılı buton zemini değil. | Koyu metinle 5.43:1 |
-| `$diverse-action-orange` | `#C2410C` | Butonlar (beyaz yazı), linkler, aktif sekme | Beyazla 5.18:1 |
-| `$diverse-action-orange-hover` | `#9A3412` | Buton/link hover ve basılı hali | Beyazla 7.31:1 |
+| `$diverse-action-orange` | `#FF671F` | Butonlar (beyaz yazı), linkler, aktif sekme | Beyazla 2.9:1 (AA altında, proje sahibinin kararı) |
+| `$diverse-action-orange-hover` | `#E5560F` | Buton/link hover ve basılı hali | Beyazla 3.7:1 |
 | `$diverse-home-hover` | `#F57B2A` | Navbardaki Ana sayfa (Home) butonunun hover metin rengi | Beyazla 3.1:1 |
 | `$diverse-ink` | `#1F2328` | Gövde metni, başlıklar, koyu footer zemini | Beyazla 15.8:1 |
 | `$diverse-grey` | `#63666A` | İkincil metin, açıklamalar | Beyazla 5.77:1 |
@@ -88,7 +89,7 @@ Tema her palet için bir kez daha derlenir (`styles_palette.php?variant=dark|gre
 | `$diverse-surface` (sayfa) | `#111316` | `#0E1311` | — |
 | `$diverse-ink` (yazı) | `#ECEDEF` | `#E8EFEB` | 14.6:1 / 14.9:1 |
 | `$diverse-grey` | `#A3A7AD` | `#9DABA4` | 7.4:1 / 7.3:1 |
-| `$diverse-action-orange` | `#FF7A3D` | `#3DD27F` | 6.6:1 / 9.1:1; düğme yazısı kart renginde |
+| `$diverse-action-orange` | `#FF671F` | `#3DD27F` | 5.9:1 / 9.1:1; düğme yazısı kart renginde |
 | `$diverse-action-orange-hover` | `#FF9B6B` | `#6EE2A1` | — |
 | `$diverse-soft-orange` / `$diverse-peach` | `#2B1C14` / `#4A2B1B` | `#14261B` / `#1F3B24` | — |
 | `$diverse-border` / `-strong` | `#2C3036` / `#3F444C` | `#26302B` / `#38443E` | — |

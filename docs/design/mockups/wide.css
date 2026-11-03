@@ -12,7 +12,7 @@
 
 /* Palettes: the values of theme/diverse/scss/pre.scss. */
 :root, [data-palette="orange"] {
-    --brand: #FF671F; --action: #C2410C; --action-hover: #9A3412; --ink: #1F2328; --grey: #63666A;
+    --brand: #FF671F; --action: #FF671F; --action-hover: #E5560F; --ink: #1F2328; --grey: #63666A;
     --soft: #FFF4ED; --peach: #FFD8C2; --surface: #F7F7F8; --border: #E4E4E7; --border-strong: #C9C9CF;
     --on-dark-muted: #D4D4D8; --track: #EDEDEF;
 }
@@ -33,7 +33,7 @@
 html[data-mode="dark"] {
     --surface: #111316; --white: #1A1D21; --border: #2C3036; --border-strong: #3F444C; --track: #2C3036;
     --ink: #ECEDEF; --grey: #A3A7AD; --on-dark-muted: #A3A7AD;
-    --brand: #FF671F; --action: #FF7A3D; --action-hover: #FF9B6B; --soft: #2B1C14; --peach: #4A2B1B;
+    --brand: #FF671F; --action: #FF671F; --action-hover: #FF9B6B; --soft: #2B1C14; --peach: #4A2B1B;
     --success: #4CC38A; --success-soft: #13301F; --danger: #F97066; --danger-soft: #3A1715;
     --shadow: 0 1px 2px rgba(0, 0, 0, .4);
     color-scheme: dark;

@@ -12,8 +12,9 @@
 
 // Palette.
 $diverse-brand-orange: #FF671F;        // Large surfaces and graphics only, with ink text on top (5.43:1).
-$diverse-action-orange: #C2410C;       // Buttons, links, active states. White text on it: 5.18:1.
-$diverse-action-orange-hover: #9A3412; // Hover/pressed state of the action orange (7.31:1 on white).
+$diverse-action-orange: #FF671F;       // Buttons, links, active states: the brand orange (project owner, November 2026).
+                                       // White text on it: 2.9:1, below WCAG AA by the owner's choice.
+$diverse-action-orange-hover: #E5560F; // Hover/pressed state of the action orange (white text on it: 3.7:1).
 $diverse-home-hover: #F57B2A;          // Navbar home button hover state as requested by project owner.
 $diverse-ink: #1F2328;                 // Body text and headings (15.8:1 on white).
 $diverse-grey: #63666A;                // Secondary text (5.77:1 on white, 5.34:1 on soft orange).
@@ -58,7 +59,7 @@ $diverse-logo-bg: #FFFFFF;                 // Behind logos in both modes: they a
 @if $diverse-mode == dark {
     $white: #1A1D21 !global;                       // Cards, fields, menus.
     $diverse-brand-orange: #FF671F;
-    $diverse-action-orange: #FF7A3D;       // 6.6:1 on the cards; card-coloured text on it: 6.6:1.
+    $diverse-action-orange: #FF671F;       // 5.9:1 on the cards; card-coloured text on it: 5.9:1.
     $diverse-action-orange-hover: #FF9B6B;
     $diverse-home-hover: #FF9B6B;
     $diverse-ink: #ECEDEF;                 // Text (14.6:1 on the cards).
