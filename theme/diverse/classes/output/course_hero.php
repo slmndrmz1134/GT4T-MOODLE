@@ -96,6 +96,7 @@ class course_hero implements renderable, templatable {
             'hasnext' => $next !== null,
             'nexturl' => $next ? $next->url->out(false) : '',
             'nextname' => $next ? self::text($next->name) : '',
+            'nexttype' => $next ? $next->get_module_type_name() : '',
             'nextlabel' => get_string(($progress ?? 0) > 0 ? 'hero_continue' : 'hero_start', 'theme_diverse'),
         ];
     }

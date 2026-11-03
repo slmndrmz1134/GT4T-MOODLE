@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Görünüm';
 $string['mycourses_cards'] = 'Kartlar';
 $string['mycourses_list'] = 'Liste';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Sıradaki';
+$string['course_aside'] = 'Bu ders';
+$string['course_live_next'] = 'Sıradaki canlı ders';
+$string['course_live_room'] = 'Canlı ders sınıfı';
+$string['course_live_none'] = 'Henüz planlanmış canlı ders yok.';
+$string['course_live_join'] = 'Canlı derse katıl';
+$string['course_nodeadlines'] = 'Bu derste yaklaşan teslim yok.';
+$string['course_assistant'] = 'Ders asistanı';
+$string['course_assistant_text'] = 'Okumalar, teslim tarihleri ya da bilmediğin bir kelime hakkında sor.';
+$string['course_assistant_open'] = 'Asistana sor';
+$string['course_teachers'] = 'Öğretmenler';
+$string['course_message'] = '{$a} kişisine mesaj gönder';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';

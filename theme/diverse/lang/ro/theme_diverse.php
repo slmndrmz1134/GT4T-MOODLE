@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Vizualizare';
 $string['mycourses_cards'] = 'Carduri';
 $string['mycourses_list'] = 'Listă';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Urmează';
+$string['course_aside'] = 'Acest curs';
+$string['course_live_next'] = 'Următoarea oră live';
+$string['course_live_room'] = 'Sala live';
+$string['course_live_none'] = 'Nu este planificată încă nicio oră live.';
+$string['course_live_join'] = 'Intră la ora live';
+$string['course_nodeadlines'] = 'Nu ai nimic de predat la acest curs.';
+$string['course_assistant'] = 'Asistentul cursului';
+$string['course_assistant_text'] = 'Întreabă despre lecturi, termene sau un cuvânt pe care nu îl știi.';
+$string['course_assistant_open'] = 'Întreabă asistentul';
+$string['course_teachers'] = 'Profesori';
+$string['course_message'] = 'Trimite un mesaj către {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';

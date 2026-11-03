@@ -526,6 +526,9 @@ class dashboard implements renderable, templatable {
      * @return array deadlines (the first MAX_DEADLINES), overduecms, overduecount, todototal
      */
     protected function get_todo(): array {
+        global $CFG;
+        require_once($CFG->dirroot . '/calendar/lib.php');
+
         $now = time();
         $endoftoday = usergetmidnight($now) + DAYSECS;
 

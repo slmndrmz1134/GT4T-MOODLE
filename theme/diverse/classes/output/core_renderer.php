@@ -118,6 +118,12 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             ];
             return $this->render_from_template('theme_diverse/my_courses', $courses) . $maincontent;
         }
+        // The course page: the sections, and next to them the live class, the deadlines, the assistant and the teachers.
+        if ($this->is_course_home()) {
+            $aside = $this->render_from_template('theme_diverse/course_aside',
+                (new course_aside($this->page->course))->export_for_template($this));
+            return \html_writer::div(\html_writer::div($maincontent, 'diverse-course-main') . $aside, 'diverse-course-layout');
+        }
         if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {
             return $maincontent . \html_writer::tag(
                 'p',
@@ -153,6 +159,9 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             if ($this->is_course_tab()) {
                 $additionalclasses[] = 'diverse-course-tab';
             }
+            if ($this->is_course_home()) {
+                $additionalclasses[] = 'diverse-course-home';
+            }
         }
         return parent::body_attributes($additionalclasses);
     }
@@ -165,6 +174,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     protected function is_course_tab(): bool {
         return shell::applies($this->page) && $this->page->course->id != SITEID && !$this->page->cm &&
             $this->page->context->contextlevel === CONTEXT_COURSE;
+    }
+
+    /**
+     * Whether this is the main page of a course, outside edit mode: the sections with the course's column next to them.
+     *
+     * @return bool
+     */
+    protected function is_course_home(): bool {
+        return $this->is_course_tab() && str_starts_with($this->page->pagetype, 'course-view-') &&
+            !$this->page->user_is_editing();
     }
 
     /**

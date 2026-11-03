@@ -241,6 +241,20 @@ $string['mycourses_view'] = 'View';
 $string['mycourses_cards'] = 'Cards';
 $string['mycourses_list'] = 'List';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Up next';
+$string['course_aside'] = 'This course';
+$string['course_live_next'] = 'Next live class';
+$string['course_live_room'] = 'Live classroom';
+$string['course_live_none'] = 'No live class is planned yet.';
+$string['course_live_join'] = 'Join the live class';
+$string['course_nodeadlines'] = 'Nothing is due in this course.';
+$string['course_assistant'] = 'Course assistant';
+$string['course_assistant_text'] = 'Ask about the readings, the deadlines or a word you do not know.';
+$string['course_assistant_open'] = 'Ask the assistant';
+$string['course_teachers'] = 'Teachers';
+$string['course_message'] = 'Send a message to {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Green colours (GT4T)';
 $string['palette_toorange'] = 'Orange colours (DIVERSE)';

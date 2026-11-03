@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Amharc';
 $string['mycourses_cards'] = 'Cártaí';
 $string['mycourses_list'] = 'Liosta';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Ar aghaidh';
+$string['course_aside'] = 'An cúrsa seo';
+$string['course_live_next'] = 'An chéad rang beo eile';
+$string['course_live_room'] = 'Seomra ranga beo';
+$string['course_live_none'] = 'Níl aon rang beo beartaithe fós.';
+$string['course_live_join'] = 'Glac páirt sa rang beo';
+$string['course_nodeadlines'] = 'Níl aon rud le déanamh sa chúrsa seo.';
+$string['course_assistant'] = 'Cúntóir an chúrsa';
+$string['course_assistant_text'] = 'Cuir ceist faoi na léamha, na spriocdhátaí nó focal nach eol duit.';
+$string['course_assistant_open'] = 'Cuir ceist ar an gcúntóir';
+$string['course_teachers'] = 'Múinteoirí';
+$string['course_message'] = 'Seol teachtaireacht chuig {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

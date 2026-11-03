@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Weergave';
 $string['mycourses_cards'] = 'Kaarten';
 $string['mycourses_list'] = 'Lijst';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Hierna';
+$string['course_aside'] = 'Deze cursus';
+$string['course_live_next'] = 'Volgende live les';
+$string['course_live_room'] = 'Live klaslokaal';
+$string['course_live_none'] = 'Er is nog geen live les gepland.';
+$string['course_live_join'] = 'Deelnemen aan de les';
+$string['course_nodeadlines'] = 'Er staat niets open in deze cursus.';
+$string['course_assistant'] = 'Cursusassistent';
+$string['course_assistant_text'] = 'Vraag naar de teksten, de deadlines of een woord dat je niet kent.';
+$string['course_assistant_open'] = 'Vraag de assistent';
+$string['course_teachers'] = 'Docenten';
+$string['course_message'] = 'Stuur een bericht naar {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';

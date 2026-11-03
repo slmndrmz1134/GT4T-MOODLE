@@ -17,30 +17,40 @@
 {{!
     @template theme_diverse/course_hero
 
-    Header of every tab of a course: the way back, name, teachers, cover, progress and the next step.
+    Header of every tab of a course, as a card: the way back, the category, name, summary, teachers and figures; next
+    to them the cover, the next step and the progress.
 
     Example context (json):
     {
         "navbar": "", "name": "Business Law", "category": "Istanbul Beykent University", "teachers": "Ada Yilmaz",
         "summary": "Contracts, liability and companies.", "stats": "5 sections, 7 activities", "people": 12,
-        "coverstyle": "brand", "initials": "BL", "hasprogress": true, "progress": 40,
-        "hasnext": true, "nexturl": "#", "nextname": "What is Business Law?", "nextlabel": "Continue"
+        "coverstyle": "brand", "initials": "BL", "hasprogress": true, "progress": 40, "hasstep": true,
+        "hasnext": true, "nexturl": "#", "nextname": "What is Business Law?", "nexttype": "Page", "nextlabel": "Continue"
     }
 }}
 <section class="diverse-hero-course" aria-label="{{name}}">
     <div class="diverse-hero-course-text">
         {{{navbar}}}
-        {{#category}}<p class="diverse-hero-course-category">{{category}}</p>{{/category}}
+        {{#category}}<span class="diverse-tag">{{category}}</span>{{/category}}
         <h1 class="diverse-hero-course-title">{{name}}</h1>
         {{#summary}}<p class="diverse-hero-course-summary">{{summary}}</p>{{/summary}}
         <p class="diverse-hero-course-meta">
-            {{#teachers}}<span>{{teachers}}</span>{{/teachers}}
-            <span>{{stats}}</span>
-            <span>{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>
+            {{#teachers}}<span><i class="fa fa-user" aria-hidden="true"></i>{{teachers}}</span>{{/teachers}}
+            <span><i class="fa fa-book" aria-hidden="true"></i>{{stats}}</span>
+            <span><i class="fa fa-users" aria-hidden="true"></i>{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>
         </p>
     </div>
     <div class="diverse-hero-course-card{{^hasstep}} diverse-hero-course-cardonly{{/hasstep}}">
-        {{> theme_diverse/course_cover }}
+        <div class="diverse-hero-course-next">
+            {{> theme_diverse/course_cover }}
+            {{#hasnext}}
+            <span>
+                <small>{{#str}}course_upnext, theme_diverse{{/str}}</small>
+                <strong>{{nextname}}</strong>
+                <small>{{nexttype}}</small>
+            </span>
+            {{/hasnext}}
+        </div>
         {{#hasprogress}}
         <div class="diverse-progress">
             <div class="diverse-progress-track"><span style="width: {{progress}}%;"></span></div>
@@ -48,8 +58,7 @@
         </div>
         {{/hasprogress}}
         {{#hasnext}}
-        <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}}</a>
-        <span class="diverse-hero-course-nextname">{{nextname}}</span>
+        <a class="btn btn-primary" href="{{nexturl}}">{{nextlabel}} <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
         {{/hasnext}}
     </div>
 </section>

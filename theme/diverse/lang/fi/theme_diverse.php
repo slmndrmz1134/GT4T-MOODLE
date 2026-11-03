@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Näkymä';
 $string['mycourses_cards'] = 'Kortit';
 $string['mycourses_list'] = 'Luettelo';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Seuraavaksi';
+$string['course_aside'] = 'Tämä kurssi';
+$string['course_live_next'] = 'Seuraava live-tunti';
+$string['course_live_room'] = 'Live-luokka';
+$string['course_live_none'] = 'Live-tunteja ei ole vielä suunniteltu.';
+$string['course_live_join'] = 'Liity live-tunnille';
+$string['course_nodeadlines'] = 'Tällä kurssilla ei ole erääntyviä tehtäviä.';
+$string['course_assistant'] = 'Kurssiavustaja';
+$string['course_assistant_text'] = 'Kysy luettavista, määräajoista tai sanasta, jota et tunne.';
+$string['course_assistant_open'] = 'Kysy avustajalta';
+$string['course_teachers'] = 'Opettajat';
+$string['course_message'] = 'Lähetä viesti: {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';

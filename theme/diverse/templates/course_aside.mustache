@@ -1,0 +1,96 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/course_aside
+
+    The column next to the sections on the course page: the next live class, the deadlines of the course, the
+    course assistant and the teachers. The assistant card only stays when local_diverse_assistant has put its own
+    button on the page, which the card then presses.
+
+    Example context (json):
+    {
+        "haslive": true, "live": {"name": "Live class", "when": "Thursday, 5 November 2026, 2:00 PM", "url": "#", "scheduled": true},
+        "hasdeadlines": false, "deadlines": [], "calendarurl": "#", "assistant": false,
+        "hasteachers": true, "teachers": [{"name": "Ada Yilmaz", "role": "Teacher", "initials": "AY", "messageurl": "#"}]
+    }
+}}
+<aside class="diverse-course-aside" aria-label="{{#str}}course_aside, theme_diverse{{/str}}">
+    {{#haslive}}{{#live}}
+    <section class="diverse-card diverse-live">
+        <small>{{#scheduled}}{{#str}}course_live_next, theme_diverse{{/str}}{{/scheduled}}{{^scheduled}}{{#str}}course_live_room, theme_diverse{{/str}}{{/scheduled}}</small>
+        <strong>{{name}}</strong>
+        <p>{{#scheduled}}{{when}}{{/scheduled}}{{^scheduled}}{{#str}}course_live_none, theme_diverse{{/str}}{{/scheduled}}</p>
+        <a class="btn" href="{{url}}"><i class="fa fa-tower-broadcast" aria-hidden="true"></i> {{#str}}course_live_join, theme_diverse{{/str}}</a>
+    </section>
+    {{/live}}{{/haslive}}
+
+    <section class="diverse-card">
+        <div class="diverse-card-head">
+            <h2>{{#str}}dash_deadlines, theme_diverse{{/str}}</h2>
+            <a class="diverse-card-more" href="{{calendarurl}}">{{#str}}calendar, core_calendar{{/str}}</a>
+        </div>
+        {{#hasdeadlines}}
+        <ul class="diverse-mini-list">
+            {{#deadlines}}
+            <li>
+                <span class="diverse-date{{#overdue}} overdue{{/overdue}}" aria-hidden="true"><b>{{day}}</b><small>{{month}}</small></span>
+                <span><a href="{{url}}">{{name}}</a><span>{{meta}}</span></span>
+            </li>
+            {{/deadlines}}
+        </ul>
+        {{/hasdeadlines}}
+        {{^hasdeadlines}}<p class="diverse-empty">{{#str}}course_nodeadlines, theme_diverse{{/str}}</p>{{/hasdeadlines}}
+    </section>
+
+    {{#assistant}}
+    <section class="diverse-card diverse-course-assistant" hidden>
+        <div class="diverse-card-head"><i class="fa fa-wand-magic-sparkles" aria-hidden="true"></i><h2>{{#str}}course_assistant, theme_diverse{{/str}}</h2></div>
+        <p>{{#str}}course_assistant_text, theme_diverse{{/str}}</p>
+        <button type="button" class="btn btn-secondary" data-action="diverse-open-assistant">{{#str}}course_assistant_open, theme_diverse{{/str}}</button>
+    </section>
+    {{/assistant}}
+
+    {{#hasteachers}}
+    <section class="diverse-card">
+        <div class="diverse-card-head"><h2>{{#str}}course_teachers, theme_diverse{{/str}}</h2></div>
+        <ul class="diverse-mini-list">
+            {{#teachers}}
+            <li>
+                <span class="diverse-initials" aria-hidden="true">{{initials}}</span>
+                <span><strong>{{name}}</strong><span>{{role}}</span></span>
+                {{#messageurl}}<a class="diverse-icon-link" href="{{messageurl}}" title="{{#str}}course_message, theme_diverse, {{name}}{{/str}}"><i class="fa fa-message" aria-hidden="true"></i><span class="visually-hidden">{{#str}}course_message, theme_diverse, {{name}}{{/str}}</span></a>{{/messageurl}}
+            </li>
+            {{/teachers}}
+        </ul>
+    </section>
+    {{/hasteachers}}
+</aside>
+{{#assistant}}
+{{#js}}
+(function() {
+    var card = document.querySelector('.diverse-course-assistant');
+    var toggle = document.querySelector('[data-action="local-diverse-assistant-toggle"]');
+    if (!card || !toggle) {
+        return;
+    }
+    card.hidden = false;
+    card.querySelector('[data-action="diverse-open-assistant"]').addEventListener('click', function() {
+        toggle.click();
+    });
+})();
+{{/js}}
+{{/assistant}}

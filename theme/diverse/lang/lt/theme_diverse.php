@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Rodinys';
 $string['mycourses_cards'] = 'Kortelės';
 $string['mycourses_list'] = 'Sąrašas';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Toliau';
+$string['course_aside'] = 'Šis kursas';
+$string['course_live_next'] = 'Kita tiesioginė pamoka';
+$string['course_live_room'] = 'Tiesioginė klasė';
+$string['course_live_none'] = 'Tiesioginių pamokų dar nesuplanuota.';
+$string['course_live_join'] = 'Prisijungti prie pamokos';
+$string['course_nodeadlines'] = 'Šiame kurse nėra artėjančių terminų.';
+$string['course_assistant'] = 'Kurso asistentas';
+$string['course_assistant_text'] = 'Klauskite apie skaitinius, terminus ar nežinomą žodį.';
+$string['course_assistant_open'] = 'Klausti asistento';
+$string['course_teachers'] = 'Dėstytojai';
+$string['course_message'] = 'Siųsti žinutę: {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

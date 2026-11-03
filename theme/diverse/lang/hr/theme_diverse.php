@@ -231,6 +231,20 @@ $string['mycourses_view'] = 'Prikaz';
 $string['mycourses_cards'] = 'Kartice';
 $string['mycourses_list'] = 'Popis';
 
+// Course page: next step and the column next to the sections.
+$string['course_upnext'] = 'Sljedeće';
+$string['course_aside'] = 'Ovaj kolegij';
+$string['course_live_next'] = 'Sljedeća nastava uživo';
+$string['course_live_room'] = 'Učionica uživo';
+$string['course_live_none'] = 'Nastava uživo još nije zakazana.';
+$string['course_live_join'] = 'Pridruži se nastavi';
+$string['course_nodeadlines'] = 'U ovom kolegiju nema rokova.';
+$string['course_assistant'] = 'Asistent kolegija';
+$string['course_assistant_text'] = 'Pitaj o literaturi, rokovima ili riječi koju ne poznaješ.';
+$string['course_assistant_open'] = 'Pitaj asistenta';
+$string['course_teachers'] = 'Nastavnici';
+$string['course_message'] = 'Pošalji poruku: {$a}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';

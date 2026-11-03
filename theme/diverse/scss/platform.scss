@@ -1310,25 +1310,39 @@ table.diverse-table {
     }
 }
 
-// Course header on every tab of a course: text on the page, a divider below it, no card.
+// Course header on every tab of a course: a card with the course on the left, the next step and the progress on the
+// right.
 .diverse-hero-course {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    border-bottom: 1px solid $diverse-border;
+    gap: 1.25rem;
+    margin: 1.25rem 0 1rem;
+    padding: 1.75rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+    box-shadow: $box-shadow-sm;
 
     @include media-breakpoint-up(lg) {
-        grid-template-columns: minmax(0, 1fr) 20rem;
+        grid-template-columns: minmax(0, 1fr) 24rem;
         align-items: center;
         gap: 2rem;
     }
 
+    @include media-breakpoint-down(md) {
+        padding: 1.25rem;
+    }
+
     .breadcrumb {
-        margin-bottom: .5rem;
+        margin-bottom: .75rem;
         padding: 0;
         background-color: transparent;
-        font-size: .875rem;
+        font-size: .8125rem;
+        font-weight: 600;
+    }
+
+    .diverse-tag {
+        margin-bottom: .75rem;
     }
 }
 
@@ -1336,73 +1350,101 @@ table.diverse-table {
     min-width: 0;
 }
 
-.diverse-hero-course-category {
-    margin: 0 0 .25rem;
-    color: $diverse-action-orange;
-    font-size: .875rem;
-    font-weight: 700;
-}
-
 .diverse-hero-course-title {
-    margin: 0;
-    font-size: clamp(1.75rem, 3vw, 2.75rem);
-    line-height: 1.1;
+    margin: 0 0 .5rem;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.02em;
 }
 
 .diverse-hero-course-summary {
-    max-width: 48rem;
-    margin: .75rem 0 0;
+    max-width: $diverse-reading-width;
+    margin: 0 0 1rem;
     color: $diverse-grey;
-    font-size: 1.125rem;
-    line-height: 1.5;
 }
 
 .diverse-hero-course-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: .25rem 1.25rem;
-    margin: .75rem 0 0;
+    gap: .5rem 1.25rem;
+    margin: 0;
     color: $diverse-grey;
-    font-size: .9375rem;
+    font-size: .875rem;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        gap: .375rem;
+    }
 }
 
+// The next step, on the soft brand colour.
 .diverse-hero-course-card {
     display: flex;
     flex-direction: column;
-    gap: .625rem;
+    gap: .75rem;
+    padding: 1.25rem;
+    background-color: $diverse-soft-orange;
+    border-radius: $card-border-radius;
 
-    @include media-breakpoint-up(lg) {
-        padding-left: 2rem;
-        border-left: 1px solid $diverse-border;
+    .diverse-progress {
+        margin: 0;
     }
 
-    .diverse-course-cover {
-        display: flex;
-        height: 7.5rem;
-        border-radius: $border-radius;
+    .diverse-progress-track {
+        background-color: $white;
     }
 
     .btn {
         width: 100%;
     }
 
-    // On phones the button matters, the picture only pushes the course down.
-    @include media-breakpoint-down(lg) {
-        .diverse-course-cover {
-            display: none;
-        }
+    // Without progress or a next step (teachers) nothing but the cover is left: phones skip it.
+    &.diverse-hero-course-cardonly {
+        padding: 0;
+        background: none;
 
-        // Without progress or a next step (teachers) nothing is left here.
-        &.diverse-hero-course-cardonly {
+        @include media-breakpoint-down(lg) {
             display: none;
         }
     }
 }
 
-.diverse-hero-course-nextname {
-    color: $diverse-grey;
-    font-size: .875rem;
-    text-align: center;
+.diverse-hero-course-next {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .diverse-course-cover {
+        display: flex;
+        flex: 0 0 5.5rem;
+        height: 5.5rem;
+        border-radius: $border-radius;
+        font-size: 1.5rem;
+    }
+
+    .diverse-hero-course-cardonly & .diverse-course-cover {
+        flex: 1;
+        height: 7.5rem;
+    }
+
+    > span {
+        min-width: 0;
+    }
+
+    small {
+        display: block;
+        color: $diverse-grey;
+        font-size: .75rem;
+        font-weight: 600;
+    }
+
+    strong {
+        display: block;
+        font-size: .9375rem;
+        line-height: 1.3;
+    }
 }
 
 // Activity page: the course, the place in it and the way on, always on top.
@@ -1468,9 +1510,16 @@ body.diverse-course-tab {
         margin: 0 0 1rem;
         font-size: 1.5rem;
     }
+
+    // The headings of the course's column are card titles.
+    #region-main .diverse-card-head h2 {
+        margin: 0;
+        font-size: 1rem;
+    }
 }
 
-// Sections of a course, and the groups on its Activities tab: rows between dividers, not cards.
+// Sections of a course: each a card with its activities as rows inside (full-width draft). Running text keeps the
+// reading width. The groups on a course's Activities tab stay rows between dividers.
 body.diverse-in-course {
     .secondary-navigation .moremenu {
         margin-right: 0;
@@ -1485,15 +1534,120 @@ body.diverse-in-course {
         padding-left: 0;
     }
 
-    .course-section {
-        margin: 0;
-        padding: 1rem 0;
-        border-bottom: 1px solid $diverse-border;
+    .course-content .course-section {
+        margin: 0 0 1rem;
+        padding: 0;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+        box-shadow: $box-shadow-sm;
     }
 
     .course-section .section-item {
         padding: 0;
         border: 0;
+    }
+
+    .course-section-header {
+        align-items: center;
+        gap: .875rem;
+        padding: 1rem 1.25rem;
+
+        // The section's number in a circle; the general section at the top has none.
+        &[data-number]:not([data-number="0"])::before {
+            display: flex;
+            flex: 0 0 2.25rem;
+            align-items: center;
+            justify-content: center;
+            order: -1;
+            height: 2.25rem;
+            background-color: $diverse-surface;
+            border-radius: 50%;
+            color: $diverse-grey;
+            content: attr(data-number);
+            font-size: .8125rem;
+            font-weight: 700;
+        }
+
+        // The name takes the room, the arrow that opens and closes the section goes to the right.
+        > .d-flex:has(.icons-collapse-expand) {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .icons-collapse-expand {
+            order: 2;
+            margin-right: 0 !important;
+            margin-left: auto;
+        }
+    }
+
+    .sectionname {
+        font-family: $font-family-sans-serif;
+        font-size: 1.0625rem;
+        font-weight: 700;
+
+        a {
+            color: $diverse-ink;
+            text-decoration: none;
+        }
+    }
+
+    // The section's text and activities sit inside the card (Moodle's ul.section has its margins forced to 0).
+    .course-section .course-content-item-content {
+        padding: 0 1.25rem 1.25rem;
+    }
+
+    .course-section .summarytext,
+    .course-section .section_availability {
+        max-width: $diverse-reading-width;
+        margin-bottom: 1rem;
+        color: $diverse-grey;
+    }
+
+    .course-section ul.section {
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid $diverse-border;
+        border-radius: $border-radius;
+
+        &:empty {
+            display: none;
+        }
+
+        > li.activity {
+            margin: 0;
+            padding: 0;
+
+            + li.activity {
+                border-top: 1px solid $diverse-border;
+            }
+        }
+    }
+
+    .course-section .activity-item {
+        padding: .875rem 1rem;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .activity-item:hover {
+        background-color: $diverse-soft-orange;
+    }
+
+    .activityiconcontainer {
+        border-radius: $border-radius;
+    }
+
+    // Completion buttons and states as pills.
+    .activity-information .btn,
+    .activity-information .badge {
+        border-radius: 50rem;
+    }
+
+    .activity-description,
+    .activity-altcontent {
+        max-width: $diverse-reading-width;
     }
 
     .collapsable-section {
@@ -1503,14 +1657,214 @@ body.diverse-in-course {
         border-radius: 0 !important;
     }
 
-    .activity-item:hover {
-        background-color: $diverse-soft-orange;
-    }
-
     // Sections without any content say nothing to a student; while editing they stay visible.
     &:not(.editing) .course-section:not(:has(.activity-item)):not(:has(.summarytext *)) {
         display: none;
     }
+
+    @include media-breakpoint-down(md) {
+        .course-section-header {
+            padding: .875rem 1rem;
+        }
+
+        .course-section .course-content-item-content {
+            padding: 0 .75rem .75rem;
+        }
+    }
+}
+
+// Pages to read (a page, a book chapter): lines stay short however wide the screen is.
+body.path-mod-page #region-main .generalbox,
+body.path-mod-book #region-main .book_content {
+    max-width: $diverse-reading-width;
+}
+
+// The course page: the sections, and the course's column next to them on large screens, under them on smaller ones.
+.diverse-course-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem;
+
+    @include media-breakpoint-up(xl) {
+        grid-template-columns: minmax(0, 1fr) 22rem;
+    }
+}
+
+.diverse-course-main {
+    min-width: 0;
+}
+
+.diverse-course-aside {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    align-items: start;
+    gap: 1rem;
+
+    @include media-breakpoint-up(xl) {
+        position: sticky;
+        top: calc(#{$navbar-height} + 1.25rem);
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .diverse-card-head svg,
+    .diverse-card-head .fa {
+        color: $diverse-action-orange;
+    }
+
+    p {
+        margin: 0 0 .75rem;
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+}
+
+// The next live class: the one dark card of the page.
+.diverse-card.diverse-live {
+    background-color: $diverse-ink;
+    border-color: $diverse-ink;
+    color: $white;
+
+    small {
+        color: $diverse-on-dark-muted;
+        font-size: .75rem;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    strong {
+        margin: .25rem 0;
+        font-size: 1.0625rem;
+    }
+
+    p {
+        color: $diverse-on-dark-muted;
+    }
+
+    .btn {
+        background-color: $diverse-brand-orange;
+        border-color: $diverse-brand-orange;
+        color: $diverse-ink;
+
+        &:hover,
+        &:focus {
+            background-color: $white;
+            border-color: $white;
+            color: $diverse-ink;
+        }
+    }
+}
+
+.diverse-mini-list {
+    display: grid;
+    gap: .75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        font-size: .875rem;
+
+        > span:not([class]) {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+
+    a:not(.diverse-icon-link),
+    strong {
+        display: block;
+        overflow: hidden;
+        color: $diverse-ink;
+        font-weight: 600;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    a:not(.diverse-icon-link):hover {
+        color: $diverse-action-orange;
+    }
+
+    span:not([class]) > span {
+        color: $diverse-grey;
+        font-size: .75rem;
+    }
+}
+
+.diverse-date {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background-color: $diverse-surface;
+    border-radius: $border-radius;
+    line-height: 1.05;
+
+    b {
+        font-size: 1rem;
+    }
+
+    small {
+        color: $diverse-grey;
+        font-size: .625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    &.overdue {
+        background-color: $white;
+        box-shadow: inset 0 0 0 1.5px $diverse-danger;
+    }
+
+    &.overdue,
+    &.overdue small {
+        color: $diverse-danger;
+    }
+}
+
+.diverse-icon-link {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: $diverse-grey;
+
+    &:hover,
+    &:focus {
+        background-color: $diverse-track;
+        color: $diverse-ink;
+    }
+}
+
+// The course page has its sections in front of it: the course index stays for the activities.
+@include media-breakpoint-up(md) {
+    body.diverse-shell.diverse-in-course.diverse-course-home:not(.editing) {
+        .drawer.drawer-left,
+        .drawer-toggles .drawer-left-toggle {
+            display: none;
+        }
+
+        #page.drawers.show-drawer-left,
+        #page.drawers.show-drawer-left.show-drawer-right {
+            margin-right: 0;
+            padding-right: 1.5rem;
+        }
+    }
+}
+
+body.diverse-course-home:not(.editing) .drawer-toggles .drawer-left-toggle {
+    display: none;
 }
 
 // My courses: Moodle's block frame goes, the course cards stand on the surface.
