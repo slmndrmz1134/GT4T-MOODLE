@@ -24,7 +24,7 @@ use theme_diverse\local\partners;
 /**
  * Theme DIVERSE - Application navigation for logged-in users.
  *
- * A permanent row of links under the top bar (a tab bar at the bottom on phones) replaces Moodle's top menu, so
+ * A permanent rail of icons on the left (a tab bar at the bottom on phones) replaces Moodle's top menu, so
  * that the main places are one click away on every page. The links are built from the user's roles on each page,
  * so they must stay cheap: no course lists here.
  *
@@ -51,6 +51,7 @@ class shell implements renderable, templatable {
         'users' => 'fa-users',
         'admin' => 'fa-sliders',
         'guide' => 'fa-circle-question',
+        'manage' => 'fa-gear',
     ];
 
     /** @var \moodle_page */
@@ -65,13 +66,23 @@ class shell implements renderable, templatable {
      * @param \moodle_page $page
      */
     public function __construct(\moodle_page $page) {
+        $this->page = $page;
+        $this->guideid = self::guide_id();
+    }
+
+    /**
+     * Id of the guide course, if the site has one the user can open.
+     *
+     * @return int|null
+     */
+    public static function guide_id(): ?int {
         global $DB;
 
-        $this->page = $page;
         $guide = $DB->get_record('course', ['shortname' => self::GUIDE_SHORTNAME], 'id, visible');
         if ($guide && ($guide->visible || has_capability('moodle/course:viewhiddencourses', \context_course::instance($guide->id)))) {
-            $this->guideid = (int)$guide->id;
+            return (int)$guide->id;
         }
+        return null;
     }
 
     /**
@@ -147,6 +158,10 @@ class shell implements renderable, templatable {
         }
 
         return [
+            'homeurl' => (new \core\url('/', ['redirect' => 0]))->out(false),
+            'logourl' => $output->image_url('favicon', 'theme_diverse')->out(false),
+            'sitename' => format_string(get_site()->shortname),
+            'manageicon' => self::ICONS['manage'],
             'main' => $main,
             'manage' => $manage,
             'hasmanage' => !empty($manage),
@@ -175,6 +190,7 @@ class shell implements renderable, templatable {
             $iscurrent = $icon === ($this->page->course->id == $this->guideid ? 'guide' : 'courses');
         }
         return [
+            'key' => $icon,
             'label' => $label,
             'url' => (new \core\url($url))->out(false),
             'icon' => self::ICONS[$icon],

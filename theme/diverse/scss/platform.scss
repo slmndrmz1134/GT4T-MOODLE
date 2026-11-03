@@ -3,18 +3,19 @@
  * Only styles Moodle's own markup; the page structure stays Moodle's.
  ***************************************************************/
 
-// Max width standard (1280px / 80rem) across platform pages (dashboard, my courses, etc.).
-@include media-breakpoint-up(md) {
-    body.limitedwidth #page.drawers .main-inner,
-    body#page-my-index.limitedwidth #page.drawers .main-inner {
-        max-width: 80rem;
-    }
+// Application pages use the whole width next to the rail (project owner's decision, November 2026). Moodle limits
+// course pages to the Boost Union content width; running text keeps a reading width of its own ($diverse-reading-width).
+$diverse-reading-width: 48rem;
+
+body.diverse-shell #page.drawers .main-inner,
+body.diverse-shell.limitedwidth #page.drawers .main-inner {
+    max-width: none;
 }
 
-// Every application page uses it, so that pages line up with the navigation. Only the grade table needs all the room there is.
 @include media-breakpoint-up(md) {
-    body.diverse-shell:not(#page-grade-report-grader-index) #page.drawers .main-inner {
-        max-width: 80rem;
+    body.diverse-shell #page.drawers {
+        padding-right: 1.5rem;
+        padding-left: 1.5rem;
     }
 }
 

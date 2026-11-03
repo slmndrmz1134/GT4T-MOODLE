@@ -1,14 +1,14 @@
 /****************************************************************
  * DIVERSE application navigation for logged-in users.
  * Markup: templates/shell_nav.mustache, added at the top of the body by
- * classes/output/core_renderer.php. A row of links under the top bar on
- * large screens, a tab bar at the bottom on phones. Pages with the
- * navigation have the body class .diverse-shell.
+ * classes/output/core_renderer.php. A rail of icons on the left on
+ * large screens (the top bar sits next to it), a tab bar at the bottom
+ * on phones. Pages with the navigation have the body class .diverse-shell.
+ * The pages use the whole width of the screen next to the rail.
  ***************************************************************/
 
-$diverse-nav-height: 3rem;
+$diverse-rail-width: 4.5rem;
 $diverse-tabbar-height: 4rem;
-$diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
 
 .diverse-nav {
     position: fixed;
@@ -52,6 +52,12 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
         }
     }
 
+    .diverse-nav-brand,
+    .diverse-nav-manage,
+    .diverse-nav-nophone {
+        display: none;
+    }
+
     .diverse-nav-list {
         display: flex;
         flex: 1;
@@ -60,11 +66,6 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
             flex: 1;
             min-width: 0;
         }
-    }
-
-    .diverse-nav-manage,
-    .diverse-nav-nophone {
-        display: none;
     }
 
     .diverse-nav-link {
@@ -128,52 +129,98 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
     }
 }
 
-// Tablets and larger: a row of links under the top bar, as wide as the page and on the same lines.
+// Tablets and larger: a rail of icons on the left; the name of a place shows next to its icon on hover and focus.
 @include media-breakpoint-up(md) {
     .diverse-nav {
-        top: $navbar-height;
-        right: 0;
+        top: 0;
+        bottom: 0;
         left: 0;
-        align-items: stretch;
-        gap: 1.5rem;
-        height: $diverse-nav-height;
-        padding: 0 #{"max(.5rem, calc((100% - 80rem) / 2 + .5rem))"};
+        // Above the top bar, so that the names next to the icons show over it.
+        z-index: 1031;
+        flex-direction: column;
+        align-items: center;
+        gap: .25rem;
+        width: $diverse-rail-width;
+        padding: .625rem 0 1rem;
         background-color: $white;
-        border-bottom: 1px solid $diverse-border;
+        border-right: 1px solid $diverse-border;
+    }
 
-        .fa {
-            display: none;
+    .diverse-nav-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-bottom: .75rem;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
         }
     }
 
     .diverse-nav-list {
         display: flex;
-        gap: 1.5rem;
+        flex-direction: column;
+        align-items: center;
+        gap: .25rem;
+    }
 
-        li {
-            display: flex;
-        }
+    // The platform guide is not one of the main places: a line above it.
+    .diverse-nav-item-guide {
+        margin-top: .5rem;
+        padding-top: .5rem;
+        border-top: 1px solid $diverse-border;
     }
 
     .diverse-nav-manage {
-        display: flex;
-        margin-left: auto;
+        margin-top: auto;
     }
 
     .diverse-nav-link {
+        position: relative;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
         min-height: 0;
-        margin-bottom: -1px;
-        padding: 0 .125rem;
+        padding: 0;
         background: none;
         border: 0;
-        border-bottom: 3px solid transparent;
+        border-radius: $border-radius;
         color: $diverse-grey;
-        font-size: .9375rem;
-        white-space: nowrap;
+
+        .fa {
+            font-size: 1.25rem;
+        }
+
+        // The name, next to the icon.
+        > span {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + .75rem);
+            padding: .25rem .625rem;
+            background-color: $diverse-ink;
+            border-radius: $btn-border-radius-sm;
+            color: $white;
+            font-size: .8125rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%);
+            transition: opacity .15s ease;
+            visibility: hidden;
+            white-space: nowrap;
+        }
+
+        &:hover > span,
+        &:focus-visible > span {
+            opacity: 1;
+            visibility: visible;
+        }
 
         &:hover,
         &:focus {
-            border-bottom-color: $diverse-border-strong;
+            background-color: $diverse-surface;
             color: $diverse-ink;
         }
 
@@ -185,48 +232,55 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
         &.active,
         &.active:hover,
         &.active:focus {
-            border-bottom-color: $diverse-action-orange;
-            color: $diverse-ink;
+            background-color: $diverse-soft-orange;
+            color: $diverse-action-orange;
+        }
+
+        // A line on the edge of the rail next to the current place.
+        &.active::before {
+            position: absolute;
+            top: .625rem;
+            bottom: .625rem;
+            left: -.875rem;
+            width: 3px;
+            background-color: $diverse-action-orange;
+            border-radius: 0 3px 3px 0;
+            content: "";
+        }
+
+        &.dropdown-toggle::after {
+            display: none;
         }
     }
 
     body.diverse-shell {
-        // The row replaces Moodle's top menu.
+        // The rail replaces Moodle's top menu.
         .primary-navigation {
             display: none;
         }
 
+        // The top bar and the page start next to the rail.
+        .navbar.fixed-top {
+            left: $diverse-rail-width;
+        }
+
+        #page-wrapper {
+            padding-left: $diverse-rail-width;
+        }
+
+        .drawer.drawer-left.show {
+            left: $diverse-rail-width;
+        }
+
         .navbar.fixed-top .container-fluid {
-            padding-right: .5rem;
-            padding-left: .5rem;
+            max-width: none;
+            padding-right: 1.5rem;
+            padding-left: 1.5rem;
         }
 
-        // Everything Moodle places under the top bar moves below the row of links as well.
-        #page.drawers {
-            margin-top: $diverse-header-height;
-        }
-
-        .drawer.drawer-left,
-        .drawer.drawer-right {
-            top: $diverse-header-height;
-            height: calc(100vh - #{$navbar-height} - #{$diverse-nav-height});
-        }
-
-        // So does the message drawer opened from the top bar.
-        [data-region="right-hand-drawer"].drawer {
-            top: $diverse-header-height;
-            height: calc(100% - #{$navbar-height} - #{$diverse-nav-height});
-        }
-
-        .drawer-toggles .drawer-toggler {
-            top: calc(#{$navbar-height} + #{$diverse-nav-height} + .7rem);
-        }
-
-        &.path-grade-report-grader .gradeparent tr.heading,
-        #quiz-timer-wrapper,
-        .gradingtable thead tr,
-        .theme_boost_union-stickycategory {
-            top: $diverse-header-height;
+        #page-footer .footer-content-popover,
+        #page-footer .footer-section {
+            max-width: none;
         }
 
         // The search is the main way into the site: it takes the free space of the top bar.
@@ -294,8 +348,6 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
                 margin-right: $drawer-left-width;
                 margin-left: 0;
                 padding-right: 1rem;
-                // The page keeps the left edge of the navigation above it, the contents take the right side.
-                padding-left: #{"max(0px, calc((100% - 80rem) / 2))"};
 
                 .main-inner {
                     margin-left: 0;
@@ -318,6 +370,10 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
 @media print {
     .diverse-nav {
         display: none;
+    }
+
+    body.diverse-shell #page-wrapper {
+        padding-left: 0;
     }
 }
 

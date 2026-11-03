@@ -17,34 +17,39 @@
 {{!
     @template theme_diverse/shell_nav
 
-    Application navigation for logged-in users: a row of links under the top bar, a tab bar at the bottom on phones.
+    Application navigation for logged-in users: a rail of icons on the left, a tab bar at the bottom on phones.
+    On the rail the names show next to the icons on hover and focus.
 
     Context variables required for this template:
-    * main - the main places, the platform guide last: label, url, icon (icon class), current, nophone
-    * manage, hasmanage - management places of partner managers and site administrators
+    * homeurl, logourl, sitename - the DIVERSE mark at the top of the rail, leading to the site home
+    * main - the main places, the platform guide last: key, label, url, icon (icon class), current, nophone
+    * manage, hasmanage, manageicon - management places of partner managers and site administrators
     * managecurrent - whether one of the management places is open
 
     Example context (json):
     {
-        "main": [{"label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
-        "manage": [], "hasmanage": false, "managecurrent": false
+        "homeurl": "#", "logourl": "#", "sitename": "DIVERSE",
+        "main": [{"key": "dashboard", "label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
+        "manage": [], "hasmanage": false, "manageicon": "fa-gear", "managecurrent": false
     }
 }}
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
+    <a class="diverse-nav-brand" href="{{homeurl}}"><img src="{{logourl}}" alt="{{sitename}}"></a>
     <ul class="diverse-nav-list">
         {{#main}}
-        <li{{#nophone}} class="diverse-nav-nophone"{{/nophone}}><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
+        <li class="diverse-nav-item-{{key}}{{#nophone}} diverse-nav-nophone{{/nophone}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
             <i class="fa {{icon}}" aria-hidden="true"></i>
             <span>{{label}}</span>
         </a></li>
         {{/main}}
     </ul>
     {{#hasmanage}}
-    <div class="dropdown diverse-nav-manage">
+    <div class="dropdown dropend diverse-nav-manage">
         <button type="button" class="diverse-nav-link dropdown-toggle{{#managecurrent}} active{{/managecurrent}}" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa {{manageicon}}" aria-hidden="true"></i>
             <span>{{#str}}administration{{/str}}</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end">
+        <ul class="dropdown-menu">
             {{#manage}}
             <li><a class="dropdown-item{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>{{label}}</a></li>
             {{/manage}}
