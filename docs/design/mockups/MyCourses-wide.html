@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" data-palette="orange">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My courses (full width)</title>
+<!--
+    DIVERSE: full-width "My courses" draft (November 2026). The theme's course cards in a grid that fills the
+    screen, with the filters of theme/diverse/templates/my_courses.mustache. Numbers are sample data.
+-->
+<link rel="stylesheet" href="wide.css">
+<style>
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
+.tile { display: flex; align-items: center; gap: .875rem; padding: 1rem 1.25rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white); }
+.tile-icon { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--soft); color: var(--action); flex-shrink: 0; }
+.tile b { display: block; font-size: 1.5rem; line-height: 1.2; font-weight: 800; }
+.tile span { color: var(--grey); font-size: .8125rem; }
+
+.toolbar { display: flex; align-items: flex-end; gap: 1rem; margin-bottom: 1.25rem; }
+.toolbar .tabs { flex: 1; min-width: 0; }
+.tools { display: flex; align-items: center; gap: .5rem; padding-bottom: .5rem; }
+.mini-search { display: flex; align-items: center; gap: .375rem; height: 2.5rem; padding: 0 .875rem; border: 1px solid var(--border-strong); border-radius: 50rem; background: var(--white); color: var(--grey); font-size: .8125rem; }
+.mini-search input { width: 12rem; border: 0; outline: 0; background: none; color: var(--ink); }
+
+/* List view: one row per course. */
+.courses.as-list { grid-template-columns: 1fr; }
+.as-list .course-card > a { flex-direction: row; }
+.as-list .cover { width: 11rem; height: auto; min-height: 7.5rem; font-size: 1.75rem; flex-shrink: 0; }
+.as-list .course-body { flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 1.5rem; }
+.as-list .course-body > :not(.course-foot) { flex-basis: 100%; }
+.as-list .course-summary { display: none; }
+.as-list .course-foot { flex-basis: 100%; max-width: 32rem; }
+
+@media (max-width: 1100px) {
+    .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .tools { padding-bottom: 0; }
+    .mini-search { flex: 1; }
+}
+@media (max-width: 767px) {
+    .tile { padding: .75rem 1rem; }
+    .tile b { font-size: 1.25rem; }
+    .tools .toggle { display: none; }
+    .mini-search input { width: 100%; }
+}
+</style>
+</head>
+<body data-page="courses">
+<main class="page">
+    <header class="top">
+        <div>
+            <h1>My courses</h1>
+            <p>6 courses · 3 in progress · next deadline Fri 6 Nov</p>
+        </div>
+        <div class="top-actions"></div>
+    </header>
+
+    <div class="tiles">
+        <div class="tile"><span class="tile-icon"><i data-i="book"></i></span><div><b>6</b><span>Enrolled courses</span></div></div>
+        <div class="tile"><span class="tile-icon"><i data-i="trend"></i></span><div><b>3</b><span>In progress</span></div></div>
+        <div class="tile"><span class="tile-icon"><i data-i="check"></i></span><div><b>1</b><span>Completed</span></div></div>
+        <div class="tile"><span class="tile-icon"><i data-i="award"></i></span><div><b>31%</b><span>Average progress</span></div></div>
+    </div>
+
+    <div class="toolbar">
+        <nav class="tabs" aria-label="Show">
+            <a class="active" href="#">All <span>6</span></a>
+            <a href="#">In progress <span>3</span></a>
+            <a href="#">Not started <span>2</span></a>
+            <a href="#">Completed <span>1</span></a>
+            <a href="#">Favourites <span>1</span></a>
+        </nav>
+        <div class="tools">
+            <label class="mini-search"><i data-i="search" class="sm"></i><span class="sr-only">Search my courses</span><input placeholder="Search my courses"></label>
+            <select class="select" aria-label="Sort by"><option>Last visited</option><option>Name</option><option>Progress</option></select>
+            <div class="toggle" role="group" aria-label="View">
+                <button type="button" aria-pressed="true" data-view="grid" title="Cards"><i data-i="grid" class="sm"></i></button>
+                <button type="button" aria-pressed="false" data-view="list" title="List"><i data-i="list" class="sm"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <ul class="courses" id="courses"></ul>
+</main>
+
+<script src="wide.js"></script>
+<script>
+// Sample courses: the local test site's names, partners and teachers.
+const courses = [
+    ['Business Law', 'BL', 'c1', 'Ali Yılmaz', 'Contracts, liability and companies: the law every manager meets.', 11, 'Beykent', '', 18, 'Continue', true],
+    ['Marketing Management', 'MM', 'c4', 'Zeynep Kaya', 'Segments, pricing and campaigns, with a live class every Thursday.', 8, 'Beykent', '', 40, 'Continue', false],
+    ['Common Training Program', 'CT', 'c2', 'Tanja Virtanen', 'Start here: how DIVERSE courses, live classes and the assistant work.', 6, 'DIVERSE shared', 'shared', 0, 'Start', false],
+    ['Renewable Energy Grid Integration', 'RE', 'c3', 'Lukas Meyer', 'How wind and solar power join the grid, from forecasting to storage.', 12, 'GT4T', 'shared', 0, 'Start', false],
+    ['Applied Machine Learning', 'ML', 'c5', 'Mikko Laine', 'Build, evaluate and explain models on real data sets.', 14, 'SAMK', '', 64, 'Continue', false],
+    ['Strategic Project Management', 'PM', 'c1', 'Anna de Vries', 'Plan, run and close projects across teams and countries.', 9, 'Windesheim', '', 100, 'Review', false],
+];
+const icon = window.diverseIcon;
+document.getElementById('courses').innerHTML = courses.map(([name, initials, cover, teacher, summary, activities, partner, kind, progress, action, favourite]) => `
+    <li class="course-card">
+        <a href="${name === 'Business Law' ? 'Course-wide.html' : '#'}">
+            <span class="cover ${cover}"><span class="cover-count">${activities} activities</span>${initials}</span>
+            <span class="course-body">
+                <span class="course-type">${icon('book', 'sm')}Course</span>
+                <span class="course-name">${name}</span>
+                <span class="course-teachers">${teacher}</span>
+                <span class="course-summary">${summary}</span>
+                <span class="course-tags">${progress === 100 ? '<span class="tag done">Completed</span>' : '<span class="tag done">Enrolled</span>'}<span class="tag ${kind}"><i></i>${partner}</span></span>
+                <span class="course-foot">
+                    <span class="meter"><span><i style="width:${progress}%"></i></span><b>${progress}%</b></span>
+                    <span class="btn btn-sm ${progress > 0 && progress < 100 ? 'btn-primary' : 'btn-light'}">${action}</span>
+                </span>
+            </span>
+        </a>
+        <button class="star" type="button" aria-pressed="${favourite}" aria-label="Favourite">${icon('star', 'sm')}</button>
+    </li>`).join('');
+
+document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
+    document.getElementById('courses').classList.toggle('as-list', button.dataset.view === 'list');
+    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+}));
+</script>
+</body>
+</html>

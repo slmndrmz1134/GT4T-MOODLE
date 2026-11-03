@@ -43,7 +43,15 @@ ayrılmasın diye burada tekrar edilmez.
 | `Main.dc.html` | Landing page (ziyaretçi) |
 | `Login.dc.html` | Giriş: önce üniversite seçimi |
 | `Dashboard.dc.html` | Öğrenci dashboard'u |
-| `Dashboard-wide.html` | Öğrenci dashboard'u, tam genişlik: sol ikon menüsü ve kart ızgarası (Kasım 2026 taslağı, düz HTML; sağ üstte turuncu/yeşil palet anahtarı, sayılar örnek) |
+| `Dashboard-wide.html` | Tam genişlik taslakları (Kasım 2026): öğrenci dashboard'u, kart ızgarası |
+| `MyCourses-wide.html` | Derslerim: özet kutuları, sekmeler, kart/liste görünümü |
+| `Discover-wide.html` | Keşfet: büyük arama, solda filtreler, sonuç ızgarası |
+| `Course-wide.html` | Ders sayfası: başlık kartı, bölümler, sağda canlı ders / teslimler / asistan; metinler 48rem okuma genişliğinde |
+
+`*-wide.html` taslakları düz HTML'dir ve ortak `wide.css` / `wide.js` dosyalarını kullanır (sol ikon menüsü, alt
+menü, üst çubuk, sağ üstte turuncu/yeşil palet anahtarı). Masaüstünde sol ikon menüsü bugünkü üst sekme satırının
+yerini alır, telefonda alt menü kalır (proje sahibinin kararı, Kasım 2026). Klasör bir web sunucusundan açılmalıdır
+(ör. repo kökünde `python -m http.server`); sayılar örnektir.
 | `Course.dc.html` | Ders sayfası (Business Law) |
 | `Mobile.dc.html` | Mobil dashboard |
 | `Style.dc.html` | Renk ve tipografi sayfası |

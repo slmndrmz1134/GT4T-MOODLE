@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-palette="orange">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course page (full width)</title>
+<!--
+    DIVERSE: full-width course page draft (November 2026). The page and its panels use the whole screen; running
+    text (summaries, descriptions) keeps a reading width of 48rem so lines stay short. The course is the local test
+    site's Business Law; progress and dates are sample data.
+-->
+<link rel="stylesheet" href="wide.css">
+<style>
+.crumbs { display: flex; align-items: center; gap: .375rem; color: var(--grey); font-size: .8125rem; font-weight: 600; }
+.crumbs a { display: inline-flex; align-items: center; gap: .25rem; color: var(--grey); }
+.crumbs a:hover { color: var(--ink); }
+
+.hero {
+    display: grid; grid-template-columns: minmax(0, 1fr) 24rem; gap: 2rem; align-items: center;
+    margin-bottom: var(--gap); padding: 1.75rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white);
+}
+.hero-text { min-width: 0; }
+.hero-text .tag { margin-bottom: .75rem; }
+.hero h2 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; font-weight: 800; letter-spacing: -.02em; }
+.hero p.summary { max-width: var(--reading); margin: 0 0 1rem; color: var(--grey); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; color: var(--grey); font-size: .875rem; }
+.hero-meta span { display: inline-flex; align-items: center; gap: .375rem; }
+.hero-card { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: .75rem 1rem; align-items: center; padding: 1.25rem; border-radius: var(--radius-card); background: var(--soft); }
+.hero-card .cover { height: 5.5rem; border-radius: var(--radius); font-size: 1.5rem; }
+.hero-card .cover::after { display: none; }
+.hero-card small { display: block; color: var(--grey); font-size: .75rem; font-weight: 600; }
+.hero-card strong { display: block; font-size: .9375rem; line-height: 1.3; }
+.hero-card .meter, .hero-card .btn { grid-column: 1 / -1; }
+.hero-card .meter > :first-child { background: var(--white); }
+
+.course-tabs { margin-bottom: var(--gap); }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: var(--gap); align-items: start; }
+.sections { display: grid; gap: var(--gap); }
+.section { padding: 0; overflow: hidden; }
+.section-head { display: flex; align-items: center; gap: .875rem; padding: 1rem 1.25rem; cursor: pointer; }
+.section-head .num { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: var(--surface); color: var(--grey); font-size: .8125rem; font-weight: 700; flex-shrink: 0; }
+.section.done .section-head .num { background: var(--success); color: var(--white); }
+.section.current .section-head .num { background: var(--action); color: var(--white); }
+.section-head h3 { margin: 0; font-size: 1.0625rem; }
+.section-head small { color: var(--grey); font-size: .8125rem; }
+.section-head .meter { width: 10rem; min-width: 0; margin-left: auto; }
+.section-head .chev { color: var(--grey); transition: transform .15s ease; }
+.section.closed .chev { transform: rotate(-90deg); }
+.section.closed .section-body { display: none; }
+.section-body { padding: 0 1.25rem 1.25rem; }
+.section-body > p { max-width: var(--reading); margin: 0 0 1rem; color: var(--grey); font-size: .9375rem; }
+
+.acts { list-style: none; margin: 0; padding: 0; border: 1px solid var(--border); border-radius: var(--radius); }
+.act { display: flex; align-items: center; gap: .875rem; padding: .875rem 1rem; }
+.act + .act { border-top: 1px solid var(--border); }
+.act:hover { background: var(--surface); }
+.act-icon { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: var(--radius); background: var(--soft); color: var(--action); flex-shrink: 0; }
+.act-icon.content { background: var(--surface); color: var(--ink); }
+.act-text { min-width: 0; flex: 1; }
+.act-text a { display: block; color: var(--ink); font-weight: 600; }
+.act-text a:hover { color: var(--action); }
+.act-text span { color: var(--grey); font-size: .8125rem; }
+.act-state { display: inline-flex; align-items: center; gap: .375rem; height: 2rem; padding: 0 .75rem; border-radius: 50rem; font-size: .75rem; font-weight: 700; white-space: nowrap; }
+.act-state.done { background: var(--success-soft); color: var(--success); }
+.act-state.late { background: var(--danger-soft); color: var(--danger); }
+.act-state.due { border: 1px solid var(--border-strong); color: var(--ink); }
+.act-state.todo { border: 1px dashed var(--border-strong); color: var(--grey); }
+.act.next { box-shadow: inset 3px 0 0 var(--action); background: var(--soft); }
+
+.aside { display: grid; gap: var(--gap); position: sticky; top: 1.25rem; }
+.live { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.live small { color: var(--on-dark-muted); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.live strong { display: block; margin: .25rem 0; font-size: 1.0625rem; }
+.live p { margin: 0 0 1rem; color: var(--on-dark-muted); font-size: .8125rem; }
+.live .btn { background: var(--brand); color: var(--ink); }
+.live .btn:hover { background: var(--white); color: var(--ink); }
+.mini-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
+.mini-list li { display: flex; align-items: center; gap: .75rem; font-size: .875rem; }
+.mini-list li div { min-width: 0; flex: 1; }
+.mini-list li strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mini-list li span { color: var(--grey); font-size: .75rem; }
+.date { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius); background: var(--surface); flex-shrink: 0; line-height: 1.05; text-align: center; }
+.date b { font-size: 1rem; }
+.date small { color: var(--grey); font-size: .625rem; font-weight: 700; text-transform: uppercase; }
+.date.late { background: var(--danger-soft); color: var(--danger); }
+.date.late small { color: var(--danger); }
+.ask { display: flex; align-items: center; gap: .5rem; height: 2.75rem; padding: 0 .375rem 0 1rem; border: 1px solid var(--border-strong); border-radius: 50rem; }
+.ask input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font-size: .875rem; }
+.ask button { display: grid; place-items: center; width: 2.125rem; height: 2.125rem; border: 0; border-radius: 50%; background: var(--action); color: var(--white); }
+.assistant p { margin: 0 0 .75rem; color: var(--grey); font-size: .8125rem; }
+.assistant .card-head svg.i { color: var(--action); }
+
+@media (max-width: 1200px) {
+    .layout { grid-template-columns: minmax(0, 1fr) 19rem; }
+    .section-head .meter { display: none; }
+}
+@media (max-width: 1000px) {
+    .hero { grid-template-columns: 1fr; }
+    .layout { grid-template-columns: 1fr; }
+    .aside { position: static; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+}
+@media (max-width: 767px) {
+    .hero { padding: 1.25rem; gap: 1.25rem; }
+    .hero h2 { font-size: 1.5rem; }
+    .section-head, .section-body { padding-left: 1rem; padding-right: 1rem; }
+    .act { flex-wrap: wrap; padding: .75rem; }
+    .act-text { flex-basis: calc(100% - 3.375rem); }
+    .act-state { margin-left: 3.375rem; }
+}
+</style>
+</head>
+<body data-page="courses">
+<main class="page">
+    <header class="top">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <a href="MyCourses-wide.html"><i data-i="back" class="sm"></i>My courses</a><span>/</span><span>Business Law</span>
+        </nav>
+        <div class="top-actions"></div>
+    </header>
+
+    <section class="hero" aria-label="Business Law">
+        <div class="hero-text">
+            <span class="tag"><i></i>İstanbul Beykent Üniversitesi</span>
+            <h2>Business Law</h2>
+            <p class="summary">Contracts, liability and companies: the law every manager meets. Each week has a short reading, a video and an exercise; the case briefs are graded by your teacher.</p>
+            <div class="hero-meta">
+                <span><i data-i="users" class="sm"></i>Ali Yılmaz, Teacher 1</span>
+                <span><i data-i="book" class="sm"></i>4 sections · 11 activities</span>
+                <span><i data-i="users" class="sm"></i>34 people</span>
+                <span><i data-i="globe" class="sm"></i>English</span>
+            </div>
+        </div>
+        <div class="hero-card">
+            <span class="cover c1">BL</span>
+            <div><small>Up next</small><strong>Essay: liability in practice</strong><small>Assignment · due Fri 6 Nov</small></div>
+            <div class="meter"><div><i style="width:18%"></i></div><b>18%</b></div>
+            <a class="btn btn-primary" href="#">Continue <i data-i="chevron" class="sm"></i></a>
+        </div>
+    </section>
+
+    <nav class="tabs course-tabs" aria-label="Course">
+        <a class="active" href="#">Course</a><a href="#">Grades</a><a href="#">Participants</a><a href="#">Live classes</a><a href="#">Badges</a>
+    </nav>
+
+    <div class="layout">
+        <div class="sections">
+            <section class="card section done closed">
+                <div class="section-head"><span class="num"><i data-i="check" class="sm"></i></span><div><h3>Welcome and course guide</h3><small>2 of 2 done</small></div><div class="meter"><div><i style="width:100%"></i></div><b>100%</b></div><i data-i="down" class="chev"></i></div>
+                <div class="section-body"><p>How the course works.</p></div>
+            </section>
+
+            <section class="card section current">
+                <div class="section-head"><span class="num">2</span><div><h3>Contracts</h3><small>1 of 4 done · current</small></div><div class="meter"><div><i style="width:25%"></i></div><b>25%</b></div><i data-i="down" class="chev"></i></div>
+                <div class="section-body">
+                    <p>What makes an agreement binding, what happens when one side does not keep it and how courts decide the damages. Read the chapter before the live class on Thursday; the case brief uses a real contract from a Turkish logistics company.</p>
+                    <ul class="acts">
+                        <li class="act">
+                            <span class="act-icon content"><i data-i="file"></i></span>
+                            <div class="act-text"><a href="#">What is a contract?</a><span>Page · 8 min read</span></div>
+                            <span class="act-state done"><i data-i="check" class="sm"></i>Done</span>
+                        </li>
+                        <li class="act">
+                            <span class="act-icon"><i data-i="upload"></i></span>
+                            <div class="act-text"><a href="#">Case brief: contract breach</a><span>Assignment · graded</span></div>
+                            <span class="act-state late"><i data-i="alert" class="sm"></i>Overdue · Sat 31 Oct</span>
+                        </li>
+                        <li class="act next">
+                            <span class="act-icon"><i data-i="upload"></i></span>
+                            <div class="act-text"><a href="#">Essay: liability in practice</a><span>Assignment · graded · up next</span></div>
+                            <span class="act-state due"><i data-i="clock" class="sm"></i>Due Fri 6 Nov</span>
+                        </li>
+                        <li class="act">
+                            <span class="act-icon"><i data-i="live"></i></span>
+                            <div class="act-text"><a href="#">Live class: contracts in practice</a><span>BigBlueButton · Thu 5 Nov, 14:00</span></div>
+                            <span class="act-state todo">Not started</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card section">
+                <div class="section-head"><span class="num">3</span><div><h3>Liability</h3><small>0 of 3 done</small></div><div class="meter"><div><i style="width:0%"></i></div><b>0%</b></div><i data-i="down" class="chev"></i></div>
+                <div class="section-body">
+                    <p>Who pays when something goes wrong: fault, strict liability and the limits a contract can set.</p>
+                    <ul class="acts">
+                        <li class="act">
+                            <span class="act-icon content"><i data-i="video"></i></span>
+                            <div class="act-text"><a href="#">Liability explained</a><span>Video · 12 min</span></div>
+                            <span class="act-state todo">Not started</span>
+                        </li>
+                        <li class="act">
+                            <span class="act-icon"><i data-i="quiz"></i></span>
+                            <div class="act-text"><a href="#">Reading quiz notes</a><span>Quiz · 10 questions</span></div>
+                            <span class="act-state done"><i data-i="check" class="sm"></i>Done · 8 / 10</span>
+                        </li>
+                        <li class="act">
+                            <span class="act-icon"><i data-i="forum"></i></span>
+                            <div class="act-text"><a href="#">Discussion: who should pay?</a><span>Forum · 14 posts</span></div>
+                            <span class="act-state todo">Not started</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="card section closed">
+                <div class="section-head"><span class="num">4</span><div><h3>Companies and the group project</h3><small>0 of 2 done</small></div><div class="meter"><div><i style="width:0%"></i></div><b>0%</b></div><i data-i="down" class="chev"></i></div>
+                <div class="section-body"><p>Company forms and the group project.</p></div>
+            </section>
+        </div>
+
+        <aside class="aside" aria-label="This course">
+            <section class="card live">
+                <small>Next live class</small>
+                <strong>Contracts in practice</strong>
+                <p>Thursday 5 November, 14:00–15:00 · Ali Yılmaz</p>
+                <a class="btn" href="#"><i data-i="live" class="sm"></i>Join on BigBlueButton</a>
+            </section>
+
+            <section class="card">
+                <div class="card-head"><h2>Deadlines</h2><a class="more" href="#">Calendar</a></div>
+                <ul class="mini-list">
+                    <li><span class="date late"><b>31</b><small>Oct</small></span><div><strong>Case brief: contract breach</strong><span>Overdue · Assignment</span></div></li>
+                    <li><span class="date"><b>6</b><small>Nov</small></span><div><strong>Essay: liability in practice</strong><span>In 3 days · Assignment</span></div></li>
+                    <li><span class="date"><b>14</b><small>Nov</small></span><div><strong>Group project proposal</strong><span>In 11 days · Assignment</span></div></li>
+                </ul>
+            </section>
+
+            <section class="card assistant">
+                <div class="card-head"><i data-i="sparkle"></i><h2>Course assistant</h2></div>
+                <p>Ask about the readings, deadlines or a word you do not know. It answers from this course only.</p>
+                <label class="ask"><span class="sr-only">Ask the assistant</span><input placeholder="What is strict liability?"><button type="button" aria-label="Send"><i data-i="arrow" class="sm"></i></button></label>
+            </section>
+
+            <section class="card">
+                <div class="card-head"><h2>Teachers</h2></div>
+                <ul class="mini-list">
+                    <li><span class="avatar">AY</span><div><strong>Ali Yılmaz</strong><span>Teacher · İstanbul Beykent Üniversitesi</span></div><a class="kebab" href="#" aria-label="Message"><i data-i="message" class="sm"></i></a></li>
+                    <li><span class="avatar">T1</span><div><strong>Teacher 1</strong><span>Teacher · İstanbul Beykent Üniversitesi</span></div><a class="kebab" href="#" aria-label="Message"><i data-i="message" class="sm"></i></a></li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+</main>
+
+<script src="wide.js"></script>
+<script>
+document.querySelectorAll('.section-head').forEach(head => head.addEventListener('click', () => head.parentElement.classList.toggle('closed')));
+</script>
+</body>
+</html>

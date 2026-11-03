@@ -5,111 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard (full width)</title>
 <!--
-    DIVERSE: full-width student dashboard draft (November 2026).
-    Layout from the reference the project owner shared: icon rail on the left, a greeting row, a "what's new"
-    strip and a grid of cards that fills the screen. Colours and fonts are the theme's (DESIGN.md); the switch
-    in the top right shows the orange and the GT4T green palette. Numbers are sample data.
+    DIVERSE: full-width student dashboard draft (November 2026). Layout from the reference the project owner
+    shared: a greeting row, a "what's new" strip and a grid of cards that fills the screen. Numbers are sample data.
 -->
+<link rel="stylesheet" href="wide.css">
 <style>
-@font-face { font-family: "Plus Jakarta Sans"; font-weight: 200 800; font-display: swap;
-    src: url("../../../theme/diverse/fonts/plus-jakarta-sans-latin-ext-wght-normal.woff2") format("woff2");
-    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: "Plus Jakarta Sans"; font-weight: 200 800; font-display: swap;
-    src: url("../../../theme/diverse/fonts/plus-jakarta-sans-latin-wght-normal.woff2") format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-
-/* Palettes: the values of theme/diverse/scss/pre.scss. */
-:root, [data-palette="orange"] {
-    --brand: #FF671F; --action: #C2410C; --action-hover: #9A3412; --ink: #1F2328; --grey: #63666A;
-    --soft: #FFF4ED; --peach: #FFD8C2; --surface: #F7F7F8; --border: #E4E4E7; --border-strong: #C9C9CF;
-    --on-dark-muted: #D4D4D8; --track: #EDEDEF;
-}
-[data-palette="green"] {
-    --brand: #19B35C; --action: #127A42; --action-hover: #053225; --ink: #053225; --grey: #55625C;
-    --soft: #EFFBE4; --peach: #D4F7A8; --surface: #F7F9F8; --border: #E1E7E3; --border-strong: #C3CCC7;
-    --on-dark-muted: #CFE0D8; --track: #E6EEE9;
-}
-:root {
-    --white: #FFFFFF; --success: #1F7A4D; --success-soft: #EAF5EF; --danger: #B42318; --danger-soft: #FDECEA;
-    --radius-card: 1.25rem; --radius: .875rem; --rail: 4.5rem; --gap: 1rem;
-    --shadow: 0 1px 2px rgba(16, 24, 40, .04);
-}
-
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-body {
-    min-height: 100vh;
-    background: var(--surface);
-    color: var(--ink);
-    font: 400 15px/1.5 "Plus Jakarta Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    transition: background-color .2s ease;
-}
-a { color: var(--action); text-decoration: none; }
-a:hover { color: var(--action-hover); }
-button { font: inherit; color: inherit; cursor: pointer; }
-svg.i { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-/* Icon rail on the left: the navigation row of the theme, as icons. */
-.rail {
-    position: fixed; inset: 0 auto 0 0; z-index: 10;
-    display: flex; flex-direction: column; align-items: center; gap: .25rem;
-    width: var(--rail); padding: 1rem 0;
-    background: var(--white); border-right: 1px solid var(--border);
-}
-.rail-logo {
-    display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-bottom: 1rem;
-    border-radius: var(--radius); background: var(--ink); color: var(--white); font-weight: 800; font-size: 1.125rem;
-}
-.rail a, .rail button {
-    position: relative; display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
-    border: 0; border-radius: var(--radius); background: none; color: var(--grey);
-}
-.rail a:hover, .rail button:hover { background: var(--surface); color: var(--ink); }
-.rail a.active { background: var(--soft); color: var(--action); }
-.rail a.active::before {
-    content: ""; position: absolute; left: -.875rem; top: .625rem; bottom: .625rem; width: 3px;
-    border-radius: 0 3px 3px 0; background: var(--action);
-}
-.rail a[data-tip]:hover::after {
-    content: attr(data-tip); position: absolute; left: calc(100% + .625rem); top: 50%; transform: translateY(-50%);
-    padding: .25rem .625rem; border-radius: .5rem; background: var(--ink); color: var(--white);
-    font-size: .8125rem; font-weight: 600; white-space: nowrap; pointer-events: none;
-}
-.rail-sep { width: 2rem; height: 1px; margin: .5rem 0; background: var(--border); }
-.rail-end { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: .25rem; }
-.avatar {
-    display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; flex-shrink: 0;
-    border-radius: 50%; background: var(--peach); color: var(--ink); font-size: .8125rem; font-weight: 700;
-}
-
-/* Page: as wide as the screen. */
-.page { margin-left: var(--rail); padding: 1.25rem 1.5rem 2rem; }
-
-.top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-.top h1 { margin: 0; font-size: 1.5rem; line-height: 1.25; font-weight: 700; letter-spacing: -.01em; }
-.top p { margin: .125rem 0 0; color: var(--grey); font-size: .875rem; }
-.top-actions { display: flex; align-items: center; gap: .5rem; margin-left: auto; }
-.search {
-    display: flex; align-items: center; gap: .5rem; width: clamp(14rem, 28vw, 26rem); height: 2.75rem; padding: 0 1rem;
-    border: 1px solid var(--border-strong); border-radius: 50rem; background: var(--white); color: var(--grey);
-}
-.search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; color: var(--ink); }
-.icon-btn {
-    position: relative; display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
-    border: 1px solid var(--border); border-radius: 50%; background: var(--white); color: var(--ink);
-}
-.icon-btn:hover { background: var(--surface); }
-.icon-btn .dot { position: absolute; top: .5rem; right: .5rem; width: .5rem; height: .5rem; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 2px var(--white); }
-.chip-btn {
-    display: inline-flex; align-items: center; gap: .375rem; height: 2.75rem; padding: 0 1rem;
-    border: 1px solid var(--border); border-radius: 50rem; background: var(--white); font-weight: 600; font-size: .875rem;
-}
-.palette-switch { display: inline-flex; padding: .25rem; border: 1px solid var(--border); border-radius: 50rem; background: var(--white); }
-.palette-switch button { height: 2.25rem; padding: 0 .875rem; border: 0; border-radius: 50rem; background: none; font-size: .8125rem; font-weight: 600; color: var(--grey); }
-.palette-switch button[aria-pressed="true"] { background: var(--action); color: var(--white); }
-
-/* What's new strip. */
 .news {
     display: flex; align-items: center; gap: 1rem; margin-bottom: var(--gap); padding: 1rem 1.25rem;
     border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--soft);
@@ -119,28 +19,9 @@ svg.i { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; strok
 .news small { display: block; color: var(--grey); font-size: .6875rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .news strong { display: block; font-size: 1rem; }
 .news span { color: var(--grey); font-size: .8125rem; }
-.btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: .375rem; min-height: 2.75rem; padding: 0 1.125rem;
-    border: 1px solid transparent; border-radius: var(--radius); font-weight: 600; font-size: .875rem; white-space: nowrap;
-}
-.btn-primary { background: var(--action); color: var(--white); }
-.btn-primary:hover { background: var(--action-hover); color: var(--white); }
-.btn-light { background: var(--white); border-color: var(--border-strong); color: var(--ink); }
-.btn-light:hover { background: var(--surface); color: var(--ink); }
 .news .btn { margin-left: auto; }
 
-/* Card grid: three columns that fill the screen. */
-.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
-.card {
-    display: flex; flex-direction: column; min-width: 0; padding: 1.25rem;
-    border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white); box-shadow: var(--shadow);
-}
 .span-4 { grid-column: span 4; } .span-8 { grid-column: span 8; }
-.card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
-.card-head h2 { margin: 0; font-size: 1rem; font-weight: 700; }
-.card-head .info { color: var(--grey); display: inline-flex; }
-.card-head .info svg.i { width: 1rem; height: 1rem; }
-.card-head .more { margin-left: auto; font-size: .8125rem; font-weight: 600; }
 
 /* Learning progress: legend and ring. */
 .progress-body { display: flex; align-items: center; gap: 1rem; flex: 1; }
@@ -152,7 +33,7 @@ svg.i { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; strok
 .legend em { margin-left: auto; padding-left: .75rem; color: var(--grey); font-style: normal; font-weight: 600; }
 .ring { position: relative; margin-left: auto; width: min(13rem, 100%); aspect-ratio: 1; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ring circle { fill: none; stroke-width: 22; stroke-linecap: round; transition: stroke .2s ease; }
+.ring circle { fill: none; stroke-width: 22; stroke-linecap: round; }
 .ring-label { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
 .ring-label b { font-size: 1.75rem; font-weight: 800; line-height: 1; }
 .ring-label span { color: var(--grey); font-size: .75rem; }
@@ -179,6 +60,7 @@ svg.i { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; strok
 .tip b { margin-left: auto; }
 .trend { display: flex; align-items: center; gap: .375rem; margin-top: .75rem; color: var(--grey); font-size: .8125rem; }
 .trend b { color: var(--success); }
+.trend svg.i { color: var(--success); }
 
 /* Deadlines. */
 .tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
@@ -192,38 +74,25 @@ svg.i { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; strok
 .task-text strong { display: block; overflow: hidden; font-size: .875rem; text-overflow: ellipsis; white-space: nowrap; }
 .task-text span { color: var(--grey); font-size: .75rem; }
 .task.late .task-text span { color: var(--danger); font-weight: 600; }
-.task .btn { min-height: 2.25rem; padding: 0 .875rem; border-radius: 50rem; font-size: .8125rem; }
-.add-task { margin-top: .75rem; }
-.add-task .btn { width: 100%; }
 
 /* Courses table. */
 .table-tools { display: flex; align-items: center; gap: .5rem; margin-left: auto; }
 .mini-search { display: flex; align-items: center; gap: .375rem; height: 2.5rem; padding: 0 .75rem; border: 1px solid var(--border-strong); border-radius: 50rem; color: var(--grey); font-size: .8125rem; }
-.mini-search input { width: 9rem; border: 0; outline: 0; background: none; font: inherit; color: var(--ink); }
-.mini-search svg.i, .table-tools .chip-btn svg.i { width: 1rem; height: 1rem; }
+.mini-search input { width: 9rem; border: 0; outline: 0; background: none; color: var(--ink); }
 .table-tools .chip-btn { height: 2.5rem; border-color: var(--border-strong); font-size: .8125rem; }
-.table-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; position: relative; }
+.table-wrap { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .875rem; }
 th { padding: .75rem 1rem; background: var(--surface); color: var(--grey); font-size: .75rem; font-weight: 600; text-align: left; white-space: nowrap; }
 td { padding: .875rem 1rem; border-top: 1px solid var(--border); vertical-align: middle; }
 tr:hover td { background: var(--surface); }
 td.num { width: 3rem; color: var(--grey); }
-td.course strong { display: block; }
+td.course a { color: inherit; }
+td.course strong, .person { white-space: nowrap; }
 td.course > span, td .sub { display: block; color: var(--grey); font-size: .75rem; }
 td .sub { white-space: nowrap; }
-td.course strong, .person { white-space: nowrap; }
-td.course .tag { margin-right: .375rem; color: var(--ink); }
-.tag { display: inline-flex; vertical-align: middle; align-items: center; gap: .375rem; padding: .25rem .625rem; border: 1px solid var(--border); border-radius: 50rem; font-size: .75rem; font-weight: 600; white-space: nowrap; }
-.tag i { width: .375rem; height: .375rem; border-radius: 50%; background: var(--action); }
-.tag.shared i { background: var(--ink); }
-.meter { display: flex; align-items: center; gap: .625rem; min-width: 8rem; }
-.meter div { flex: 1; height: .375rem; border-radius: 50rem; background: var(--track); overflow: hidden; }
-.meter div i { display: block; height: 100%; border-radius: 50rem; background: var(--action); }
-.meter b { font-size: .8125rem; min-width: 2.5rem; }
+td.course .tag { margin-right: .375rem; }
 .person { display: flex; align-items: center; gap: .625rem; }
 .person .avatar { width: 2rem; height: 2rem; font-size: .75rem; }
-.kebab { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 0; border-radius: 50%; background: none; color: var(--grey); }
-.kebab:hover { background: var(--track); color: var(--ink); }
 
 /* Weekly goal. */
 .goal-body { display: flex; align-items: center; gap: 1.25rem; flex: 1; }
@@ -246,128 +115,54 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
 .stat small { display: block; color: var(--grey); font-size: .6875rem; white-space: nowrap; }
 .stat b { display: block; font-size: .9375rem; white-space: nowrap; }
 
-/* Bottom tab bar on phones, as in the theme. */
-.tabbar { display: none; }
-
 @media (max-width: 1599px) {
     th.hide-lg, td.hide-lg { display: none; }
 }
 @media (max-width: 1280px) {
     .span-4 { grid-column: span 6; }
-    .span-4.tasks-card { grid-column: span 12; }
-    .span-8, .span-4.goal-card { grid-column: span 12; }
+    .span-4.tasks-card, .span-8, .span-4.goal-card { grid-column: span 12; }
 }
 @media (max-width: 900px) {
-    .top { flex-wrap: wrap; }
-    .top-actions { width: 100%; margin-left: 0; }
-    .search { flex: 1; width: auto; }
     .span-4 { grid-column: span 12; }
-    th.hide-md, td.hide-md { display: none; }
 }
 @media (max-width: 767px) {
-    :root { --gap: .75rem; }
-    .rail { display: none; }
-    .page { margin-left: 0; padding: 1rem 1rem 5.5rem; }
-    .top h1 { font-size: 1.25rem; }
-    .top-actions .chip-btn, .top-actions .palette-switch { display: none; }
     .news { flex-wrap: wrap; }
     .news .btn { width: 100%; margin-left: 0; }
-    .card { padding: 1rem; }
     .progress-body { flex-direction: column-reverse; align-items: stretch; }
     .ring { margin: 0 auto; width: 11rem; }
     .table-tools .mini-search { display: none; }
     th.hide-sm, td.hide-sm { display: none; }
-    .meter { min-width: 5rem; }
     td, th { padding: .75rem; }
+    .meter { min-width: 5rem; }
     .goal-body { flex-direction: column; align-items: stretch; }
     .target { margin: 0 auto; width: 8rem; }
     .stat { flex-direction: column; align-items: flex-start; gap: .25rem; }
-    .tabbar {
-        position: fixed; inset: auto 0 0; z-index: 10; display: flex; height: 4rem; background: var(--ink);
-    }
-    .tabbar a { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .25rem; color: var(--on-dark-muted); font-size: .625rem; font-weight: 600; }
-    .tabbar a svg.i { width: 1.375rem; height: 1.375rem; }
-    .tabbar a.active { background: var(--brand); color: var(--ink); }
-    .mobile-palette { display: flex !important; }
 }
-.mobile-palette { display: none; margin-top: 1rem; justify-content: center; }
 </style>
 </head>
-<body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
-    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
-    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6.5A2.5 2.5 0 0 0 4 20.5 2.5 2.5 0 0 0 6.5 23H20"/></symbol>
-    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></symbol>
-    <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="m8.5 14 -1.5 8 5-3 5 3-1.5-8"/></symbol>
-    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-5.1A8 8 0 1 1 21 12Z"/></symbol>
-    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></symbol>
-    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
-    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></symbol>
-    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5.5 3.5-5.5 3.5Z"/></symbol>
-    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
-    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
-    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
-    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 8v5M12 16.5h.01"/><circle cx="12" cy="12" r="9"/></symbol>
-    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
-    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></symbol>
-    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18M6 12h12M10 19h4"/></symbol>
-    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-4-3-6-4-9-1.5 2-2 3.5-2 5-1.5-1-2.5-2.5-2.5-4C7 9 5 12 5 15a7 7 0 0 0 7 7Z"/></symbol>
-    <symbol id="i-trend" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8M15 7h6v6"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-</svg>
-
-<nav class="rail" aria-label="Main">
-    <div class="rail-logo" title="İstanbul Beykent Üniversitesi">B</div>
-    <a class="active" href="#" data-tip="Dashboard" aria-current="page"><svg class="i"><use href="#i-dashboard"/></svg><span class="sr-only">Dashboard</span></a>
-    <a href="#" data-tip="Discover"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Discover</span></a>
-    <a href="#" data-tip="My courses"><svg class="i"><use href="#i-book"/></svg><span class="sr-only">My courses</span></a>
-    <a href="#" data-tip="Calendar"><svg class="i"><use href="#i-calendar"/></svg><span class="sr-only">Calendar</span></a>
-    <a href="#" data-tip="Grades"><svg class="i"><use href="#i-award"/></svg><span class="sr-only">Grades</span></a>
-    <a href="#" data-tip="Messages"><svg class="i"><use href="#i-message"/></svg><span class="sr-only">Messages</span></a>
-    <div class="rail-sep"></div>
-    <a href="#" data-tip="Platform guide"><svg class="i"><use href="#i-play"/></svg><span class="sr-only">Platform guide</span></a>
-    <div class="rail-end">
-        <a href="#" data-tip="Help"><svg class="i"><use href="#i-help"/></svg><span class="sr-only">Help</span></a>
-        <a href="#" data-tip="Preferences"><svg class="i"><use href="#i-settings"/></svg><span class="sr-only">Preferences</span></a>
-        <span class="avatar" title="Student 1">S1</span>
-    </div>
-</nav>
-
+<body data-page="dashboard">
 <main class="page">
     <header class="top">
         <div>
             <h1>Welcome back, Student.</h1>
             <p>Tuesday, 3 November 2026 · 2 deadlines this week</p>
         </div>
-        <div class="top-actions">
-            <label class="search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search</span><input placeholder="What do you want to learn?"></label>
-            <div class="palette-switch" role="group" aria-label="Colours (draft only)">
-                <button type="button" data-set="orange" aria-pressed="true">Orange</button>
-                <button type="button" data-set="green" aria-pressed="false">Green</button>
-            </div>
-            <button class="chip-btn" type="button">EN <svg class="i" style="width:1rem;height:1rem"><use href="#i-down"/></svg></button>
-            <button class="icon-btn" type="button" aria-label="Notifications"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
-            <button class="icon-btn" type="button" aria-label="Messages"><svg class="i"><use href="#i-message"/></svg></button>
-        </div>
+        <div class="top-actions"></div>
     </header>
 
     <section class="news" aria-label="What's new">
-        <div class="news-icon"><svg class="i"><use href="#i-play"/></svg></div>
+        <div class="news-icon"><i data-i="play"></i></div>
         <div>
             <small>What's new</small>
             <strong>Platform guide: DIVERSE in five minutes</strong>
             <span>A short video on finding courses, joining live classes and asking the AI assistant.</span>
         </div>
-        <a class="btn btn-light" href="#">Watch now <svg class="i" style="width:1rem;height:1rem"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-light" href="#">Watch now <i data-i="arrow" class="sm"></i></a>
     </section>
 
     <div class="grid">
         <section class="card span-4">
-            <div class="card-head"><h2>Learning progress</h2><span class="info" title="Activities with completion in your courses"><svg class="i"><use href="#i-info"/></svg></span></div>
+            <div class="card-head"><h2>Learning progress</h2><span class="info" title="Activities with completion in your courses"><i data-i="info"></i></span></div>
             <div class="progress-body">
                 <div class="progress-total">
                     <small>Total activities</small>
@@ -379,49 +174,49 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
                     <div class="ring-label"><b>11%</b><span>completed</span></div>
                 </div>
             </div>
-            <div class="card-foot"><a class="btn btn-light" href="#">View all courses <svg class="i" style="width:1rem;height:1rem"><use href="#i-chevron"/></svg></a></div>
+            <div class="card-foot"><a class="btn btn-light" href="MyCourses-wide.html">View all courses <i data-i="chevron" class="sm"></i></a></div>
         </section>
 
         <section class="card span-4">
-            <div class="card-head"><h2>This week</h2><span class="info" title="Activities you completed each day"><svg class="i"><use href="#i-info"/></svg></span></div>
+            <div class="card-head"><h2>This week</h2><span class="info" title="Activities you completed each day"><i data-i="info"></i></span></div>
             <div class="bars" id="bars">
                 <div class="bars-axis"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
             </div>
-            <div class="trend"><svg class="i" style="width:1rem;height:1rem;color:var(--success)"><use href="#i-up"/></svg><b>2 more</b> activities than last week</div>
+            <div class="trend"><i data-i="up" class="sm"></i><b>2 more</b> activities than last week</div>
         </section>
 
         <section class="card span-4 tasks-card">
-            <div class="card-head"><h2>Deadlines</h2><span class="info"><svg class="i"><use href="#i-info"/></svg></span><a class="more" href="#">Calendar</a></div>
+            <div class="card-head"><h2>Deadlines</h2><span class="info"><i data-i="info"></i></span><a class="more" href="#">Calendar</a></div>
             <ul class="tasks">
                 <li class="task late">
-                    <span class="task-state"><svg class="i"><use href="#i-alert"/></svg></span>
+                    <span class="task-state"><i data-i="alert"></i></span>
                     <div class="task-text"><strong>Case brief: contract breach</strong><span>Overdue · Business Law · Sat 31 Oct</span></div>
-                    <a class="btn btn-primary" href="#">Submit</a>
+                    <a class="btn btn-primary btn-sm" href="#">Submit</a>
                 </li>
                 <li class="task done">
-                    <span class="task-state"><svg class="i"><use href="#i-check"/></svg></span>
+                    <span class="task-state"><i data-i="check"></i></span>
                     <div class="task-text"><strong>Reading quiz notes</strong><span>Done · Business Law · Mon 2 Nov</span></div>
-                    <button class="kebab" type="button" aria-label="More"><svg class="i"><use href="#i-dots"/></svg></button>
+                    <button class="kebab" type="button" aria-label="More"><i data-i="dots"></i></button>
                 </li>
                 <li class="task">
-                    <span class="task-state"><svg class="i"><use href="#i-clock"/></svg></span>
+                    <span class="task-state"><i data-i="clock"></i></span>
                     <div class="task-text"><strong>Essay: liability in practice</strong><span>Due in 3 days · Business Law · Fri 6 Nov</span></div>
-                    <a class="btn btn-light" href="#">Open</a>
+                    <a class="btn btn-light btn-sm" href="#">Open</a>
                 </li>
                 <li class="task">
-                    <span class="task-state"><svg class="i"><use href="#i-clock"/></svg></span>
+                    <span class="task-state"><i data-i="clock"></i></span>
                     <div class="task-text"><strong>Group project proposal</strong><span>Due in 11 days · Business Law · Sat 14 Nov</span></div>
-                    <a class="btn btn-light" href="#">Open</a>
+                    <a class="btn btn-light btn-sm" href="#">Open</a>
                 </li>
             </ul>
         </section>
 
         <section class="card span-8">
             <div class="card-head">
-                <h2>Keep learning</h2><span class="info"><svg class="i"><use href="#i-info"/></svg></span>
+                <h2>Keep learning</h2><span class="info"><i data-i="info"></i></span>
                 <div class="table-tools">
-                    <label class="mini-search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search courses</span><input placeholder="Search courses"></label>
-                    <button class="chip-btn" type="button"><svg class="i"><use href="#i-filter"/></svg> All courses <svg class="i"><use href="#i-down"/></svg></button>
+                    <label class="mini-search"><i data-i="search" class="sm"></i><span class="sr-only">Search courses</span><input placeholder="Search courses"></label>
+                    <button class="chip-btn" type="button"><i data-i="filter" class="sm"></i> All courses <i data-i="down" class="sm"></i></button>
                 </div>
             </div>
             <div class="table-wrap">
@@ -430,11 +225,11 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
                     <tbody>
                         <tr>
                             <td class="num hide-sm">1</td>
-                            <td class="course"><strong>Business Law</strong><span><span class="tag"><i></i>Beykent</span> 11 activities · last visit 7 hours ago</span></td>
+                            <td class="course"><a href="Course-wide.html"><strong>Business Law</strong></a><span><span class="tag"><i></i>Beykent</span> 11 activities · last visit 7 hours ago</span></td>
                             <td><div class="meter"><div><i style="width:18%"></i></div><b>18%</b></div></td>
                             <td class="hide-sm">Essay: liability in practice<span class="sub">Assignment · due Fri 6 Nov</span></td>
                             <td class="hide-lg"><div class="person"><span class="avatar">AY</span><div>Ali Yılmaz<span class="sub">Teacher</span></div></div></td>
-                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><svg class="i"><use href="#i-dots"/></svg></button></td>
+                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><i data-i="dots"></i></button></td>
                         </tr>
                         <tr>
                             <td class="num hide-sm">2</td>
@@ -442,7 +237,7 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
                             <td><div class="meter"><div><i style="width:40%"></i></div><b>40%</b></div></td>
                             <td class="hide-sm">Live class: pricing<span class="sub">BigBlueButton · Thu 5 Nov 14:00</span></td>
                             <td class="hide-lg"><div class="person"><span class="avatar">ZK</span><div>Zeynep Kaya<span class="sub">Teacher</span></div></div></td>
-                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><svg class="i"><use href="#i-dots"/></svg></button></td>
+                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><i data-i="dots"></i></button></td>
                         </tr>
                         <tr>
                             <td class="num hide-sm">3</td>
@@ -450,15 +245,15 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
                             <td><div class="meter"><div><i style="width:0%"></i></div><b>0%</b></div></td>
                             <td class="hide-sm">Welcome to DIVERSE<span class="sub">Page · start here</span></td>
                             <td class="hide-lg"><div class="person"><span class="avatar">TV</span><div>Tanja Virtanen<span class="sub">Teacher</span></div></div></td>
-                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><svg class="i"><use href="#i-dots"/></svg></button></td>
+                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><i data-i="dots"></i></button></td>
                         </tr>
                         <tr>
                             <td class="num hide-sm">4</td>
-                            <td class="course"><strong>Green Tech Venture Lab</strong><span><span class="tag shared"><i></i>DIVERSE shared</span> 12 activities · not started</span></td>
+                            <td class="course"><strong>Renewable Energy Grid Integration</strong><span><span class="tag shared"><i></i>GT4T</span> 12 activities · not started</span></td>
                             <td><div class="meter"><div><i style="width:0%"></i></div><b>0%</b></div></td>
                             <td class="hide-sm">Kick-off video<span class="sub">Video · 6 min</span></td>
                             <td class="hide-lg"><div class="person"><span class="avatar">LM</span><div>Lukas Meyer<span class="sub">Teacher</span></div></div></td>
-                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><svg class="i"><use href="#i-dots"/></svg></button></td>
+                            <td class="hide-sm"><button class="kebab" type="button" aria-label="More"><i data-i="dots"></i></button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -466,11 +261,11 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
         </section>
 
         <section class="card span-4 goal-card">
-            <div class="card-head"><h2>Weekly goal</h2><span class="info" title="The number of activities you want to finish each week"><svg class="i"><use href="#i-info"/></svg></span></div>
+            <div class="card-head"><h2>Weekly goal</h2><span class="info" title="The number of activities you want to finish each week"><i data-i="info"></i></span></div>
             <div class="goal-body">
                 <div class="target" id="target"></div>
                 <div class="goal-text">
-                    <span class="badge"><svg class="i"><use href="#i-flame"/></svg>Keep it up!</span>
+                    <span class="badge"><i data-i="flame"></i>Keep it up!</span>
                     <small>Activities this week</small>
                     <b>3 <span>/ 5</span></b>
                     <div class="goal-meter"><i></i></div>
@@ -478,27 +273,15 @@ td.course .tag { margin-right: .375rem; color: var(--ink); }
                 </div>
             </div>
             <div class="stats">
-                <div class="stat"><svg class="i"><use href="#i-clock"/></svg><div><small>Time this week</small><b>2 h 45 m</b></div></div>
-                <div class="stat"><svg class="i"><use href="#i-trend"/></svg><div><small>Weekly average</small><b>2.5</b></div></div>
-                <div class="stat"><svg class="i"><use href="#i-flame"/></svg><div><small>Streak</small><b>3 weeks</b></div></div>
+                <div class="stat"><i data-i="clock"></i><div><small>Time this week</small><b>2 h 45 m</b></div></div>
+                <div class="stat"><i data-i="trend"></i><div><small>Weekly average</small><b>2.5</b></div></div>
+                <div class="stat"><i data-i="flame"></i><div><small>Streak</small><b>3 weeks</b></div></div>
             </div>
         </section>
     </div>
-
-    <div class="mobile-palette palette-switch" role="group" aria-label="Colours (draft only)">
-        <button type="button" data-set="orange" aria-pressed="true">Orange</button>
-        <button type="button" data-set="green" aria-pressed="false">Green</button>
-    </div>
 </main>
 
-<nav class="tabbar" aria-label="Main">
-    <a class="active" href="#"><svg class="i"><use href="#i-dashboard"/></svg>Dashboard</a>
-    <a href="#"><svg class="i"><use href="#i-search"/></svg>Discover</a>
-    <a href="#"><svg class="i"><use href="#i-book"/></svg>My courses</a>
-    <a href="#"><svg class="i"><use href="#i-calendar"/></svg>Calendar</a>
-    <a href="#"><svg class="i"><use href="#i-message"/></svg>Messages</a>
-</nav>
-
+<script src="wide.js"></script>
 <script>
 // Learning progress ring: one rounded segment per state, with a small gap between them.
 const states = [
@@ -520,8 +303,7 @@ for (const [label, value, color] of states) {
 const days = [['Mon', 1], ['Tue', 3], ['Wed', 0], ['Thu', 0], ['Fri', 0], ['Sat', 0], ['Sun', 0]];
 const bars = document.getElementById('bars');
 days.forEach(([day, value], i) => {
-    const today = i === 1;
-    bars.insertAdjacentHTML('beforeend', `<div class="bar${today ? ' today' : ''}">
+    bars.insertAdjacentHTML('beforeend', `<div class="bar${i === 1 ? ' today' : ''}">
         <div class="bar-track"><div class="bar-fill" style="height:${value / 4 * 100}%"></div></div><span>${day}</span></div>`);
 });
 const todayBar = bars.querySelector('.today .bar-track');
@@ -547,12 +329,6 @@ document.getElementById('target').innerHTML = `<svg viewBox="0 0 120 120" aria-h
     <path d="M62 58 98 22" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
     <path d="M96 14l2 8 8 2-6 6-8-2-2-8Z" fill="var(--brand)"/>
 </svg>`;
-
-// Palette switch of the draft.
-document.querySelectorAll('[data-set]').forEach(button => button.addEventListener('click', () => {
-    document.documentElement.dataset.palette = button.dataset.set;
-    document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === button.dataset.set)));
-}));
 </script>
 </body>
 </html>
