@@ -44,7 +44,7 @@ geliştiriciye anlatır ve karar ister.
   | `login.scss` | Giriş sayfası |
   | `shell.scss` | Giriş sonrası üst menü ve mobil alt menü |
   | `platform.scss` | Dashboard, Derslerim, ders sayfası |
-| `messages.scss` | Mesajlar sayfası |
+| `messages.scss` | Mesajlar ve bildirimler sayfaları |
 | `calendar.scss` | Takvim |
 | `icons.scss` | Moodle ikonlarının çizgili (outline) karşılıkları |
 | `motion.scss` | Animasyonlar: açılan paneller, sayfa girişleri, grafikler |

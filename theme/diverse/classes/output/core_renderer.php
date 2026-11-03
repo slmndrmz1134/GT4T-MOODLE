@@ -128,8 +128,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 (new course_aside($this->page->course))->export_for_template($this));
             return \html_writer::div(\html_writer::div($maincontent, 'diverse-course-main') . $aside, 'diverse-course-layout');
         }
-        if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {
-            return $maincontent . \html_writer::tag(
+        // Messages and notifications: the page's title in the title row, the app in a card under it.
+        if ($this->is_messaging_page()) {
+            $message = $this->page->pagetype === 'message-index';
+            $title = \html_writer::tag('header', \html_writer::tag('h1',
+                get_string($message ? 'messages' : 'notifications', 'message'), ['class' => 'diverse-dash-title']),
+                ['class' => 'diverse-title-bar diverse-app-title']);
+            if (!$message) {
+                return $title . $maincontent;
+            }
+            return $title . $maincontent . \html_writer::tag(
                 'p',
                 get_string('messages_select', 'theme_diverse'),
                 ['class' => 'diverse-message-empty']
@@ -237,7 +245,17 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             return false;
         }
         return $this->page->pagetype === 'my-index' || $this->page->pagelayout === 'mycourses' ||
-            $this->page->pagetype === 'local-diverse_catalog-index' || $this->is_course_tab();
+            $this->page->pagetype === 'local-diverse_catalog-index' || $this->is_course_tab() || $this->is_messaging_page();
+    }
+
+    /**
+     * Whether this is the messages page or the notifications page of the application.
+     *
+     * @return bool
+     */
+    protected function is_messaging_page(): bool {
+        return in_array($this->page->pagetype, ['message-index', 'message-output-popup-notifications'], true) &&
+            shell::applies($this->page);
     }
 
     /**

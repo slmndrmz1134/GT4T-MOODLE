@@ -1,49 +1,72 @@
 /****************************************************************
- * DIVERSE messages page (/message/index.php).
- * Only styles Moodle's own markup: conversations on the left, the open one next to them, filling the screen.
- * On phones one column at a time. The message drawer opened from the top bar stays Moodle's.
+ * DIVERSE messages page (/message/index.php) and notifications page (/message/output/popup/notifications.php).
+ * Only styles Moodle's own markup. Like the other application pages they have their title in the title row
+ * (core_renderer::main_content()) and the app under it in a white card that fills the rest of the screen:
+ * conversations or notifications on the left, the open one next to them. On phones one column at a time.
  ***************************************************************/
 
 $diverse-messages-list-width: 22rem;
+// From the top of the screen to the card, and below it: title row (beside the top bar from xl, under it before).
+$diverse-app-top-xl: calc(#{$diverse-title-top} + #{$diverse-title-height} + 1.25rem);
+$diverse-app-top: calc(#{$diverse-title-top} * 2 + #{$diverse-title-height} * 2 + 1.25rem);
+$diverse-app-bottom: 1.5rem;
 
-body#page-message-index.diverse-shell {
-    #page.drawers {
-        padding-right: 0;
-        padding-left: 0;
-    }
-
-    #page.drawers .main-inner,
-    #region-main,
-    #region-main > div {
-        max-width: none;
-        margin: 0;
-        padding: 0;
+body#page-message-index.diverse-shell,
+body#page-message-output-popup-notifications.diverse-shell {
+    // The user's picture and a message button to themselves stand above the notifications: the title row replaces them.
+    #page-header,
+    .diverse-app-title ~ div[role="main"] > h2:first-of-type {
+        display: none;
     }
 
     #page-content {
         padding-bottom: 0 !important;
     }
 
-    #region-main {
-        position: relative;
+    // The card fills the screen: no room left below it for the page to scroll.
+    #page.drawers .main-inner {
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
 
     #page-footer {
         display: none;
     }
 
-    // Moodle's own height comes with two ids: this selector has to be as strong.
-    #region-main div[role="main"] .message-app.main {
-        height: calc(100vh - #{$navbar-height});
-        height: calc(100dvh - #{$navbar-height});
+    .diverse-app-title {
+        margin-bottom: 1.25rem;
+    }
+
+    #region-main {
+        position: relative;
+        padding: 0;
+    }
+
+    // The card: as tall as the screen leaves it.
+    #region-main div[role="main"] .message-app.main,
+    .notification-area {
+        height: calc(100vh - #{$diverse-app-top} - #{$diverse-app-bottom});
+        height: calc(100dvh - #{$diverse-app-top} - #{$diverse-app-bottom});
+        min-height: 26rem;
+        overflow: hidden;
+        background-color: $white !important;
+        border: 1px solid $diverse-border !important;
+        border-radius: $card-border-radius;
+
+        @include media-breakpoint-up(xl) {
+            height: calc(100vh - #{$diverse-app-top-xl} - #{$diverse-app-bottom});
+            height: calc(100dvh - #{$diverse-app-top-xl} - #{$diverse-app-bottom});
+        }
 
         // Phones: the tab bar takes the bottom of the screen.
         @include media-breakpoint-down(md) {
-            height: calc(100vh - #{$navbar-height} - #{$diverse-tabbar-height});
-            height: calc(100dvh - #{$navbar-height} - #{$diverse-tabbar-height});
+            height: calc(100vh - #{$navbar-height} - #{$diverse-tabbar-height} - 6rem);
+            height: calc(100dvh - #{$navbar-height} - #{$diverse-tabbar-height} - 6rem);
         }
     }
+}
 
+body#page-message-index.diverse-shell {
     .message-app {
         background-color: $diverse-surface !important;
         border: 0 !important;
@@ -132,7 +155,7 @@ body#page-message-index.diverse-shell {
     // Shown until a conversation, the contacts or the settings open on the right.
     .diverse-message-empty {
         position: absolute;
-        top: 0;
+        top: calc(#{$diverse-title-height} + 1.25rem);
         right: 0;
         bottom: 0;
         left: $diverse-messages-list-width;
@@ -150,11 +173,6 @@ body#page-message-index.diverse-shell {
     }
 
     @include media-breakpoint-down(md) {
-        #region-main div[role="main"] .message-app.main {
-            height: calc(100vh - #{$navbar-height} - #{$diverse-tabbar-height});
-            height: calc(100dvh - #{$navbar-height} - #{$diverse-tabbar-height});
-        }
-
         .message-app {
             .conversationcontainer {
                 flex: 0 0 100%;
@@ -179,6 +197,91 @@ body#page-message-index.diverse-shell {
 
         .diverse-message-empty {
             display: none;
+        }
+    }
+}
+
+// Notifications: the list on the left, the chosen one next to it.
+body#page-message-output-popup-notifications.diverse-shell .notification-area {
+    display: flex;
+    margin-bottom: 0;
+
+    .control-area {
+        flex: 0 0 $diverse-messages-list-width;
+        width: $diverse-messages-list-width;
+        height: 100%;
+        overflow-y: auto;
+        border-right: 1px solid $diverse-border;
+    }
+
+    .content-area {
+        flex: 1;
+        height: 100%;
+        padding: 1.5rem 2rem;
+        overflow-y: auto;
+    }
+
+    .empty-text {
+        padding: 2.5rem 1.25rem;
+        color: $diverse-grey;
+        text-align: center;
+    }
+
+    .content-area > .empty-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .content-item-container {
+        padding: .875rem 1.25rem;
+        border-bottom: 1px solid $diverse-border;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $diverse-surface;
+        }
+
+        &.unread {
+            background-color: $diverse-soft-orange;
+        }
+
+        // Moodle writes the chosen one in white on its primary colour: here ink on the soft one.
+        &.selected {
+            background-color: $diverse-soft-orange;
+            box-shadow: inset 3px 0 0 $diverse-action-orange;
+            color: $diverse-ink;
+
+            .notification-message {
+                color: $diverse-ink;
+            }
+
+            .timestamp {
+                color: $diverse-grey;
+            }
+        }
+    }
+
+    .content-area .header {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $diverse-border;
+    }
+
+    .content-area .content {
+        padding-top: 1rem;
+    }
+
+    // Phones: one column at a time, as Moodle switches them.
+    @include media-breakpoint-down(md) {
+        .control-area {
+            flex-basis: 100%;
+            width: 100%;
+            border-right: 0;
+        }
+
+        .content-area {
+            padding: 1rem;
         }
     }
 }

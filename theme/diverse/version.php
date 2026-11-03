@@ -28,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'theme_diverse';
-$plugin->version = 2026110304;
+$plugin->version = 2026110305;
 $plugin->release = 'v5.0-r2';
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 500];
