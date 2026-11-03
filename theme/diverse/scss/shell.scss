@@ -196,6 +196,11 @@ $diverse-tabbar-height: 4rem;
         .diverse-nav-brand img.diverse-logo-own {
             filter: brightness(0) invert(1);
         }
+
+        // A partner's full logo: the dark lettering turns light, the colours of the emblem stay.
+        .diverse-nav-brand img.diverse-nav-brand-full:not(.diverse-logo-own) {
+            filter: invert(1) hue-rotate(180deg);
+        }
     }
 
     .diverse-nav-list {
