@@ -2791,3 +2791,130 @@ body#page-course-search {
         }
     }
 }
+
+// A Moodle table as a white card with the same quiet head as the dashboard table.
+@mixin diverse-table-card {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: $card-border-radius;
+
+    th,
+    td {
+        padding: .875rem 1rem;
+        border: 0;
+        border-top: 1px solid $diverse-border;
+        background-color: transparent;
+        box-shadow: none;
+        vertical-align: middle;
+    }
+
+    thead th {
+        border-top: 0;
+        background-color: $diverse-surface;
+        color: $diverse-grey;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+
+        a {
+            color: $diverse-grey;
+        }
+    }
+
+    // Row headings (the name column) read like the other cells.
+    tbody th {
+        color: $diverse-ink;
+        font-weight: 600;
+    }
+
+    tbody tr:hover > td,
+    tbody tr:hover > th {
+        background-color: $diverse-surface;
+    }
+
+    a {
+        color: $diverse-ink;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            color: $diverse-action-orange;
+        }
+    }
+}
+
+// Grades of the user (overview of all courses, and one course's user report).
+body#page-grade-report-overview-index,
+body#page-grade-report-user-index {
+    #region-main {
+        table.generaltable,
+        table.user-grade {
+            @include diverse-table-card;
+        }
+
+        // Grade categories in the user report: the course total stands out.
+        table.user-grade {
+            .baggt,
+            .baggb {
+                font-weight: 700;
+            }
+
+            .column-itemname .gradeitemheader {
+                color: $diverse-ink;
+            }
+        }
+
+        .table-responsive,
+        .table-wrapper {
+            border-radius: $card-border-radius;
+        }
+    }
+}
+
+// Participants of a course: no rows of initials, the filters and the list as white cards.
+body#page-course-view-participants #region-main {
+    .initialbar {
+        display: none !important;
+    }
+
+    .filter-group {
+        padding: .75rem 1rem !important;
+        background-color: $white !important;
+        border: 1px solid $diverse-border !important;
+        border-radius: $card-border-radius;
+    }
+
+    .userlist > form > div > p {
+        margin: 1rem 0 .75rem;
+        color: $diverse-grey;
+        font-size: .875rem;
+    }
+
+    table#participants {
+        @include diverse-table-card;
+
+        // The user's picture and name together, the picture a little smaller.
+        .userpicture,
+        .userinitials {
+            width: 2rem;
+            height: 2rem;
+            margin-right: .5rem;
+            font-size: .75rem;
+        }
+    }
+
+    .table-responsive {
+        border-radius: $card-border-radius;
+    }
+
+    .userlist .buttons {
+        margin-top: .5rem;
+    }
+}
