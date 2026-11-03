@@ -370,6 +370,13 @@ $diverse-tabbar-height: 4rem;
                     .w-100 > .d-flex.flex-wrap > .ms-auto {
                         margin-left: 0 !important;
                     }
+
+                    // The page's own search (users, site administration) would sit under the top bar's search: it
+                    // goes to the bottom of the title row, below the bar.
+                    .w-100 > .d-flex.align-items-center:has(.header-actions-container) {
+                        align-items: flex-end !important;
+                        min-height: 5.75rem;
+                    }
                 }
             }
         }
