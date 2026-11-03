@@ -32,6 +32,12 @@ if (isguestuser()) {
 
 $green = required_param('green', PARAM_BOOL);
 $returnurl = optional_param('returnurl', '/my/', PARAM_LOCALURL);
+$ajax = optional_param('ajax', false, PARAM_BOOL);
 
 \theme_diverse\local\palette::set($green);
+// The switch in the top bar changes the stylesheet in the page itself and only saves the choice here.
+if ($ajax) {
+    echo json_encode(['green' => $green]);
+    die;
+}
 redirect(new \core\url($returnurl ?: '/my/'));

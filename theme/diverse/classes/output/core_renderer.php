@@ -204,6 +204,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 'url' => (new \core\url('/theme/diverse/palette.php', ['green' => (int)$choice, 'returnurl' => $return,
                     'sesskey' => sesskey()]))->out(false),
                 'current' => $choice === $green,
+                'green' => (int)$choice,
             ];
         }
         // The same choice as the language menu in Moodle's user menu, with the same ?lang= links.
