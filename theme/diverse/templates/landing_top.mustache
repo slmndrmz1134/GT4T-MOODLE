@@ -23,18 +23,15 @@
     * loggedin - whether the viewer is logged in (not a guest)
     * loginurl, dashboardurl - where the main button leads visitors and logged-in users
     * hasheroimage, heroimage - the photo behind the hero (pix/hero.jpg); without it the hero is the plain brand colour
-    * haslogos, logos - partners with a logo, for the strip under the hero
-    * partners, partnercount, countrycount - GT4T project partners (name, country, url, domain, lead, logourl, photourl)
+    * partnercount, countrycount - number of GT4T project partners and of their countries
     * coursecount - live number of visible courses
     * hascourses, courses, allcoursesurl - featured courses
 
     Example context (json):
     {
         "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#",
-        "hasheroimage": false, "heroimage": null, "haslogos": false, "logos": [],
+        "hasheroimage": false, "heroimage": null,
         "partnercount": 1, "countrycount": 1,
-        "partners": [{"name": "Griffith College", "country": "Ireland", "url": "#", "domain": "griffith.ie", "lead": false,
-            "logourl": null, "photourl": null}],
         "coursecount": 17,
         "hascourses": true,
         "courses": [{"fullname": "Business Law", "shortname": "LAW202", "category": "Istanbul Beykent University",
@@ -67,14 +64,6 @@
             </dl>
         </div>
     </section>
-
-    {{#haslogos}}
-    <section class="diverse-logos" aria-label="{{#str}}partners_eyebrow, theme_diverse{{/str}}">
-        <ul>
-            {{#logos}}<li><a href="{{url}}" target="_blank" rel="noopener"><img src="{{logourl}}" alt="{{name}}"></a></li>{{/logos}}
-        </ul>
-    </section>
-    {{/haslogos}}
 
     <section class="diverse-section diverse-about" id="diverse-about" aria-labelledby="diverse-about-title">
         <div class="diverse-split">
@@ -139,30 +128,6 @@
     </section>
     {{/hascourses}}
 
-    <section class="diverse-section diverse-partners" id="diverse-partners" aria-labelledby="diverse-partners-title">
-        <div class="diverse-section-head">
-            <p class="diverse-eyebrow">{{#str}}partners_eyebrow, theme_diverse{{/str}}</p>
-            <h2 class="diverse-section-title" id="diverse-partners-title">{{#str}}partners_title, theme_diverse{{/str}}</h2>
-            <p class="diverse-lead">{{#str}}partners_intro, theme_diverse{{/str}}</p>
-        </div>
-        <ul class="diverse-cards diverse-cards-4 diverse-partner-list">
-            {{#partners}}
-            <li class="diverse-partner">
-                <span class="diverse-partner-photo" aria-hidden="true">
-                    {{#photourl}}<img src="{{photourl}}" alt="">{{/photourl}}
-                    {{^photourl}}{{#logourl}}<img class="diverse-partner-photo-logo" src="{{logourl}}" alt="">{{/logourl}}{{/photourl}}
-                    {{^photourl}}{{^logourl}}<span class="diverse-course-initials">{{initials}}</span>{{/logourl}}{{/photourl}}
-                    {{#lead}}<span class="diverse-partner-badge">{{#str}}partners_lead, theme_diverse{{/str}}</span>{{/lead}}
-                </span>
-                <div class="diverse-partner-body">
-                    <h3 class="diverse-partner-name">{{name}}</h3>
-                    <span class="diverse-muted">{{country}}</span>
-                    <a href="{{url}}" target="_blank" rel="noopener"><span class="visually-hidden">{{name}}: </span>{{domain}} <span aria-hidden="true">&nearr;</span></a>
-                </div>
-            </li>
-            {{/partners}}
-        </ul>
-    </section>
 </div>
 {{#js}}
 document.querySelectorAll('.primary-navigation a[href*="#diverse-"]').forEach(function(anchor) {

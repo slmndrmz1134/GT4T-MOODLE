@@ -17,13 +17,17 @@
 {{!
     @template theme_diverse/landing_bottom
 
-    Closing band of the landing page, shown below the site home content.
+    Closing band of the landing page, shown below the site home content, and the partners' logos above the footer.
+
+    The logos slide from right to left without end: the list is there twice, the copy hidden from screen readers, and
+    the strip moves by the width of one list (scss/landing.scss). Without motion the copy is hidden and the logos wrap.
 
     Example context (json):
     {
         "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#",
         "ctatext": "Courses from 8 partners in 5 countries, in one place.",
-        "supporturl": "#", "copyright": "© 2026 DIVERSE European University Alliance"
+        "supporturl": "#", "copyright": "© 2026 DIVERSE European University Alliance",
+        "haslogos": true, "logos": [{"name": "Griffith College", "url": "#", "logourl": "#"}]
     }
 }}
 <div class="diverse-landing">
@@ -41,6 +45,18 @@
             </div>
         </div>
     </section>
+    {{#haslogos}}
+    <section class="diverse-logos" id="diverse-partners" aria-label="{{#str}}partners_eyebrow, theme_diverse{{/str}}">
+        <div class="diverse-logos-track">
+            <ul>
+                {{#logos}}<li><a href="{{url}}" target="_blank" rel="noopener"><img src="{{logourl}}" alt="{{name}}"></a></li>{{/logos}}
+            </ul>
+            <ul aria-hidden="true">
+                {{#logos}}<li><a href="{{url}}" target="_blank" rel="noopener" tabindex="-1"><img src="{{logourl}}" alt=""></a></li>{{/logos}}
+            </ul>
+        </div>
+    </section>
+    {{/haslogos}}
     <footer class="diverse-landing-footer-wrap">
         <div class="diverse-landing-footer">
             <div class="diverse-landing-footer-about">
