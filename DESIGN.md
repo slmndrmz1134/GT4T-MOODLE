@@ -126,6 +126,8 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   1 px'tir (`post.scss`, `$focus-ring-width`).
 - **Üst menü:** beyaz zemin, sekmelerle aynı alt çizgi; ikon yok. Yönetim bağlantıları "Administration" açılır menüsündedir.
   Telefonda alt menü ink zemin, ikon ve altında etiket; aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
+- **Sol menü:** tepede kullanıcının partnerinin kare logosu (partner görünümündeki "Compact logo"; yoksa DIVERSE işareti).
+  Logoya tıklayınca menü 15rem genişler, tam logo ve yerlerin adları görünür; tercih kullanıcıda saklanır (`shell.scss`).
 - **Açılır paneller:** bildirimler ve mesajlar üst çubukta düğmenin altında açılan beyaz kart olur (24rem). Mesajlar
   Moodle'ın kendi mesaj çekmecesidir, bütün görünümleri aynen kalır; telefonda tam ekran açılır (`shell.scss`).
 - **Hareket:** menüler ve paneller kısa bir yay efektiyle açılır, sayfa blokları sırayla yukarı kayarak belirir,

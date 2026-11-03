@@ -268,6 +268,10 @@ $string['login_back'] = 'Natrag na početnu';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Brzi pristup';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Prikaži nazive izbornika';
+$string['privacy:metadata:preference:railopen'] = 'Drži li korisnik izbornik lijevo otvorenim, s nazivima pokraj ikona.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';

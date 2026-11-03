@@ -268,6 +268,10 @@ $string['login_back'] = 'Ar ais go dtí an baile';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Rochtain thapa';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Taispeáin ainmneacha an roghchláir';
+$string['privacy:metadata:preference:railopen'] = 'Cé acu a choinníonn an t-úsáideoir an roghchlár ar chlé oscailte, leis na hainmneacha in aice lena n-íocóin.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

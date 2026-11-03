@@ -268,6 +268,10 @@ $string['login_back'] = 'Takaisin etusivulle';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Pikalinkit';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Näytä valikon nimet';
+$string['privacy:metadata:preference:railopen'] = 'Pitääkö käyttäjä vasemman valikon auki niin, että nimet näkyvät kuvakkeiden vieressä.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';

@@ -39,6 +39,9 @@ class shell implements renderable, templatable {
     /** @var string[] Page layouts without the navigation: pages that are not part of the application. */
     const EXCLUDED_LAYOUTS = ['embedded', 'frametop', 'frontpage', 'login', 'maintenance', 'popup', 'print', 'redirect', 'secure'];
 
+    /** @var string User preference: the rail shows the names of the places next to their icons. */
+    const RAIL_PREFERENCE = 'theme_diverse_railopen';
+
     /** @var string[] Icon class of each navigation link (see scss/icons.scss). */
     const ICONS = [
         'dashboard' => 'fa-table-cells-large',
@@ -84,6 +87,15 @@ class shell implements renderable, templatable {
             return (int)$guide->id;
         }
         return null;
+    }
+
+    /**
+     * Whether the user opened the rail to see the names of the places.
+     *
+     * @return bool
+     */
+    public static function rail_open(): bool {
+        return (bool)get_user_preferences(self::RAIL_PREFERENCE, false);
     }
 
     /**
@@ -155,10 +167,8 @@ class shell implements renderable, templatable {
             );
         }
 
-        // The mark at the top of the rail: the first letter of the user's university (of its short id, "beykent" rather than
-        // "İstanbul Beykent Üniversitesi"), or of DIVERSE.
+        // The top of the rail: the university's square logo (DIVERSE's without one); its full logo once the rail opens.
         $brand = $tenant ? $tenant->name : format_string(get_site()->shortname);
-        $short = $tenant && !empty($tenant->idnumber) ? $tenant->idnumber : $brand;
         $bottom = [];
         if (($CFG->supportavailability ?? CONTACT_SUPPORT_AUTHENTICATED) != CONTACT_SUPPORT_DISABLED) {
             $bottom[] = $this->link('help', get_string('contactsitesupport', 'admin'), '/user/contactsitesupport.php',
@@ -167,9 +177,10 @@ class shell implements renderable, templatable {
         $bottom[] = $this->link('preferences', get_string('preferences'), '/user/preferences.php', ['/user/preferences.php']);
 
         return [
-            'homeurl' => (new \core\url('/', ['redirect' => 0]))->out(false),
             'brand' => $brand,
-            'brandletter' => \core_text::strtoupper(\core_text::substr($short, 0, 1)),
+            'squarelogo' => $output->rail_logo_url()->out(false),
+            'fulllogo' => ($output->get_logo_url() ?? $output->image_url('logo', 'theme_diverse'))->out(false),
+            'railopen' => self::rail_open(),
             'bottom' => $bottom,
             'manageicon' => self::ICONS['manage'],
             'main' => $main,

@@ -268,6 +268,10 @@ $string['login_back'] = 'Înapoi la pagina principală';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Acces rapid';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Afișează numele meniului';
+$string['privacy:metadata:preference:railopen'] = 'Dacă utilizatorul ține meniul din stânga deschis, cu numele lângă pictograme.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';

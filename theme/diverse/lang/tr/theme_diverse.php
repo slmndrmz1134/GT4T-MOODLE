@@ -268,6 +268,10 @@ $string['login_back'] = 'Ana sayfaya dön';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Hızlı erişim';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Menü adlarını göster';
+$string['privacy:metadata:preference:railopen'] = 'Kullanıcının soldaki menüyü, yerlerin adları simgelerin yanında görünecek şekilde açık tutup tutmadığı.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';

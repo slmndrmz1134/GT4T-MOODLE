@@ -18,11 +18,12 @@
     @template theme_diverse/shell_nav
 
     Application navigation for logged-in users: a rail of icons on the left, a tab bar at the bottom on phones.
-    On the rail the names show next to the icons on hover and focus.
+    On the rail the names show next to the icons on hover and focus, or all the time once the logo opened the rail.
 
     Context variables required for this template:
-    * homeurl, brand, brandletter - the mark at the top of the rail (the first letter of the user's university),
-      leading to the site home
+    * brand, squarelogo, fulllogo - the top of the rail: the square logo of the user's university (DIVERSE's without
+      one), which opens the rail with the names of the places and then shows the full logo
+    * railopen - whether the user keeps the rail open
     * main - the main places, the platform guide last: key, label, url, icon (icon class), current, nophone
     * bottom - help and preferences at the bottom of the rail; the user menu shows under them (shell.scss)
     * manage, hasmanage, manageicon - management places of partner managers and site administrators
@@ -30,13 +31,18 @@
 
     Example context (json):
     {
-        "homeurl": "#", "brand": "DIVERSE", "brandletter": "D",
+        "brand": "DIVERSE", "squarelogo": "#", "fulllogo": "#", "railopen": false,
         "main": [{"key": "dashboard", "label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
         "bottom": [], "manage": [], "hasmanage": false, "manageicon": "fa-gear", "managecurrent": false
     }
 }}
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
-    <a class="diverse-nav-brand" href="{{homeurl}}" title="{{brand}}"><span aria-hidden="true">{{brandletter}}</span><span class="visually-hidden">{{brand}}</span></a>
+    <button type="button" class="diverse-nav-brand" data-action="diverse-rail-toggle" aria-expanded="{{#railopen}}true{{/railopen}}{{^railopen}}false{{/railopen}}"
+            title="{{brand}}">
+        <img class="diverse-nav-brand-square" src="{{squarelogo}}" alt="">
+        <img class="diverse-nav-brand-full" src="{{fulllogo}}" alt="">
+        <span class="visually-hidden">{{brand}}: {{#str}}rail_expand, theme_diverse{{/str}}</span>
+    </button>
     <ul class="diverse-nav-list">
         {{#main}}
         <li class="diverse-nav-item-{{key}}{{#nophone}} diverse-nav-nophone{{/nophone}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
@@ -67,3 +73,16 @@
         {{/bottom}}
     </ul>
 </nav>
+{{#js}}
+// The logo opens and closes the rail with the names of the places; the choice follows the user to the next pages.
+document.querySelectorAll('[data-action="diverse-rail-toggle"]').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var open = !document.body.classList.contains('diverse-rail-open');
+        document.body.classList.toggle('diverse-rail-open', open);
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        require(['core_user/repository'], function(Repository) {
+            Repository.setUserPreference('theme_diverse_railopen', open ? 1 : 0);
+        });
+    });
+});
+{{/js}}

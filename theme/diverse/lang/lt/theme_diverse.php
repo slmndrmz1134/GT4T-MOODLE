@@ -268,6 +268,10 @@ $string['login_back'] = 'Atgal į pradžią';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Greitoji prieiga';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Rodyti meniu pavadinimus';
+$string['privacy:metadata:preference:railopen'] = 'Ar naudotojas laiko kairįjį meniu atvertą, su pavadinimais šalia piktogramų.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

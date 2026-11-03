@@ -183,6 +183,9 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             if ($this->has_title_row()) {
                 $additionalclasses[] = 'diverse-title-row';
             }
+            if (shell::rail_open()) {
+                $additionalclasses[] = 'diverse-rail-open';
+            }
         }
         return parent::body_attributes($additionalclasses);
     }
@@ -685,6 +688,16 @@ JS;
      * @param int $maxheight
      * @return \moodle_url|false
      */
+    /**
+     * The square logo at the top of the rail: the compact logo uploaded for the user's university, or DIVERSE's mark.
+     *
+     * @return \core\url
+     */
+    public function rail_logo_url(): \core\url {
+        return $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url(300, 300)) ??
+            $this->image_url('favicon', 'theme_diverse');
+    }
+
     public function get_compact_logo_url($maxwidth = 300, $maxheight = 300) {
         $tenantlogo = $this->is_landing_page() ? null
             : $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight), true);

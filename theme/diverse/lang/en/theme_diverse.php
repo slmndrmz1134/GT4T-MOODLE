@@ -278,6 +278,10 @@ $string['login_back'] = 'Back to home';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Quick access';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Show the menu names';
+$string['privacy:metadata:preference:railopen'] = 'Whether the user keeps the menu on the left open, with the names of the places next to their icons.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Green colours (GT4T)';
 $string['palette_toorange'] = 'Orange colours (DIVERSE)';

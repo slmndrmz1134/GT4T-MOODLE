@@ -151,25 +151,33 @@ $diverse-tabbar-height: 4rem;
         border-right: 1px solid $diverse-border;
     }
 
+    // The university's square logo; it opens the rail, which then shows the full logo.
     .diverse-nav-brand {
         display: flex;
+        flex-shrink: 0;
         align-items: center;
         justify-content: center;
         width: 2.75rem;
         height: 2.75rem;
         margin-bottom: .75rem;
-        background-color: $diverse-ink;
+        padding: .25rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
         border-radius: $border-radius;
-        color: $white;
-        font-size: 1.125rem;
-        font-weight: 800;
-        text-decoration: none;
 
         &:hover,
-        &:focus {
-            background-color: $diverse-action-orange;
-            color: $white;
-            text-decoration: none;
+        &:focus-visible {
+            border-color: $diverse-action-orange;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .diverse-nav-brand-full {
+            display: none;
         }
     }
 
@@ -824,5 +832,92 @@ $diverse-tabbar-height: 4rem;
 @include media-breakpoint-down(md) {
     body.diverse-shell .local-diverse-assistant-toggle {
         bottom: calc(#{$diverse-tabbar-height} + 1rem);
+    }
+}
+
+// The open rail: as wide as the names of the places, which show next to their icons; the page moves over for it.
+$diverse-rail-open-width: 15rem;
+
+@include media-breakpoint-up(md) {
+    .diverse-nav {
+        transition: width .2s ease;
+    }
+
+    body.diverse-shell #page-wrapper,
+    body.diverse-shell .navbar.fixed-top {
+        transition: padding-left .2s ease, left .2s ease;
+    }
+
+    body.diverse-rail-open {
+        .diverse-nav {
+            align-items: stretch;
+            width: $diverse-rail-open-width;
+            padding-right: .75rem;
+            padding-left: .75rem;
+        }
+
+        .diverse-nav-brand {
+            justify-content: flex-start;
+            width: 100%;
+            padding: .375rem .625rem;
+            border-color: transparent;
+
+            .diverse-nav-brand-square {
+                display: none;
+            }
+
+            .diverse-nav-brand-full {
+                display: block;
+                max-height: 1.75rem;
+            }
+        }
+
+        .diverse-nav-list {
+            align-items: stretch;
+        }
+
+        .diverse-nav-link {
+            justify-content: flex-start;
+            gap: .75rem;
+            width: 100%;
+            padding: 0 .75rem;
+
+            .fa {
+                flex-shrink: 0;
+                width: 1.25rem;
+                text-align: center;
+            }
+
+            // The name stays next to the icon instead of showing as a label on hover.
+            > span {
+                position: static;
+                overflow: hidden;
+                padding: 0;
+                background: none;
+                color: inherit;
+                font-size: .9375rem;
+                opacity: 1;
+                text-overflow: ellipsis;
+                transform: none;
+                translate: none;
+                visibility: visible;
+            }
+
+            &.active::before {
+                left: -.75rem;
+            }
+        }
+
+        &.diverse-shell #page-wrapper {
+            padding-left: $diverse-rail-open-width;
+        }
+
+        &.diverse-shell .navbar.fixed-top {
+            left: $diverse-rail-open-width;
+        }
+
+        &.diverse-shell .drawer.drawer-left.show {
+            left: $diverse-rail-open-width;
+        }
     }
 }

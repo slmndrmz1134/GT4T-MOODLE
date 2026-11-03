@@ -268,6 +268,10 @@ $string['login_back'] = 'Retour à l\'accueil';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Accès rapide';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Afficher les noms du menu';
+$string['privacy:metadata:preference:railopen'] = 'Si l\'utilisateur garde le menu de gauche ouvert, avec les noms à côté de leurs icônes.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Couleurs vertes (GT4T)';
 $string['palette_toorange'] = 'Couleurs orange (DIVERSE)';

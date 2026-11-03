@@ -268,6 +268,10 @@ $string['login_back'] = 'Terug naar home';
 // Site administration: the tiles above the menu.
 $string['admin_shortcuts'] = 'Snelle toegang';
 
+// The rail: its logo shows and hides the names of the places.
+$string['rail_expand'] = 'Menunamen tonen';
+$string['privacy:metadata:preference:railopen'] = 'Of de gebruiker het menu links open houdt, met de namen naast de pictogrammen.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';

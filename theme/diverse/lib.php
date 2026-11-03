@@ -197,3 +197,19 @@ function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $for
     // The URL stays the same when a file is replaced, so browsers keep it only for an hour.
     send_stored_file($file, HOURSECS, 0, $forcedownload, $options);
 }
+
+/**
+ * The user preferences the theme's pages write themselves.
+ *
+ * @return array
+ */
+function theme_diverse_user_preferences() {
+    return [
+        \theme_diverse\output\shell::RAIL_PREFERENCE => [
+            'type' => PARAM_BOOL,
+            'null' => NULL_NOT_ALLOWED,
+            'default' => false,
+            'permissioncallback' => [\core_user::class, 'is_current_user'],
+        ],
+    ];
+}
