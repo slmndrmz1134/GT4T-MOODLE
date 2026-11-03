@@ -423,9 +423,14 @@ body {
         transition: color .15s ease, background-color .15s ease, border-color .15s ease;
     }
 
+    // Moodle's own rule for these links is stronger than the general one below: the lines above and under the link go here.
     a:not([class]):focus,
-    .aalink:focus {
+    .aalink:focus,
+    #page-footer a:not([class]):focus,
+    .arrow_link:focus,
+    .activityinstance > a:focus {
         background-color: transparent;
+        box-shadow: none;
         color: inherit;
     }
 
