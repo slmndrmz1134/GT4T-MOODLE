@@ -5,263 +5,456 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Landing (full width)</title>
 <!--
-    DIVERSE: full-width landing page draft (November 2026). The visitors' home page in the language of the dashboard:
-    the whole width of the screen, white cards on the grey surface, the same buttons, figures and course cards. No
-    rail for visitors: a top bar with the logo, the sections, the search and the way in. Texts are the theme's
-    current landing strings; partner logos are shown as names, courses and counts are the local test site's.
+    DIVERSE: full-width landing page draft, second round (November 2026). A landing page first: a full-screen photo
+    hero, big headlines, sections that breathe and come in as the page scrolls. The platform's language inside it: a
+    preview of the dashboard in the hero, the same buttons, cards, course cards and colours. No max-width: sections
+    run the whole width with side padding that grows with the screen. Texts are the theme's current landing strings;
+    partner logos are shown as names, courses and counts are the local test site's.
 -->
 <link rel="stylesheet" href="wide.css">
 <style>
-body { padding-bottom: 0; }
-.landing { padding: 0 1.5rem 1.5rem; }
-.landing .grid { margin-bottom: var(--gap); }
+:root { --side: clamp(1rem, 5vw, 6rem); }
+body { padding: 0; background: var(--white); }
+h1, h2, h3 { letter-spacing: -.02em; }
+.section { padding: clamp(3.5rem, 8vw, 7rem) var(--side); }
+.section.grey { background: var(--surface); }
+.eyebrow { display: inline-block; margin-bottom: 1rem; color: var(--action); font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.title { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; font-weight: 800; }
+.lead { margin: 1.25rem 0 0; max-width: 42rem; color: var(--grey); font-size: clamp(1rem, 1.3vw, 1.25rem); line-height: 1.6; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+.btn-lg { min-height: 3.25rem; padding: 0 1.75rem; font-size: 1rem; }
 
-/* Top bar: sticks to the top, white like the cards. */
+/* Top bar: transparent on the hero, white once the page scrolls. */
 .topbar {
-    position: sticky; top: 0; z-index: 20;
-    display: flex; align-items: center; gap: 1.5rem; margin: 0 -1.5rem 1.25rem; padding: .75rem 1.5rem;
-    background: var(--white); border-bottom: 1px solid var(--border);
+    position: fixed; inset: 0 0 auto; z-index: 20; display: flex; align-items: center; gap: 2rem;
+    padding: 1rem var(--side); color: #FFFFFF; transition: background .25s, box-shadow .25s, padding .25s, color .25s;
 }
-.topbar .logo img { display: block; height: 2rem; }
+.topbar .logo { display: block; height: 2.25rem; padding: .375rem .625rem; border-radius: .625rem; background: #FFFFFF; }
+.topbar .logo img { display: block; height: 100%; }
 .topbar nav { display: flex; gap: .25rem; }
-.topbar nav a { padding: .5rem .875rem; border-radius: 50rem; color: var(--grey); font-weight: 600; font-size: .875rem; }
-.topbar nav a:hover, .topbar nav a.active { background: var(--soft); color: var(--action); }
+.topbar nav a { padding: .5rem .875rem; border-radius: 50rem; color: inherit; font-weight: 600; font-size: .9375rem; opacity: .85; }
+.topbar nav a:hover { opacity: 1; background: rgba(255, 255, 255, .14); }
 .topbar .end { display: flex; align-items: center; gap: .5rem; margin-left: auto; }
-.topbar .search { width: 18rem; }
+.topbar .lang { display: inline-flex; align-items: center; gap: .25rem; height: 2.5rem; padding: 0 .75rem; border: 0; border-radius: 50rem; background: none; font-weight: 600; }
+.topbar .login { color: inherit; font-weight: 700; padding: 0 1rem; }
+.topbar.scrolled { padding-block: .625rem; background: var(--white); color: var(--ink); box-shadow: 0 1px 0 var(--border); }
+.topbar.scrolled nav a:hover { background: var(--soft); color: var(--action); }
 
-/* Hero: a photo card next to a column of figures. */
+/* Hero: the whole screen, the photo, the promise, and the dashboard waiting behind the login. */
 .hero {
-    position: relative; grid-column: span 8; display: flex; flex-direction: column; justify-content: flex-end; min-height: 30rem;
-    padding: 2.5rem; overflow: hidden; border-radius: var(--radius-card); color: #FFFFFF;
-    background: linear-gradient(to top, rgba(31, 35, 40, .92) 0%, rgba(31, 35, 40, .55) 55%, rgba(31, 35, 40, .15) 100%),
+    position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: 4rem;
+    min-height: 100vh; min-height: 100svh; padding: 8rem var(--side) 9rem; color: #FFFFFF; overflow: hidden;
+    background: linear-gradient(100deg, rgba(31, 35, 40, .94) 0%, rgba(31, 35, 40, .78) 45%, rgba(31, 35, 40, .35) 100%),
         url("../../../theme/diverse/pix/hero.jpg") center / cover;
 }
-.hero .eyebrow {
-    align-self: flex-start; margin-bottom: 1rem; padding: .25rem .75rem; border: 1px solid rgba(255, 255, 255, .5);
-    border-radius: 50rem; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-}
-.hero h1 { margin: 0; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1; letter-spacing: -.02em; }
-.hero .tagline { margin: .75rem 0 .5rem; font-size: 1.375rem; font-weight: 700; max-width: 36rem; }
-.hero .intro { margin: 0 0 1.5rem; max-width: 40rem; color: rgba(255, 255, 255, .85); }
-.hero .actions { display: flex; flex-wrap: wrap; gap: .5rem; }
-.hero .btn-ghost { border-color: rgba(255, 255, 255, .7); color: #FFFFFF; }
+.hero .eyebrow { color: #FFFFFF; padding: .375rem .875rem; border: 1px solid rgba(255, 255, 255, .4); border-radius: 50rem; font-size: .75rem; }
+.hero .eyebrow i { display: inline-block; width: .5rem; height: .5rem; margin-right: .5rem; border-radius: 50%; background: var(--brand); vertical-align: 1px; }
+.hero h1 { margin: 0; font-size: clamp(2.75rem, 6vw, 6rem); line-height: .98; font-weight: 800; }
+.hero h1 span { color: var(--brand); }
+.hero .lead { color: rgba(255, 255, 255, .82); }
+.hero .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+.hero .btn-ghost { border: 1px solid rgba(255, 255, 255, .6); color: #FFFFFF; }
 .hero .btn-ghost:hover { background: rgba(255, 255, 255, .12); color: #FFFFFF; }
 
-.side { grid-column: span 4; display: flex; flex-direction: column; gap: var(--gap); }
-.figures { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
-.figure { display: flex; flex-direction: row; align-items: center; gap: .875rem; padding: 1.125rem 1.25rem; }
-.figure .ic { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: .75rem; background: var(--soft); color: var(--action); flex-shrink: 0; }
-.figure b { display: block; font-size: 1.75rem; line-height: 1.1; }
-.figure span { color: var(--grey); font-size: .8125rem; }
-.figure.wide { grid-column: span 2; }
+/* The dashboard preview: the platform's own cards, tilted a little and floating. */
+.preview { position: relative; display: grid; gap: .875rem; max-width: 34rem; justify-self: end; width: 100%; color: var(--ink); }
+.preview .card { box-shadow: 0 24px 60px rgba(0, 0, 0, .35); }
+.preview .next { display: flex; flex-direction: row; gap: 1rem; align-items: center; animation: float 7s ease-in-out infinite; }
+.preview .next .cover { width: 5.5rem; height: 5.5rem; flex-shrink: 0; border-radius: var(--radius); font-size: 1.5rem; }
+.preview .next small, .preview .row small { color: var(--grey); font-size: .8125rem; }
+.preview .next b { display: block; margin: .125rem 0 .5rem; font-size: 1.0625rem; }
+.preview .pair { display: grid; grid-template-columns: 1fr 1fr; gap: .875rem; animation: float 7s ease-in-out -2.5s infinite; }
+.preview .row { display: flex; align-items: center; gap: .75rem; }
+.preview .row + .row { margin-top: .75rem; padding-top: .75rem; border-top: 1px solid var(--border); }
+.preview .date { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; flex-shrink: 0; border-radius: .75rem; background: var(--soft); color: var(--action); font-weight: 800; font-size: .8125rem; line-height: 1; text-align: center; }
+.preview .date small { display: block; color: inherit; font-size: .625rem; font-weight: 700; text-transform: uppercase; }
+.preview .row b { display: block; font-size: .875rem; }
+.ring { --p: 72; position: relative; display: grid; place-items: center; width: 6.5rem; height: 6.5rem; margin: .25rem auto .75rem; border-radius: 50%; background: conic-gradient(var(--action) calc(var(--p) * 1%), var(--track) 0); }
+.ring::before { content: ""; position: absolute; inset: .625rem; border-radius: 50%; background: var(--white); }
+.ring b { position: relative; font-size: 1.5rem; }
+.preview .center { text-align: center; }
+.preview .live { position: absolute; top: -1.25rem; left: -1.75rem; z-index: 1; display: flex; align-items: center; gap: .625rem; padding: .625rem 1rem; border-radius: 50rem; background: var(--white); box-shadow: 0 12px 30px rgba(0, 0, 0, .3); font-weight: 700; font-size: .875rem; animation: float 6s ease-in-out -1s infinite; }
+.preview .live i { width: .625rem; height: .625rem; border-radius: 50%; background: var(--danger); box-shadow: 0 0 0 0 var(--danger); animation: pulse 1.8s infinite; }
+@keyframes float { 50% { transform: translateY(-10px); } }
+@keyframes pulse { 70% { box-shadow: 0 0 0 .5rem transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 
-/* Next step for visitors: the three steps as a short list, like the deadlines card. */
-.steps-mini ol { display: flex; flex-direction: column; gap: .625rem; margin: 0; padding: 0; list-style: none; }
-.steps-mini li { display: flex; gap: .75rem; align-items: flex-start; padding: .75rem; border: 1px solid var(--border); border-radius: var(--radius); }
-.num {
-    display: grid; place-items: center; flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 50%;
-    background: var(--soft); color: var(--action); font-weight: 800; font-size: .875rem;
+/* Figures: a white bar resting on the bottom edge of the hero. */
+.figures {
+    position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: -4.5rem var(--side) 0; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white);
+    box-shadow: 0 20px 50px rgba(16, 24, 40, .12);
 }
-.steps-mini strong { display: block; font-size: .9375rem; }
-.steps-mini small { color: var(--grey); }
+.figures div { display: flex; align-items: center; gap: 1rem; padding: 1.75rem 2rem; }
+.figures div + div { border-left: 1px solid var(--border); }
+.figures .ic { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; flex-shrink: 0; border-radius: 1rem; background: var(--soft); color: var(--action); }
+.figures b { display: block; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1; font-weight: 800; }
+.figures span span { color: var(--grey); font-size: .9375rem; }
 
-/* About and the focus areas. */
-.about { grid-column: span 5; }
-.about .eyebrow, .section-eyebrow { color: var(--action); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.about h2 { margin: .5rem 0 .75rem; font-size: 1.75rem; line-height: 1.2; }
-.about p { margin: 0 0 1rem; color: var(--grey); }
-.about .support { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); font-size: .8125rem; }
-.focus { grid-column: span 7; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
-.focus .card { gap: .75rem; }
-.focus .ic { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: .875rem; background: var(--soft); color: var(--action); }
-.focus h3 { margin: .25rem 0 0; font-size: 1.125rem; }
-.focus p { margin: 0; color: var(--grey); font-size: .9375rem; }
+/* About: a big statement next to the three focus areas. */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+.about .support { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--grey); font-size: .9375rem; max-width: 34rem; }
+.focus { display: grid; gap: var(--gap); }
+.focus article { display: grid; grid-template-columns: auto 1fr auto; gap: 1.5rem; align-items: center; padding: 1.75rem 2rem; border-radius: var(--radius-card); background: var(--surface); transition: background .2s, transform .2s; }
+.focus article:hover { background: var(--soft); transform: translateX(6px); }
+.focus .n { color: var(--action); font-size: 2.5rem; font-weight: 800; line-height: 1; min-width: 3.5rem; }
+.focus h3 { margin: 0 0 .375rem; font-size: clamp(1.25rem, 1.8vw, 1.625rem); }
+.focus p { margin: 0; color: var(--grey); }
+.focus .ic { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--white); color: var(--action); }
 
-/* Courses: the cards of Discover. */
-.courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--gap); margin: 0; padding: 0; list-style: none; }
-.course-body { display: flex; flex-direction: column; gap: .375rem; padding: 1rem 1.125rem 1.125rem; }
-.course-type { display: inline-flex; align-items: center; gap: .375rem; color: var(--grey); font-size: .75rem; font-weight: 600; }
-.course-name { font-size: 1.0625rem; font-weight: 700; line-height: 1.3; }
-.course-meta { color: var(--grey); font-size: .8125rem; }
-.tag { align-self: flex-start; display: inline-flex; align-items: center; gap: .375rem; padding: .125rem .625rem; border: 1px solid var(--border); border-radius: 50rem; font-size: .75rem; color: var(--grey); }
-.tag::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--brand); }
+/* What is inside: a bento of the platform, each tile a piece of the real interface. */
+.bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(15rem, auto); gap: var(--gap); }
+.tile { display: flex; flex-direction: column; gap: .75rem; padding: 2rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--white); overflow: hidden; }
+.tile h3 { margin: 0; font-size: 1.375rem; }
+.tile p { margin: 0; color: var(--grey); max-width: 30rem; }
+.tile .demo { margin-top: auto; padding-top: 1rem; }
+.tile.live { grid-column: span 7; background: var(--ink); color: var(--white); border-color: var(--ink); }
+.tile.live p { color: var(--on-dark-muted); }
+.tile.ai { grid-column: span 5; }
+.tile.lang { grid-column: span 5; }
+.tile.track { grid-column: span 7; }
+.faces { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .625rem; }
+.faces span { display: grid; place-items: center; aspect-ratio: 16 / 10; border-radius: var(--radius); background: rgba(255, 255, 255, .08); font-weight: 800; font-size: 1.25rem; }
+.faces span.on { outline: 2px solid var(--brand); }
+.bubbles { display: flex; flex-direction: column; gap: .5rem; }
+.bubbles span { max-width: 85%; padding: .625rem .875rem; border-radius: 1rem; font-size: .875rem; }
+.bubbles .me { align-self: flex-end; background: var(--action); color: var(--white); border-bottom-right-radius: .25rem; }
+.bubbles .bot { background: var(--surface); border-bottom-left-radius: .25rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips span { padding: .5rem 1rem; border: 1px solid var(--border-strong); border-radius: 50rem; font-weight: 700; font-size: .875rem; }
+.chips span.on { background: var(--action); border-color: var(--action); color: var(--white); }
+.bars { display: grid; gap: .875rem; }
+.bars .meter b { min-width: 3rem; text-align: right; }
+.bars label { display: block; margin-bottom: .375rem; font-weight: 600; font-size: .875rem; }
 
-/* Partners: names sliding by, as on the current landing. */
-.partners { overflow: hidden; padding: 1.25rem 0; }
-.partners .card-head { padding: 0 1.25rem; }
-.strip { display: flex; width: max-content; animation: slide 40s linear infinite; }
+/* Steps: three big numbers on a line. */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); margin: 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { position: relative; padding-top: 4.5rem; }
+.steps li::before {
+    counter-increment: s; content: counter(s); position: absolute; top: 0; left: 0; display: grid; place-items: center;
+    width: 3.25rem; height: 3.25rem; border-radius: 50%; background: var(--action); color: var(--white); font-weight: 800; font-size: 1.25rem;
+}
+.steps li:not(:last-child)::after { content: ""; position: absolute; top: 1.625rem; left: 4.25rem; right: -1rem; height: 2px; background: repeating-linear-gradient(90deg, var(--border-strong) 0 .5rem, transparent .5rem 1rem); }
+.steps h3 { margin: 0 0 .5rem; font-size: 1.375rem; }
+.steps p { margin: 0; color: var(--grey); }
+
+/* Courses: the cards of Discover in a row that scrolls sideways. */
+.filters { display: flex; gap: .5rem; flex-wrap: wrap; }
+.filters button { height: 2.5rem; padding: 0 1rem; border: 1px solid var(--border-strong); border-radius: 50rem; background: var(--white); font-weight: 600; font-size: .875rem; color: var(--grey); }
+.filters button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.rowwrap { margin: 0 calc(var(--side) * -1); }
+.courses { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(17.5rem, 20rem); grid-template-columns: none; gap: var(--gap); padding: .25rem var(--side) 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: var(--side); scrollbar-width: none; }
+.courses::-webkit-scrollbar { display: none; }
+.courses li { scroll-snap-align: start; transition: transform .2s; }
+.courses li:hover { transform: translateY(-4px); }
+.cover { height: 10rem; }
+.arrows { display: flex; gap: .5rem; }
+.arrows button { display: grid; place-items: center; width: 3rem; height: 3rem; border: 1px solid var(--border-strong); border-radius: 50%; background: var(--white); }
+.arrows button:hover { background: var(--soft); color: var(--action); border-color: var(--action); }
+.arrows .back svg { transform: rotate(180deg); }
+
+/* Partners: logos sliding right to left, the whole width. */
+.partners { padding: 3rem 0; border-block: 1px solid var(--border); overflow: hidden; }
+.partners p { margin: 0 0 1.75rem; padding: 0 var(--side); color: var(--grey); font-weight: 600; text-align: center; }
+.strip { display: flex; width: max-content; animation: slide 45s linear infinite; }
 .strip:hover { animation-play-state: paused; }
-.strip ul { display: flex; gap: 1rem; margin: 0; padding: 0 .5rem; list-style: none; }
-.strip li { padding: .875rem 1.5rem; border: 1px solid var(--border); border-radius: var(--radius); color: var(--grey); font-weight: 700; white-space: nowrap; }
+.strip ul { display: flex; gap: 3.5rem; margin: 0; padding: 0 1.75rem; list-style: none; align-items: center; }
+.strip li { color: var(--grey); font-size: 1.375rem; font-weight: 800; white-space: nowrap; opacity: .7; transition: opacity .2s, color .2s; }
+.strip li:hover { opacity: 1; color: var(--ink); }
 @keyframes slide { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .strip { animation: none; flex-wrap: wrap; width: auto; } .strip ul[aria-hidden] { display: none; } }
 
-/* Closing band and footer. */
-.cta {
-    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
-    padding: 2rem 2.5rem; border-radius: var(--radius-card); background: var(--ink); color: var(--white);
+/* Closing: the brand colour, the whole width. */
+.cta { position: relative; padding: clamp(4rem, 9vw, 8rem) var(--side); background: var(--action); color: #FFFFFF; overflow: hidden; }
+.cta::before, .cta::after { content: ""; position: absolute; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .18); }
+.cta::before { width: 38rem; height: 38rem; right: -10rem; top: -14rem; }
+.cta::after { width: 24rem; height: 24rem; right: 8rem; bottom: -16rem; }
+.cta .title { max-width: 52rem; }
+.cta .lead { color: rgba(255, 255, 255, .85); }
+.cta .actions { position: relative; display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+.cta .btn-light { background: #FFFFFF; border-color: #FFFFFF; color: var(--ink); }
+.cta .btn-ghost { border: 1px solid rgba(255, 255, 255, .7); color: #FFFFFF; }
+
+.footer { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; padding: 4rem var(--side) 2rem; background: var(--ink); color: var(--white); }
+.footer .logo { display: inline-block; height: 2.5rem; padding: .375rem .625rem; border-radius: .625rem; background: #FFFFFF; }
+.footer .logo img { height: 100%; }
+.footer p { max-width: 24rem; color: var(--on-dark-muted); }
+.footer h3 { margin: 0 0 1rem; font-size: .75rem; color: var(--on-dark-muted); letter-spacing: .08em; text-transform: uppercase; }
+.footer ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .625rem; }
+.footer ul a { color: var(--white); font-weight: 600; }
+.footer ul a:hover { text-decoration: underline; }
+.footer .legal { grid-column: 1 / -1; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, .12); color: var(--on-dark-muted); font-size: .875rem; }
+
+/* Sections come in as they reach the screen. */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); transition-delay: calc(var(--i, 0) * 90ms); }
+.reveal.in { opacity: 1; transform: none; }
+.draft-switch { position: fixed; right: 1rem; bottom: 1rem; z-index: 30; box-shadow: 0 8px 24px rgba(0, 0, 0, .15); }
+@media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .preview *, .strip { animation: none !important; }
+    .strip { flex-wrap: wrap; width: auto; } .strip ul[aria-hidden] { display: none; }
 }
-.cta h2 { margin: 0 0 .25rem; font-size: 1.75rem; }
-.cta p { margin: 0; color: var(--on-dark-muted); }
-.cta .btn-light { background: var(--white); border-color: var(--white); }
-.cta .btn-ghost { border-color: var(--on-dark-muted); color: var(--white); }
 
-.footer { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; margin: var(--gap) -1.5rem -1.5rem; padding: 2rem 1.5rem; background: var(--white); border-top: 1px solid var(--border); }
-.footer img { height: 2rem; }
-.footer p, .footer small { color: var(--grey); font-size: .875rem; }
-.footer h3 { margin: 0 0 .75rem; font-size: .75rem; color: var(--grey); letter-spacing: .06em; text-transform: uppercase; }
-.footer ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .5rem; }
-.footer ul a { color: var(--ink); font-weight: 600; font-size: .875rem; }
-
-.draft-note { position: fixed; right: 1rem; bottom: 1rem; z-index: 30; display: flex; gap: .5rem; }
-
-@media (max-width: 1200px) {
-    .hero, .side { grid-column: span 12; }
-    .figures { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .figure.wide { grid-column: span 1; }
-
-    .about, .focus { grid-column: span 12; }
+@media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; padding-bottom: 8rem; }
+    .preview { justify-self: start; }
     .topbar nav { display: none; }
+    .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .figures div:nth-child(3) { border-left: 0; }
+    .figures div:nth-child(n+3) { border-top: 1px solid var(--border); }
+    .about { grid-template-columns: 1fr; }
+    .tile.live, .tile.ai, .tile.lang, .tile.track { grid-column: span 12; }
+    .footer { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 767px) {
-    .landing { padding: 0 1rem 1rem; }
-    .topbar { margin: 0 -1rem 1rem; padding: .625rem 1rem; }
-    .topbar .search, .topbar .chip-btn, .topbar .palette-switch { display: none; }
-    .hero { min-height: 26rem; padding: 1.5rem; }
-    .figures { grid-template-columns: 1fr 1fr; }
-    .focus { grid-template-columns: 1fr; }
-    .footer { grid-template-columns: 1fr; margin: var(--gap) -1rem -1rem; }
-    .cta { padding: 1.5rem; }
+    .topbar .lang { display: none; }
+    .topbar .login { padding: 0 .5rem; }
+    .hero { padding-top: 6.5rem; gap: 2.5rem; }
+    .preview .pair { grid-template-columns: 1fr; }
+    .preview .pair .card:last-child { display: none; }
+    .preview .live { left: auto; right: .5rem; }
+    .figures div { padding: 1.125rem; gap: .75rem; }
+    .figures .ic { width: 2.5rem; height: 2.5rem; }
+    .focus article { grid-template-columns: auto 1fr; padding: 1.25rem; }
+    .focus .ic { display: none; }
+    .tile { padding: 1.5rem; }
+    .faces { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps { grid-template-columns: 1fr; }
+    .steps li { padding: 0 0 0 4.5rem; min-height: 3.25rem; }
+    .steps li::after { display: none; }
+    .arrows { display: none; }
+    .footer { grid-template-columns: 1fr; }
+    .draft-switch { left: 1rem; right: auto; }
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1M10 21v-3h4v3"/></symbol>
     <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6.5A2.5 2.5 0 0 0 4 20.5 2.5 2.5 0 0 0 6.5 23H20"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></symbol>
+    <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h8M8 3v2M6 5c0 4 3 7 6 8M10 5c0 4-3 7-6 8M13 21l4-9 4 9M14.5 18h5"/></symbol>
     <symbol id="i-recycle" viewBox="0 0 24 24"><path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7L7 9.5M11 19h8.2a1.8 1.8 0 0 0 1.6-2.7l-1.2-2.1M14 16l-3 3 3 3M8.3 13.4 7 9.5l-3.9 1.3M9.3 5.6l1.1-1.9a1.8 1.8 0 0 1 3.1 0l3.9 6.8M13.4 9.6l3.9-1.3 1.3 3.9"/></symbol>
     <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
 </svg>
-<div class="landing">
-    <header class="topbar">
-        <a class="logo" href="#"><img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE European University Alliance"></a>
-        <nav aria-label="Sections">
-            <a href="#about">About</a><a href="#steps">How it works</a><a href="#courses">Courses</a><a href="#partners">Partners</a>
-        </nav>
-        <div class="end">
-            <label class="search"><svg class="i"><use href="#i-search"/></svg><span class="sr-only">Search</span><input placeholder="What do you want to learn?"></label>
-            <div class="palette-switch" role="group" aria-label="Colours (draft only)"><button type="button" data-set="orange" aria-pressed="true">Orange</button><button type="button" data-set="green">Green</button></div>
-            <button class="chip-btn" type="button">EN <svg class="i sm"><use href="#i-down"/></svg></button>
-            <a class="btn btn-light" href="#">Log in</a>
-            <a class="btn btn-primary" href="#">Get started</a>
-        </div>
-    </header>
 
-    <div class="grid">
-        <section class="hero" aria-labelledby="hero-title">
-            <span class="eyebrow">European University Alliance</span>
-            <h1 id="hero-title">DIVERSE</h1>
-            <p class="tagline">Innovation, education and sustainability for a resilient future.</p>
-            <p class="intro">GreenTech4Transformation (GT4T) brings universities, innovators and businesses together to drive Europe's green and digital transformation.</p>
-            <div class="actions">
-                <a class="btn btn-primary" href="#">Get started <svg class="i sm"><use href="#i-arrow"/></svg></a>
-                <a class="btn btn-ghost" href="#partners">Meet the partners</a>
-            </div>
-        </section>
-        <div class="side">
-            <div class="figures" aria-label="Key figures">
-                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><span><b>8</b><span>Project partners</span></span></div>
-                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><span><b>5</b><span>Countries</span></span></div>
-                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span><b>18</b><span>Courses available</span></span></div>
-                <div class="card figure"><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><span><b>6</b><span>Languages</span></span></div>
-            </div>
-            <section class="card steps-mini" id="steps" aria-labelledby="steps-title">
-                <div class="card-head"><h2 id="steps-title">Start learning in three steps</h2></div>
-                <ol>
-                    <li><span class="num">1</span><span><strong>Choose your university</strong><small>On the login page, pick your partner university or GT4T.</small></span></li>
-                    <li><span class="num">2</span><span><strong>Log in with your account</strong><small>Use the account your university gave you, or create one.</small></span></li>
-                    <li><span class="num">3</span><span><strong>Continue where you left off</strong><small>Your dashboard shows your next activity, your deadlines and your grades.</small></span></li>
-                </ol>
-            </section>
+<header class="topbar" id="topbar">
+    <a class="logo" href="#"><img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE European University Alliance"></a>
+    <nav aria-label="Sections"><a href="#about">About</a><a href="#inside">The platform</a><a href="#steps">How it works</a><a href="#courses">Courses</a></nav>
+    <div class="end">
+        <button class="lang" type="button">EN <svg class="i sm"><use href="#i-down"/></svg></button>
+        <a class="login" href="#">Log in</a>
+        <a class="btn btn-primary" href="#">Get started</a>
+    </div>
+</header>
+
+<section class="hero" aria-labelledby="hero-title">
+    <div>
+        <span class="eyebrow reveal"><i></i>European University Alliance</span>
+        <h1 id="hero-title" class="reveal" style="--i:1">Learn across <span>Europe.</span><br>From one place.</h1>
+        <p class="lead reveal" style="--i:2">DIVERSE brings universities, innovators and businesses together for Europe's green and digital transformation. Courses from 8 partners in 5 countries, in your language.</p>
+        <div class="actions reveal" style="--i:3">
+            <a class="btn btn-primary btn-lg" href="#">Get started <svg class="i sm"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-ghost btn-lg" href="#courses">Browse courses</a>
         </div>
     </div>
-
-    <div class="grid" id="about">
-        <section class="card about" aria-labelledby="about-title">
-            <span class="eyebrow">About GT4T</span>
-            <h2 id="about-title">From knowledge to practical solutions</h2>
-            <p>GT4T strengthens the role of universities in the green and digital transition by connecting higher education with industry and innovation ecosystems. Its mission is to turn ideas and knowledge into practical solutions for a more sustainable, inclusive and future-ready Europe.</p>
-            <p class="support">Supported by the EIT HEI Initiative, guided and co-funded by EIT Climate-KIC, and coordinated by Satakunta University of Applied Sciences (SAMK, Finland).</p>
-        </section>
-        <div class="focus">
-            <article class="card"><span class="ic"><svg class="i"><use href="#i-recycle"/></svg></span><h3>Circular economy</h3><p>Cleaner production, sustainable materials and responsible use of resources.</p></article>
-            <article class="card"><span class="ic"><svg class="i"><use href="#i-cpu"/></svg></span><h3>Digital transformation</h3><p>Skills in artificial intelligence, data analytics, automation and smart manufacturing.</p></article>
-            <article class="card"><span class="ic"><svg class="i"><use href="#i-bolt"/></svg></span><h3>Energy transition</h3><p>Innovation and entrepreneurship that support Europe's move to clean energy.</p></article>
+    <div class="preview reveal" style="--i:2" aria-label="A look at the dashboard">
+        <span class="live"><i></i>Live now · Marketing Management</span>
+        <div class="card next">
+            <span class="cover c1">BL</span>
+            <div style="flex:1;min-width:0">
+                <small>Continue where you left off</small>
+                <b>Business Law · Contracts in the EU</b>
+                <div class="meter"><span><i style="width:64%"></i></span><b>64%</b></div>
+            </div>
+        </div>
+        <div class="pair">
+            <div class="card">
+                <div class="card-head"><h2>Deadlines</h2></div>
+                <div class="row"><span class="date">12<small>Nov</small></span><span><b>Case study</b><small>Business Law</small></span></div>
+                <div class="row"><span class="date">15<small>Nov</small></span><span><b>Quiz 3</b><small>Digital Marketing</small></span></div>
+                <div class="row"><span class="date">21<small>Nov</small></span><span><b>Project plan</b><small>Project Management</small></span></div>
+            </div>
+            <div class="card center">
+                <div class="card-head"><h2>This term</h2></div>
+                <div class="ring"><b>72%</b></div>
+                <small style="color:var(--grey)">4 courses · 18 activities done</small>
+            </div>
         </div>
     </div>
+</section>
 
-    <section class="card" id="courses" aria-labelledby="courses-title" style="margin-bottom: var(--gap);">
-        <div class="card-head"><h2 id="courses-title">Explore courses</h2><a class="more" href="#">All 18 courses <svg class="i sm"><use href="#i-arrow"/></svg></a></div>
-        <ul class="courses" id="course-list"></ul>
-    </section>
-
-    <section class="card partners" id="partners" aria-labelledby="partners-title" style="margin-bottom: var(--gap);">
-        <div class="card-head"><h2 id="partners-title">Who takes part in GT4T</h2><span class="more" style="color: var(--grey); font-weight: 500;">Universities, innovation hubs and companies from across Europe</span></div>
-        <div class="strip" id="strip"></div>
-    </section>
-
-    <section class="cta" aria-labelledby="cta-title">
-        <div><h2 id="cta-title">Ready to start learning?</h2><p>Courses from 8 partners in 5 countries, in one place.</p></div>
-        <div class="actions" style="display: flex; gap: .5rem; flex-wrap: wrap;">
-            <a class="btn btn-light" href="#">Get started</a>
-            <a class="btn btn-ghost" href="#">Courses</a>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div>
-            <img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE">
-            <p>The DIVERSE European University Alliance: innovation, education and sustainability for a resilient future.</p>
-            <small>© 2026 DIVERSE European University Alliance</small>
-        </div>
-        <div><h3>Explore</h3><ul><li><a href="#about">About</a></li><li><a href="#partners">Partners</a></li><li><a href="#courses">Courses</a></li></ul></div>
-        <div><h3>Platform</h3><ul><li><a href="#">Log in</a></li><li><a href="#">Courses</a></li><li><a href="#">Privacy summary</a></li><li><a href="#">Contact site support</a></li></ul></div>
-    </footer>
+<div class="figures reveal" aria-label="Key figures">
+    <div><span class="ic"><svg class="i"><use href="#i-building"/></svg></span><span><b data-count="8">8</b><span>Partners</span></span></div>
+    <div><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><span><b data-count="5">5</b><span>Countries</span></span></div>
+    <div><span class="ic"><svg class="i"><use href="#i-book"/></svg></span><span><b data-count="18">18</b><span>Courses</span></span></div>
+    <div><span class="ic"><svg class="i"><use href="#i-lang"/></svg></span><span><b data-count="6">6</b><span>Languages</span></span></div>
 </div>
+
+<section class="section" id="about" aria-labelledby="about-title">
+    <div class="about">
+        <div class="reveal">
+            <span class="eyebrow">About GT4T</span>
+            <h2 class="title" id="about-title">From knowledge to practical solutions.</h2>
+            <p class="lead">GreenTech4Transformation strengthens the role of universities in the green and digital transition by connecting higher education with industry and innovation ecosystems.</p>
+            <p class="support">Supported by the EIT HEI Initiative, guided and co-funded by EIT Climate-KIC, and coordinated by Satakunta University of Applied Sciences (SAMK, Finland).</p>
+        </div>
+        <div class="focus">
+            <article class="reveal" style="--i:1"><span class="n">01</span><div><h3>Circular economy</h3><p>Cleaner production, sustainable materials and responsible use of resources.</p></div><span class="ic"><svg class="i"><use href="#i-recycle"/></svg></span></article>
+            <article class="reveal" style="--i:2"><span class="n">02</span><div><h3>Digital transformation</h3><p>Artificial intelligence, data analytics, automation and smart manufacturing.</p></div><span class="ic"><svg class="i"><use href="#i-cpu"/></svg></span></article>
+            <article class="reveal" style="--i:3"><span class="n">03</span><div><h3>Energy transition</h3><p>Innovation and entrepreneurship for Europe's move to clean energy.</p></div><span class="ic"><svg class="i"><use href="#i-bolt"/></svg></span></article>
+        </div>
+    </div>
+</section>
+
+<section class="section grey" id="inside" aria-labelledby="inside-title">
+    <div class="section-head reveal">
+        <div><span class="eyebrow">The platform</span><h2 class="title" id="inside-title">Everything a course needs.</h2></div>
+        <p class="lead" style="margin:0;max-width:30rem">Live classes, an AI assistant, your language and your progress, together on one dashboard.</p>
+    </div>
+    <div class="bento">
+        <article class="tile live reveal">
+            <h3>Live classes</h3>
+            <p>Join your lecturer and classmates from every partner university, right from the course page.</p>
+            <div class="demo faces"><span class="on">AY</span><span>MK</span><span>LS</span><span>JV</span></div>
+        </article>
+        <article class="tile ai reveal" style="--i:1">
+            <h3>AI course assistant</h3>
+            <p>Ask about your course material at any hour. You decide how long the chat is kept.</p>
+            <div class="demo bubbles"><span class="me">What does Chapter 3 say about EU contracts?</span><span class="bot">It covers three points: formation, the parties' duties and…</span></div>
+        </article>
+        <article class="tile lang reveal">
+            <h3>Six languages</h3>
+            <p>The whole platform in your language, and courses that switch with it.</p>
+            <div class="demo chips"><span class="on">English</span><span>Türkçe</span><span>Deutsch</span><span>Hrvatski</span><span>Suomi</span><span>Nederlands</span></div>
+        </article>
+        <article class="tile track reveal" style="--i:1">
+            <h3>Your progress at a glance</h3>
+            <p>Your next activity, your deadlines and your grades wait on the dashboard.</p>
+            <div class="demo bars">
+                <div><label>Business Law</label><div class="meter"><span><i style="width:64%"></i></span><b>64%</b></div></div>
+                <div><label>Digital Marketing &amp; Growth Hacking</label><div class="meter"><span><i style="width:88%"></i></span><b>88%</b></div></div>
+                <div><label>Strategic Project Management</label><div class="meter"><span><i style="width:35%"></i></span><b>35%</b></div></div>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="section" id="steps" aria-labelledby="steps-title">
+    <div class="section-head reveal"><div><span class="eyebrow">How it works</span><h2 class="title" id="steps-title">Start learning in three steps.</h2></div></div>
+    <ol class="steps">
+        <li class="reveal"><h3>Choose your university</h3><p>On the login page, pick your partner university or GT4T.</p></li>
+        <li class="reveal" style="--i:1"><h3>Log in with your account</h3><p>Use the account your university gave you, or create one.</p></li>
+        <li class="reveal" style="--i:2"><h3>Continue where you left off</h3><p>Your dashboard shows your next activity, your deadlines and your grades.</p></li>
+    </ol>
+</section>
+
+<section class="section grey" id="courses" aria-labelledby="courses-title">
+    <div class="section-head reveal">
+        <div><span class="eyebrow">Courses</span><h2 class="title" id="courses-title">Find your next course.</h2></div>
+        <div class="arrows"><button class="back" type="button" data-scroll="-1" aria-label="Previous"><svg class="i"><use href="#i-arrow"/></svg></button><button type="button" data-scroll="1" aria-label="Next"><svg class="i"><use href="#i-arrow"/></svg></button></div>
+    </div>
+    <div class="filters reveal" style="margin-bottom:1.5rem" id="filters"></div>
+    <div class="rowwrap reveal"><ul class="courses" id="course-list"></ul></div>
+    <a class="btn btn-light btn-lg reveal" href="#" style="margin-top:1.5rem">See all 18 courses <svg class="i sm"><use href="#i-arrow"/></svg></a>
+</section>
+
+<section class="partners" id="partners" aria-label="Partners">
+    <p>Universities, innovation hubs and companies from across Europe</p>
+    <div class="strip" id="strip"></div>
+</section>
+
+<section class="cta" aria-labelledby="cta-title">
+    <h2 class="title reveal" id="cta-title">Your university is already here. Are you?</h2>
+    <p class="lead reveal" style="--i:1">Log in with the account your university gave you and pick up your courses.</p>
+    <div class="actions reveal" style="--i:2">
+        <a class="btn btn-light btn-lg" href="#">Get started <svg class="i sm"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="#">Log in</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div>
+        <span class="logo"><img src="../../../theme/diverse/pix/logo.png" alt="DIVERSE"></span>
+        <p>The DIVERSE European University Alliance: innovation, education and sustainability for a resilient future.</p>
+    </div>
+    <div><h3>Explore</h3><ul><li><a href="#about">About</a></li><li><a href="#inside">The platform</a></li><li><a href="#courses">Courses</a></li></ul></div>
+    <div><h3>Platform</h3><ul><li><a href="#">Log in</a></li><li><a href="#">Get started</a></li><li><a href="#">Contact site support</a></li></ul></div>
+    <div><h3>Legal</h3><ul><li><a href="#">Privacy policy</a></li><li><a href="#">Terms of use</a></li><li><a href="#">Privacy summary</a></li></ul></div>
+    <div class="legal"><span>© 2026 DIVERSE European University Alliance</span><span>Co-funded by EIT Climate-KIC</span></div>
+</footer>
+
+<div class="palette-switch draft-switch" role="group" aria-label="Colours (draft only)"><button type="button" data-set="orange" aria-pressed="true">Orange</button><button type="button" data-set="green">Green</button></div>
+
 <script>
-// Sample courses and partners of the local test site; the palette switch of the drafts.
+// Draft only: sample courses and partners of the local test site, the course filter and arrows, the top bar on
+// scroll, the sections coming in, the figures counting up and the palette switch.
 (function () {
     const courses = [
-        ['BL', 'Business Law', 'İstanbul Beykent Üniversitesi', 'Teacher 1, Ali Yılmaz', 11, 'c1'],
-        ['MM', 'Marketing Management', 'İstanbul Beykent Üniversitesi', 'Teacher 1', 5, 'c4'],
-        ['DM', 'Digital Marketing & Growth Hacking', 'Shared Courses', 'Admin User', 7, 'c3'],
-        ['SP', 'Strategic Project Management', 'Shared Courses', 'Admin User', 7, 'c2'],
-        ['MG', 'Microeconomics and Global Trade Policy', 'Algebra University College', 'Admin User', 7, 'c5'],
-        ['CE', 'Circular Economy Basics', 'Technische Hochschule Rosenheim', 'Teacher 2', 9, 'c1'],
-        ['AI', 'AI for Smart Manufacturing', 'Satakunta University of Applied Sciences', 'Teacher 3', 8, 'c2'],
-        ['ET', 'Energy Transition and Entrepreneurship', 'Windesheim University of Applied Sciences', 'Teacher 4', 6, 'c4'],
+        ['BL', 'Business Law', 'Law', 'İstanbul Beykent Üniversitesi', 11, 'c1'],
+        ['MM', 'Marketing Management', 'Business', 'İstanbul Beykent Üniversitesi', 5, 'c4'],
+        ['DM', 'Digital Marketing & Growth Hacking', 'Business', 'Shared Courses', 7, 'c3'],
+        ['SP', 'Strategic Project Management', 'Business', 'Shared Courses', 7, 'c2'],
+        ['MG', 'Microeconomics and Global Trade Policy', 'Economics', 'Algebra University', 7, 'c5'],
+        ['CE', 'Circular Economy Basics', 'Sustainability', 'TH Rosenheim', 9, 'c1'],
+        ['AI', 'AI for Smart Manufacturing', 'Technology', 'Satakunta UAS', 8, 'c2'],
+        ['ET', 'Energy Transition and Entrepreneurship', 'Sustainability', 'Windesheim UAS', 6, 'c4'],
     ];
-    document.getElementById('course-list').innerHTML = courses.map(([initials, name, category, teachers, activities, cover]) => `
-        <li class="course-card"><a href="#">
-            <span class="cover ${cover}"><span class="cover-count">${activities} activities</span>${initials}</span>
-            <span class="course-body">
-                <span class="course-type"><svg class="i sm"><use href="#i-book"/></svg>Course</span>
-                <span class="course-name">${name}</span>
-                <span class="course-meta">${teachers}</span>
-                <span class="tag">${category}</span>
-            </span>
-        </a></li>`).join('');
+    const list = document.getElementById('course-list');
+    const render = (topic) => {
+        list.innerHTML = courses.filter(c => topic === 'All' || c[2] === topic).map(([initials, name, topic, partner, activities, cover]) => `
+            <li class="course-card"><a href="#">
+                <span class="cover ${cover}"><span class="cover-count">${activities} activities</span>${initials}</span>
+                <span class="course-body">
+                    <span class="course-type"><svg class="i sm"><use href="#i-book"/></svg>${topic}</span>
+                    <span class="course-name">${name}</span>
+                    <span class="course-tags"><span class="tag"><i></i>${partner}</span></span>
+                </span>
+            </a></li>`).join('');
+        list.scrollLeft = 0;
+    };
+    const topics = ['All', ...new Set(courses.map(c => c[2]))];
+    const filters = document.getElementById('filters');
+    filters.innerHTML = topics.map(t => `<button type="button" data-topic="${t}" aria-pressed="${t === 'All'}">${t}</button>`).join('');
+    filters.addEventListener('click', e => {
+        const b = e.target.closest('[data-topic]');
+        if (!b) { return; }
+        filters.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+        render(b.dataset.topic);
+    });
+    render('All');
+    document.querySelectorAll('[data-scroll]').forEach(b => b.addEventListener('click', () =>
+        list.scrollBy({left: Number(b.dataset.scroll) * list.clientWidth * .8, behavior: 'smooth'})));
 
     const partners = ['Satakunta University of Applied Sciences', 'İstanbul Beykent Üniversitesi', 'Technische Hochschule Rosenheim',
         'Windesheim University of Applied Sciences', 'Griffith College', 'Algebra University', 'Ikigaia', 'Wild Campus', 'Furthr'];
-    const list = partners.map(p => `<li>${p}</li>`).join('');
-    document.getElementById('strip').innerHTML = `<ul>${list}</ul><ul aria-hidden="true">${list}</ul>`;
+    const items = partners.map(p => `<li>${p}</li>`).join('');
+    document.getElementById('strip').innerHTML = `<ul>${items}</ul><ul aria-hidden="true">${items}</ul>`;
+
+    const bar = document.getElementById('topbar');
+    const onScroll = () => bar.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, {passive: true});
+    onScroll();
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const count = (el) => {
+        const to = Number(el.dataset.count);
+        const start = performance.now();
+        const step = (now) => {
+            const t = Math.min(1, (now - start) / 1200);
+            el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3)));
+            if (t < 1) { requestAnimationFrame(step); }
+        };
+        requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+        if (!e.isIntersecting) { return; }
+        e.target.classList.add('in');
+        if (!reduced) { e.target.querySelectorAll('[data-count]').forEach(count); }
+        io.unobserve(e.target);
+    }), {threshold: .15});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
     const set = (name) => {
         document.documentElement.dataset.palette = name;
