@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Predă';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->done} din {$a->total} finalizate';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Înapoi la pagina principală';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';

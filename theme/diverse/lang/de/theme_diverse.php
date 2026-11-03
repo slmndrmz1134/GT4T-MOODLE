@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Abgeben';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->done} von {$a->total} erledigt';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Zurück zur Startseite';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Grüne Farben (GT4T)';
 $string['palette_toorange'] = 'Orange Farben (DIVERSE)';

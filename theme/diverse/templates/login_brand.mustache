@@ -29,6 +29,8 @@
     * brandsjson - optional (signup page): name, intro, photourl and ispartner of DIVERSE ("0") and of each partner
       by id, so that the panel follows the university chosen in the form (core_renderer::SIGNUP_BRAND_JS)
 
+    The way back to the site home stays in the top left corner of the page, also where the panel is hidden.
+
     The photo and the link are always in the markup, hidden when not used, so that the signup page can switch
     between partners.
 
@@ -38,6 +40,7 @@
         "photourl": "", "ispartner": true, "homeurl": "#"
     }
 }}
+<a class="diverse-login-back" href="{{homeurl}}"><i class="fa fa-arrow-left" aria-hidden="true"></i>{{#str}}login_back, theme_diverse{{/str}}</a>
 <aside class="diverse-login-brand{{#photourl}} diverse-login-brand-photo{{/photourl}}" aria-label="{{name}}"{{#brandsjson}} data-brands="{{brandsjson}}"{{/brandsjson}}>
     <img class="diverse-login-photo" {{#photourl}}src="{{photourl}}"{{/photourl}}{{^photourl}}hidden{{/photourl}} alt="">
     <div class="diverse-login-brand-body">

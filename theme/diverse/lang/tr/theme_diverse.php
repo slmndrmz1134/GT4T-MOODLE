@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Teslim et';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->total} etkinlikten {$a->done} tamamlandı';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Ana sayfaya dön';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';

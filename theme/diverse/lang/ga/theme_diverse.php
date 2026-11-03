@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Seol isteach';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->done} as {$a->total} críochnaithe';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Ar ais go dtí an baile';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

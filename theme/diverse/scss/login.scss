@@ -120,10 +120,65 @@ $diverse-login-panel-width: 42vw;
 
 // Footer of the login form: language menu, cookies notice, Privacy Policy and Terms of Use (local_diverse_policy).
 // The buttons wrap to a new line on narrow screens instead of leaving the card.
+// All of them plain text in one row, underlined under the pointer.
 .d-flex:has(> .diverse-login-policy-link) {
     flex-wrap: wrap;
     align-items: center;
+    gap: .25rem 1.25rem;
+
+    > .divider {
+        display: none;
+    }
+
+    > .btn,
+    .login-languagemenu .dropdown-toggle {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        color: $diverse-grey;
+        font-size: .875rem;
+        font-weight: 400;
+        text-decoration: none;
+        transform: none;
+
+        &:hover,
+        &:focus-visible {
+            background-color: transparent;
+            color: $diverse-ink;
+            text-decoration: underline;
+            text-underline-offset: .2em;
+            box-shadow: none;
+            transform: none;
+        }
+    }
+}
+
+// The way back to the public site, in the top left corner of the page.
+.diverse-login-back {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
     gap: .5rem;
+    padding: .5rem 1rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 50rem;
+    color: $diverse-ink;
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        border-color: $diverse-action-orange;
+        color: $diverse-action-orange;
+        text-decoration: none;
+    }
 }
 
 // "Select Partner" menu: a row of its own above the form, so a long university name never covers the logo.

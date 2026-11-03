@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Palauta';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->done}/{$a->total} suoritettu';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Takaisin etusivulle';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';

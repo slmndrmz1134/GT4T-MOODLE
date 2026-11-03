@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Pateikti';
 // Course page: progress of a section.
 $string['course_section_done'] = 'Atlikta {$a->done} iš {$a->total}';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Atgal į pradžią';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

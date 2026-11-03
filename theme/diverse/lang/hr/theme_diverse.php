@@ -262,6 +262,9 @@ $string['dash_submit'] = 'Predaj';
 // Course page: progress of a section.
 $string['course_section_done'] = '{$a->done} od {$a->total} dovršeno';
 
+// Login page: the way back to the public site.
+$string['login_back'] = 'Natrag na početnu';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';
