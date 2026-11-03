@@ -593,6 +593,35 @@ $diverse-tabbar-height: 4rem;
     box-shadow: none;
 }
 
+// The messages open like the notifications: Moodle's drawer becomes a card under its button, with all its views.
+@include media-breakpoint-up(md) {
+    body.diverse-shell [data-region="right-hand-drawer"].drawer {
+        position: absolute;
+        top: calc(#{$diverse-title-top} + #{$diverse-title-height} + .5rem);
+        right: 1.5rem;
+        width: 24rem;
+        max-width: calc(100vw - #{$diverse-rail-width} - 3rem);
+        height: min(36rem, calc(100vh - 6rem));
+        overflow: hidden;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+        box-shadow: $box-shadow-lg;
+
+        &.hidden {
+            right: 1.5rem;
+        }
+
+        .closewidget {
+            padding-top: .5rem;
+        }
+    }
+
+    // Moodle darkens the page behind the drawer; a card in the page does not.
+    body.diverse-shell:has([data-region="right-hand-drawer"].drawer:not(.hidden)) .modal-backdrop {
+        opacity: 0;
+    }
+}
+
 // The little arrow under the bell.
 .popover-region .popover-region-toggle {
     &::before,
