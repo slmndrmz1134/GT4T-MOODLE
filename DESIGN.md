@@ -41,6 +41,34 @@ değerlendirme, iletişim, iş birliği ve yönetim ikonları etkileşim turuncu
 `pre.scss`, Boost ve Boost Union ayarlarından **sonra** yüklenir. Yöneticinin Boost Union ayarlarına girdiği marka
 rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scss` üzerinden yapılır.
 
+### Yeşil palet (GT4T, kullanıcı seçer)
+
+Varsayılan palet turuncudur. Her kullanıcı, kullanıcı menüsündeki "Yeşil renkler (GT4T)" bağlantısıyla kendi
+hesabında GT4T iletişim rehberinin (2025/12) yeşil paletine geçebilir; seçim kullanıcı tercihi
+`theme_diverse_palette` olarak saklanır. Ziyaretçiler her zaman turuncu paleti görür. Fontlar, köşeler ve ölçüler
+iki palette aynıdır (proje sahibinin kararı, Kasım 2026).
+
+Tema ikinci kez derlenir: `pre.scss` içindeki `@if $diverse-palette == green` bloğu aynı değişkenlere yeşil
+değerler verir. Değişken adları değişmez; yeşil palette "orange" adlı değişkenler paletin ana rengini taşır.
+Kurs kartı desenlerinin yeşil renkleri `classes/local/palette.php` içindedir.
+
+| SCSS değişkeni | Yeşil palette | Kontrast |
+|---|---|---|
+| `$diverse-brand-orange` | `#19B35C` (GT4T yeşili) | Koyu yeşil metinle 5.13:1 |
+| `$diverse-action-orange` | `#127A42` | Beyazla 5.4:1, açık yeşil zeminde 5.04:1 |
+| `$diverse-action-orange-hover` | `#053225` (GT4T koyu yeşili) | Beyazla 14.1:1 |
+| `$diverse-home-hover` | `#19B35C` | — |
+| `$diverse-ink` | `#053225` | Beyazla 14.1:1 |
+| `$diverse-grey` | `#55625C` | Beyazla 6.39:1, açık yeşilde 5.96:1 |
+| `$diverse-soft-orange` | `#EFFBE4` | — |
+| `$diverse-peach` | `#D4F7A8` (GT4T limesinin açık tonu) | Koyu yeşil metinle 11.86:1 |
+| `$diverse-surface` | `#F7F9F8` | — |
+| `$diverse-border` / `-strong` | `#E1E7E3` / `#C3CCC7` | — |
+| `$diverse-on-dark-muted` | `#CFE0D8` | Koyu yeşilde 10.28:1 |
+| `$diverse-track` | `#E6EEE9` | — |
+
+Başarı, hata ve diğer renkler iki palette aynıdır.
+
 ## Fontlar
 
 | Kullanım | Font | Kalınlık | Dosya |

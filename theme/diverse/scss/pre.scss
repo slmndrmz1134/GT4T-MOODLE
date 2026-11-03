@@ -27,6 +27,27 @@ $diverse-success-soft: #EAF5EF;
 $diverse-danger: #B42318;              // Errors only; clearly darker and redder than the brand orange (6.57:1).
 $diverse-on-dark-muted: #D4D4D8;       // Secondary text on the dark ink footer (9.9:1 on ink).
 $diverse-track: #EDEDEF;               // Progress bar track.
+
+// GT4T green palette (GT4T communication guide, 2025/12), which each user can choose instead of the orange one
+// (classes/local/palette.php). The theme is compiled a second time with $diverse-palette set to green; the variables
+// keep their names, so "orange" stands for the main colour of the palette.
+$diverse-palette: orange !default;
+@if $diverse-palette == green {
+    $diverse-brand-orange: #19B35C;        // GT4T green. Ink text on it: 5.13:1.
+    $diverse-action-orange: #127A42;       // White text on it: 5.4:1; 5.04:1 on soft green.
+    $diverse-action-orange-hover: #053225; // GT4T dark green (14.1:1 on white).
+    $diverse-home-hover: #19B35C;
+    $diverse-ink: #053225;                 // GT4T dark green (14.1:1 on white).
+    $diverse-grey: #55625C;                // 6.39:1 on white, 5.96:1 on soft green.
+    $diverse-soft-orange: #EFFBE4;
+    $diverse-peach: #D4F7A8;               // A light tint of the GT4T lime #C1FF72.
+    $diverse-surface: #F7F9F8;
+    $diverse-border: #E1E7E3;
+    $diverse-border-strong: #C3CCC7;
+    $diverse-on-dark-muted: #CFE0D8;       // 10.28:1 on the dark green.
+    $diverse-track: #E6EEE9;
+}
+
 $diverse-photo-shade: rgba($diverse-ink, .82);      // Ink over photos, so white text stays readable.
 $diverse-photo-shade-soft: rgba($diverse-ink, .35);
 

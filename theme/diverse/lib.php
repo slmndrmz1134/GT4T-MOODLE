@@ -76,7 +76,10 @@ function theme_diverse_get_pre_scss($theme) {
         $scss .= theme_boost_union_get_pre_scss(\core\output\theme_config::load('boost_union'));
     }
 
-    // And add DIVERSE's pre SCSS file to the stack.
+    // And add DIVERSE's pre SCSS file to the stack, with the green palette when styles_palette.php compiles it.
+    if (\theme_diverse\local\palette::$compilinggreen) {
+        $scss .= '$diverse-palette: green;';
+    }
     $scss .= file_get_contents($CFG->dirroot . '/theme/diverse/scss/pre.scss');
 
     /**********************************************************
@@ -157,6 +160,9 @@ function theme_diverse_alter_css_urls(&$urls) {
 
     // Call Boost Union's theme_boost_union_alter_css_urls() function which implements the logic to change the CSS URL for flavours.
     theme_boost_union_alter_css_urls($urls);
+
+    // Then load the green palette for the users who chose it.
+    \theme_diverse\local\palette::alter_css_urls($urls);
 }
 
 /**

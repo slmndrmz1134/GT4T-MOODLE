@@ -180,5 +180,10 @@ $string['hero_stats'] = '{$a->sections} secțiuni, {$a->activities} activități
 $string['hero_continue'] = 'Continuă';
 $string['hero_start'] = 'Începe';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Culori verzi (GT4T)';
+$string['palette_toorange'] = 'Culori portocalii (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE nu stochează niciun fel de date personale despre utilizatori.';
+$string['privacy:metadata:preference:palette'] = 'Paleta de culori aleasă de utilizator pentru platformă.';

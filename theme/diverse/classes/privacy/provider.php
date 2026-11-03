@@ -24,21 +24,45 @@
 
 namespace theme_diverse\privacy;
 
+use core_privacy\local\metadata\collection;
+use core_privacy\local\request\writer;
+use theme_diverse\local\palette;
+
 /**
- * Privacy Subsystem implementing null_provider.
+ * Privacy Subsystem: the theme stores only the colour palette each user chooses (a user preference).
  *
  * @package    theme_diverse
- * @copyright  2023 Daniel Poggenpohl <daniel.poggenpohl@fernuni-hagen.de> and Alexander Bias <bias@alexanderbias.de>
+ * @copyright  2026 DIVERSE European University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class provider implements
+    \core_privacy\local\metadata\provider,
+    \core_privacy\local\request\user_preference_provider {
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Describe the data the theme stores.
      *
-     * @return string
+     * @param collection $collection
+     * @return collection
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public static function get_metadata(collection $collection): collection {
+        $collection->add_user_preference(palette::PREFERENCE, 'privacy:metadata:preference:palette');
+        return $collection;
+    }
+
+    /**
+     * Export the palette preference of a user.
+     *
+     * @param int $userid
+     */
+    public static function export_user_preferences(int $userid) {
+        $value = get_user_preferences(palette::PREFERENCE, null, $userid);
+        if ($value !== null) {
+            writer::export_user_preference(
+                'theme_diverse',
+                palette::PREFERENCE,
+                $value,
+                get_string('palette_togreen', 'theme_diverse')
+            );
+        }
     }
 }

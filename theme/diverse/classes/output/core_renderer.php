@@ -16,6 +16,7 @@
 
 namespace theme_diverse\output;
 
+use theme_diverse\local\palette;
 use theme_diverse\local\partners;
 
 /**
@@ -84,7 +85,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return string hex colour code
      */
     public function get_generated_color_for_id($id) {
-        return self::PATTERN_COLORS[$id % count(self::PATTERN_COLORS)];
+        $colors = palette::is_green() ? palette::PATTERN_COLORS : self::PATTERN_COLORS;
+        return $colors[$id % count($colors)];
     }
 
     /**

@@ -180,5 +180,10 @@ $string['hero_stats'] = '{$a->sections} rannán, {$a->activities} gníomhaíocht
 $string['hero_continue'] = 'Lean ar aghaidh';
 $string['hero_start'] = 'Tosaigh';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Dathanna glasa (GT4T)';
+$string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'Ní stórálann téama DIVERSE aon sonraí pearsanta faoi aon úsáideoir.';
+$string['privacy:metadata:preference:palette'] = 'An pailéad dathanna a roghnaigh an t-úsáideoir don ardán.';

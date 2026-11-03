@@ -180,5 +180,10 @@ $string['hero_stats'] = '{$a->sections} secties, {$a->activities} activiteiten';
 $string['hero_continue'] = 'Verdergaan';
 $string['hero_start'] = 'Starten';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Groene kleuren (GT4T)';
+$string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'Het DIVERSE-thema slaat geen persoonlijke gegevens op over gebruikers.';
+$string['privacy:metadata:preference:palette'] = 'Het kleurenpalet dat de gebruiker voor het platform heeft gekozen.';

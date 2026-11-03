@@ -180,5 +180,10 @@ $string['hero_stats'] = '{$a->sections} osiota, {$a->activities} aktiviteettia';
 $string['hero_continue'] = 'Jatka';
 $string['hero_start'] = 'Aloita';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Vihreät värit (GT4T)';
+$string['palette_toorange'] = 'Oranssit värit (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE-teema ei tallenna henkilökohtaisia tietoja käyttäjistä.';
+$string['privacy:metadata:preference:palette'] = 'Käyttäjän alustalle valitsema väripaletti.';

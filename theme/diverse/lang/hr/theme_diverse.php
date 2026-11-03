@@ -180,5 +180,10 @@ $string['hero_stats'] = 'Odjeljaka: {$a->sections}, aktivnosti: {$a->activities}
 $string['hero_continue'] = 'Nastavi';
 $string['hero_start'] = 'Započni';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Zelene boje (GT4T)';
+$string['palette_toorange'] = 'Narančaste boje (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE ne pohranjuje osobne podatke o korisnicima.';
+$string['privacy:metadata:preference:palette'] = 'Paleta boja koju je korisnik odabrao za platformu.';

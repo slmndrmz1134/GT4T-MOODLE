@@ -180,5 +180,10 @@ $string['hero_stats'] = 'Skyrių: {$a->sections}, veiklų: {$a->activities}';
 $string['hero_continue'] = 'Tęsti';
 $string['hero_start'] = 'Pradėti';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Žalios spalvos (GT4T)';
+$string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE tema nesaugo jokių asmens duomenų apie jokį naudotoją.';
+$string['privacy:metadata:preference:palette'] = 'Naudotojo platformai pasirinkta spalvų paletė.';

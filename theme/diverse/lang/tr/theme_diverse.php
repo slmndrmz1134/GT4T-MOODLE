@@ -180,5 +180,10 @@ $string['hero_stats'] = '{$a->sections} bölüm, {$a->activities} etkinlik';
 $string['hero_continue'] = 'Devam et';
 $string['hero_start'] = 'Başla';
 
+// Colour palette (user menu).
+$string['palette_togreen'] = 'Yeşil renkler (GT4T)';
+$string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';
+
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE teması kullanıcılar hakkında hiçbir kişisel veri depolamaz.';
+$string['privacy:metadata:preference:palette'] = 'Kullanıcının platform için seçtiği renk paleti.';
