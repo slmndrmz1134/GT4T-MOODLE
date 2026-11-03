@@ -335,6 +335,47 @@ $diverse-tabbar-height: 4rem;
                 }
             }
 
+            // Activity pages: the course's bar (its name, the place in it, the way on) is the title row, on the line of
+            // the search and the buttons, and starts at the left like the dashboard's title.
+            &.diverse-in-course:has(.diverse-lesson-bar) {
+                #page.drawers {
+                    margin-top: 0;
+
+                    .main-inner {
+                        margin-top: 0;
+                    }
+
+                    #topofscroll {
+                        padding-top: 0;
+                    }
+                }
+
+                // One line, beside the search: the name gives way when the contents of the course narrow the page.
+                .diverse-lesson-bar {
+                    flex-wrap: nowrap;
+                    min-height: $diverse-title-height;
+                    margin: $diverse-title-top 0 1.25rem;
+                    padding: 0 $diverse-title-tools-width 0 0;
+                    border-bottom: 0;
+
+                    .diverse-lesson-course {
+                        min-width: 0;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .diverse-lesson-position,
+                    .diverse-lesson-steps {
+                        flex-shrink: 0;
+                    }
+
+                    .diverse-progress {
+                        min-width: 4rem;
+                    }
+                }
+            }
+
             // Every other page: Moodle's page header takes the place of the title row, so that the page starts as
             // high as the dashboard. It keeps clear of the search and the buttons on the right.
             &:not(.diverse-title-row):not(.diverse-in-course) {
@@ -528,10 +569,25 @@ $diverse-tabbar-height: 4rem;
             border-left: 1px solid $diverse-border;
             background-color: $white;
 
+            // The contents of the course stand on the whole height, from the very top; the page, the top bar
+            // included, becomes narrower next to it.
+            top: 0;
+            height: 100vh;
+            height: 100dvh;
+
             &.show {
                 right: 0;
                 left: auto;
             }
+        }
+
+        .navbar.fixed-top {
+            transition: right .25s ease;
+        }
+
+        // Moodle puts no class on the body for the open drawer, only on the page.
+        &:has(#page.show-drawer-left) .navbar.fixed-top {
+            right: $drawer-left-width;
         }
 
         .drawer.drawer-right,

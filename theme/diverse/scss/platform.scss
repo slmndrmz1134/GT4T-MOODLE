@@ -1536,6 +1536,20 @@ body.diverse-course-tab {
 // Sections of a course: each a card with its activities as rows inside (full-width draft). Running text keeps the
 // reading width. The groups on a course's Activities tab stay rows between dividers.
 body.diverse-in-course {
+    // The title, the breadcrumb and the tabs start at the left with the rest of the page, not centred in a column.
+    #page-header.header-maxwidth {
+        max-width: none;
+        margin: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    // The card of the activity's description and dates has the width of the page too.
+    #page.drawers .activity-header {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
     .secondary-navigation .moremenu {
         margin-right: 0;
         margin-left: 0;
