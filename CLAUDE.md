@@ -46,9 +46,10 @@ geliştiriciye anlatır ve karar ister.
   | `platform.scss` | Dashboard, Derslerim, ders sayfası |
 | `messages.scss` | Mesajlar ve bildirimler sayfaları |
 | `calendar.scss` | Takvim |
+| `forms.scss` | Formlar (Google Forms tarzı kartlar, etiket üstte) |
 | `icons.scss` | Moodle ikonlarının çizgili (outline) karşılıkları |
 | `motion.scss` | Animasyonlar: açılan paneller, sayfa girişleri, grafikler |
-  | `admin.scss` | Site administration |
+  | `admin.scss` | Site administration, ayar sayfaları, Tercihler |
 
   Yeni bir sayfa dosyası gerekiyorsa `theme/diverse/lib.php` içindeki listeye eklenir.
 - Boost Union veya Moodle şablonları (`templates/`, `layout/`) `theme/diverse` içine **kopyalanmaz**. Görünüm SCSS ile,

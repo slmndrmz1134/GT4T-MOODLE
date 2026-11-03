@@ -1,0 +1,104 @@
+/****************************************************************
+ * DIVERSE forms (Moodle's mform: course settings, activity settings, profile, signup's later steps...).
+ * Like Google Forms: every section of a form is a white card, every field has its name above it and the fields keep
+ * their rounded boxes (project owner's decision, November 2026). Only forms in the page itself: forms in dialogs
+ * and the small inline filter forms stay Moodle's. Settings of the site administration: admin.scss.
+ ***************************************************************/
+
+$diverse-form-width: 56rem;
+
+body.diverse-shell #region-main form.mform:not(.form-inline):not(.unresponsive) {
+    max-width: $diverse-form-width;
+
+    // Sections: a card each, the heading as its title.
+    > fieldset:has(> .fcontainer) {
+        margin-bottom: 1rem;
+        padding: 1.25rem 1.5rem .5rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+
+        > .d-flex:first-of-type {
+            margin-bottom: .75rem !important;
+        }
+
+        h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .fheader {
+            color: $diverse-ink;
+        }
+    }
+
+    // A section without a heading (the fields above the first one) is a card too.
+    > fieldset:not(.collapsible):has(> .fcontainer) {
+        padding-top: 1.5rem;
+    }
+
+    // "Expand all" stays at the top right, quiet.
+    .collapsible-actions {
+        margin-bottom: .75rem;
+    }
+
+    // Fields: the name above, the field under it on the whole width of the card.
+    .fitem.row {
+        margin-right: 0;
+        margin-bottom: 1.25rem !important;
+        margin-left: 0;
+
+        > .col-md-3,
+        > .col-md-9 {
+            flex: 0 0 100%;
+            width: 100%;
+            max-width: 100%;
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        > .col-md-3 {
+            padding-bottom: .375rem;
+
+            label,
+            .col-form-label,
+            p {
+                margin: 0;
+                color: $diverse-ink;
+                font-weight: 600;
+            }
+
+            // The required mark and the help icon right after the name.
+            .form-label-addon {
+                margin-left: .25rem;
+            }
+        }
+
+        // Rows without a name (checkbox lines, buttons): no empty line above them.
+        > .col-md-3:not(:has(label:not(:empty), p:not(:empty))) {
+            display: none;
+        }
+
+        .form-control-feedback,
+        .invalid-feedback {
+            margin-top: .375rem;
+        }
+    }
+
+    .fdescription,
+    .form-text {
+        color: $diverse-grey;
+        font-size: .875rem;
+    }
+
+    // Save and cancel: under the cards, on the left.
+    > .fitem.row:last-of-type,
+    .fitem_actionbuttons,
+    [data-groupname="buttonar"] {
+        margin-top: .5rem;
+
+        .felement {
+            gap: .5rem;
+        }
+    }
+}
