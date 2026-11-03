@@ -18,7 +18,8 @@
  * DIVERSE site setup: applies the site configuration the DIVERSE platform needs
  * (theme, course page width, debug display off, multi-language filter, language packs, default dashboard,
  * BigBlueButton live classes, the GT4T project partners as partner organisations, the partner login check, the
- * forgotten password page, the policy checkboxes at signup, and with --production the live server debug level).
+ * forgotten password page, the policy checkboxes at signup, the platform guide by role, and with --production the live
+ * server debug level).
  *
  * Run once after installing or deploying the code (for example on the cPanel server over SSH),
  * after admin/cli/upgrade.php. It is idempotent: it only adds or enables what is missing, so it
@@ -44,6 +45,8 @@ require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->libdir . '/filterlib.php');
 require_once($CFG->libdir . '/adminlib.php');
 require_once($CFG->dirroot . '/my/lib.php');
+require_once($CFG->dirroot . '/group/lib.php');
+require_once($CFG->dirroot . '/enrol/cohort/locallib.php');
 
 [$options, $unrecognised] = cli_get_params(
     ['help' => false, 'dry-run' => false, 'langs' => 'tr,de,hr,fi,nl', 'reset-dashboards' => false, 'production' => false],
@@ -372,6 +375,92 @@ if ($currentpolicy === '') {
     set_config('sitepolicy', '');
     diverse_setup_report('SET', 'The site policy page after login is off (replaced by local_diverse_policy).');
     $changed = true;
+}
+
+// 10c. The platform guide by role (project owner's decision, November 2026): students see the students' part, teachers
+// the teachers' part, partner managers theirs. The role cohorts of the partners ("<Partner> Students", "<Partner>
+// Teachers", "<Partner> Admins") are enrolled in the guide course, each into the group of its role, and each role's
+// section is shown only to its group. Users in no role cohort see the general sections; admins see everything. Only
+// what is missing is added: an existing cohort enrolment and a section an admin restricted are left alone.
+$guide = $DB->get_record('course', ['shortname' => 'DIVERSE-GUIDE']);
+$guideroles = [
+    'students' => ['name' => 'Students', 'section' => 'student'],
+    'teachers' => ['name' => 'Teachers', 'section' => 'teacher'],
+    'admins' => ['name' => 'Partner administrators', 'section' => 'administrator'],
+];
+if (!$guide) {
+    diverse_setup_report('SKIP', 'No platform guide course (DIVERSE-GUIDE): guide by role not set.');
+} else if (!enrol_is_enabled('cohort') || !core_component::get_component_directory('availability_group')) {
+    diverse_setup_report('WARN', 'Cohort sync or the group restriction is off: guide by role not set (an admin decides).');
+} else {
+    $cohortplugin = enrol_get_plugin('cohort');
+    $studentrole = $DB->get_field('role', 'id', ['shortname' => 'student']);
+    $instances = $DB->get_records('enrol', ['courseid' => $guide->id, 'enrol' => 'cohort']);
+    $enrolled = array_map(fn($instance) => (int)$instance->customint1, $instances);
+    $guidechanged = false;
+    foreach ($guideroles as $role => $info) {
+        // The group of the role.
+        $groupidnumber = 'diverse_guide_' . $role;
+        $groupid = (int)$DB->get_field('groups', 'id', ['courseid' => $guide->id, 'idnumber' => $groupidnumber]);
+        if (!$groupid && $dryrun) {
+            diverse_setup_report('WOULD', "Add the group \"{$info['name']}\" to the platform guide.");
+            $guidechanged = true;
+        } else if (!$groupid) {
+            $groupid = groups_create_group((object)['courseid' => $guide->id, 'name' => $info['name'],
+                'idnumber' => $groupidnumber]);
+            diverse_setup_report('SET', "Group \"{$info['name']}\" added to the platform guide.");
+            $guidechanged = true;
+        }
+
+        // The role cohorts of every partner, enrolled into it.
+        $cohorts = $DB->get_records_select('cohort', $DB->sql_like('idnumber', ':suffix'), ['suffix' => '%\\_' . $role]);
+        foreach ($cohorts as $cohort) {
+            if (in_array((int)$cohort->id, $enrolled, true)) {
+                continue;
+            }
+            if ($dryrun) {
+                diverse_setup_report('WOULD', "Enrol the cohort \"{$cohort->name}\" in the platform guide ({$info['name']}).");
+                $guidechanged = true;
+                continue;
+            }
+            $cohortplugin->add_instance($guide, ['customint1' => $cohort->id, 'roleid' => $studentrole,
+                'customint2' => $groupid]);
+            diverse_setup_report('SET', "Cohort \"{$cohort->name}\" enrolled in the platform guide ({$info['name']}).");
+            $guidechanged = true;
+        }
+
+        // The role's section, shown only to its group.
+        if (!$groupid) {
+            continue;
+        }
+        foreach ($DB->get_records('course_sections', ['course' => $guide->id], 'section') as $section) {
+            $name = core_text::strtolower(strip_tags(format_string((string)$section->name, true,
+                ['context' => context_course::instance($guide->id)])));
+            if ($section->section == 0 || !str_contains($name, $info['section'])) {
+                continue;
+            }
+            if (!empty($section->availability)) {
+                diverse_setup_report('OK', "Guide section \"{$section->name}\" already has a restriction: left as is.");
+            } else if ($dryrun) {
+                diverse_setup_report('WOULD', "Show the guide section \"{$section->name}\" only to {$info['name']}.");
+                $guidechanged = true;
+            } else {
+                $tree = \core_availability\tree::get_root_json([\availability_group\condition::get_json($groupid)],
+                    \core_availability\tree::OP_AND, false);
+                $DB->set_field('course_sections', 'availability', json_encode($tree), ['id' => $section->id]);
+                diverse_setup_report('SET', "Guide section \"{$section->name}\" shown only to {$info['name']}.");
+                $guidechanged = true;
+            }
+        }
+    }
+    if ($guidechanged && !$dryrun) {
+        $trace = new null_progress_trace();
+        enrol_cohort_sync($trace, $guide->id);
+        rebuild_course_cache($guide->id, true);
+        $changed = true;
+    } else if (!$guidechanged) {
+        diverse_setup_report('OK', 'Platform guide by role is set.');
+    }
 }
 
 // 11. Live server settings (--production only): debug level Minimal and developer-only settings off.
