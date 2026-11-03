@@ -343,8 +343,12 @@ $diverse-tabbar-height: 4rem;
             left: calc((#{$diverse-rail-width} - 2.25rem) / 2);
             z-index: 1032;
 
-            .dropdown-toggle::after {
-                display: none;
+            .dropdown-toggle {
+                padding: 0;
+
+                &::after {
+                    display: none;
+                }
             }
 
             .userpicture,
