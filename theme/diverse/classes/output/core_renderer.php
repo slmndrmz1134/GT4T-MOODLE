@@ -458,7 +458,7 @@ JS;
      */
     public function get_compact_logo_url($maxwidth = 300, $maxheight = 300) {
         $tenantlogo = $this->is_landing_page() ? null
-            : $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight));
+            : $this->tenant_image_url(\core\output\renderer_base::get_compact_logo_url($maxwidth, $maxheight), true);
         if ($tenantlogo) {
             return $tenantlogo;
         }
@@ -490,7 +490,7 @@ JS;
         }
 
         $tenantlogo = $this->is_landing_page() ? null
-            : $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight));
+            : $this->tenant_image_url(\core\output\renderer_base::get_logo_url($maxwidth, $maxheight), true);
         if ($tenantlogo) {
             return $tenantlogo;
         }
@@ -512,15 +512,19 @@ JS;
      * it is a tenant's image. Uploads whose file is missing on this site (e.g. lost when the site was moved) are
      * skipped, so users get the usual logo instead of a broken image.
      *
+     * Logos are uploaded with empty margins as often as not, which makes them tiny in the top bar: with $trim, the
+     * URL of a copy cut to the visible logo is returned instead (see partners::navbar_logo_url()).
+     *
      * @param mixed $url What core returned: a pluginfile URL, another URL or false.
+     * @param bool $trim Whether the image is a logo to show without its empty margins.
      * @return \core\url|null The URL if it points to an available file in a tenant context, null otherwise.
      */
-    private function tenant_image_url($url): ?\core\url {
+    private function tenant_image_url($url, bool $trim = false): ?\core\url {
         static $checked = [];
         if (!$url instanceof \core\url || !function_exists('mutenancy_is_active') || !mutenancy_is_active()) {
             return null;
         }
-        $key = $url->out(false);
+        $key = $url->out(false) . ($trim ? '#trim' : '');
         if (array_key_exists($key, $checked)) {
             return $checked[$key];
         }
@@ -547,7 +551,7 @@ JS;
         $fs = get_file_storage();
         foreach ($fs->get_area_files($context->id, $component, $filearea, false, 'itemid, filepath, filename', false) as $file) {
             if ($file->get_filename() === $filename && $fs->get_file_system()->is_file_readable_locally_by_storedfile($file)) {
-                $checked[$key] = $url;
+                $checked[$key] = ($trim ? partners::navbar_logo_url($file) : null) ?? $url;
                 break;
             }
         }

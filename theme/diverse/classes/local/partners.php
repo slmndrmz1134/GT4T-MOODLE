@@ -37,6 +37,9 @@ class partners {
     /** @var string File area of the trimmed copies of the partner logos (see logo_url()). */
     const LOGO_TRIMMED_AREA = 'loginlogotrimmed';
 
+    /** @var string File area of the trimmed copies of the partners' own top bar logos (item id = their context id). */
+    const NAVBAR_LOGO_AREA = 'navbarlogo';
+
     /** @var int Height in pixels of the trimmed logo copies: four times the 2.5rem the login form shows. */
     const LOGO_HEIGHT = 160;
 
@@ -60,26 +63,49 @@ class partners {
             $fs->delete_area_files($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid);
             return null;
         }
+        return self::trimmed_url($original, self::LOGO_TRIMMED_AREA, $tenantid) ?? self::file_url(self::LOGO_AREA, $tenantid);
+    }
 
+    /**
+     * URL of a partner's own top bar logo (uploaded in tool_mutenancy), without empty margins: see logo_url().
+     *
+     * @param \stored_file $original The uploaded logo.
+     * @return \core\url|null Null if the image cannot be trimmed (e.g. SVG).
+     */
+    public static function navbar_logo_url(\stored_file $original): ?\core\url {
+        return self::trimmed_url($original, self::NAVBAR_LOGO_AREA, $original->get_contextid());
+    }
+
+    /**
+     * URL of the copy of an image cut to its visible part, made once per file and kept in the given area.
+     *
+     * @param \stored_file $original
+     * @param string $filearea LOGO_TRIMMED_AREA or NAVBAR_LOGO_AREA (system context).
+     * @param int $itemid
+     * @return \core\url|null Null if the image cannot be trimmed.
+     */
+    protected static function trimmed_url(\stored_file $original, string $filearea, int $itemid): ?\core\url {
+        $context = \core\context\system::instance();
+        $fs = get_file_storage();
         $name = 'logo-' . substr($original->get_contenthash(), 0, 12) . '.png';
-        $trimmed = $fs->get_file($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid, '/', $name);
+        $trimmed = $fs->get_file($context->id, 'theme_diverse', $filearea, $itemid, '/', $name);
         if (!$trimmed) {
             $content = self::trim_image($original->get_content());
             if ($content === null) {
-                return self::file_url(self::LOGO_AREA, $tenantid);
+                return null;
             }
             // The previous copy belongs to a replaced upload.
-            $fs->delete_area_files($context->id, 'theme_diverse', self::LOGO_TRIMMED_AREA, $tenantid);
+            $fs->delete_area_files($context->id, 'theme_diverse', $filearea, $itemid);
             $fs->create_file_from_string([
                 'contextid' => $context->id,
                 'component' => 'theme_diverse',
-                'filearea' => self::LOGO_TRIMMED_AREA,
-                'itemid' => $tenantid,
+                'filearea' => $filearea,
+                'itemid' => $itemid,
                 'filepath' => '/',
                 'filename' => $name,
             ], $content);
         }
-        return self::file_url(self::LOGO_TRIMMED_AREA, $tenantid);
+        return self::file_url($filearea, $itemid);
     }
 
     /**

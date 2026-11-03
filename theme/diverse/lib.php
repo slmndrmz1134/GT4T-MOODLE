@@ -176,6 +176,7 @@ function theme_diverse_pluginfile($course, $cm, $context, $filearea, $args, $for
         \theme_diverse\local\partners::PHOTO_AREA,
         \theme_diverse\local\partners::LOGO_AREA,
         \theme_diverse\local\partners::LOGO_TRIMMED_AREA,
+        \theme_diverse\local\partners::NAVBAR_LOGO_AREA,
     ];
     if ($context->contextlevel != CONTEXT_SYSTEM || !in_array($filearea, $areas, true)) {
         return false;
