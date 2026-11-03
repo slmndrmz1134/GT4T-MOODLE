@@ -123,7 +123,7 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   ve müfredat paneli dersin bütün sekmelerinde aynı yerdedir (`platform.scss`, `shell.scss`).
 - **Hover ve odak:** hover'da renk `.15s` geçişle değişir, ikon düğmelerinde kutu çıkmaz. Fareyle tıklama iz bırakmaz; klavyede
   2 px etkileşim turuncusu çizgi ikonun kenarına oturur; butonlarda ve form alanlarında çizgi, hover'daki kenarlık gibi
-  1 px'tir (`post.scss`, `$input-btn-focus-width`).
+  1 px'tir (`post.scss`, `$focus-ring-width`).
 - **Üst menü:** beyaz zemin, sekmelerle aynı alt çizgi; ikon yok. Yönetim bağlantıları "Administration" açılır menüsündedir.
   Telefonda alt menü ink zemin, ikon ve altında etiket; aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
 - **Açılır paneller:** bildirimler ve mesajlar üst çubukta düğmenin altında açılan beyaz kart olur (24rem). Mesajlar
