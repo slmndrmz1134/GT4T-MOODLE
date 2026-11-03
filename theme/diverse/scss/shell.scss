@@ -190,9 +190,10 @@ $diverse-tabbar-height: 4rem;
         }
     }
 
-    // The logos are drawn for a light page: on the dark one they turn white, like the logo of the landing page.
+    // The logo of DIVERSE is drawn for a light page: on the dark one it turns white, like the logo of the landing page.
+    // A partner's own logo keeps its colours.
     @if $diverse-mode == dark {
-        .diverse-nav-brand img {
+        .diverse-nav-brand img.diverse-logo-own {
             filter: brightness(0) invert(1);
         }
     }

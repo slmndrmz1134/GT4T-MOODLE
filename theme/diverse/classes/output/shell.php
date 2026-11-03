@@ -187,10 +187,17 @@ class shell implements renderable, templatable {
         }
         $bottom[] = $this->link('preferences', get_string('preferences'), '/user/preferences.php', ['/user/preferences.php']);
 
+        // The logos of DIVERSE itself are drawn dark on transparent and turn white in dark mode; a partner's own
+        // logo keeps its colours.
+        $squarelogo = $output->rail_logo_url()->out(false);
+        $fulllogo = ($output->get_logo_url() ?? $output->image_url('logo', 'theme_diverse'))->out(false);
+
         return [
             'brand' => $brand,
-            'squarelogo' => $output->rail_logo_url()->out(false),
-            'fulllogo' => ($output->get_logo_url() ?? $output->image_url('logo', 'theme_diverse'))->out(false),
+            'squarelogo' => $squarelogo,
+            'fulllogo' => $fulllogo,
+            'squareown' => str_contains($squarelogo, '/theme/image.php/'),
+            'fullown' => str_contains($fulllogo, '/theme/image.php/'),
             'railopen' => self::rail_open(),
             'username' => fullname($USER),
             'bottom' => $bottom,
