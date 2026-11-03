@@ -121,7 +121,8 @@ $diverse-stagger-steps: 8;                             // Later blocks come in w
     }
 
     .diverse-nav-link {
-        transition: background-color .15s ease, border-color .15s ease, color .15s ease, scale .15s $diverse-ease-out;
+        transition: width .25s cubic-bezier(.4, 0, .2, 1), background-color .15s ease, border-color .15s ease, color .15s ease,
+            scale .15s $diverse-ease-out;
 
         &:active {
             scale: .92;

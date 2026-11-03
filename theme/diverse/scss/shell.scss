@@ -149,10 +149,12 @@ $diverse-tabbar-height: 4rem;
         // rail and is transparent, so the names next to the icons still show.
         z-index: 1029;
         flex-direction: column;
-        align-items: center;
+        // The icons keep their place when the rail opens: everything starts at the same left edge, in a rail that is
+        // only wider.
+        align-items: flex-start;
         gap: .25rem;
         width: $diverse-rail-width;
-        padding: .625rem 0 1rem;
+        padding: .625rem 0 1rem .875rem;
         background-color: $white;
         border-right: 1px solid $diverse-border;
     }
@@ -198,7 +200,7 @@ $diverse-tabbar-height: 4rem;
     .diverse-nav-list {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: .25rem;
     }
 
@@ -224,18 +226,23 @@ $diverse-tabbar-height: 4rem;
 
     .diverse-nav-link {
         position: relative;
-        justify-content: center;
+        justify-content: flex-start;
+        gap: .75rem;
         width: 2.75rem;
         height: 2.75rem;
         min-height: 0;
-        padding: 0;
+        padding: 0 .75rem;
         background: none;
         border: 0;
         border-radius: $border-radius;
         color: $diverse-grey;
+        transition: width .2s ease, background-color .15s ease, color .15s ease;
 
         .fa {
+            flex-shrink: 0;
+            width: 1.25rem;
             font-size: 1.25rem;
+            text-align: center;
         }
 
         // The name, next to the icon.
@@ -574,6 +581,8 @@ $diverse-tabbar-height: 4rem;
             top: 0;
             height: 100vh;
             height: 100dvh;
+            // Slides in from the right and back out.
+            transition: right .3s cubic-bezier(.4, 0, .2, 1), visibility .3s;
 
             &.show {
                 right: 0;
@@ -582,7 +591,11 @@ $diverse-tabbar-height: 4rem;
         }
 
         .navbar.fixed-top {
-            transition: right .25s ease;
+            transition: right .3s cubic-bezier(.4, 0, .2, 1), left .25s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        #page.drawers {
+            transition: margin-right .3s cubic-bezier(.4, 0, .2, 1), padding-right .3s cubic-bezier(.4, 0, .2, 1);
         }
 
         // Moodle puts no class on the body for the open drawer, only on the page.
@@ -1032,20 +1045,21 @@ $diverse-rail-open-width: 15rem;
 
 @include media-breakpoint-up(md) {
     .diverse-nav {
-        transition: width .2s ease;
+        transition: width .25s cubic-bezier(.4, 0, .2, 1);
     }
 
     body.diverse-shell #page-wrapper,
     body.diverse-shell .navbar.fixed-top {
-        transition: padding-left .2s ease, left .2s ease;
+        transition: padding-left .25s cubic-bezier(.4, 0, .2, 1), left .25s cubic-bezier(.4, 0, .2, 1);
     }
 
     body.diverse-rail-open {
         .diverse-nav {
             align-items: stretch;
+            // The names are cut off by the edge while the rail grows.
+            overflow: hidden;
             width: $diverse-rail-open-width;
-            padding-right: .75rem;
-            padding-left: .75rem;
+            padding-right: .875rem;
         }
 
         .diverse-nav-brand {
@@ -1069,16 +1083,7 @@ $diverse-rail-open-width: 15rem;
         }
 
         .diverse-nav-link {
-            justify-content: flex-start;
-            gap: .75rem;
             width: 100%;
-            padding: 0 .75rem;
-
-            .fa {
-                flex-shrink: 0;
-                width: 1.25rem;
-                text-align: center;
-            }
 
             // The name stays next to the icon instead of showing as a label on hover.
             > span {
@@ -1089,14 +1094,10 @@ $diverse-rail-open-width: 15rem;
                 color: inherit;
                 font-size: .9375rem;
                 opacity: 1;
-                text-overflow: ellipsis;
+                text-overflow: clip;
                 transform: none;
                 translate: none;
                 visibility: visible;
-            }
-
-            &.active::before {
-                left: -.75rem;
             }
         }
 
