@@ -469,6 +469,14 @@ body {
         box-shadow: none;
     }
 
+    // Buttons: the keyboard line is as thin as their border on hover.
+    button:focus-visible,
+    .btn:focus-visible,
+    [role="button"]:focus-visible,
+    .form-autocomplete-selection [data-active-selection=true] {
+        outline-width: 1px;
+    }
+
     // Icon buttons: no box on hover, and the line follows the icon rather than the larger button around it.
     .btn.btn-icon:not(.btn-footer-popover) {
         --#{$prefix}btn-hover-bg: transparent;
