@@ -46,7 +46,6 @@ class shell implements renderable, templatable {
         'courses' => 'fa-book',
         'calendar' => 'fa-calendar',
         'grades' => 'fa-award',
-        'messages' => 'fa-message',
         'partner' => 'fa-building',
         'users' => 'fa-users',
         'admin' => 'fa-sliders',
@@ -130,9 +129,6 @@ class shell implements renderable, templatable {
             $this->link('calendar', get_string('calendar', 'core_calendar'), '/calendar/view.php?view=month', ['/calendar/']),
             $this->link('grades', get_string('grades'), '/grade/report/mygrades.php', ['/grade/report/']) + ['nophone' => true],
         ]);
-        if (!empty($CFG->messaging)) {
-            $main[] = $this->link('messages', get_string('messages', 'message'), '/message/index.php', ['/message/']);
-        }
         // The how-to videos. On phones the tab bar has no room left for it.
         if ($this->guideid) {
             $main[] = $this->link('guide', get_string('nav_guide', 'theme_diverse'), '/course/view.php?id=' . $this->guideid, [])
