@@ -381,6 +381,14 @@ $diverse-tabbar-height: 4rem;
             left: $diverse-rail-width;
         }
 
+        // The side drawers start below the search and the buttons of the top bar, not under them.
+        .drawer.drawer-left,
+        .drawer.drawer-right {
+            top: calc(#{$diverse-title-top} * 2 + #{$diverse-title-height});
+            height: calc(100vh - #{$diverse-title-top} * 2 - #{$diverse-title-height});
+            height: calc(100dvh - #{$diverse-title-top} * 2 - #{$diverse-title-height});
+        }
+
         .navbar.fixed-top .container-fluid {
             max-width: none;
             height: 100%;
