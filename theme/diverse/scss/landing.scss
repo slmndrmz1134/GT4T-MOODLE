@@ -338,14 +338,12 @@ body.pagelayout-frontpage.notloggedin {
     text-decoration: none;
 }
 
-// The logo file is dark on white: it sits on a white plate in the dark footer.
+// White, like the logo in the top bar on the hero: no white plate behind it.
 .diverse-landing-footer-logo {
     width: auto;
-    max-height: 3.25rem;
-    padding: .5rem .75rem;
-    background-color: $white;
-    border-radius: $btn-border-radius;
+    max-height: 2.5rem;
     object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
 .diverse-landing-footer-project {
