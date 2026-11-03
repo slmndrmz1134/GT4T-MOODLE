@@ -53,3 +53,10 @@ $string['stat_categories'] = 'kategoriaa';
 $string['stat_mine'] = 'omiasi';
 $string['filters'] = 'Suodattimet';
 $string['removefilter'] = 'Poista suodatin: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'kieltä';
+$string['filter_language'] = 'Kieli';
+$string['filter_format'] = 'Muoto';
+$string['format_selfpaced'] = 'Omaan tahtiin';
+$string['format_live'] = 'Live-tunneilla';

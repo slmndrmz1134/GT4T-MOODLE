@@ -53,3 +53,10 @@ $string['stat_categories'] = 'kategori';
 $string['stat_mine'] = 'senin derslerin';
 $string['filters'] = 'Filtreler';
 $string['removefilter'] = 'Filtreyi kaldır: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'dil';
+$string['filter_language'] = 'Dil';
+$string['filter_format'] = 'Biçim';
+$string['format_selfpaced'] = 'Kendi hızında';
+$string['format_live'] = 'Canlı dersli';

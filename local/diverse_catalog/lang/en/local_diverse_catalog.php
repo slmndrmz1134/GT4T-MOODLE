@@ -53,3 +53,10 @@ $string['stat_categories'] = 'categories';
 $string['stat_mine'] = 'of them yours';
 $string['filters'] = 'Filters';
 $string['removefilter'] = 'Remove filter: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'languages';
+$string['filter_language'] = 'Language';
+$string['filter_format'] = 'Format';
+$string['format_selfpaced'] = 'Self-paced';
+$string['format_live'] = 'With live classes';

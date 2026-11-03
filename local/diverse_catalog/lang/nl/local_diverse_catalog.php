@@ -53,3 +53,10 @@ $string['stat_categories'] = 'categorieën';
 $string['stat_mine'] = 'van jou';
 $string['filters'] = 'Filters';
 $string['removefilter'] = 'Filter verwijderen: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'talen';
+$string['filter_language'] = 'Taal';
+$string['filter_format'] = 'Vorm';
+$string['format_selfpaced'] = 'In eigen tempo';
+$string['format_live'] = 'Met live lessen';

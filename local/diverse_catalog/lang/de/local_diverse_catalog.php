@@ -53,3 +53,10 @@ $string['stat_categories'] = 'Kategorien';
 $string['stat_mine'] = 'davon deine';
 $string['filters'] = 'Filter';
 $string['removefilter'] = 'Filter entfernen: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'Sprachen';
+$string['filter_language'] = 'Sprache';
+$string['filter_format'] = 'Format';
+$string['format_selfpaced'] = 'Im eigenen Tempo';
+$string['format_live'] = 'Mit Live-Sitzungen';

@@ -26,6 +26,8 @@
     {
         "actionurl": "#", "query": "", "stats": [{"value": 18, "label": "courses"}],
         "categories": [{"id": 1, "name": "Shared Courses", "count": 2, "selected": false}],
+        "topics": [{"name": "Shared Courses", "url": "#"}], "haslanguages": false, "languages": [],
+        "formats": [{"value": "live", "label": "With live classes", "count": 1, "selected": false}],
         "statuses": [{"value": "all", "label": "All", "selected": true}],
         "sorts": [{"value": "name", "label": "Name", "selected": true}],
         "active": [], "hasactive": false,
@@ -34,7 +36,7 @@
 }}
 <form id="diverse-catalog-form" action="{{actionurl}}" method="get"></form>
 <div class="diverse-catalog">
-    <header class="diverse-catalog-head">
+    <header class="diverse-catalog-head diverse-title-bar">
         <h2 class="diverse-catalog-title">{{#str}}title, local_diverse_catalog{{/str}}</h2>
         <p class="diverse-catalog-subtitle">{{#str}}subtitle, local_diverse_catalog{{/str}}</p>
     </header>
@@ -51,6 +53,9 @@
                 </label>
                 <button type="submit" class="btn btn-primary" form="diverse-catalog-form">{{#str}}searchbutton, local_diverse_catalog{{/str}}</button>
             </div>
+            <nav class="diverse-catalog-topics" aria-label="{{#str}}filter_category, local_diverse_catalog{{/str}}">
+                {{#topics}}<a href="{{url}}">{{name}}</a>{{/topics}}
+            </nav>
         </div>
         <ul class="diverse-catalog-stats">
             {{#stats}}<li><strong>{{value}}</strong><span>{{label}}</span></li>{{/stats}}
@@ -73,6 +78,20 @@
                 {{#categories}}
                 <label><input type="checkbox" name="cat[]" form="diverse-catalog-form" value="{{id}}"{{#selected}} checked{{/selected}}> <span>{{name}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
                 {{/categories}}
+            </fieldset>
+            {{#haslanguages}}
+            <fieldset>
+                <legend>{{#str}}filter_language, local_diverse_catalog{{/str}}</legend>
+                {{#languages}}
+                <label><input type="checkbox" name="language[]" form="diverse-catalog-form" value="{{code}}"{{#selected}} checked{{/selected}}> <span>{{name}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
+                {{/languages}}
+            </fieldset>
+            {{/haslanguages}}
+            <fieldset>
+                <legend>{{#str}}filter_format, local_diverse_catalog{{/str}}</legend>
+                {{#formats}}
+                <label><input type="checkbox" name="format[]" form="diverse-catalog-form" value="{{value}}"{{#selected}} checked{{/selected}}> <span>{{label}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
+                {{/formats}}
             </fieldset>
             <noscript><button type="submit" class="btn btn-primary" form="diverse-catalog-form">{{#str}}apply, local_diverse_catalog{{/str}}</button></noscript>
         </aside>

@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_diverse_catalog';
-$plugin->version = 2026110300;
+$plugin->version = 2026110301;
 $plugin->release = '1.0.0';
 $plugin->requires = 2025041400;
 $plugin->supported = [500, 500];

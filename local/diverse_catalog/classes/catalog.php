@@ -73,6 +73,83 @@ class catalog {
         return $rows;
     }
 
+    /** @var string Module of the live classes: a course with one has live classes. */
+    const LIVE_MODULE = 'bigbluebuttonbn';
+
+    /**
+     * The language of each course (its forced language, or the site's) and the courses with live classes.
+     *
+     * @return array [language code per course id, true per course id with a visible live classroom]
+     */
+    protected static function facets(): array {
+        global $CFG, $DB;
+
+        static $facets = null;
+        if ($facets === null) {
+            $languages = array_map(
+                fn($lang) => $lang !== '' && $lang !== null ? $lang : $CFG->lang,
+                $DB->get_records_select_menu('course', 'id <> :site', ['site' => SITEID], '', 'id, lang')
+            );
+            $live = $DB->get_records_sql_menu(
+                "SELECT DISTINCT cm.course, 1
+                   FROM {course_modules} cm
+                   JOIN {modules} m ON m.id = cm.module
+                  WHERE m.name = :module AND cm.visible = 1 AND cm.deletioninprogress = 0",
+                ['module' => self::LIVE_MODULE]
+            );
+            $facets = [$languages, $live];
+        }
+        return $facets;
+    }
+
+    /**
+     * The languages of the visible courses, with the number of courses in each.
+     *
+     * @param string[] $selected Selected language codes.
+     * @return array[] code, name, count, selected
+     */
+    public static function languages(array $selected = []): array {
+        [$languages] = self::facets();
+        $names = get_string_manager()->get_list_of_languages();
+        $counts = [];
+        foreach (self::courses() as $course) {
+            $code = $languages[$course->id] ?? '';
+            $counts[$code] = ($counts[$code] ?? 0) + 1;
+        }
+        arsort($counts);
+        $rows = [];
+        foreach ($counts as $code => $count) {
+            $rows[] = [
+                'code' => $code,
+                'name' => $names[explode('_', $code)[0]] ?? $code,
+                'count' => $count,
+                'selected' => in_array($code, $selected, true),
+            ];
+        }
+        return $rows;
+    }
+
+    /**
+     * The number of visible courses with and without live classes.
+     *
+     * @param string[] $selected Selected formats: live, selfpaced.
+     * @return array[] value, label, count, selected
+     */
+    public static function formats(array $selected): array {
+        [, $live] = self::facets();
+        $withlive = count(array_filter(array_keys(self::courses()), fn($id) => isset($live[$id])));
+        $rows = [];
+        foreach (['selfpaced' => count(self::courses()) - $withlive, 'live' => $withlive] as $value => $count) {
+            $rows[] = [
+                'value' => $value,
+                'label' => get_string('format_' . $value, 'local_diverse_catalog'),
+                'count' => $count,
+                'selected' => in_array($value, $selected, true),
+            ];
+        }
+        return $rows;
+    }
+
     /**
      * Search and filter the visible courses.
      *
@@ -80,15 +157,25 @@ class catalog {
      * @param int[] $categories Top-level categories; empty means all.
      * @param string $status all, enrolled or available.
      * @param string $sort name, newest or popular.
+     * @param string[] $languages Language codes; empty means all.
+     * @param string $format all, live (with live classes) or selfpaced.
      * @return array Cards.
      */
-    public static function search(string $query, array $categories, string $status, string $sort): array {
+    public static function search(string $query, array $categories, string $status, string $sort, array $languages = [],
+            string $format = 'all'): array {
         $enrolled = array_keys(enrol_get_my_courses('id'));
         $words = array_filter(preg_split('/\s+/u', \core_text::strtolower(trim($query))));
+        [$courselangs, $live] = self::facets();
 
         $matches = [];
         foreach (self::courses() as $course) {
             if ($categories && !in_array(self::root_category($course), $categories)) {
+                continue;
+            }
+            if ($languages && !in_array($courselangs[$course->id] ?? '', $languages, true)) {
+                continue;
+            }
+            if (($format === 'live' && !isset($live[$course->id])) || ($format === 'selfpaced' && isset($live[$course->id]))) {
                 continue;
             }
             $isenrolled = in_array($course->id, $enrolled);

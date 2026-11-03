@@ -30,10 +30,14 @@ require_login(null, false);
 
 $query = optional_param('q', '', PARAM_TEXT);
 $categories = array_map('intval', optional_param_array('cat', [], PARAM_INT));
+$languages = optional_param_array('language', [], PARAM_SAFEDIR);
+$formats = array_values(array_intersect(optional_param_array('format', [], PARAM_ALPHA), ['live', 'selfpaced']));
 $status = optional_param('status', 'all', PARAM_ALPHA);
 $sort = optional_param('sort', 'name', PARAM_ALPHA);
 $status = in_array($status, ['all', 'enrolled', 'available']) ? $status : 'all';
 $sort = in_array($sort, ['name', 'newest', 'popular']) ? $sort : 'name';
+// Both formats, or none, mean every course.
+$format = count($formats) === 1 ? $formats[0] : 'all';
 
 $url = new moodle_url('/local/diverse_catalog/index.php');
 $PAGE->set_context(context_system::instance());
@@ -42,7 +46,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('title', 'local_diverse_catalog'));
 $PAGE->set_heading(get_string('title', 'local_diverse_catalog'));
 
-$cards = catalog::search($query, $categories, $status, $sort);
+$cards = catalog::search($query, $categories, $status, $sort, $languages, $format);
 $results = $query !== ''
     ? get_string('results_for', 'local_diverse_catalog', (object)['count' => count($cards), 'query' => $query])
     : get_string('results', 'local_diverse_catalog', count($cards));
@@ -54,24 +58,40 @@ $option = fn(string $value, string $current, string $string) => [
 ];
 
 // The filters in use, each with the address of the same results without it.
-$params = array_filter(['q' => $query, 'status' => $status === 'all' ? '' : $status, 'sort' => $sort === 'name' ? '' : $sort]);
-$without = function(string $name, $value = null) use ($url, $params, $categories): string {
-    $remaining = $params;
-    unset($remaining[$name]);
-    $cats = $name === 'cat' ? array_values(array_diff($categories, [$value])) : $categories;
-    foreach ($cats as $index => $cat) {
-        $remaining["cat[$index]"] = $cat;
+$filters = [
+    'q' => $query,
+    'status' => $status === 'all' ? '' : $status,
+    'sort' => $sort === 'name' ? '' : $sort,
+    'cat' => $categories,
+    'language' => $languages,
+    'format' => $formats,
+];
+$without = function(string $name, $value = null) use ($url, $filters): string {
+    $params = [];
+    foreach ($filters as $key => $current) {
+        if (is_array($current)) {
+            $kept = $key === $name ? array_diff($current, [$value]) : $current;
+            foreach (array_values($kept) as $index => $item) {
+                $params["{$key}[{$index}]"] = $item;
+            }
+        } else if ($current !== '' && $key !== $name) {
+            $params[$key] = $current;
+        }
     }
-    return (new moodle_url($url, $remaining))->out(false);
+    return (new moodle_url($url, $params))->out(false);
 };
 $allcategories = catalog::categories($categories);
+$alllanguages = catalog::languages($languages);
+$allformats = catalog::formats($formats);
 $active = [];
 if ($query !== '') {
     $active[] = ['label' => '“' . $query . '”', 'url' => $without('q')];
 }
-foreach ($allcategories as $category) {
-    if ($category['selected']) {
-        $active[] = ['label' => $category['name'], 'url' => $without('cat', $category['id'])];
+foreach ([['cat', $allcategories, 'id'], ['language', $alllanguages, 'code'], ['format', $allformats, 'value']] as [$key, $rows, $id]) {
+    foreach ($rows as $row) {
+        if ($row['selected']) {
+            $active[] = ['label' => $row['name'] ?? $row['label'], 'url' => $without($key, $row[$id])];
+        }
     }
 }
 if ($status !== 'all') {
@@ -85,11 +105,19 @@ echo $OUTPUT->render_from_template('local_diverse_catalog/page', [
     'stats' => [
         ['value' => count(catalog::courses()), 'label' => get_string('stat_courses', 'local_diverse_catalog')],
         ['value' => count($allcategories), 'label' => get_string('stat_categories', 'local_diverse_catalog')],
-        ['value' => count(enrol_get_my_courses('id')), 'label' => get_string('stat_mine', 'local_diverse_catalog')],
+        ['value' => count($alllanguages), 'label' => get_string('stat_languages', 'local_diverse_catalog')],
     ],
+    // One click into a category from the search band.
+    'topics' => array_map(fn($category) => [
+        'name' => $category['name'],
+        'url' => (new moodle_url($url, ['cat[0]' => $category['id']]))->out(false),
+    ], $allcategories),
     'active' => $active,
     'hasactive' => !empty($active),
     'categories' => $allcategories,
+    'languages' => $alllanguages,
+    'haslanguages' => count($alllanguages) > 1,
+    'formats' => $allformats,
     'statuses' => [
         $option('all', $status, 'status_all'),
         $option('enrolled', $status, 'status_enrolled'),
@@ -103,6 +131,6 @@ echo $OUTPUT->render_from_template('local_diverse_catalog/page', [
     'results' => $results,
     'courses' => $cards,
     'hascourses' => !empty($cards),
-    'filtered' => $query !== '' || $categories || $status !== 'all',
+    'filtered' => $query !== '' || $categories || $languages || $formats || $status !== 'all',
 ]);
 echo $OUTPUT->footer();

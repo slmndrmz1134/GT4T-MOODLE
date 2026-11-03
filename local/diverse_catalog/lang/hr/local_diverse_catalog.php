@@ -53,3 +53,10 @@ $string['stat_categories'] = 'kategorija';
 $string['stat_mine'] = 'tvojih';
 $string['filters'] = 'Filtri';
 $string['removefilter'] = 'Ukloni filtar: {$a}';
+
+// Language and format filters.
+$string['stat_languages'] = 'jezika';
+$string['filter_language'] = 'Jezik';
+$string['filter_format'] = 'Oblik';
+$string['format_selfpaced'] = 'Vlastitim tempom';
+$string['format_live'] = 'S nastavom uživo';
