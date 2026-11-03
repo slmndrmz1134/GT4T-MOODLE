@@ -32,7 +32,7 @@
     <li class="diverse-deadline{{#overdue}} overdue{{/overdue}}">
         <span class="diverse-deadline-state" aria-hidden="true"><i class="fa {{#overdue}}fa-circle-exclamation{{/overdue}}{{^overdue}}fa-clock{{/overdue}}"></i></span>
         <span class="diverse-deadline-text"><a href="{{url}}">{{name}}</a><span>{{meta}}</span></span>
-        <a class="btn btn-sm {{#overdue}}btn-primary{{/overdue}}{{^overdue}}btn-secondary{{/overdue}}" href="{{url}}" title="{{action}}">{{#str}}dash_open, theme_diverse{{/str}}<span class="visually-hidden">: {{name}}</span></a>
+        <a class="btn btn-sm {{#overdue}}btn-primary{{/overdue}}{{^overdue}}btn-secondary{{/overdue}}" href="{{url}}" title="{{action}}">{{#overdue}}{{#str}}dash_submit, theme_diverse{{/str}}{{/overdue}}{{^overdue}}{{#str}}dash_open, theme_diverse{{/str}}{{/overdue}}<span class="visually-hidden">: {{name}}</span></a>
     </li>
     {{/deadlines}}
 </ul>

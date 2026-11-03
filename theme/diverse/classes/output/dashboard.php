@@ -89,8 +89,8 @@ class dashboard implements renderable, templatable {
             $data['news'] = ['url' => (new \core\url('/course/view.php', ['id' => $guide]))->out(false)];
         }
 
-        $hascatalog = class_exists(catalog::class);
-        if ($hascatalog && !$isadmin) {
+        // Someone without courses yet gets courses to start with instead of empty cards.
+        if (class_exists(catalog::class) && !$isadmin && !$learning && !$teaching) {
             $data['catalogurl'] = (new \core\url('/local/diverse_catalog/index.php'))->out(false);
             $data['recommended'] = catalog::recommended(self::MAX_COURSES);
             $data['hasrecommended'] = !empty($data['recommended']);
@@ -330,7 +330,7 @@ class dashboard implements renderable, templatable {
             'percent' => $percent,
             'reached' => $done >= $target,
             'left' => get_string('dash_goal_left', 'theme_diverse', max(0, $target - $done)),
-            'total' => count($completed),
+            'time' => $this->time_this_week($monday),
             'average' => format_float($average, $average == floor($average) ? 0 : 1),
             'streak' => get_string('dash_goal_weeks', 'theme_diverse', $streak),
             'choices' => array_map(fn($choice) => [
@@ -339,6 +339,36 @@ class dashboard implements renderable, templatable {
                 'current' => $choice === $target,
             ], goal::CHOICES),
         ];
+    }
+
+    /**
+     * About how long the user spent on the platform this week: the five-minute stretches with something in the log.
+     *
+     * @param int $monday Start of the week.
+     * @return string "2 h 45 m", or a dash without a readable log.
+     */
+    protected function time_this_week(int $monday): string {
+        global $USER;
+
+        $readers = get_log_manager()->get_readers('\core\log\sql_reader');
+        $reader = reset($readers);
+        if (!$reader) {
+            return '–';
+        }
+        $slots = [];
+        $events = $reader->get_events_select_iterator(
+            'userid = :userid AND timecreated >= :start',
+            ['userid' => $USER->id, 'start' => $monday],
+            'timecreated ASC',
+            0,
+            0
+        );
+        foreach ($events as $event) {
+            $slots[intdiv((int)$event->timecreated, 5 * MINSECS)] = true;
+        }
+        $events->close();
+        $minutes = count($slots) * 5;
+        return get_string('dash_goal_time', 'theme_diverse', (object)['h' => intdiv($minutes, 60), 'm' => $minutes % 60]);
     }
 
     /**
@@ -364,6 +394,7 @@ class dashboard implements renderable, templatable {
 
         return [
             'number' => $number,
+            'gradesurl' => (new \core\url('/grade/report/user/index.php', ['id' => $course->id]))->out(false),
             'name' => self::text($course->fullname),
             'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
             'category' => course_hero::category_name($course),

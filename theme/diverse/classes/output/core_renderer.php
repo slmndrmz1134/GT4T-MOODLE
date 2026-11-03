@@ -107,6 +107,10 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 class_exists(\local_diverse_catalog\catalog::class)) {
             $courses = \local_diverse_catalog\catalog::mine(optional_param('filter', 'all', PARAM_ALPHA));
             $stats = $courses['stats'];
+            $courses['summary'] = get_string('mycourses_summary', 'theme_diverse', (object)[
+                'courses' => $stats['enrolled'],
+                'inprogress' => $stats['inprogress'],
+            ]);
             $courses['tiles'] = [
                 ['value' => $stats['enrolled'], 'label' => get_string('dash_kpi_courses', 'theme_diverse'), 'icon' => 'fa-book'],
                 ['value' => $stats['inprogress'], 'label' => get_string('mycourses_inprogress', 'theme_diverse'),
@@ -162,6 +166,9 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             if ($this->is_course_home()) {
                 $additionalclasses[] = 'diverse-course-home';
             }
+            if ($this->has_title_row()) {
+                $additionalclasses[] = 'diverse-title-row';
+            }
         }
         return parent::body_attributes($additionalclasses);
     }
@@ -174,6 +181,62 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     protected function is_course_tab(): bool {
         return shell::applies($this->page) && $this->page->course->id != SITEID && !$this->page->cm &&
             $this->page->context->contextlevel === CONTEXT_COURSE;
+    }
+
+    /**
+     * The icons of the top bar, with the palette switch and the language menu in front of them on application pages.
+     *
+     * @return string
+     */
+    public function navbar_plugin_output() {
+        global $CFG;
+
+        $output = parent::navbar_plugin_output();
+        if (!shell::applies($this->page)) {
+            return $output;
+        }
+        $green = palette::is_green();
+        $return = $this->page->url->out_as_local_url(false);
+        $palette = [];
+        foreach ([false, true] as $choice) {
+            $palette[] = [
+                'label' => get_string($choice ? 'palette_green' : 'palette_orange', 'theme_diverse'),
+                'url' => (new \core\url('/theme/diverse/palette.php', ['green' => (int)$choice, 'returnurl' => $return,
+                    'sesskey' => sesskey()]))->out(false),
+                'current' => $choice === $green,
+            ];
+        }
+        // The same choice as the language menu in Moodle's user menu, with the same ?lang= links.
+        $languages = [];
+        $translations = get_string_manager()->get_list_of_translations();
+        if (count($translations) > 1 && !empty($CFG->langmenu)) {
+            foreach ($translations as $code => $name) {
+                $languages[] = [
+                    'name' => $name,
+                    'url' => (new \core\url($this->page->url, ['lang' => $code]))->out(false),
+                    'current' => $code === current_language(),
+                ];
+            }
+        }
+        return $this->render_from_template('theme_diverse/navbar_tools', [
+            'palette' => $palette,
+            'languages' => $languages,
+            'haslanguages' => !empty($languages),
+            'language' => \core_text::strtoupper(explode('_', current_language())[0]),
+        ]) . $output;
+    }
+
+    /**
+     * Whether the page starts with its own title row, next to which the top bar's search and buttons stand.
+     *
+     * @return bool
+     */
+    protected function has_title_row(): bool {
+        if (!shell::applies($this->page)) {
+            return false;
+        }
+        return $this->page->pagetype === 'my-index' || $this->page->pagelayout === 'mycourses' ||
+            $this->page->pagetype === 'local-diverse_catalog-index' || $this->is_course_tab();
     }
 
     /**
@@ -217,7 +280,6 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         $header = parent::full_header();
         if ($this->is_course_tab()) {
             $hero = (new course_hero($this->page->course))->export_for_template($this);
-            $hero['navbar'] = $this->navbar();
             return $this->render_from_template('theme_diverse/course_hero', $hero) . $header;
         }
         if (shell::applies($this->page) && $this->page->course->id != SITEID && $this->page->cm) {

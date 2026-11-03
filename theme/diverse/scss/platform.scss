@@ -169,18 +169,9 @@ body.diverse-shell.pagelayout-mycourses {
     margin-bottom: 2rem;
 }
 
-.diverse-dash-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-top: 1.25rem;
-}
-
 .diverse-dash-title {
     margin: 0;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.2;
     letter-spacing: -.01em;
 }
@@ -1316,7 +1307,7 @@ table.diverse-table {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
-    margin: 1.25rem 0 1rem;
+    margin: .75rem 0 1rem;
     padding: 1.75rem;
     background-color: $white;
     border: 1px solid $diverse-border;
@@ -1333,16 +1324,40 @@ table.diverse-table {
         padding: 1.25rem;
     }
 
-    .breadcrumb {
-        margin-bottom: .75rem;
-        padding: 0;
-        background-color: transparent;
-        font-size: .8125rem;
-        font-weight: 600;
-    }
-
     .diverse-tag {
         margin-bottom: .75rem;
+    }
+}
+
+// The way back, in the title row above the course card.
+.diverse-course-crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .375rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: $diverse-grey;
+    font-size: .8125rem;
+    font-weight: 600;
+
+    li + li::before {
+        margin-right: .375rem;
+        content: "/";
+    }
+
+    a {
+        display: inline-flex;
+        align-items: center;
+        gap: .25rem;
+        color: $diverse-grey;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $diverse-ink;
+        }
     }
 }
 
@@ -1582,7 +1597,32 @@ body.diverse-in-course {
         }
     }
 
+    // The finished sections get a tick, the one with the next activity the brand colour.
+    .course-section.diverse-section-finished .course-section-header[data-number]::before {
+        background-color: $diverse-success;
+        color: $white;
+        content: "\2713";
+    }
+
+    .course-section.diverse-section-current .course-section-header[data-number]::before {
+        background-color: $diverse-action-orange;
+        color: $white;
+    }
+
+    @include media-breakpoint-up(xl) {
+        .course-section-header > .d-flex:has(.diverse-section-meter) .icons-collapse-expand {
+            margin-left: .75rem;
+        }
+    }
+
+    // "Collapse all": each section opens and closes on its own.
+    .course-section-header > .flex-fill:has(#collapsesections) {
+        display: none !important;
+    }
+
     .sectionname {
+        flex-direction: column;
+        align-items: flex-start !important;
         font-family: $font-family-sans-serif;
         font-size: 1.0625rem;
         font-weight: 700;
@@ -1639,10 +1679,41 @@ body.diverse-in-course {
         border-radius: $border-radius;
     }
 
-    // Completion buttons and states as pills.
+    // The activity to do next.
+    .activity.diverse-activity-next > .activity-item {
+        background-color: $diverse-soft-orange;
+        box-shadow: inset 3px 0 0 $diverse-action-orange;
+    }
+
+    .activity-dates {
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+
+    // Completion buttons and states as pills: done in green, still to do dashed.
     .activity-information .btn,
     .activity-information .badge {
         border-radius: 50rem;
+        font-size: .75rem;
+        font-weight: 700;
+    }
+
+    .activity-information .btn-subtle-success {
+        background-color: $diverse-success-soft;
+        border-color: $diverse-success-soft;
+        color: $diverse-success;
+    }
+
+    .activity-information .btn-subtle-body {
+        background-color: $white;
+        border: 1px dashed $diverse-border-strong;
+        color: $diverse-grey;
+
+        &:hover,
+        &:focus {
+            border-style: solid;
+            color: $diverse-ink;
+        }
     }
 
     .activity-description,
@@ -1670,6 +1741,23 @@ body.diverse-in-course {
         .course-section .course-content-item-content {
             padding: 0 .75rem .75rem;
         }
+    }
+}
+
+// The progress of a section, under its name and as a bar next to its arrow (course_aside.mustache).
+.diverse-section-done {
+    color: $diverse-grey;
+    font-size: .8125rem;
+    font-weight: 400;
+}
+
+.diverse-progress.diverse-section-meter {
+    order: 1;
+    width: 10rem;
+    margin: 0 0 0 auto;
+
+    @include media-breakpoint-down(xl) {
+        display: none;
     }
 }
 
@@ -1832,6 +1920,9 @@ body.path-mod-book #region-main .book_content {
 
 .diverse-icon-link {
     display: flex;
+    padding: 0;
+    background: none;
+    border: 0;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
@@ -1867,8 +1958,12 @@ body.diverse-course-home:not(.editing) .drawer-toggles .drawer-left-toggle {
     display: none;
 }
 
-// My courses: Moodle's block frame goes, the course cards stand on the surface.
+// My courses: Moodle's block frame goes, the course cards stand on the surface. The page has its own title row.
 body.pagelayout-mycourses.diverse-shell {
+    #page-header {
+        display: none;
+    }
+
     .block_myoverview,
     .block_myoverview > .card-body {
         padding: 0;
@@ -2126,10 +2221,10 @@ body.pagelayout-mycourses.diverse-shell {
     left: .5rem;
     padding: .125rem .5rem;
     background-color: $diverse-ink;
-    border-radius: $btn-border-radius;
+    border-radius: 50rem;
     color: $white;
-    font-size: .75rem;
-    font-weight: 600;
+    font-size: .6875rem;
+    font-weight: 700;
 }
 
 .diverse-card-course-type {
@@ -2264,13 +2359,24 @@ body:has(.diverse-mycourses) .block_myoverview {
 }
 
 .diverse-badge {
-    padding: .125rem .5rem;
-    background-color: $diverse-surface;
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    padding: .1875rem .625rem;
+    background-color: $white;
     border: 1px solid $diverse-border;
-    border-radius: $btn-border-radius;
+    border-radius: 50rem;
     color: $diverse-ink;
     font-size: .75rem;
     font-weight: 600;
+}
+
+.diverse-badge-category::before {
+    width: .375rem;
+    height: .375rem;
+    background-color: $diverse-action-orange;
+    border-radius: 50%;
+    content: "";
 }
 
 .diverse-badge-done {
@@ -2300,13 +2406,12 @@ body:has(.diverse-mycourses) .block_myoverview {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-top: 1.25rem;
     margin-bottom: 2rem;
 }
 
 .diverse-catalog-title {
     margin: 0;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     line-height: 1.2;
     letter-spacing: -.01em;
 }
@@ -2391,6 +2496,35 @@ body:has(.diverse-mycourses) .block_myoverview {
         outline: 2px solid $diverse-action-orange;
         outline-offset: 1px;
     }
+}
+
+.diverse-catalog-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-top: .875rem;
+
+    a {
+        padding: .375rem .875rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: 50rem;
+        color: $diverse-ink;
+        font-size: .8125rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            border-color: $diverse-action-orange;
+            color: $diverse-action-orange;
+        }
+    }
+}
+
+// The search band is the search of this page: the one of the top bar goes.
+body#page-local-diverse_catalog-index .diverse-navbar-search {
+    display: none !important;
 }
 
 .diverse-catalog-stats {

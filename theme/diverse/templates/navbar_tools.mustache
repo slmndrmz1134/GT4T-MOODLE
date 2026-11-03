@@ -1,0 +1,43 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/navbar_tools
+
+    In the top bar of application pages, in front of the notifications: the choice between the orange and the green
+    palette, and the language menu (the same links as the language menu of Moodle's user menu).
+
+    Example context (json):
+    {
+        "palette": [{"label": "Orange", "url": "#", "current": true}, {"label": "Green", "url": "#", "current": false}],
+        "languages": [{"name": "English", "url": "#", "current": true}], "haslanguages": true, "language": "EN"
+    }
+}}
+<div class="diverse-navbar-tools">
+    <div class="diverse-palette-switch" role="group" aria-label="{{#str}}palette, theme_diverse{{/str}}">
+        {{#palette}}<a href="{{url}}"{{#current}} aria-current="true" class="active"{{/current}}>{{label}}</a>{{/palette}}
+    </div>
+    {{#haslanguages}}
+    <div class="dropdown diverse-language">
+        <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">{{#str}}language{{/str}}: </span>{{language}}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            {{#languages}}<li><a class="dropdown-item{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="true"{{/current}}>{{name}}</a></li>{{/languages}}
+        </ul>
+    </div>
+    {{/haslanguages}}
+</div>

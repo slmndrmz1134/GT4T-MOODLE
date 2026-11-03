@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Assistent fragen';
 $string['course_teachers'] = 'Lehrende';
 $string['course_message'] = 'Nachricht an {$a} senden';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Farben';
+$string['palette_orange'] = 'Orange';
+$string['palette_green'] = 'Grün';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} Kurse · {$a->inprogress} begonnen';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Zeit diese Woche';
+$string['dash_goal_time'] = '{$a->h} Std. {$a->m} Min.';
+$string['dash_opencourse'] = 'Kurs öffnen';
+$string['dash_submit'] = 'Abgeben';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->done} von {$a->total} erledigt';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Grüne Farben (GT4T)';
 $string['palette_toorange'] = 'Orange Farben (DIVERSE)';

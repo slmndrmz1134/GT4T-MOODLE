@@ -42,7 +42,7 @@
             <span class="diverse-card-course-tags">
                 {{#enrolled}}<span class="diverse-badge diverse-badge-done">{{#str}}card_enrolled, theme_diverse{{/str}}</span>{{/enrolled}}
                 {{#selfenrol}}<span class="diverse-badge diverse-badge-open">{{#str}}card_open, theme_diverse{{/str}}</span>{{/selfenrol}}
-                {{#category}}<span class="diverse-badge">{{category}}</span>{{/category}}
+                {{#category}}<span class="diverse-badge diverse-badge-category">{{category}}</span>{{/category}}
             </span>
             <span class="diverse-card-course-footer">
                 {{#hasprogress}}
@@ -51,7 +51,7 @@
                     <span class="diverse-progress-value">{{#str}}dash_progress, theme_diverse, {{progress}}{{/str}}</span>
                 </span>
                 {{/hasprogress}}
-                {{^hasprogress}}<span class="diverse-card-course-meta">{{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>{{/hasprogress}}
+                {{^hasprogress}}<span class="diverse-card-course-meta"><i class="fa fa-users" aria-hidden="true"></i> {{#str}}card_people, theme_diverse, {{people}}{{/str}}</span>{{/hasprogress}}
                 <span class="btn btn-sm {{#actionprimary}}btn-primary{{/actionprimary}}{{^actionprimary}}btn-secondary{{/actionprimary}}">{{action}}</span>
             </span>
         </span>

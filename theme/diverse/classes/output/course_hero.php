@@ -91,7 +91,9 @@ class course_hero implements renderable, templatable {
                 'sections' => $sections,
                 'activities' => count($activities),
             ]),
+            'mycoursesurl' => (new \core\url('/my/courses.php'))->out(false),
             'people' => count_enrolled_users($context),
+            'language' => self::language_name($course),
             'hasstep' => $progress !== null || $next !== null,
             'hasnext' => $next !== null,
             'nexturl' => $next ? $next->url->out(false) : '',
@@ -170,6 +172,20 @@ class course_hero implements renderable, templatable {
         }
         // All tracked work is done, or nothing is tracked: only a course without tracking offers a start.
         return $tracked ? null : (reset($activities) ?: null);
+    }
+
+    /**
+     * The language the course is taught in: its forced language, or the site's.
+     *
+     * @param \stdClass $course
+     * @return string
+     */
+    public static function language_name(\stdClass $course): string {
+        global $CFG;
+
+        $code = !empty($course->lang) ? $course->lang : $CFG->lang;
+        $languages = get_string_manager()->get_list_of_languages();
+        return $languages[explode('_', $code)[0]] ?? $code;
     }
 
     /**

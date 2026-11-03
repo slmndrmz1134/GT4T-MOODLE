@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Klausti asistento';
 $string['course_teachers'] = 'Dėstytojai';
 $string['course_message'] = 'Siųsti žinutę: {$a}';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Spalvos';
+$string['palette_orange'] = 'Oranžinė';
+$string['palette_green'] = 'Žalia';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} kursai · {$a->inprogress} vykdomi';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Laikas šią savaitę';
+$string['dash_goal_time'] = '{$a->h} val. {$a->m} min.';
+$string['dash_opencourse'] = 'Atidaryti kursą';
+$string['dash_submit'] = 'Pateikti';
+
+// Course page: progress of a section.
+$string['course_section_done'] = 'Atlikta {$a->done} iš {$a->total}';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

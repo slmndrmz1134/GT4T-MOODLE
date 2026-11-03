@@ -76,7 +76,10 @@ class course_aside implements renderable, templatable {
         $deadlines = $this->deadlines();
         $teachers = $this->teachers();
         $live = $this->live();
+        $next = $this->teaches() ? null : course_hero::next_activity($this->course);
         return [
+            // For the sections on the page: how far the student is in each, and the activity to do next.
+            'sectionsjson' => json_encode(['sections' => $this->sections(), 'next' => $next ? (int)$next->id : 0]),
             'live' => $live,
             'haslive' => $live !== null,
             'deadlines' => $deadlines,
@@ -86,6 +89,53 @@ class course_aside implements renderable, templatable {
             'teachers' => $teachers,
             'hasteachers' => !empty($teachers),
         ];
+    }
+
+    /**
+     * Whether the user teaches the course: teachers have no progress of their own.
+     *
+     * @return bool
+     */
+    protected function teaches(): bool {
+        return has_capability('moodle/grade:viewall', \context_course::instance($this->course->id));
+    }
+
+    /**
+     * How many of the tracked activities of each section the student has completed.
+     *
+     * @return array[] number, text ("2 of 4 done"), percent; empty for teachers and without completion tracking.
+     */
+    protected function sections(): array {
+        global $CFG;
+        require_once($CFG->libdir . '/completionlib.php');
+
+        $completion = new \completion_info($this->course);
+        if ($this->teaches() || !$completion->is_enabled()) {
+            return [];
+        }
+        $modinfo = get_fast_modinfo($this->course);
+        $sections = [];
+        foreach ($modinfo->get_section_info_all() as $section) {
+            $done = 0;
+            $total = 0;
+            foreach ($modinfo->sections[$section->section] ?? [] as $cmid) {
+                $cm = $modinfo->get_cm($cmid);
+                if (!$cm->uservisible || $completion->is_enabled($cm) == COMPLETION_TRACKING_NONE) {
+                    continue;
+                }
+                $total++;
+                $state = $completion->get_data($cm, true)->completionstate;
+                $done += in_array($state, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS]) ? 1 : 0;
+            }
+            if ($total) {
+                $sections[] = [
+                    'number' => (int)$section->section,
+                    'text' => get_string('course_section_done', 'theme_diverse', (object)['done' => $done, 'total' => $total]),
+                    'percent' => (int)floor($done / $total * 100),
+                ];
+            }
+        }
+        return $sections;
     }
 
     /**

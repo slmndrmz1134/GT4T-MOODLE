@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Pitaj asistenta';
 $string['course_teachers'] = 'Nastavnici';
 $string['course_message'] = 'Pošalji poruku: {$a}';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Boje';
+$string['palette_orange'] = 'Narančasta';
+$string['palette_green'] = 'Zelena';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} kolegija · {$a->inprogress} u tijeku';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Vrijeme ovaj tjedan';
+$string['dash_goal_time'] = '{$a->h} h {$a->m} min';
+$string['dash_opencourse'] = 'Otvori kolegij';
+$string['dash_submit'] = 'Predaj';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->done} od {$a->total} dovršeno';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';

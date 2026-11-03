@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Asistana sor';
 $string['course_teachers'] = 'Öğretmenler';
 $string['course_message'] = '{$a} kişisine mesaj gönder';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Renkler';
+$string['palette_orange'] = 'Turuncu';
+$string['palette_green'] = 'Yeşil';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} ders · {$a->inprogress} devam ediyor';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Bu haftaki süre';
+$string['dash_goal_time'] = '{$a->h} sa {$a->m} dk';
+$string['dash_opencourse'] = 'Dersi aç';
+$string['dash_submit'] = 'Teslim et';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->total} etkinlikten {$a->done} tamamlandı';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';

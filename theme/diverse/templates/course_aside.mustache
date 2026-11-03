@@ -21,8 +21,12 @@
     course assistant and the teachers. The assistant card only stays when local_diverse_assistant has put its own
     button on the page, which the card then presses.
 
+    It also carries the progress of the student in each section (sectionsjson), which its script shows in the
+    headers of the sections on the page.
+
     Example context (json):
     {
+        "sectionsjson": "{\"sections\": [], \"next\": 0}",
         "haslive": true, "live": {"name": "Live class", "when": "Thursday, 5 November 2026, 2:00 PM", "url": "#", "scheduled": true},
         "hasdeadlines": false, "deadlines": [], "calendarurl": "#", "assistant": false,
         "hasteachers": true, "teachers": [{"name": "Ada Yilmaz", "role": "Teacher", "initials": "AY", "messageurl": "#"}]
@@ -79,6 +83,40 @@
     </section>
     {{/hasteachers}}
 </aside>
+{{#js}}
+// The sections on the page: how far the student is in each (under the name, and a bar next to the arrow), a tick for
+// the finished ones and a mark on the section and the activity to do next.
+(function() {
+    var data = {{{sectionsjson}}};
+    data.sections.forEach(function(section) {
+        var item = document.querySelector('li.course-section[data-number="' + section.number + '"]');
+        var name = item && item.querySelector('.course-section-header .sectionname');
+        if (!name || name.querySelector('.diverse-section-done')) {
+            return;
+        }
+        var text = document.createElement('small');
+        text.className = 'diverse-section-done';
+        text.textContent = section.text;
+        name.appendChild(text);
+        var meter = document.createElement('span');
+        meter.className = 'diverse-progress diverse-section-meter';
+        meter.setAttribute('aria-hidden', 'true');
+        meter.innerHTML = '<span class="diverse-progress-track"><span></span></span><span class="diverse-progress-value"></span>';
+        meter.querySelector('.diverse-progress-track > span').style.width = section.percent + '%';
+        meter.querySelector('.diverse-progress-value').textContent = section.percent + '%';
+        name.parentNode.appendChild(meter);
+        item.classList.toggle('diverse-section-finished', section.percent >= 100);
+    });
+    var next = data.next && document.getElementById('module-' + data.next);
+    if (next) {
+        next.classList.add('diverse-activity-next');
+        var section = next.closest('li.course-section');
+        if (section) {
+            section.classList.add('diverse-section-current');
+        }
+    }
+})();
+{{/js}}
 {{#assistant}}
 {{#js}}
 (function() {

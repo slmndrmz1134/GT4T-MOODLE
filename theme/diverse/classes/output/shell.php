@@ -52,6 +52,8 @@ class shell implements renderable, templatable {
         'admin' => 'fa-sliders',
         'guide' => 'fa-circle-question',
         'manage' => 'fa-gear',
+        'help' => 'fa-life-ring',
+        'preferences' => 'fa-sliders',
     ];
 
     /** @var \moodle_page */
@@ -157,10 +159,22 @@ class shell implements renderable, templatable {
             );
         }
 
+        // The mark at the top of the rail: the first letter of the user's university (of its short id, "beykent" rather than
+        // "İstanbul Beykent Üniversitesi"), or of DIVERSE.
+        $brand = $tenant ? $tenant->name : format_string(get_site()->shortname);
+        $short = $tenant && !empty($tenant->idnumber) ? $tenant->idnumber : $brand;
+        $bottom = [];
+        if (($CFG->supportavailability ?? CONTACT_SUPPORT_AUTHENTICATED) != CONTACT_SUPPORT_DISABLED) {
+            $bottom[] = $this->link('help', get_string('contactsitesupport', 'admin'), '/user/contactsitesupport.php',
+                ['/user/contactsitesupport.php']);
+        }
+        $bottom[] = $this->link('preferences', get_string('preferences'), '/user/preferences.php', ['/user/preferences.php']);
+
         return [
             'homeurl' => (new \core\url('/', ['redirect' => 0]))->out(false),
-            'logourl' => $output->image_url('favicon', 'theme_diverse')->out(false),
-            'sitename' => format_string(get_site()->shortname),
+            'brand' => $brand,
+            'brandletter' => \core_text::strtoupper(\core_text::substr($short, 0, 1)),
+            'bottom' => $bottom,
             'manageicon' => self::ICONS['manage'],
             'main' => $main,
             'manage' => $manage,

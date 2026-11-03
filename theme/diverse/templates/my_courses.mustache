@@ -29,6 +29,10 @@
     }
 }}
 <div class="diverse-mycourses" id="diverse-mycourses">
+    <header class="diverse-title-bar">
+        <h1 class="diverse-dash-title">{{#str}}mycourses{{/str}}</h1>
+        <p class="diverse-dash-summary">{{summary}}</p>
+    </header>
     <ul class="diverse-stat-row">
         {{#tiles}}
         <li class="diverse-stat-tile"><span class="diverse-stat-icon" aria-hidden="true"><i class="fa {{icon}}"></i></span><span><strong>{{value}}</strong><span>{{label}}</span></span></li>

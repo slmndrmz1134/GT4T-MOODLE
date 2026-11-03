@@ -21,20 +21,22 @@
     On the rail the names show next to the icons on hover and focus.
 
     Context variables required for this template:
-    * homeurl, logourl, sitename - the DIVERSE mark at the top of the rail, leading to the site home
+    * homeurl, brand, brandletter - the mark at the top of the rail (the first letter of the user's university),
+      leading to the site home
     * main - the main places, the platform guide last: key, label, url, icon (icon class), current, nophone
+    * bottom - help and preferences at the bottom of the rail; the user menu shows under them (shell.scss)
     * manage, hasmanage, manageicon - management places of partner managers and site administrators
     * managecurrent - whether one of the management places is open
 
     Example context (json):
     {
-        "homeurl": "#", "logourl": "#", "sitename": "DIVERSE",
+        "homeurl": "#", "brand": "DIVERSE", "brandletter": "D",
         "main": [{"key": "dashboard", "label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
-        "manage": [], "hasmanage": false, "manageicon": "fa-gear", "managecurrent": false
+        "bottom": [], "manage": [], "hasmanage": false, "manageicon": "fa-gear", "managecurrent": false
     }
 }}
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
-    <a class="diverse-nav-brand" href="{{homeurl}}"><img src="{{logourl}}" alt="{{sitename}}"></a>
+    <a class="diverse-nav-brand" href="{{homeurl}}" title="{{brand}}"><span aria-hidden="true">{{brandletter}}</span><span class="visually-hidden">{{brand}}</span></a>
     <ul class="diverse-nav-list">
         {{#main}}
         <li class="diverse-nav-item-{{key}}{{#nophone}} diverse-nav-nophone{{/nophone}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
@@ -56,4 +58,12 @@
         </ul>
     </div>
     {{/hasmanage}}
+    <ul class="diverse-nav-list diverse-nav-bottom">
+        {{#bottom}}
+        <li class="diverse-nav-item-{{key}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
+            <i class="fa {{icon}}" aria-hidden="true"></i>
+            <span>{{label}}</span>
+        </a></li>
+        {{/bottom}}
+    </ul>
 </nav>

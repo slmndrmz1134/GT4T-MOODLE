@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Kysy avustajalta';
 $string['course_teachers'] = 'Opettajat';
 $string['course_message'] = 'Lähetä viesti: {$a}';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Värit';
+$string['palette_orange'] = 'Oranssi';
+$string['palette_green'] = 'Vihreä';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} kurssia · {$a->inprogress} kesken';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Aika tällä viikolla';
+$string['dash_goal_time'] = '{$a->h} h {$a->m} min';
+$string['dash_opencourse'] = 'Avaa kurssi';
+$string['dash_submit'] = 'Palauta';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->done}/{$a->total} suoritettu';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';

@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Vraag de assistent';
 $string['course_teachers'] = 'Docenten';
 $string['course_message'] = 'Stuur een bericht naar {$a}';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Kleuren';
+$string['palette_orange'] = 'Oranje';
+$string['palette_green'] = 'Groen';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} cursussen · {$a->inprogress} bezig';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Tijd deze week';
+$string['dash_goal_time'] = '{$a->h} u {$a->m} m';
+$string['dash_opencourse'] = 'Cursus openen';
+$string['dash_submit'] = 'Inleveren';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->done} van {$a->total} voltooid';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';

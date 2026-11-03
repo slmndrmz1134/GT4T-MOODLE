@@ -245,6 +245,23 @@ $string['course_assistant_open'] = 'Cuir ceist ar an gcúntóir';
 $string['course_teachers'] = 'Múinteoirí';
 $string['course_message'] = 'Seol teachtaireacht chuig {$a}';
 
+// Colour palette: the switch in the top bar.
+$string['palette'] = 'Dathanna';
+$string['palette_orange'] = 'Oráiste';
+$string['palette_green'] = 'Glas';
+
+// My courses: the line under the title.
+$string['mycourses_summary'] = '{$a->courses} cúrsa · {$a->inprogress} ar siúl';
+
+// Dashboard cards: time, row menu, overdue button.
+$string['dash_goal_timeweek'] = 'Am an tseachtain seo';
+$string['dash_goal_time'] = '{$a->h} u {$a->m} n';
+$string['dash_opencourse'] = 'Oscail an cúrsa';
+$string['dash_submit'] = 'Seol isteach';
+
+// Course page: progress of a section.
+$string['course_section_done'] = '{$a->done} as {$a->total} críochnaithe';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

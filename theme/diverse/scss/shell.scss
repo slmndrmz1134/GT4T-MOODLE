@@ -8,6 +8,8 @@
  ***************************************************************/
 
 $diverse-rail-width: 4.5rem;
+$diverse-title-top: 1.25rem;
+$diverse-title-height: 3.25rem;
 $diverse-tabbar-height: 4rem;
 
 .diverse-nav {
@@ -54,7 +56,9 @@ $diverse-tabbar-height: 4rem;
 
     .diverse-nav-brand,
     .diverse-nav-manage,
-    .diverse-nav-nophone {
+    .diverse-nav-bottom,
+    .diverse-nav-nophone,
+    .diverse-navbar-tools {
         display: none;
     }
 
@@ -135,8 +139,9 @@ $diverse-tabbar-height: 4rem;
         top: 0;
         bottom: 0;
         left: 0;
-        // Above the top bar, so that the names next to the icons show over it.
-        z-index: 1031;
+        // Under the top bar, which holds the user menu shown at the bottom of the rail; the top bar starts next to the
+        // rail and is transparent, so the names next to the icons still show.
+        z-index: 1029;
         flex-direction: column;
         align-items: center;
         gap: .25rem;
@@ -153,10 +158,18 @@ $diverse-tabbar-height: 4rem;
         width: 2.75rem;
         height: 2.75rem;
         margin-bottom: .75rem;
+        background-color: $diverse-ink;
+        border-radius: $border-radius;
+        color: $white;
+        font-size: 1.125rem;
+        font-weight: 800;
+        text-decoration: none;
 
-        img {
-            max-width: 100%;
-            max-height: 100%;
+        &:hover,
+        &:focus {
+            background-color: $diverse-action-orange;
+            color: $white;
+            text-decoration: none;
         }
     }
 
@@ -174,8 +187,17 @@ $diverse-tabbar-height: 4rem;
         border-top: 1px solid $diverse-border;
     }
 
-    .diverse-nav-manage {
+    .diverse-nav-manage,
+    .diverse-nav-bottom {
         margin-top: auto;
+    }
+
+    .diverse-nav-manage + .diverse-nav-bottom {
+        margin-top: .25rem;
+    }
+
+    .diverse-nav {
+        padding-bottom: 4rem;
     }
 
     .diverse-nav-link {
@@ -259,9 +281,83 @@ $diverse-tabbar-height: 4rem;
             display: none;
         }
 
-        // The top bar and the page start next to the rail.
+        // No bar across the page: the search and the buttons stand on the surface, on the right of the page's own
+        // title row, and scroll away with the page. Pages without a title row start below them.
         .navbar.fixed-top {
+            position: absolute;
+            top: $diverse-title-top;
             left: $diverse-rail-width;
+            height: $diverse-title-height;
+            // Moodle's bg-body sets the white with !important.
+            background-color: transparent !important;
+            border: 0;
+            box-shadow: none;
+        }
+
+        .navbar.fixed-top .navbar-brand,
+        .navbar.fixed-top #usernavigation > .divider {
+            display: none !important;
+        }
+
+        #page.drawers {
+            margin-top: calc(#{$diverse-title-top} * 2 + #{$diverse-title-height});
+        }
+
+        // On narrower screens the title and the buttons would not fit side by side: the title goes below them.
+        @include media-breakpoint-up(xl) {
+            &.diverse-title-row #page.drawers {
+                margin-top: 0;
+
+                .main-inner {
+                    margin-top: 0;
+                }
+            }
+        }
+
+        // The bell and the messages in circles.
+        #usernavigation .popover-region {
+            margin-left: .5rem;
+        }
+
+        #usernavigation .popover-region-toggle.nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            padding: 0;
+            background-color: $white;
+            border: 1px solid $diverse-border;
+            border-radius: 50%;
+            color: $diverse-ink;
+
+            &:hover {
+                background-color: $diverse-surface;
+            }
+        }
+
+        // The user menu at the bottom of the rail.
+        #usernavigation .usermenu-container {
+            position: fixed;
+            bottom: 1rem;
+            left: calc((#{$diverse-rail-width} - 2.25rem) / 2);
+            z-index: 1032;
+
+            .dropdown-toggle::after {
+                display: none;
+            }
+
+            .userpicture,
+            .userinitials {
+                width: 2.25rem;
+                height: 2.25rem;
+                margin: 0;
+                font-size: .8125rem;
+            }
+
+            .usermenu .login {
+                display: none;
+            }
         }
 
         #page-wrapper {
@@ -274,6 +370,7 @@ $diverse-tabbar-height: 4rem;
 
         .navbar.fixed-top .container-fluid {
             max-width: none;
+            height: 100%;
             padding-right: 1.5rem;
             padding-left: 1.5rem;
         }
@@ -283,17 +380,18 @@ $diverse-tabbar-height: 4rem;
             max-width: none;
         }
 
-        // The search is the main way into the site: it takes the free space of the top bar.
         #usernavigation {
             flex: 1;
+            align-items: center;
+            justify-content: flex-end;
             min-width: 0;
         }
 
+        // The search on the right, next to the buttons.
         .diverse-navbar-search {
             display: flex !important;
-            flex: 1;
-            max-width: 44rem;
-            margin: 0 auto 0 1.5rem;
+            flex: 0 1 26rem;
+            margin: 0 .5rem 0 0;
 
             .diverse-search-form,
             .diverse-search-box {
@@ -363,6 +461,71 @@ $diverse-tabbar-height: 4rem;
         &.drawer-open-left #page.drawers {
             margin-left: 0;
         }
+    }
+}
+
+// The title row of an application page: as high as the search and the buttons of the top bar next to it.
+.diverse-title-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: $diverse-title-height;
+}
+
+// The palette switch and the language menu next to the search (templates/navbar_tools.mustache).
+.diverse-navbar-tools {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.diverse-palette-switch {
+    display: inline-flex;
+    padding: .25rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 50rem;
+
+    a {
+        display: flex;
+        align-items: center;
+        height: 2.25rem;
+        padding: 0 .875rem;
+        border-radius: 50rem;
+        color: $diverse-grey;
+        font-size: .8125rem;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $diverse-ink;
+            text-decoration: none;
+        }
+
+        &.active,
+        &.active:hover {
+            background-color: $diverse-action-orange;
+            color: $white;
+        }
+    }
+}
+
+.diverse-language .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    height: 2.75rem;
+    padding: 0 1rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: 50rem;
+    color: $diverse-ink;
+    font-size: .875rem;
+    font-weight: 600;
+
+    &:hover {
+        background-color: $diverse-surface;
     }
 }
 
