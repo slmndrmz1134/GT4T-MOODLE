@@ -621,11 +621,26 @@ body.diverse-shell:not(.diverse-title-row):not(.diverse-course-tab) {
     min-height: $diverse-title-height;
 }
 
-// The palette switch and the language menu next to the search (templates/navbar_tools.mustache).
+// The palette switch and the language menu next to the search (templates/navbar_tools.mustache). Phones have no room
+// for them next to the bell, the messages and the user menu, which then holds both.
 .diverse-navbar-tools {
     display: flex;
     align-items: center;
     gap: .5rem;
+
+    @include media-breakpoint-down(md) {
+        display: none;
+
+        + .divider {
+            display: none !important;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    body.diverse-shell #usernavigation > .divider {
+        display: none !important;
+    }
 }
 
 .diverse-palette-switch {
