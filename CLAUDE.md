@@ -46,6 +46,7 @@ geliştiriciye anlatır ve karar ister.
   | `platform.scss` | Dashboard, Derslerim, ders sayfası |
 | `messages.scss` | Mesajlar sayfası |
 | `icons.scss` | Moodle ikonlarının çizgili (outline) karşılıkları |
+| `motion.scss` | Animasyonlar: açılan paneller, sayfa girişleri, grafikler |
   | `admin.scss` | Site administration |
 
   Yeni bir sayfa dosyası gerekiyorsa `theme/diverse/lib.php` içindeki listeye eklenir.

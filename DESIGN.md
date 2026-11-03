@@ -125,6 +125,11 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   2 px etkileşim turuncusu çizgi ikonun kenarına oturur (`post.scss`).
 - **Üst menü:** beyaz zemin, sekmelerle aynı alt çizgi; ikon yok. Yönetim bağlantıları "Administration" açılır menüsündedir.
   Telefonda alt menü ink zemin, ikon ve altında etiket; aktif öğe marka turuncusu zemin ve **koyu** yazı (5.43:1).
+- **Açılır paneller:** bildirimler ve mesajlar üst çubukta düğmenin altında açılan beyaz kart olur (24rem). Mesajlar
+  Moodle'ın kendi mesaj çekmecesidir, bütün görünümleri aynen kalır; telefonda tam ekran açılır (`shell.scss`).
+- **Hareket:** menüler ve paneller kısa bir yay efektiyle açılır, sayfa blokları sırayla yukarı kayarak belirir,
+  grafikler kendini çizer, ders kartları hover'da 3 px kalkar (`motion.scss`). Yalnızca CSS; sistemde "hareketi azalt"
+  seçili kullanıcıda hiçbiri çalışmaz.
 - **Rakam kutuları:** beyaz kart, büyük rakam, gri etiket. Dikkat isteyen rakam yumuşak turuncu zemin alır.
 - **İkonlar:** Lucide (`pix/icons`, `icons.scss`), mesaj balonu DIVERSE'e özel oval çizim. Moodle'ın işaretlemesi değişmez, yalnızca
   çizim değişir; listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.

@@ -1,0 +1,197 @@
+/****************************************************************
+ * DIVERSE motion inside the platform.
+ * Panels and menus open with a short spring, the content of a page rises in one block after the other,
+ * charts draw themselves and cards lift under the pointer. CSS only: nothing waits for JavaScript, and
+ * users who ask their system for less motion get none of it.
+ * The individual translate and scale properties are used, so Popper's own transform on menus is kept.
+ ***************************************************************/
+
+$diverse-ease-spring: cubic-bezier(.34, 1.36, .64, 1); // Overshoots a little, like a spring: panels, menus.
+$diverse-ease-out: cubic-bezier(.16, 1, .3, 1);        // Fast start, long soft landing: content, charts.
+$diverse-stagger: .05s;                                // Between two blocks of a page.
+$diverse-stagger-steps: 8;                             // Later blocks come in with the eighth.
+
+@keyframes diverse-pop {
+    from {
+        opacity: 0;
+        scale: .96;
+        translate: 0 -.375rem;
+    }
+}
+
+@keyframes diverse-rise {
+    from {
+        opacity: 0;
+        translate: 0 .75rem;
+    }
+}
+
+@keyframes diverse-fade {
+    from {
+        opacity: 0;
+    }
+}
+
+@keyframes diverse-grow-x {
+    from {
+        scale: 0 1;
+    }
+}
+
+@keyframes diverse-grow-y {
+    from {
+        scale: 1 0;
+    }
+}
+
+@keyframes diverse-draw {
+    from {
+        stroke-dasharray: 0 377;
+    }
+}
+
+// Siblings come in one after the other.
+@mixin diverse-stagger($start: 0s) {
+    @for $i from 1 through $diverse-stagger-steps {
+        &:nth-child(#{$i}) {
+            animation-delay: $start + $diverse-stagger * ($i - 1);
+        }
+    }
+
+    &:nth-child(n + #{$diverse-stagger-steps + 1}) {
+        animation-delay: $start + $diverse-stagger * $diverse-stagger-steps;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    // Menus, the notifications and the messages.
+    .dropdown-menu.show {
+        animation: diverse-pop .26s $diverse-ease-spring;
+        transform-origin: top right;
+    }
+
+    .dropend > .dropdown-menu.show,
+    #usernavigation .usermenu-container #user-action-menu.show {
+        transform-origin: bottom left;
+    }
+
+    .popover-region:not(.collapsed) .popover-region-container {
+        animation: diverse-pop .28s $diverse-ease-spring;
+        transform-origin: top right;
+    }
+
+    @include media-breakpoint-up(md) {
+        body.diverse-shell [data-region="right-hand-drawer"].drawer {
+            transform-origin: top right;
+            transition: opacity .18s ease, scale .32s $diverse-ease-spring, translate .32s $diverse-ease-spring;
+
+            &.hidden {
+                opacity: 0;
+                scale: .96;
+                translate: 0 -.375rem;
+                transition: opacity .15s ease, scale .15s ease, translate .15s ease, visibility 0s .15s;
+            }
+        }
+    }
+
+    .modal.fade .modal-dialog {
+        scale: .97;
+        transform: translateY(.75rem);
+        transition: transform .36s $diverse-ease-spring, scale .36s $diverse-ease-spring;
+    }
+
+    .modal.show .modal-dialog {
+        scale: 1;
+        transform: none;
+    }
+
+    // The rail: the line next to the current place grows in, the names slide out of the icons.
+    .diverse-nav-link.active::before {
+        animation: diverse-grow-y .4s $diverse-ease-out;
+    }
+
+    .diverse-nav-link > span {
+        translate: -.25rem 0;
+        transition: opacity .15s ease, translate .2s $diverse-ease-out;
+    }
+
+    .diverse-nav-link:hover > span,
+    .diverse-nav-link:focus-visible > span {
+        translate: 0 0;
+    }
+
+    .diverse-nav-link {
+        transition: background-color .15s ease, border-color .15s ease, color .15s ease, scale .15s $diverse-ease-out;
+
+        &:active {
+            scale: .92;
+        }
+    }
+
+    body.diverse-shell {
+        // The content of a page, block by block.
+        .diverse-title-bar,
+        .diverse-news,
+        .diverse-hero-course,
+        .diverse-catalog-find,
+        .diverse-toolbar {
+            animation: diverse-rise .5s $diverse-ease-out both;
+        }
+
+        .diverse-card-grid > .diverse-card,
+        .diverse-dash-cards > *,
+        .diverse-stat-row > *,
+        .diverse-card-course,
+        .diverse-tile-course,
+        .diverse-course-aside > .diverse-card,
+        .course-content .section.course-section {
+            animation: diverse-rise .55s $diverse-ease-out both;
+            @include diverse-stagger(.08s);
+        }
+
+        .diverse-deadline,
+        .diverse-table-wrap tbody tr,
+        .diverse-mini-list > li {
+            animation: diverse-fade .4s ease both;
+            @include diverse-stagger(.25s);
+        }
+
+        // Charts draw themselves once the cards are in.
+        .diverse-ring circle[stroke-dasharray] {
+            animation: diverse-draw 1s $diverse-ease-out .2s both;
+        }
+
+        .diverse-chart-track > span {
+            transform-origin: bottom;
+            animation: diverse-grow-y .7s $diverse-ease-out both;
+        }
+
+        .diverse-chart-bars > li {
+            @for $i from 1 through 7 {
+                &:nth-child(#{$i}) .diverse-chart-track > span {
+                    animation-delay: .2s + .04s * ($i - 1);
+                }
+            }
+        }
+
+        .diverse-progress-track > span {
+            transform-origin: left;
+            animation: diverse-grow-x .8s $diverse-ease-out .25s both;
+        }
+
+        &.dir-rtl .diverse-progress-track > span {
+            transform-origin: right;
+        }
+
+        // Cards lift under the pointer.
+        .diverse-card-course > a {
+            transition: border-color .15s ease, box-shadow .25s ease, translate .3s $diverse-ease-spring;
+
+            &:hover,
+            &:focus-visible {
+                translate: 0 -3px;
+                box-shadow: $box-shadow;
+            }
+        }
+    }
+}
