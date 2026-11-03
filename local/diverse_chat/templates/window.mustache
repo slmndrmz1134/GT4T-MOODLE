@@ -1,0 +1,55 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_chat/window
+
+    The chat window in the bottom right corner. Hidden until the script (amd/src/window.js) finds a conversation the
+    user opened in the messages panel and did not close; it fills the name, the picture and the messages.
+
+    Example context (json):
+    {
+        "maxlength": 4096
+    }
+}}
+<section class="local-diverse-chat" data-region="local-diverse-chat" aria-labelledby="local-diverse-chat-name" hidden>
+    <header class="local-diverse-chat-header">
+        <button type="button" class="local-diverse-chat-title" data-action="minimise" aria-expanded="true">
+            <img class="local-diverse-chat-picture" data-region="picture" alt="">
+            <span class="local-diverse-chat-name" id="local-diverse-chat-name" data-region="name"></span>
+        </button>
+        <a class="local-diverse-chat-icon" data-region="full" href="#" title="{{#str}} openfull, local_diverse_chat {{/str}}">
+            <i class="fa fa-up-right-from-square" aria-hidden="true"></i>
+            <span class="visually-hidden">{{#str}} openfull, local_diverse_chat {{/str}}</span>
+        </a>
+        <button type="button" class="local-diverse-chat-icon" data-action="close" title="{{#str}} close, local_diverse_chat {{/str}}">
+            <i class="fa fa-xmark" aria-hidden="true"></i>
+            <span class="visually-hidden">{{#str}} close, local_diverse_chat {{/str}}</span>
+        </button>
+    </header>
+    <div class="local-diverse-chat-body">
+        <ol class="local-diverse-chat-messages" data-region="messages" aria-live="polite"></ol>
+        <form class="local-diverse-chat-form" data-region="form">
+            <label class="visually-hidden" for="local-diverse-chat-text">{{#str}} placeholder, local_diverse_chat {{/str}}</label>
+            <textarea id="local-diverse-chat-text" class="form-control" data-region="text" rows="1" maxlength="{{maxlength}}"
+                      placeholder="{{#str}} placeholder, local_diverse_chat {{/str}}"></textarea>
+            <button type="submit" class="btn btn-primary local-diverse-chat-send" title="{{#str}} send, local_diverse_chat {{/str}}">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                <span class="visually-hidden">{{#str}} send, local_diverse_chat {{/str}}</span>
+            </button>
+        </form>
+    </div>
+</section>
