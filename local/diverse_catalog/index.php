@@ -53,11 +53,43 @@ $option = fn(string $value, string $current, string $string) => [
     'selected' => $value === $current,
 ];
 
+// The filters in use, each with the address of the same results without it.
+$params = array_filter(['q' => $query, 'status' => $status === 'all' ? '' : $status, 'sort' => $sort === 'name' ? '' : $sort]);
+$without = function(string $name, $value = null) use ($url, $params, $categories): string {
+    $remaining = $params;
+    unset($remaining[$name]);
+    $cats = $name === 'cat' ? array_values(array_diff($categories, [$value])) : $categories;
+    foreach ($cats as $index => $cat) {
+        $remaining["cat[$index]"] = $cat;
+    }
+    return (new moodle_url($url, $remaining))->out(false);
+};
+$allcategories = catalog::categories($categories);
+$active = [];
+if ($query !== '') {
+    $active[] = ['label' => '“' . $query . '”', 'url' => $without('q')];
+}
+foreach ($allcategories as $category) {
+    if ($category['selected']) {
+        $active[] = ['label' => $category['name'], 'url' => $without('cat', $category['id'])];
+    }
+}
+if ($status !== 'all') {
+    $active[] = ['label' => get_string('status_' . $status, 'local_diverse_catalog'), 'url' => $without('status')];
+}
+
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_diverse_catalog/page', [
     'actionurl' => $url->out(false),
     'query' => $query,
-    'categories' => catalog::categories($categories),
+    'stats' => [
+        ['value' => count(catalog::courses()), 'label' => get_string('stat_courses', 'local_diverse_catalog')],
+        ['value' => count($allcategories), 'label' => get_string('stat_categories', 'local_diverse_catalog')],
+        ['value' => count(enrol_get_my_courses('id')), 'label' => get_string('stat_mine', 'local_diverse_catalog')],
+    ],
+    'active' => $active,
+    'hasactive' => !empty($active),
+    'categories' => $allcategories,
     'statuses' => [
         $option('all', $status, 'status_all'),
         $option('enrolled', $status, 'status_enrolled'),

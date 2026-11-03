@@ -44,3 +44,12 @@ $string['status_all'] = 'Tüm dersler';
 $string['status_available'] = 'Henüz kayıtlı olmadıklarım';
 $string['status_enrolled'] = 'Derslerim';
 $string['title'] = 'Dersleri keşfedin';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Tüm DIVERSE partnerlerinin katılabileceğin dersleri';
+$string['intro'] = 'Konuya, öğretmene ya da üniversiteye göre ara. Ortak dersler her partnerin öğrencilerine açıktır.';
+$string['stat_courses'] = 'ders';
+$string['stat_categories'] = 'kategori';
+$string['stat_mine'] = 'senin derslerin';
+$string['filters'] = 'Filtreler';
+$string['removefilter'] = 'Filtreyi kaldır: {$a}';

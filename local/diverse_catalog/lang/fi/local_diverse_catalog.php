@@ -44,3 +44,12 @@ $string['status_all'] = 'Kaikki kurssit';
 $string['status_available'] = 'Ei vielä ilmoittautunut';
 $string['status_enrolled'] = 'Omat kurssit';
 $string['title'] = 'Löydä kursseja';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Kaikkien DIVERSE-kumppaneiden kurssit, joihin voit liittyä';
+$string['intro'] = 'Hae aiheen, opettajan tai korkeakoulun mukaan. Yhteiset kurssit ovat avoinna kaikkien kumppaneiden opiskelijoille.';
+$string['stat_courses'] = 'kurssia';
+$string['stat_categories'] = 'kategoriaa';
+$string['stat_mine'] = 'omiasi';
+$string['filters'] = 'Suodattimet';
+$string['removefilter'] = 'Poista suodatin: {$a}';

@@ -17,52 +17,80 @@
 {{!
     @template local_diverse_catalog/page
 
-    Search box, filters and course cards. The filters are a plain form, so they also work without JavaScript.
+    Search box with the figures of the catalogue, the filters on the left and the course cards next to them. The
+    filters are a plain form, so they also work without JavaScript. The form element itself stays empty and its
+    fields point to it, because the course cards hold forms of their own (the favourite stars); the filters in use show above the results, each
+    with a link that removes it. On phones the filters open with a button.
 
     Example context (json):
     {
-        "actionurl": "#", "query": "", "categories": [{"id": 1, "name": "Shared Courses", "count": 2, "selected": false}],
+        "actionurl": "#", "query": "", "stats": [{"value": 18, "label": "courses"}],
+        "categories": [{"id": 1, "name": "Shared Courses", "count": 2, "selected": false}],
         "statuses": [{"value": "all", "label": "All", "selected": true}],
         "sorts": [{"value": "name", "label": "Name", "selected": true}],
+        "active": [], "hasactive": false,
         "results": "2 courses", "courses": [], "hascourses": false, "filtered": false
     }
 }}
-<form class="diverse-catalog" id="diverse-catalog-form" action="{{actionurl}}" method="get">
+<form id="diverse-catalog-form" action="{{actionurl}}" method="get"></form>
+<div class="diverse-catalog">
     <header class="diverse-catalog-head">
         <h2 class="diverse-catalog-title">{{#str}}title, local_diverse_catalog{{/str}}</h2>
-        <div class="diverse-catalog-search">
-            <label class="visually-hidden" for="diverse-catalog-q">{{#str}}search, local_diverse_catalog{{/str}}</label>
-            <input type="search" class="form-control" id="diverse-catalog-q" name="q" value="{{query}}"
-                   placeholder="{{#str}}search, local_diverse_catalog{{/str}}">
-            <button type="submit" class="btn btn-primary">{{#str}}searchbutton, local_diverse_catalog{{/str}}</button>
-        </div>
+        <p class="diverse-catalog-subtitle">{{#str}}subtitle, local_diverse_catalog{{/str}}</p>
     </header>
+    <section class="diverse-catalog-find" aria-labelledby="diverse-catalog-find">
+        <div class="diverse-catalog-find-main">
+            <h3 id="diverse-catalog-find">{{#str}}search, local_diverse_catalog{{/str}}</h3>
+            <p>{{#str}}intro, local_diverse_catalog{{/str}}</p>
+            <div class="diverse-catalog-search">
+                <label class="diverse-catalog-search-box" for="diverse-catalog-q">
+                    <i class="fa fa-magnifying-glass" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{#str}}search, local_diverse_catalog{{/str}}</span>
+                    <input type="search" id="diverse-catalog-q" name="q" form="diverse-catalog-form" value="{{query}}"
+                           placeholder="{{#str}}search, local_diverse_catalog{{/str}}">
+                </label>
+                <button type="submit" class="btn btn-primary" form="diverse-catalog-form">{{#str}}searchbutton, local_diverse_catalog{{/str}}</button>
+            </div>
+        </div>
+        <ul class="diverse-catalog-stats">
+            {{#stats}}<li><strong>{{value}}</strong><span>{{label}}</span></li>{{/stats}}
+        </ul>
+    </section>
     <div class="diverse-catalog-body">
-        <aside class="diverse-catalog-filters">
-            <fieldset>
-                <legend>{{#str}}filter_category, local_diverse_catalog{{/str}}</legend>
-                {{#categories}}
-                <label><input type="checkbox" name="cat[]" value="{{id}}"{{#selected}} checked{{/selected}}> <span>{{name}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
-                {{/categories}}
-            </fieldset>
+        <aside class="diverse-catalog-filters" id="diverse-catalog-filters" aria-label="{{#str}}filters, local_diverse_catalog{{/str}}">
+            <div class="diverse-catalog-filters-head">
+                <h3>{{#str}}filters, local_diverse_catalog{{/str}}</h3>
+                {{#filtered}}<a class="diverse-catalog-clear" href="{{actionurl}}">{{#str}}clear, local_diverse_catalog{{/str}}</a>{{/filtered}}
+            </div>
             <fieldset>
                 <legend>{{#str}}filter_status, local_diverse_catalog{{/str}}</legend>
                 {{#statuses}}
-                <label><input type="radio" name="status" value="{{value}}"{{#selected}} checked{{/selected}}> <span>{{label}}</span></label>
+                <label><input type="radio" name="status" form="diverse-catalog-form" value="{{value}}"{{#selected}} checked{{/selected}}> <span>{{label}}</span></label>
                 {{/statuses}}
             </fieldset>
-            <noscript><button type="submit" class="btn btn-primary">{{#str}}apply, local_diverse_catalog{{/str}}</button></noscript>
-            {{#filtered}}<a class="diverse-catalog-clear" href="{{actionurl}}">{{#str}}clear, local_diverse_catalog{{/str}}</a>{{/filtered}}
+            <fieldset>
+                <legend>{{#str}}filter_category, local_diverse_catalog{{/str}}</legend>
+                {{#categories}}
+                <label><input type="checkbox" name="cat[]" form="diverse-catalog-form" value="{{id}}"{{#selected}} checked{{/selected}}> <span>{{name}}</span> <span class="diverse-catalog-count">{{count}}</span></label>
+                {{/categories}}
+            </fieldset>
+            <noscript><button type="submit" class="btn btn-primary" form="diverse-catalog-form">{{#str}}apply, local_diverse_catalog{{/str}}</button></noscript>
         </aside>
         <div class="diverse-catalog-results">
             <div class="diverse-catalog-bar">
                 <p role="status">{{results}}</p>
-                <label>
-                    <span>{{#str}}sort, local_diverse_catalog{{/str}}</span>
-                    <select name="sort" class="form-select">
+                {{#active}}
+                <a class="diverse-catalog-active" href="{{url}}">{{label}} <i class="fa fa-xmark" aria-hidden="true"></i><span class="visually-hidden">{{#str}}removefilter, local_diverse_catalog, {{label}}{{/str}}</span></a>
+                {{/active}}
+                <div class="diverse-catalog-bar-end">
+                    <button type="button" class="btn btn-secondary btn-sm diverse-catalog-filters-open" aria-controls="diverse-catalog-filters" aria-expanded="false">
+                        <i class="fa fa-filter" aria-hidden="true"></i> {{#str}}filters, local_diverse_catalog{{/str}}
+                    </button>
+                    <label class="visually-hidden" for="diverse-catalog-sort">{{#str}}sort, local_diverse_catalog{{/str}}</label>
+                    <select name="sort" id="diverse-catalog-sort" form="diverse-catalog-form" class="form-select diverse-select">
                         {{#sorts}}<option value="{{value}}"{{#selected}} selected{{/selected}}>{{label}}</option>{{/sorts}}
                     </select>
-                </label>
+                </div>
             </div>
             {{#hascourses}}
             <ul class="diverse-card-grid">
@@ -72,11 +100,17 @@
             {{^hascourses}}<p class="diverse-empty">{{#str}}empty, local_diverse_catalog{{/str}}</p>{{/hascourses}}
         </div>
     </div>
-</form>
+</div>
 {{#js}}
-document.querySelectorAll('#diverse-catalog-form .diverse-catalog-filters input, #diverse-catalog-form select').forEach(function(input) {
+document.querySelectorAll('.diverse-catalog-filters input, #diverse-catalog-sort').forEach(function(input) {
     input.addEventListener('change', function() {
         this.form.submit();
+    });
+});
+document.querySelectorAll('.diverse-catalog-filters-open').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var open = document.getElementById('diverse-catalog-filters').classList.toggle('open');
+        button.setAttribute('aria-expanded', String(open));
     });
 });
 {{/js}}

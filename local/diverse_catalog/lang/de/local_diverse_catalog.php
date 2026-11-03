@@ -44,3 +44,12 @@ $string['status_all'] = 'Alle Kurse';
 $string['status_available'] = 'Noch nicht eingeschrieben';
 $string['status_enrolled'] = 'Meine Kurse';
 $string['title'] = 'Kurse entdecken';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Kurse aller DIVERSE-Partner, an denen du teilnehmen kannst';
+$string['intro'] = 'Suche nach Thema, Lehrenden oder Hochschule. Gemeinsame Kurse stehen Studierenden aller Partner offen.';
+$string['stat_courses'] = 'Kurse';
+$string['stat_categories'] = 'Kategorien';
+$string['stat_mine'] = 'davon deine';
+$string['filters'] = 'Filter';
+$string['removefilter'] = 'Filter entfernen: {$a}';

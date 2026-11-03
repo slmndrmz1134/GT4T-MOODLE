@@ -1936,7 +1936,8 @@ body:has(.diverse-mycourses) .block_myoverview {
     height: 100%;
 }
 
-// Catalogue (local_diverse_catalog): filters on the left, results next to them.
+// Catalogue (local_diverse_catalog): a search band with the figures, the filters on the left, the results next to
+// them in a grid as wide as the screen.
 #page-local-diverse_catalog-index #page-header {
     display: none;
 }
@@ -1944,75 +1945,241 @@ body:has(.diverse-mycourses) .block_myoverview {
 .diverse-catalog {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-    padding-top: 1rem;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    margin-bottom: 2rem;
 }
 
 .diverse-catalog-title {
-    margin: 0 0 .75rem;
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    margin: 0;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+}
+
+.diverse-catalog-subtitle {
+    margin: .25rem 0 0;
+    color: $diverse-grey;
+    font-size: .9375rem;
+}
+
+.diverse-catalog-find {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+    background-color: $diverse-soft-orange;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+
+    h3 {
+        margin: 0 0 .25rem;
+        font-size: 1.25rem;
+    }
+
+    p {
+        margin: 0 0 1rem;
+        color: $diverse-grey;
+        font-size: .875rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1.5rem;
+    }
+
+    @include media-breakpoint-down(md) {
+        padding: 1.25rem;
+    }
 }
 
 .diverse-catalog-search {
     display: flex;
     gap: .5rem;
+    max-width: 52rem;
 
-    .form-control {
-        min-height: 3rem;
+    .btn {
+        height: 3.25rem;
+        padding: 0 1.5rem;
+        border-radius: 50rem;
+    }
+
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+    }
+}
+
+.diverse-catalog-search-box {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: .625rem;
+    height: 3.25rem;
+    margin: 0;
+    padding: 0 1.125rem;
+    background-color: $white;
+    border: 1px solid $diverse-border-strong;
+    border-radius: 50rem;
+    color: $diverse-grey;
+
+    input {
+        flex: 1;
+        min-width: 0;
+        background: none;
+        border: 0;
+        outline: 0;
+        color: $diverse-ink;
+        font-size: 1rem;
+    }
+
+    &:focus-within {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: 1px;
+    }
+}
+
+.diverse-catalog-stats {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        flex-direction: column;
+    }
+
+    strong {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    span {
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding-left: 1.5rem;
+        border-left: 1px solid $diverse-border-strong;
+    }
+
+    @include media-breakpoint-down(lg) {
+        padding-top: 1rem;
+        border-top: 1px solid $diverse-border-strong;
+    }
+
+    @include media-breakpoint-down(md) {
+        gap: 1.25rem;
+
+        strong {
+            font-size: 1.375rem;
+        }
     }
 }
 
 .diverse-catalog-body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
+    align-items: start;
+    gap: 1rem;
 
     @include media-breakpoint-up(lg) {
-        grid-template-columns: 16rem minmax(0, 1fr);
+        grid-template-columns: 17.5rem minmax(0, 1fr);
     }
 }
 
 .diverse-catalog-filters {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    align-self: start;
-    padding: 1.25rem;
     background-color: $white;
     border: 1px solid $diverse-border;
     border-radius: $card-border-radius;
 
+    @include media-breakpoint-up(lg) {
+        position: sticky;
+        top: calc(#{$navbar-height} + 1.25rem);
+    }
+
+    // Phones and tablets: the filters open with the button above the results.
+    @include media-breakpoint-down(lg) {
+        display: none;
+
+        &.open {
+            display: flex;
+        }
+    }
+
     fieldset {
         min-width: 0;
         margin: 0;
-        padding: 0;
+        padding: 1rem 1.25rem;
         border: 0;
+
+        + fieldset {
+            border-top: 1px solid $diverse-border;
+        }
     }
 
     legend {
-        margin-bottom: .25rem;
-        font-family: $headings-font-family;
-        font-size: 1.0625rem;
+        float: none;
+        width: auto;
+        margin: 0 0 .5rem;
+        padding: 0;
+        color: $diverse-grey;
+        font-family: $font-family-sans-serif;
+        font-size: .75rem;
         font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
     }
 
     label {
         display: flex;
         align-items: center;
-        gap: .5rem;
+        gap: .625rem;
         min-height: 2.25rem;
         margin: 0;
+        font-size: .875rem;
         cursor: pointer;
+    }
+
+    input {
+        flex-shrink: 0;
+        width: 1.125rem;
+        height: 1.125rem;
+        margin: 0;
+        accent-color: $diverse-action-orange;
+    }
+}
+
+.diverse-catalog-filters-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid $diverse-border;
+
+    h3 {
+        margin: 0;
+        font-family: $font-family-sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
     }
 }
 
 .diverse-catalog-count {
     margin-left: auto;
     color: $diverse-grey;
-    font-size: .8125rem;
+    font-size: .75rem;
 }
 
 .diverse-catalog-clear {
+    font-size: .8125rem;
     font-weight: 600;
 }
 
@@ -2020,23 +2187,55 @@ body:has(.diverse-mycourses) .block_myoverview {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: .5rem 1rem;
+    gap: .5rem;
     margin-bottom: 1rem;
 
     p {
-        margin: 0;
-        font-weight: 600;
+        margin: 0 .5rem 0 0;
+        font-size: 1.125rem;
+        font-weight: 700;
     }
+}
 
-    label {
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-        margin: 0;
+.diverse-catalog-active {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    min-height: 2rem;
+    padding: 0 .75rem;
+    background-color: $diverse-ink;
+    border-radius: 50rem;
+    color: $white;
+    font-size: .75rem;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        background-color: $diverse-action-orange;
+        color: $white;
+        text-decoration: none;
     }
+}
 
-    .form-select {
-        width: auto;
+.diverse-catalog-bar-end {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-left: auto;
+
+    @include media-breakpoint-down(md) {
+        width: 100%;
+        margin-left: 0;
+
+        .diverse-select {
+            flex: 1;
+        }
+    }
+}
+
+.diverse-catalog-filters-open {
+    @include media-breakpoint-up(lg) {
+        display: none;
     }
 }

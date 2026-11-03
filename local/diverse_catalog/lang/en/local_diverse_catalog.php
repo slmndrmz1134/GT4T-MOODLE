@@ -44,3 +44,12 @@ $string['status_all'] = 'All courses';
 $string['status_available'] = 'Not enrolled yet';
 $string['status_enrolled'] = 'My courses';
 $string['title'] = 'Discover courses';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Courses of all DIVERSE partners that you can join';
+$string['intro'] = 'Search by subject, teacher or university. Shared courses are open to students of every partner.';
+$string['stat_courses'] = 'courses';
+$string['stat_categories'] = 'categories';
+$string['stat_mine'] = 'of them yours';
+$string['filters'] = 'Filters';
+$string['removefilter'] = 'Remove filter: {$a}';

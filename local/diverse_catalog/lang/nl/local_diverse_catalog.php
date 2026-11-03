@@ -44,3 +44,12 @@ $string['status_all'] = 'Alle cursussen';
 $string['status_available'] = 'Nog niet ingeschreven';
 $string['status_enrolled'] = 'Mijn cursussen';
 $string['title'] = 'Cursussen ontdekken';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Cursussen van alle DIVERSE-partners waaraan je kunt deelnemen';
+$string['intro'] = 'Zoek op onderwerp, docent of universiteit. Gedeelde cursussen staan open voor studenten van alle partners.';
+$string['stat_courses'] = 'cursussen';
+$string['stat_categories'] = 'categorieën';
+$string['stat_mine'] = 'van jou';
+$string['filters'] = 'Filters';
+$string['removefilter'] = 'Filter verwijderen: {$a}';

@@ -44,3 +44,12 @@ $string['status_all'] = 'Svi kolegiji';
 $string['status_available'] = 'Još niste upisani';
 $string['status_enrolled'] = 'Moji kolegiji';
 $string['title'] = 'Otkrijte kolegije';
+
+// Search band, figures and filters in use.
+$string['subtitle'] = 'Kolegiji svih DIVERSE partnera kojima se možeš pridružiti';
+$string['intro'] = 'Pretražuj po temi, nastavniku ili sveučilištu. Zajednički kolegiji otvoreni su studentima svih partnera.';
+$string['stat_courses'] = 'kolegija';
+$string['stat_categories'] = 'kategorija';
+$string['stat_mine'] = 'tvojih';
+$string['filters'] = 'Filtri';
+$string['removefilter'] = 'Ukloni filtar: {$a}';
