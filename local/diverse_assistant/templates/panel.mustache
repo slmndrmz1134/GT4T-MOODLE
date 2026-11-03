@@ -17,7 +17,7 @@
 {{!
     @template local_diverse_assistant/panel
 
-    The tab on the right edge of course pages and the chat panel it opens.
+    The round button in the bottom right corner of course pages and the chat panel it opens.
 
     Teachers who can edit the course get the authoring assistant (teacher mode): other suggestions, and the changes
     the assistant proposes appear as cards (local_diverse_assistant/proposal) under its answers.
@@ -36,7 +36,7 @@
     }
 }}
 <button type="button" class="local-diverse-assistant-toggle btn btn-primary" data-action="local-diverse-assistant-toggle"
-        aria-controls="local-diverse-assistant-panel" aria-expanded="false">
+        aria-controls="local-diverse-assistant-panel" aria-expanded="false" title="{{#str}} toggle, local_diverse_assistant {{/str}}">
     {{> local_diverse_assistant/sparkles }}
     <span class="local-diverse-assistant-toggle-label">{{#str}} toggle, local_diverse_assistant {{/str}}</span>
 </button>

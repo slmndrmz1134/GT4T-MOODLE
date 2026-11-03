@@ -812,3 +812,17 @@ $diverse-tabbar-height: 4rem;
         white-space: nowrap !important;
     }
 }
+
+// The assistant (local_diverse_assistant): its panel starts below the top bar like the side drawers, and on phones its
+// round button stays above the tab bar.
+@include media-breakpoint-up(md) {
+    body.diverse-shell .local-diverse-assistant {
+        top: calc(#{$diverse-title-top} * 2 + #{$diverse-title-height});
+    }
+}
+
+@include media-breakpoint-down(md) {
+    body.diverse-shell .local-diverse-assistant-toggle {
+        bottom: calc(#{$diverse-tabbar-height} + 1rem);
+    }
+}
