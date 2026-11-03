@@ -99,11 +99,11 @@ Başarı, hata ve diğer renkler iki palette aynıdır.
 
 | Öğe | Değer | Nerede |
 |---|---|---|
-| Ders sayfası içerik genişliği | `1280px` (80rem), diğer platform sayfalarıyla aynı | `platform.scss`; Boost Union ayarı `coursecontentmaxwidth` da 1280px (`setup/diverse_setup.php` yazar) |
-| Dashboard, Derslerim ve diğer platform sayfaları | `80rem` (1280 px) | `platform.scss` |
+| Platform sayfaları (dashboard, Derslerim, Keşfet, ders sayfası...) | Tam genişlik: sol menünün yanından ekranın sonuna kadar, yanlarda `1.5rem` (proje sahibinin kararı, Kasım 2026) | `platform.scss`; Boost Union ayarı `coursecontentmaxwidth` (1280px) değişmedi, SCSS onu ezer |
+| Okuma genişliği | `48rem`: ders özeti, bölüm metinleri, etkinlik açıklamaları, sayfa ve kitap içeriği | `platform.scss`: `$diverse-reading-width` |
 | Landing yan boşluğu | `4rem` masaüstü, `1.25rem` mobil | `landing.scss`: `$diverse-gutter`, `$diverse-gutter-sm` |
 | Giriş sayfası marka paneli | Ekranın `42vw` kadarı | `login.scss`: `$diverse-login-panel-width` |
-| Üst menü satırı | `3rem` (48 px), `md` ve üstü; üst çubuğun altında, sayfayla aynı genişlikte | `shell.scss`: `$diverse-nav-height` |
+| Sol ikon menüsü | `4.5rem` (72 px), `md` ve üstü; adlar üzerine gelince ikonun yanında çıkar, üst çubuk menünün yanından başlar | `shell.scss`: `$diverse-rail-width` |
 | Mobil alt menü | `4rem` (64 px), `md` altı | `shell.scss`: `$diverse-tabbar-height` |
 | Tıklanabilir alan | En az 44 × 44 px | Butonlar, ikonlu linkler, menü öğeleri |
 | İlerleme çubuğu | `.375rem` yükseklik, oval | `post.scss` |

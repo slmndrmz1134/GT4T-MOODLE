@@ -602,3 +602,27 @@ Ayrıntılı belge: [`docs/AI.md`](AI.md) ("Öğretmen ne görür"). Kod `ai-tea
 - Tarayıcıda öğretmen ve öğrenci denemesi (masaüstü ve 375 px); kartlar, "Formda aç" ve "Editöre ekle".
 - Gemini ücretsiz katman kotası öğretmen modunda çabuk doluyor (model başına günde 20 istek); faturalandırma gerekli.
 - Sonraki adımlar: quiz sorusu önerme, kitap bölümleri, OpenAI Responses API.
+
+## 21. GT4T yeşil paleti ve tam genişlik platform (Kasım 2026)
+
+Kod `gt4t-green-palette` ve onun üstündeki `full-width-shell` dallarında. Taslaklar: `docs/design/mockups/*-wide.html`.
+
+**Yapılan**
+- Her kullanıcı, kullanıcı menüsünden GT4T iletişim rehberinin yeşil paletine geçebiliyor (tercih
+  `theme_diverse_palette`). Tema yeşil renklerle ikinci kez derleniyor (`styles_palette.php`); turuncu varsayılan.
+- Masaüstünde üst sekme satırının yerini sol ikon menüsü aldı; platform sayfaları 80rem sınırı olmadan tam genişlikte.
+- Dashboard (öğrenci): öğrenme ilerlemesi halkası, bu hafta tamamlanan etkinlikler, teslimler, "Kaldığın yerden devam"
+  tablosu, haftalık hedef (tercih `theme_diverse_weeklygoal`). Öğretmen ve yönetici bölümleri aynı kart dilinde.
+- Derslerim: dört özet kutusu, sekmeler, arama, sıralama, kart/liste görünümü.
+- Keşfet: arama bandı ve sayılar, solda yapışkan filtreler, kullanılan filtreler kaldırılabilir etiket olarak.
+- Ders sayfası: başlık kartı (sıradaki adım ve ilerleme), bölümler kart, yanında canlı ders / teslimler / asistan /
+  öğretmenler; ders sayfasında müfredat çekmecesi gizli. Metinler 48rem okuma genişliğinde.
+
+**Neden**
+- Proje sahibinin kararı: GT4T görsel kimliği isteyenler için ek palet; LMS kısmı gönderilen referans tasarım gibi tam
+  genişlik. Ders içeriğinde uzun satırlar okumayı zorlaştırdığı için metinler dar kaldı.
+
+**Açık konular**
+- Ana sayfa (ziyaretçi) tam genişliğe en son geçecek.
+- Keşfet'te dil ve biçim filtreleri için veri yok (taslakta vardı); kategoriler partner yerine geçiyor.
+- Öğretmen ve yönetici dashboard'ları yalnızca CLI'da çizildi, tarayıcıda görülmedi.
