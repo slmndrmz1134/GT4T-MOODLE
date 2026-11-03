@@ -41,6 +41,8 @@
         globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
         x: '<path d="M18 6 6 18M6 6l12 12"/>',
         lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+        moon: '<path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/>',
+        sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     };
     document.body.insertAdjacentHTML('afterbegin', '<svg width="0" height="0" style="position:absolute" aria-hidden="true">' +
         Object.entries(icons).map(([id, body]) => `<symbol id="i-${id}" viewBox="0 0 24 24">${body}</symbol>`).join('') + '</svg>');
@@ -66,6 +68,7 @@
         <div class="rail-sep"></div>
         ${link(['guide', 'Platform guide', 'play', '#'], true)}
         <div class="rail-end">
+            <a href="#" class="rail-mode" role="button" data-mode-toggle data-tip="Dark mode" aria-pressed="false">${icon('moon', 'moon')}${icon('sun', 'sun')}<span class="sr-only">Dark mode</span></a>
             ${link(['help', 'Help', 'help', '#'], true)}
             ${link(['preferences', 'Preferences', 'settings', '#'], true)}
             <span class="avatar" title="Student 1">S1</span>
@@ -89,6 +92,26 @@
         document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === name)));
         try { localStorage.setItem('diverse-draft-palette', name); } catch (e) { /* Private window: not remembered. */ }
     }
+    // The dark mode switch of the drafts, remembered like the palette.
+    function setMode(dark) {
+        document.documentElement.dataset.mode = dark ? 'dark' : 'light';
+        document.querySelectorAll('[data-mode-toggle]').forEach(b => {
+            b.setAttribute('aria-pressed', String(dark));
+            b.dataset.tip = dark ? 'Light mode' : 'Dark mode';
+        });
+        try { localStorage.setItem('diverse-draft-mode', dark ? 'dark' : 'light'); } catch (e) { /* Private window. */ }
+    }
+    let mode = 'light';
+    try { mode = localStorage.getItem('diverse-draft-mode') || 'light'; } catch (e) { /* Private window. */ }
+    setMode(mode === 'dark');
+    document.addEventListener('click', e => {
+        const button = e.target.closest('[data-mode-toggle]');
+        if (button) {
+            e.preventDefault();
+            setMode(document.documentElement.dataset.mode !== 'dark');
+        }
+    });
+
     let saved = 'orange';
     try { saved = localStorage.getItem('diverse-draft-palette') || 'orange'; } catch (e) { /* Private window. */ }
     setPalette(saved);

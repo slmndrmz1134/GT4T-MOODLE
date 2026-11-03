@@ -27,6 +27,23 @@
     --shadow: 0 1px 2px rgba(16, 24, 40, .04);
 }
 
+/* Dark mode (draft for approval, November 2026): the same roles on dark surfaces. "--white" stays the name of the card
+ * colour and "--ink" of the text colour, so every rule of the drafts follows. The action colours are lighter, so that
+ * links reach 4.5:1 on the dark cards and the buttons take the dark card colour as their text. */
+html[data-mode="dark"] {
+    --surface: #111316; --white: #1A1D21; --border: #2C3036; --border-strong: #3F444C; --track: #2C3036;
+    --ink: #ECEDEF; --grey: #A3A7AD; --on-dark-muted: #A3A7AD;
+    --brand: #FF671F; --action: #FF7A3D; --action-hover: #FF9B6B; --soft: #2B1C14; --peach: #4A2B1B;
+    --success: #4CC38A; --success-soft: #13301F; --danger: #F97066; --danger-soft: #3A1715;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+}
+html[data-mode="dark"][data-palette="green"] {
+    --surface: #0E1311; --white: #161D1A; --border: #26302B; --border-strong: #38443E; --track: #26302B;
+    --ink: #E8EFEB; --grey: #9DABA4; --on-dark-muted: #9DABA4;
+    --brand: #19B35C; --action: #3DD27F; --action-hover: #6EE2A1; --soft: #14261B; --peach: #1F3B24;
+}
+
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
@@ -195,3 +212,10 @@ svg.i.sm { width: 1rem; height: 1rem; }
     .tabbar a.active { background: var(--brand); color: var(--ink); }
     .mobile-palette { display: flex; }
 }
+
+/* The dark mode switch of the rail, above the help (draft). */
+.rail-mode { border: 0; background: none; }
+.rail-mode .moon { display: block; }
+.rail-mode .sun { display: none; }
+html[data-mode="dark"] .rail-mode .moon { display: none; }
+html[data-mode="dark"] .rail-mode .sun { display: block; }
