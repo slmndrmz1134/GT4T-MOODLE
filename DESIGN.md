@@ -60,10 +60,10 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 
 | Öğe | Değer | SCSS değişkeni |
 |---|---|---|
-| Butonlar (her boy) | `.625rem` (10 px) | `$diverse-control-radius`, `$btn-border-radius` |
-| Kartlar | `1rem` (16 px) | `$card-border-radius`, `$border-radius-xl` |
-| Form alanları | `.625rem` (10 px), butonlarla aynı | `$diverse-control-radius`, `$input-border-radius` |
-| Genel | `.5rem` / büyük `.75rem` | `$border-radius`, `$border-radius-lg` |
+| Butonlar (her boy) | `.875rem` (14 px) | `$diverse-control-radius`, `$btn-border-radius` |
+| Kartlar | `1.25rem` (20 px) | `$card-border-radius`, `$border-radius-xl` |
+| Form alanları | `.875rem` (14 px), butonlarla aynı | `$diverse-control-radius`, `$input-border-radius` |
+| Genel (menü, uyarı, küçük kutu) | `.875rem` / büyük `1rem` | `$border-radius`, `$border-radius-lg` |
 | Sekmeler | Köşesiz, `0` | `platform.scss` |
 | İlerleme çubuğu | Oval, `50rem` | `post.scss` |
 
@@ -85,11 +85,11 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 
 ## Bileşenler
 
-- **Butonlar:** hafif yuvarlak köşeli (10 px, proje sahibinin kararı, Kasım 2026), etkileşim turuncusu zemin ve beyaz yazı. Hover'da `$diverse-action-orange-hover`.
+- **Butonlar:** yuvarlak köşeli (14 px, proje sahibinin kararı, Kasım 2026), etkileşim turuncusu zemin ve beyaz yazı. Hover'da `$diverse-action-orange-hover`.
 - **Sekmeler:** kenarlıksız ve köşesiz düz yazı; altta `$diverse-border` çizgisi. Pasif sekme gri yazı, aktif sekme ink
   yazı ve altında 3 px etkileşim turuncusu çizgi (`platform.scss`). Ders ve yönetim sayfalarının hepsinde, Panom'daki
   kategori satırında da aynıdır.
-- **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 16 px köşe. Sayfa zemini `$diverse-surface` olur,
+- **Kartlar:** beyaz zemin, 1 px `$diverse-border` kenarlık, 20 px köşe (`$card-border-radius`). Sayfa zemini `$diverse-surface` olur,
   böylece kartlar ayrışır. Boş kart gösterilmez.
 - **Ders sayfaları:** ders başlığı, sekmeler ve ders bölümleri kart değildir; `$diverse-border` ayraçlarıyla ayrılır. Başlık
   ve müfredat paneli dersin bütün sekmelerinde aynı yerdedir (`platform.scss`, `shell.scss`).

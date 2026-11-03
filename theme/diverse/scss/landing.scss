@@ -215,7 +215,7 @@ body.pagelayout-frontpage.notloggedin {
     align-items: center;
     justify-content: center;
     min-height: 7.5rem;
-    border-radius: 1rem;
+    border-radius: $card-border-radius;
     transition: transform .2s ease;
 
     &:hover {
@@ -423,7 +423,7 @@ $diverse-tiles: (
     flex-direction: column;
     gap: 1rem;
     background-color: $white;
-    border-radius: 1rem;
+    border-radius: $card-border-radius;
     box-shadow: $box-shadow-sm;
     transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s ease, border-color .2s ease;
 
@@ -443,7 +443,7 @@ $diverse-tiles: (
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: .75rem;
+    border-radius: $border-radius;
     background-color: $diverse-brand-orange;
     color: $diverse-ink;
 
@@ -513,7 +513,7 @@ $diverse-tiles: (
     overflow: hidden;
     background-color: $white;
     border: 1px solid $diverse-border;
-    border-radius: 1rem;
+    border-radius: $card-border-radius;
     color: $diverse-ink;
     text-decoration: none;
     box-shadow: $box-shadow-sm;
@@ -641,7 +641,7 @@ $diverse-tiles: (
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: .625rem;
+    border-radius: $border-radius;
     background-color: $diverse-brand-orange;
     color: $diverse-ink;
     font-family: $headings-font-family;
@@ -1008,7 +1008,7 @@ $diverse-tiles: (
     width: 3rem;
     height: 3rem;
     background-color: $diverse-brand-orange;
-    border-radius: .75rem;
+    border-radius: $border-radius;
     color: $diverse-ink;
 
     svg {
@@ -1062,7 +1062,7 @@ $diverse-tiles: (
     overflow: hidden;
     background-color: $white;
     border: 1px solid $diverse-border;
-    border-radius: 1rem;
+    border-radius: $card-border-radius;
 }
 
 .diverse-partner-photo {

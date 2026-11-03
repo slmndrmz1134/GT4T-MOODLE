@@ -55,14 +55,14 @@ $font-size-base: 1rem;
 $btn-font-weight: 600;
 
 // Shapes: pill buttons like diverse-university.eu, 16px cards, 10px form controls.
-$border-radius: .5rem;
-$border-radius-lg: .75rem;
-$border-radius-xl: 1rem;
-$diverse-control-radius: .625rem;      // Buttons and form fields, the same everywhere.
+$border-radius: .875rem;
+$border-radius-lg: 1rem;
+$border-radius-xl: 1.25rem;
+$diverse-control-radius: .875rem;      // Buttons and form fields, the same everywhere.
 $btn-border-radius: $diverse-control-radius;
 $btn-border-radius-sm: $diverse-control-radius;
 $btn-border-radius-lg: $diverse-control-radius;
 $input-border-radius: $diverse-control-radius;
 $input-border-radius-lg: $diverse-control-radius;
 $input-border-radius-sm: $diverse-control-radius;
-$card-border-radius: 1rem;
+$card-border-radius: 1.25rem;

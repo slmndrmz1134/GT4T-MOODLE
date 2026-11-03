@@ -35,7 +35,7 @@
             break-inside: avoid;
             background-color: $white;
             border: 1px solid $diverse-border;
-            border-radius: 1rem;
+            border-radius: $card-border-radius;
 
             // A tab's own top category often has no direct links: no empty card for it.
             &:not(:has(li)) {
