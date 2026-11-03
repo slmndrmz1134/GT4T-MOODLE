@@ -20,6 +20,7 @@ use core\output\renderable;
 use core\output\renderer_base;
 use core\output\templatable;
 use local_diverse_catalog\catalog;
+use theme_diverse\local\goal;
 use theme_diverse\local\partners;
 
 /**
@@ -27,6 +28,9 @@ use theme_diverse\local\partners;
  *
  * The dashboard answers "what do I do now?" and is built from the user's roles, section by section: a user
  * who both teaches and studies sees both, a site administrator also sees the state of the site.
+ *
+ * A student gets a grid of cards over the whole width: progress over all activities, the activities finished this
+ * week, the deadlines, the courses to continue and the weekly goal.
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -42,11 +46,20 @@ class dashboard implements renderable, templatable {
     /** @var int Largest number of items shown in the to-do list. */
     const MAX_TODO = 8;
 
+    /** @var int Largest number of deadlines on the student's card. */
+    const MAX_DEADLINES = 4;
+
     /** @var int Largest number of course cards shown in a section. */
     const MAX_COURSES = 8;
 
-    /** @var int Number of courses offered to continue. */
-    const MAX_RESUME = 3;
+    /** @var int Number of courses in the "Keep learning" table. */
+    const MAX_RESUME = 5;
+
+    /** @var int Radius of the progress ring in its 160 x 160 drawing. */
+    const RING_RADIUS = 60;
+
+    /** @var int Space between two parts of the progress ring, along the ring. */
+    const RING_GAP = 14;
 
     /**
      * Export the dashboard.
@@ -62,43 +75,38 @@ class dashboard implements renderable, templatable {
         $isadmin = has_capability('moodle/site:config', \context_system::instance());
 
         $data = [
-            'avatar' => $output->user_picture($USER, ['size' => 100, 'link' => false]),
             'greeting' => get_string('dash_hello', 'theme_diverse', self::text($USER->firstname)),
             'today' => userdate(time(), get_string('strftimedaydate', 'langconfig')),
             'allcoursesurl' => (new \core\url('/my/courses.php'))->out(false),
             'calendarurl' => (new \core\url('/calendar/view.php', ['view' => 'upcoming']))->out(false),
             'isadmin' => $isadmin,
-        ] + $todo;
+            'deadlines' => $todo['deadlines'],
+            'hasdeadlines' => !empty($todo['deadlines']),
+        ];
+
+        $guide = shell::guide_id();
+        if ($guide && !$isadmin) {
+            $data['news'] = ['url' => (new \core\url('/course/view.php', ['id' => $guide]))->out(false)];
+        }
 
         $hascatalog = class_exists(catalog::class);
         if ($hascatalog && !$isadmin) {
-            $data['categories'] = catalog::categories();
-            $data['hascategories'] = !empty($data['categories']);
             $data['catalogurl'] = (new \core\url('/local/diverse_catalog/index.php'))->out(false);
             $data['recommended'] = catalog::recommended(self::MAX_COURSES);
             $data['hasrecommended'] = !empty($data['recommended']);
         }
         if ($learning) {
-            $data['learning'] = $this->export_learning($learning, $output);
-            $data['learning']['kpis'] = $this->export_kpis($data['learning']['allcards'], $todo['duethisweek']);
-            unset($data['learning']['allcards']);
-            $first = $data['learning']['resume'][0] ?? null;
-            if ($first) {
-                $data['hero'] = [
-                    'url' => $first['url'],
-                    'label' => $first['action'],
-                    'next' => get_string('dash_hero_next', 'theme_diverse', $first['next'] ?: $first['name']),
-                ];
-            }
+            $data['learning'] = $this->export_learning($learning, $todo['overduecms']);
         }
         // A site administrator is usually enrolled for support, not to teach: the site comes first for them.
         if ($teaching && !$isadmin) {
             $data['teaching'] = $this->export_teaching($teaching, $output);
+            // Without the student cards, the deadlines stand next to the work to grade.
+            $data['teaching']['showdeadlines'] = !$learning && $todo['deadlines'];
         }
         if ($isadmin) {
             $data['admin'] = $this->export_admin();
         }
-        $data['showtodo'] = $todo['hastodo'] || $learning;
         $data['summary'] = $this->summary($todo, $data['teaching']['waiting'] ?? 0);
         $data['nocontent'] = !$learning && !$teaching && !$isadmin;
         return $data;
@@ -135,116 +143,258 @@ class dashboard implements renderable, templatable {
     }
 
     /**
-     * Four figures at the top of a student's dashboard, all from the user's own courses and calendar.
+     * Midnight of the Monday of the current week, in the user's time zone.
      *
-     * @param array $cards Course cards (see catalog::cards()).
-     * @param int $due Number of activities due from now until the end of the week.
-     * @return array[] value, label, icon, ring, progress
+     * @param int $time
+     * @return int
      */
-    protected function export_kpis(array $cards, int $due): array {
-        $tracked = array_filter($cards, fn($card) => !empty($card['hasprogress']));
-        $completed = count(array_filter($tracked, fn($card) => $card['progress'] >= 100));
-        $average = $tracked ? (int)round(array_sum(array_column($tracked, 'progress')) / count($tracked)) : null;
-        $kpis = [
-            ['value' => count($cards), 'label' => get_string('dash_kpi_courses', 'theme_diverse'), 'icon' => 'fa-book'],
-            ['value' => $completed . ' / ' . count($cards), 'label' => get_string('dash_kpi_completed', 'theme_diverse'),
-                'icon' => 'fa-circle-check'],
-            ['value' => $due, 'label' => get_string('dash_kpi_due', 'theme_diverse'), 'icon' => 'fa-calendar'],
-        ];
-        // Without completion tracking there is no progress to average: the figure is left out rather than shown as 0.
-        if ($average !== null) {
-            $kpis[] = ['value' => $average . '%', 'label' => get_string('dash_kpi_progress', 'theme_diverse'),
-                'ring' => true, 'progress' => $average];
-        }
-        return $kpis;
+    protected static function week_start(int $time): int {
+        return usergetmidnight(usergetmidnight($time) - ((int)userdate($time, '%u') - 1) * DAYSECS + 12 * HOURSECS);
     }
 
     /**
-     * How much the user did on each day of the current week, counted from the standard log.
-     *
-     * @return array|null bars (label, count, height, today, description), or null without a readable log.
-     */
-    protected function get_activity(): ?array {
-        global $USER;
-
-        $readers = get_log_manager()->get_readers('\core\log\sql_reader');
-        $reader = reset($readers);
-        if (!$reader) {
-            return null;
-        }
-        $now = time();
-        $monday = usergetmidnight($now) - ((int)userdate($now, '%u') - 1) * DAYSECS;
-        $bars = [];
-        for ($day = 0; $day < 7; $day++) {
-            $start = usergetmidnight($monday + $day * DAYSECS + 12 * HOURSECS);
-            $end = usergetmidnight($start + DAYSECS + 12 * HOURSECS);
-            $count = $start > $now ? 0 : $reader->get_events_select_count(
-                'userid = :userid AND timecreated >= :start AND timecreated < :end',
-                ['userid' => $USER->id, 'start' => $start, 'end' => $end]
-            );
-            $label = userdate($start, '%a');
-            $bars[] = [
-                'label' => $label,
-                'count' => $count,
-                'today' => $start <= $now && $now < $end,
-                'description' => get_string('dash_activity_day', 'theme_diverse', (object)['day' => $label, 'count' => $count]),
-            ];
-        }
-        $max = max(array_column($bars, 'count'));
-        foreach ($bars as &$bar) {
-            $bar['height'] = $max ? max(4, (int)round($bar['count'] / $max * 100)) : 4;
-        }
-        return ['bars' => $bars, 'empty' => $max === 0];
-    }
-
-    /**
-     * The student part: where to continue, course progress and recent grades.
+     * The student part: progress, this week, the courses to continue and the weekly goal.
      *
      * @param \stdClass[] $courses
-     * @param renderer_base $output
+     * @param int[] $overduecms Course modules with overdue work (from the calendar).
      * @return array
      */
-    protected function export_learning(array $courses, renderer_base $output): array {
+    protected function export_learning(array $courses, array $overduecms): array {
         global $DB, $USER;
 
         $lastaccess = $DB->get_records_menu('user_lastaccess', ['userid' => $USER->id], '', 'courseid, timeaccess');
         uasort($courses, fn($a, $b) => ($lastaccess[$b->id] ?? 0) <=> ($lastaccess[$a->id] ?? 0));
 
-        $resume = [];
+        // When the user completed each activity of these courses.
+        [$insql, $params] = $DB->get_in_or_equal(array_keys($courses), SQL_PARAMS_NAMED);
+        $params['userid'] = $USER->id;
+        $completed = $DB->get_records_sql_menu(
+            "SELECT cmc.coursemoduleid, cmc.timemodified
+               FROM {course_modules_completion} cmc
+               JOIN {course_modules} cm ON cm.id = cmc.coursemoduleid
+              WHERE cmc.userid = :userid AND cm.course $insql AND cmc.completionstate IN (" .
+                COMPLETION_COMPLETE . ', ' . COMPLETION_COMPLETE_PASS . ')',
+            $params
+        );
+        $viewed = $DB->get_records_sql_menu(
+            "SELECT cmv.coursemoduleid, 1
+               FROM {course_modules_viewed} cmv
+               JOIN {course_modules} cm ON cm.id = cmv.coursemoduleid
+              WHERE cmv.userid = :userid AND cm.course $insql",
+            $params
+        );
+
+        $states = ['completed' => 0, 'started' => 0, 'overdue' => 0, 'notstarted' => 0];
+        foreach ($courses as $course) {
+            if (empty($course->enablecompletion)) {
+                continue;
+            }
+            foreach (course_hero::activities($course) as $cm) {
+                if ($cm->completion == COMPLETION_TRACKING_NONE) {
+                    continue;
+                }
+                $state = isset($completed[$cm->id]) ? 'completed'
+                    : (in_array($cm->id, $overduecms) ? 'overdue' : (isset($viewed[$cm->id]) ? 'started' : 'notstarted'));
+                $states[$state]++;
+            }
+        }
+
+        $rows = [];
         foreach (array_slice($courses, 0, self::MAX_RESUME, true) as $course) {
-            $next = course_hero::next_activity($course);
-            $resume[] = $this->export_course($course, $output) + [
-                'activities' => count(course_hero::activities($course)),
-                'action' => get_string($lastaccess[$course->id] ?? 0 ? 'hero_continue' : 'hero_start', 'theme_diverse'),
-                'url' => ($next ? $next->url : new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
-                'next' => $next ? self::text($next->name) : '',
-                'type' => $next ? $next->get_module_type_name() : '',
-                'lastaccess' => isset($lastaccess[$course->id])
-                    ? get_string('dash_lastvisit', 'theme_diverse', format_time(time() - $lastaccess[$course->id])) : '',
+            $rows[] = $this->export_row($course, $lastaccess[$course->id] ?? 0, count($rows) + 1);
+        }
+
+        return [
+            'progress' => $this->export_progress($states),
+            'week' => $this->export_week($completed),
+            'goal' => $this->export_goal($completed),
+            'rows' => $rows,
+            'more' => count($courses) > self::MAX_RESUME,
+        ];
+    }
+
+    /**
+     * The progress ring: one rounded part per state of the activities, with a small gap between the parts.
+     *
+     * @param int[] $states Number of activities per state: completed, started, overdue, notstarted.
+     * @return array
+     */
+    protected function export_progress(array $states): array {
+        $total = array_sum($states);
+        $length = 2 * M_PI * self::RING_RADIUS;
+        $parts = count(array_filter($states));
+        $gap = $parts > 1 ? self::RING_GAP : 0;
+        $offset = 0;
+        $segments = [];
+        $legend = [];
+        foreach ($states as $state => $count) {
+            $legend[] = ['state' => $state, 'label' => get_string('dash_state_' . $state, 'theme_diverse'), 'count' => $count];
+            if (!$count) {
+                continue;
+            }
+            $part = $count / $total * $length;
+            $segments[] = [
+                'state' => $state,
+                'dash' => round(max($part - $gap, .1), 2) . ' ' . round($length, 2),
+                'offset' => round(-$offset - $gap / 2, 2),
+            ];
+            $offset += $part;
+        }
+        return [
+            'total' => $total,
+            'percent' => $total ? (int)floor($states['completed'] / $total * 100) : 0,
+            'segments' => $segments,
+            'legend' => $legend,
+            'hastotal' => $total > 0,
+        ];
+    }
+
+    /**
+     * Activities completed on each day of the current week, and the change since last week.
+     *
+     * @param int[] $completed Completion time per course module.
+     * @return array
+     */
+    protected function export_week(array $completed): array {
+        $now = time();
+        $monday = self::week_start($now);
+        $lastmonday = self::week_start($monday - DAYSECS);
+        $days = array_fill(0, 7, 0);
+        $lastweek = 0;
+        foreach ($completed as $time) {
+            if ($time >= $monday) {
+                $days[min(6, (int)floor(($time - $monday) / DAYSECS))]++;
+            } else if ($time >= $lastmonday) {
+                $lastweek++;
+            }
+        }
+
+        // The scale goes up in steps of four, so that the five lines of the axis are whole numbers.
+        $scale = max(4, (int)ceil(max($days) / 4) * 4);
+        $bars = [];
+        foreach ($days as $index => $count) {
+            $start = usergetmidnight($monday + $index * DAYSECS + 12 * HOURSECS);
+            $label = userdate($start, '%a');
+            $bars[] = [
+                'label' => $label,
+                'date' => userdate($start, get_string('strftimedaydate', 'langconfig')),
+                'count' => $count,
+                'height' => (int)round($count / $scale * 100),
+                'today' => $start === usergetmidnight($now),
+                'description' => get_string('dash_activity_day', 'theme_diverse', (object)['day' => $label, 'count' => $count]),
             ];
         }
 
-        if (class_exists(catalog::class)) {
-            $elements = array_map(fn($course) => new \core_course_list_element($course), $courses);
-            $cards = catalog::cards($elements);
-        } else {
-            $cards = array_map(fn($course) => $this->export_course($course, $output), array_values($courses));
-        }
-
-        $recentgrades = $this->get_recent_grades($courses);
-        $activity = $this->get_activity();
+        $thisweek = array_sum($days);
+        $change = $thisweek - $lastweek;
         return [
-            'resume' => $resume,
-            'allcards' => $cards,
-            'activity' => $activity,
-            'hasactivity' => $activity !== null,
-            'courses' => array_slice($cards, 0, self::MAX_COURSES),
-            'hascourses' => !empty($cards),
-            'more' => count($cards) > self::MAX_COURSES,
-            'grades' => $recentgrades,
-            'hasgrades' => !empty($recentgrades),
-            'gradesurl' => (new \core\url('/grade/report/mygrades.php'))->out(false),
+            'bars' => $bars,
+            'axis' => array_map(fn($step) => $scale - $step * $scale / 4, range(0, 4)),
+            'trend' => $change > 0 ? get_string('dash_week_more', 'theme_diverse', $change)
+                : ($change < 0 ? get_string('dash_week_fewer', 'theme_diverse', -$change)
+                : get_string('dash_week_same', 'theme_diverse')),
+            'up' => $change > 0,
         ];
+    }
+
+    /**
+     * The weekly goal: this week against the goal, the weekly average of the last four weeks and the streak.
+     *
+     * @param int[] $completed Completion time per course module.
+     * @return array
+     */
+    protected function export_goal(array $completed): array {
+        $target = goal::get();
+        $monday = self::week_start(time());
+
+        // Activities per week, counted back from this week (0) for a year.
+        $weeks = array_fill(0, 53, 0);
+        foreach ($completed as $time) {
+            $back = $time >= $monday ? 0 : (int)ceil(($monday - $time) / (7 * DAYSECS));
+            if ($back < 53) {
+                $weeks[$back]++;
+            }
+        }
+        $streak = 0;
+        for ($week = 1; $week < 53 && $weeks[$week] >= $target; $week++) {
+            $streak++;
+        }
+        $streak += $weeks[0] >= $target ? 1 : 0;
+
+        $done = $weeks[0];
+        $percent = (int)min(100, round($done / $target * 100));
+        $average = array_sum(array_slice($weeks, 1, 4)) / 4;
+        return [
+            'done' => $done,
+            'target' => $target,
+            'percent' => $percent,
+            'reached' => $done >= $target,
+            'left' => get_string('dash_goal_left', 'theme_diverse', max(0, $target - $done)),
+            'total' => count($completed),
+            'average' => format_float($average, $average == floor($average) ? 0 : 1),
+            'streak' => get_string('dash_goal_weeks', 'theme_diverse', $streak),
+            'choices' => array_map(fn($choice) => [
+                'label' => get_string('dash_goal_choice', 'theme_diverse', $choice),
+                'url' => (new \core\url('/theme/diverse/goal.php', ['goal' => $choice, 'sesskey' => sesskey()]))->out(false),
+                'current' => $choice === $target,
+            ], goal::CHOICES),
+        ];
+    }
+
+    /**
+     * One course in the "Keep learning" table.
+     *
+     * @param \stdClass $course
+     * @param int $lastaccess
+     * @param int $number Position in the table.
+     * @return array
+     */
+    protected function export_row(\stdClass $course, int $lastaccess, int $number): array {
+        $next = course_hero::next_activity($course);
+        $progress = \core_completion\progress::get_course_progress_percentage($course);
+        $teacher = null;
+        foreach ((new \core_course_list_element($course))->get_course_contacts() as $contact) {
+            $teacher = $contact;
+            break;
+        }
+        $activities = count(course_hero::activities($course));
+        $meta = [get_string('card_activities', 'theme_diverse', $activities)];
+        $meta[] = $lastaccess ? get_string('dash_lastvisit', 'theme_diverse', self::ago($lastaccess))
+            : get_string('dash_notvisited', 'theme_diverse');
+
+        return [
+            'number' => $number,
+            'name' => self::text($course->fullname),
+            'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
+            'category' => course_hero::category_name($course),
+            'meta' => implode(' · ', $meta),
+            'hasprogress' => $progress !== null,
+            'progress' => $progress !== null ? (int)floor($progress) : 0,
+            'next' => $next ? self::text($next->name) : '',
+            'nexturl' => $next ? $next->url->out(false) : '',
+            'nexttype' => $next ? $next->get_module_type_name() : '',
+            'teacher' => $teacher ? $teacher['username'] : '',
+            'initials' => $teacher ? \core_text::strtoupper(
+                \core_text::substr((string)$teacher['user']->firstname, 0, 1) . \core_text::substr((string)$teacher['user']->lastname, 0, 1)
+            ) : '',
+            'role' => $teacher ? $teacher['rolename'] : '',
+        ];
+    }
+
+    /**
+     * How long ago something happened, in one unit: minutes, hours or days.
+     *
+     * @param int $time
+     * @return string
+     */
+    protected static function ago(int $time): string {
+        $seconds = max(60, time() - $time);
+        foreach ([DAYSECS, HOURSECS, MINSECS] as $unit) {
+            if ($seconds >= $unit) {
+                return format_time((int)floor($seconds / $unit) * $unit);
+            }
+        }
+        return format_time($seconds);
     }
 
     /**
@@ -299,9 +449,10 @@ class dashboard implements renderable, templatable {
             'hasgrading' => !empty($grading),
             'waiting' => $waiting,
             'stats' => [
-                ['value' => count($courses), 'label' => get_string('dash_stat_teaching', 'theme_diverse')],
-                ['value' => $students, 'label' => get_string('dash_stat_students', 'theme_diverse')],
-                ['value' => $waiting, 'label' => get_string('dash_stat_waiting', 'theme_diverse'), 'attention' => $waiting > 0],
+                ['value' => count($courses), 'label' => get_string('dash_stat_teaching', 'theme_diverse'), 'icon' => 'fa-book'],
+                ['value' => $students, 'label' => get_string('dash_stat_students', 'theme_diverse'), 'icon' => 'fa-users'],
+                ['value' => $waiting, 'label' => get_string('dash_stat_waiting', 'theme_diverse'), 'icon' => 'fa-pen',
+                    'attention' => $waiting > 0],
             ],
         ];
     }
@@ -342,11 +493,13 @@ class dashboard implements renderable, templatable {
 
         return [
             'stats' => [
-                ['value' => $activeusers, 'label' => get_string('dash_stat_users', 'theme_diverse')],
-                ['value' => $recentusers, 'label' => get_string('dash_stat_recent', 'theme_diverse')],
-                ['value' => $courses, 'label' => get_string('dash_stat_courses', 'theme_diverse')],
-                ['value' => count($partnerrows), 'label' => get_string('dash_stat_partners', 'theme_diverse')],
-                ['value' => $pending, 'label' => get_string('dash_stat_pending', 'theme_diverse'), 'attention' => $pending > 0],
+                ['value' => $activeusers, 'label' => get_string('dash_stat_users', 'theme_diverse'), 'icon' => 'fa-users'],
+                ['value' => $recentusers, 'label' => get_string('dash_stat_recent', 'theme_diverse'), 'icon' => 'fa-clock'],
+                ['value' => $courses, 'label' => get_string('dash_stat_courses', 'theme_diverse'), 'icon' => 'fa-book'],
+                ['value' => count($partnerrows), 'label' => get_string('dash_stat_partners', 'theme_diverse'),
+                    'icon' => 'fa-building'],
+                ['value' => $pending, 'label' => get_string('dash_stat_pending', 'theme_diverse'), 'icon' => 'fa-user',
+                    'attention' => $pending > 0],
             ],
             'pending' => $pending,
             'pendingurl' => (new \core\url('/admin/user.php'))->out(false),
@@ -365,24 +518,16 @@ class dashboard implements renderable, templatable {
     }
 
     /**
-     * Group the user's work into overdue, today, this week and later, the way students plan it.
+     * The user's deadlines, the way students plan them: overdue first, then by date.
      *
      * Events come from the calendar's action events, the same source as Moodle's timeline: they disappear
      * when the work is done, and teachers get their own actions (for example grading).
      *
-     * @return array
+     * @return array deadlines (the first MAX_DEADLINES), overduecms, overduecount, todototal
      */
     protected function get_todo(): array {
         $now = time();
         $endoftoday = usergetmidnight($now) + DAYSECS;
-        $endofweek = usergetmidnight($now) + 7 * DAYSECS;
-
-        $groups = [
-            'overdue' => ['title' => get_string('dash_overdue', 'theme_diverse'), 'overdue' => true, 'items' => []],
-            'today' => ['title' => get_string('today', 'core_calendar'), 'items' => []],
-            'week' => ['title' => get_string('dash_thisweek', 'theme_diverse'), 'items' => []],
-            'later' => ['title' => get_string('dash_later', 'theme_diverse'), 'items' => []],
-        ];
 
         $events = \core_calendar\local\api::get_action_events_by_timesort(
             $now - self::OVERDUE_DAYS * DAYSECS,
@@ -392,27 +537,22 @@ class dashboard implements renderable, templatable {
             true
         );
 
-        $overdue = 0;
+        $deadlines = [];
+        $overduecms = [];
         $total = 0;
         $courses = [];
-        $monday = usergetmidnight($now) - ((int)userdate($now, '%u') - 1) * DAYSECS;
-        $sunday = usergetmidnight($monday + 6 * DAYSECS + 12 * HOURSECS) + DAYSECS;
-        $busy = [];
-        $duethisweek = 0;
         foreach ($events as $event) {
             $action = $event->get_action();
             if (!$action || !$event->get_course()) {
                 continue;
             }
             $time = $event->get_times()->get_sort_time()->getTimestamp();
-            $key = $time < $now ? 'overdue' : ($time < $endoftoday ? 'today' : ($time < $endofweek ? 'week' : 'later'));
-            if ($time >= $monday && $time < $sunday) {
-                $busy[usergetmidnight($time)] = true;
-                $duethisweek += $time >= $now ? 1 : 0;
-            }
+            $overdue = $time < $now;
             $total++;
-            $overdue += $key === 'overdue' ? 1 : 0;
-            if ($total > self::MAX_TODO) {
+            if ($overdue && $event->get_course_module()) {
+                $overduecms[] = (int)$event->get_course_module()->get('id');
+            }
+            if (count($deadlines) >= self::MAX_DEADLINES) {
                 continue;
             }
             $courseid = $event->get_course()->get('id');
@@ -422,80 +562,29 @@ class dashboard implements renderable, templatable {
             if ($event->get_course_module()) {
                 $name = get_fast_modinfo($courses[$courseid])->get_cm($event->get_course_module()->get('id'))->name;
             }
-            $groups[$key]['items'][] = [
+            $date = userdate($time, get_string('strftimedaydateshort', 'theme_diverse'));
+            if ($overdue) {
+                $when = get_string('dash_overdue', 'theme_diverse');
+            } else if ($time < $endoftoday) {
+                $when = get_string('today', 'core_calendar') . ', ' . userdate($time, get_string('strftimetime', 'langconfig'));
+            } else {
+                $when = get_string('dash_due_in', 'theme_diverse', format_time(usergetmidnight($time) - usergetmidnight($now)));
+            }
+            $deadlines[] = [
                 'name' => self::text($name),
-                'course' => self::text($courses[$courseid]->fullname),
-                'time' => userdate($time, get_string('strftimedateshort', 'langconfig')) . ', ' .
-                    userdate($time, get_string('strftimetime', 'langconfig')),
+                'meta' => implode(' · ', [$when, self::text($courses[$courseid]->fullname), $date]),
+                'overdue' => $overdue,
                 'url' => $action->get_url()->out(false),
                 'action' => $action->get_name(),
             ];
         }
 
-        // The current week, Monday first, with a mark on the days that have something due.
-        $week = [];
-        for ($day = 0; $day < 7; $day++) {
-            $start = usergetmidnight($monday + $day * DAYSECS + 12 * HOURSECS);
-            $week[] = [
-                'weekday' => userdate($start, '%a'),
-                'day' => userdate($start, '%d'),
-                'date' => userdate($start, get_string('strftimedaydate', 'langconfig')),
-                'url' => (new \core\url('/calendar/view.php', ['view' => 'day', 'time' => $start]))->out(false),
-                'today' => $start === usergetmidnight($now),
-                'busy' => isset($busy[$start]),
-            ];
-        }
-
-        $visible = array_values(array_filter($groups, fn($group) => !empty($group['items'])));
         return [
-            'week' => $week,
-            'duethisweek' => $duethisweek,
-            'todo' => $visible,
-            'hastodo' => !empty($visible),
+            'deadlines' => $deadlines,
+            'overduecms' => $overduecms,
+            'overduecount' => count($overduecms),
             'todototal' => $total,
-            'todomore' => $total > self::MAX_TODO,
-            'overduecount' => $overdue,
         ];
-    }
-
-    /**
-     * The user's latest grades that are visible to them, with the teacher's feedback.
-     *
-     * @param \stdClass[] $courses
-     * @return array
-     */
-    protected function get_recent_grades(array $courses): array {
-        global $CFG, $DB, $USER;
-        require_once($CFG->libdir . '/gradelib.php');
-
-        $visible = array_filter($courses, fn($course) => !empty($course->showgrades) &&
-            has_capability('moodle/grade:view', \context_course::instance($course->id)));
-        if (!$visible) {
-            return [];
-        }
-
-        [$insql, $params] = $DB->get_in_or_equal(array_keys($visible), SQL_PARAMS_NAMED);
-        $params['userid'] = $USER->id;
-        $sql = "SELECT g.id AS gradeid, g.finalgrade, g.feedback, g.feedbackformat, g.timemodified AS gradetime, gi.*
-                  FROM {grade_grades} g
-                  JOIN {grade_items} gi ON gi.id = g.itemid
-                 WHERE g.userid = :userid AND gi.courseid $insql AND gi.itemtype = 'mod'
-                       AND g.finalgrade IS NOT NULL AND g.hidden = 0 AND gi.hidden = 0
-              ORDER BY g.timemodified DESC";
-
-        $grades = [];
-        foreach ($DB->get_records_sql($sql, $params, 0, 4) as $record) {
-            $item = new \grade_item($record, false);
-            $feedback = trim(strip_tags((string)$record->feedback));
-            $grades[] = [
-                'name' => self::text($record->itemname),
-                'course' => self::text($visible[$record->courseid]->fullname),
-                'grade' => grade_format_gradevalue($record->finalgrade, $item, true),
-                'feedback' => shorten_text($feedback, 90),
-                'hasfeedback' => $feedback !== '',
-            ];
-        }
-        return $grades;
     }
 
     /**

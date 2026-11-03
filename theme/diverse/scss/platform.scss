@@ -165,36 +165,30 @@ body.diverse-shell.pagelayout-mycourses {
 .diverse-dash {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
     margin-bottom: 2rem;
 }
 
 .diverse-dash-head {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-top: 1rem;
-}
-
-.diverse-dash-date {
-    margin: 0 0 .25rem;
-    color: $diverse-grey;
-    font-size: .875rem;
-    font-weight: 600;
+    padding-top: 1.25rem;
 }
 
 .diverse-dash-title {
     margin: 0;
-    font-size: clamp(2rem, 3.2vw, 2.75rem);
-    line-height: 1.1;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -.01em;
 }
 
 .diverse-dash-summary {
-    margin: .5rem 0 0;
+    margin: .25rem 0 0;
     color: $diverse-grey;
-    font-size: 1.125rem;
+    font-size: .9375rem;
 }
 
 .diverse-dash-section {
@@ -202,44 +196,12 @@ body.diverse-shell.pagelayout-mycourses {
     flex-direction: column;
     gap: 1rem;
     min-width: 0;
+    margin-top: 1rem;
 }
 
 .diverse-dash-heading {
     margin: 0;
-    font-size: 1.375rem;
-}
-
-.diverse-dash-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
-
-    @include media-breakpoint-up(lg) {
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-
-        &.diverse-dash-grid-single {
-            grid-template-columns: minmax(0, 1fr);
-        }
-    }
-}
-
-.diverse-dash-side {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    min-width: 0;
-}
-
-.diverse-panel {
-    padding: 1.25rem 1.5rem;
-    background-color: $white;
-    border: 1px solid $diverse-border;
-    border-radius: $card-border-radius;
-}
-
-.diverse-panel-title {
-    margin: 0 0 .75rem;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
 }
 
 .diverse-empty,
@@ -253,10 +215,773 @@ body.diverse-shell.pagelayout-mycourses {
     font-weight: 600;
 }
 
+// "What's new": the platform guide, on the soft brand colour.
+.diverse-news {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background-color: $diverse-soft-orange;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+
+    > .btn {
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+
+    @include media-breakpoint-down(md) {
+        flex-wrap: wrap;
+
+        > .btn {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+}
+
+.diverse-news-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: $diverse-action-orange;
+    border-radius: $border-radius;
+    color: $white;
+    font-size: 1.5rem;
+}
+
+.diverse-news-text {
+    min-width: 0;
+
+    small {
+        display: block;
+        color: $diverse-grey;
+        font-size: .6875rem;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    strong {
+        display: block;
+        font-size: 1rem;
+    }
+
+    span {
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+}
+
+// The cards: three in a row on large screens, the table two thirds wide.
+.diverse-dash-cards {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+
+    > * {
+        grid-column: span 12;
+    }
+
+    @include media-breakpoint-up(md) {
+        > .diverse-card-progress,
+        > .diverse-card-week {
+            grid-column: span 6;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        > .diverse-card-wide {
+            grid-column: span 8;
+        }
+
+        > .diverse-card-side {
+            grid-column: span 4;
+        }
+    }
+
+    @media (min-width: 80rem) {
+        > .diverse-card-progress,
+        > .diverse-card-week,
+        > .diverse-card-deadlines,
+        > .diverse-card-goal {
+            grid-column: span 4;
+        }
+
+        > .diverse-card-resume {
+            grid-column: span 8;
+        }
+    }
+}
+
+.diverse-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 1.25rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+    box-shadow: $box-shadow-sm;
+
+    @include media-breakpoint-down(md) {
+        padding: 1rem;
+    }
+}
+
+.diverse-card-head {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: 1rem;
+
+    h2,
+    h3 {
+        margin: 0;
+        font-family: $font-family-sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+}
+
+.diverse-card-subhead {
+    margin-top: 1.25rem;
+}
+
+.diverse-card-info {
+    display: inline-flex;
+    color: $diverse-grey;
+    font-size: 1rem;
+}
+
+.diverse-card-more {
+    margin-left: auto;
+    font-size: .8125rem;
+    font-weight: 600;
+
+    .btn-link {
+        min-height: 0;
+        padding: 0;
+        font-size: .8125rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+}
+
+.diverse-card-foot {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+// Learning progress: the figures and their legend next to the ring.
+$diverse-states: (
+    completed: $diverse-action-orange,
+    started: $diverse-brand-orange,
+    overdue: $diverse-danger,
+    notstarted: $diverse-track,
+);
+
+@each $state, $colour in $diverse-states {
+    i.diverse-state-#{$state} {
+        background-color: $colour;
+    }
+
+    circle.diverse-state-#{$state} {
+        stroke: $colour;
+    }
+}
+
+.diverse-progress-body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1rem;
+}
+
+.diverse-progress-total {
+    small {
+        display: block;
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+
+    > strong {
+        display: block;
+        margin-bottom: .875rem;
+        font-size: 2.25rem;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -.02em;
+    }
+}
+
+.diverse-legend {
+    display: grid;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .875rem;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    i {
+        width: .875rem;
+        height: .375rem;
+        border-radius: 50rem;
+    }
+
+    em {
+        margin-left: auto;
+        padding-left: .75rem;
+        color: $diverse-grey;
+        font-style: normal;
+        font-weight: 600;
+    }
+}
+
+.diverse-ring {
+    position: relative;
+    flex-shrink: 0;
+    width: min(13rem, 55%);
+    margin-left: auto;
+    aspect-ratio: 1;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+
+    circle {
+        fill: none;
+        stroke-width: 22;
+        stroke-linecap: round;
+    }
+}
+
+.diverse-ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    strong {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    span {
+        color: $diverse-grey;
+        font-size: .75rem;
+    }
+}
+
+// This week: activities completed each day, today striped, with its figure next to it.
+.diverse-chart {
+    display: grid;
+    flex: 1;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: .5rem;
+    min-height: 11rem;
+}
+
+.diverse-chart-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 1.75rem;
+    color: $diverse-grey;
+    font-size: .75rem;
+    text-align: right;
+}
+
+.diverse-chart-bars {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+        min-width: 0;
+    }
+
+    // The last days of the week have no room on their right: their figure goes to the left.
+    li:nth-child(n + 6) .diverse-chart-tip {
+        right: calc(100% - .25rem);
+        left: auto;
+    }
+}
+
+.diverse-chart-track {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    max-width: 3rem;
+    overflow: hidden;
+    background-color: $diverse-track;
+    border-radius: .75rem;
+
+    > span {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: $diverse-peach;
+        border-radius: .75rem;
+    }
+
+    .today & > span {
+        background: repeating-linear-gradient(135deg, $diverse-action-orange 0 6px, $diverse-action-orange-hover 6px 9px);
+    }
+}
+
+.diverse-chart-label {
+    color: $diverse-grey;
+    font-size: .75rem;
+    text-transform: capitalize;
+
+    .today & {
+        color: $diverse-ink;
+        font-weight: 700;
+    }
+}
+
+.diverse-chart-tip {
+    position: absolute;
+    top: 20%;
+    left: calc(100% - .25rem);
+    z-index: 1;
+    min-width: 10rem;
+    padding: .625rem .875rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    font-size: .8125rem;
+    white-space: nowrap;
+
+    small {
+        display: block;
+        color: $diverse-grey;
+    }
+
+    > span {
+        display: flex;
+        align-items: center;
+        gap: .375rem;
+        margin-top: .25rem;
+    }
+
+    i {
+        width: .625rem;
+        height: .625rem;
+        background-color: $diverse-action-orange;
+        border-radius: 3px;
+    }
+
+    b {
+        margin-left: auto;
+        padding-left: 1rem;
+    }
+}
+
+.diverse-trend {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    margin: .75rem 0 0;
+    color: $diverse-grey;
+    font-size: .8125rem;
+
+    &.up {
+        color: $diverse-success;
+        font-weight: 600;
+    }
+}
+
+// Deadlines: overdue ones in red, each with the button of its action.
+.diverse-deadlines {
+    display: grid;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.diverse-deadline {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    min-width: 0;
+    padding: .75rem .875rem;
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius;
+
+    &:hover {
+        border-color: $diverse-border-strong;
+    }
+
+    .btn {
+        flex-shrink: 0;
+    }
+}
+
+.diverse-deadline-state {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1.5px solid $diverse-border-strong;
+    border-radius: 50%;
+    color: $diverse-grey;
+    font-size: .875rem;
+
+    .overdue & {
+        border-color: $diverse-danger;
+        color: $diverse-danger;
+    }
+}
+
+.diverse-deadline-text {
+    flex: 1;
+    min-width: 0;
+
+    a {
+        display: block;
+        overflow: hidden;
+        color: $diverse-ink;
+        font-size: .875rem;
+        font-weight: 600;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange;
+        }
+    }
+
+    span {
+        color: $diverse-grey;
+        font-size: .75rem;
+    }
+
+    .overdue & span {
+        color: $diverse-danger;
+        font-weight: 600;
+    }
+}
+
+// Tables in cards: the courses to continue, the partners.
+.diverse-table-wrap {
+    position: relative;
+    overflow-x: auto;
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius;
+}
+
+.diverse-table-number {
+    width: 3rem;
+    color: $diverse-grey;
+}
+
+.diverse-table-meta {
+    display: block;
+    color: $diverse-grey;
+    font-size: .75rem;
+}
+
+.diverse-table-course > a {
+    white-space: nowrap;
+}
+
+.diverse-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .375rem;
+    margin-right: .25rem;
+    padding: .0625rem .5rem;
+    border: 1px solid $diverse-border;
+    border-radius: 50rem;
+    color: $diverse-ink;
+    font-size: .75rem;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    &::before {
+        width: .375rem;
+        height: .375rem;
+        background-color: $diverse-action-orange;
+        border-radius: 50%;
+        content: "";
+    }
+}
+
+.diverse-resume-table {
+    .diverse-progress {
+        min-width: 8rem;
+        margin: 0;
+    }
+
+    td > a {
+        color: $diverse-ink;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: $diverse-action-orange;
+        }
+    }
+}
+
+.diverse-person {
+    display: flex;
+    align-items: center;
+    gap: .625rem;
+    white-space: nowrap;
+}
+
+.diverse-initials {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: $diverse-peach;
+    border-radius: 50%;
+    color: $diverse-ink;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+// Columns that need room: the teacher on wide screens only, the number and the next step from tablets on.
+@media (max-width: 99.99rem) {
+    .diverse-col-lg {
+        display: none;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .diverse-col-sm {
+        display: none;
+    }
+}
+
+// Weekly goal: a target, this week against the goal and three figures.
+.diverse-goal-body {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.diverse-target {
+    flex-shrink: 0;
+    width: 9rem;
+    aspect-ratio: 1;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.diverse-target-outer {
+    fill: $diverse-soft-orange;
+    stroke: $diverse-border;
+}
+
+.diverse-target-middle {
+    fill: $white;
+    stroke: $diverse-border;
+}
+
+.diverse-target-inner {
+    fill: $diverse-peach;
+}
+
+.diverse-target-centre {
+    fill: $diverse-action-orange;
+}
+
+.diverse-target-dot {
+    fill: $white;
+}
+
+.diverse-target-shaft {
+    fill: none;
+    stroke: $diverse-ink;
+    stroke-linecap: round;
+    stroke-width: 3;
+}
+
+.diverse-target-tail {
+    fill: $diverse-brand-orange;
+}
+
+.diverse-goal-text {
+    flex: 1;
+    min-width: 0;
+
+    small {
+        display: block;
+        margin-top: .75rem;
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+
+    > strong {
+        font-size: 2rem;
+        font-weight: 800;
+        letter-spacing: -.02em;
+
+        span {
+            color: $diverse-grey;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0;
+        }
+    }
+}
+
+.diverse-goal-badge {
+    display: inline-flex;
+    padding: .25rem .625rem;
+    background-color: $diverse-success-soft;
+    border-radius: 50rem;
+    color: $diverse-success;
+    font-size: .75rem;
+    font-weight: 700;
+}
+
+.diverse-goal-meter {
+    display: block;
+    height: .5rem;
+    margin: .5rem 0 .375rem;
+    overflow: hidden;
+    background-color: $diverse-track;
+    border-radius: 50rem;
+
+    span {
+        display: block;
+        height: 100%;
+        background-color: $diverse-action-orange;
+        border-radius: 50rem;
+    }
+}
+
+.diverse-goal-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: .5rem;
+    color: $diverse-grey;
+    font-size: .75rem;
+
+    b {
+        color: $diverse-action-orange;
+    }
+}
+
+.diverse-goal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 1rem 0 0;
+    border: 1px solid $diverse-border;
+    border-radius: $border-radius;
+
+    > div {
+        min-width: 0;
+        padding: .75rem;
+
+        + div {
+            border-left: 1px solid $diverse-border;
+        }
+    }
+
+    dt {
+        display: flex;
+        align-items: center;
+        gap: .375rem;
+        color: $diverse-grey;
+        font-size: .6875rem;
+        font-weight: 400;
+
+        .fa {
+            flex-shrink: 0;
+            color: $diverse-action-orange;
+            font-size: 1rem;
+        }
+    }
+
+    dd {
+        margin: .25rem 0 0;
+        font-size: .9375rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+}
+
+// Phones: the figures under the ring and the target, one card under the other.
+@include media-breakpoint-down(md) {
+    .diverse-dash-title {
+        font-size: 1.375rem;
+    }
+
+    .diverse-progress-body {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .diverse-ring {
+        width: 11rem;
+        margin: 0 auto;
+    }
+
+    .diverse-goal-body {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .diverse-target {
+        width: 8rem;
+        margin: 0 auto;
+    }
+
+    .diverse-goal-stats dt {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 // Figures of the site or of a teacher's courses.
 .diverse-stat-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     gap: 1rem;
     list-style: none;
     margin: 0;
@@ -265,22 +990,28 @@ body.diverse-shell.pagelayout-mycourses {
 
 .diverse-stat-tile {
     display: flex;
-    flex-direction: column;
-    gap: .25rem;
+    align-items: center;
+    gap: .875rem;
     padding: 1rem 1.25rem;
     background-color: $white;
     border: 1px solid $diverse-border;
     border-radius: $card-border-radius;
 
-    strong {
-        font-family: $headings-font-family;
-        font-size: 2rem;
-        line-height: 1;
+    > span:last-child {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
     }
 
-    span {
+    strong {
+        font-size: 1.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    > span:last-child > span {
         color: $diverse-grey;
-        font-size: .875rem;
+        font-size: .8125rem;
     }
 
     &.attention {
@@ -290,11 +1021,20 @@ body.diverse-shell.pagelayout-mycourses {
         strong {
             color: $diverse-action-orange;
         }
-
-        span {
-            color: $diverse-ink;
-        }
     }
+}
+
+.diverse-stat-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background-color: $diverse-soft-orange;
+    border-radius: $border-radius;
+    color: $diverse-action-orange;
+    font-size: 1.25rem;
 }
 
 // Progress bar with its figure next to it.
@@ -486,29 +1226,40 @@ body.diverse-shell.pagelayout-mycourses {
     font-weight: 600;
 }
 
-// Administrator: partners and common tasks.
 table.diverse-table {
     width: 100%;
+    margin: 0;
     border: 0;
+    border-collapse: collapse;
+    font-size: .875rem;
 
     th,
     td {
-        padding: .5rem 0;
+        padding: .875rem 1rem;
         border-width: 0;
         font-weight: 400;
+        vertical-align: middle;
     }
 
     thead th {
+        padding: .75rem 1rem;
+        background-color: $diverse-surface;
         color: $diverse-grey;
-        font-size: .8125rem;
+        font-size: .75rem;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     tbody tr {
         border-top: 1px solid $diverse-border;
+
+        &:hover {
+            background-color: $diverse-surface;
+        }
     }
 
-    tbody th a {
+    tbody th a,
+    .diverse-table-course > a {
         color: $diverse-ink;
         font-weight: 600;
         text-decoration: none;
@@ -803,20 +1554,6 @@ body.pagelayout-mycourses.diverse-shell {
     text-underline-offset: .2em;
 }
 
-.diverse-dash-avatar .userpicture,
-.diverse-dash-avatar .userinitials {
-    width: 4.5rem;
-    height: 4.5rem;
-    margin: 0;
-    border-radius: 50%;
-    font-size: 1.5rem;
-}
-
-.diverse-dash-welcome {
-    flex: 1;
-    min-width: 12rem;
-}
-
 // Categories of courses, one click into the catalogue: the same line as the tabs of a course.
 .diverse-category-strip {
     display: flex;
@@ -850,86 +1587,142 @@ body.pagelayout-mycourses.diverse-shell {
     }
 }
 
-// "Keep learning": straight to the next activity of the latest courses.
-.diverse-resume-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    @include media-breakpoint-down(sm) {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-.diverse-resume {
-    display: flex;
-    height: 100%;
-    overflow: hidden;
-    background-color: $white;
-    border: 1px solid $diverse-border;
-    border-radius: $card-border-radius;
-    color: $diverse-ink;
-    text-decoration: none;
-
-    &:hover,
-    &:focus {
-        border-color: $diverse-action-orange;
-        color: $diverse-ink;
-        text-decoration: none;
-    }
-}
-
-.diverse-resume-cover {
-    position: relative;
-    flex: 0 0 8.5rem;
-
-    .diverse-course-cover {
-        display: flex;
-        height: 100%;
-        min-height: 8.5rem;
-    }
-}
-
-.diverse-resume-body {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: .125rem;
-    min-width: 0;
-    padding: .875rem 1rem;
-}
-
-.diverse-resume-course,
-.diverse-resume-meta {
-    overflow: hidden;
-    color: $diverse-grey;
-    font-size: .8125rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.diverse-resume-course {
-    font-weight: 600;
-}
-
-.diverse-resume-next {
-    font-family: $headings-font-family;
-    font-size: 1.125rem;
-    font-weight: 700;
-    line-height: 1.25;
-}
-
 // Course card: the same everywhere.
 .diverse-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
     gap: 1rem;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+// List view of My courses: the cover on the left, the course next to it.
+.diverse-card-grid.diverse-card-list {
+    grid-template-columns: minmax(0, 1fr);
+
+    @include media-breakpoint-up(md) {
+        .diverse-card-course > a {
+            flex-direction: row;
+        }
+
+        .diverse-card-course-cover {
+            flex: 0 0 13rem;
+        }
+
+        .diverse-card-course .diverse-course-cover {
+            height: 100%;
+            min-height: 8rem;
+        }
+
+        .diverse-card-course-summary {
+            -webkit-line-clamp: 1;
+        }
+
+        .diverse-card-course-footer {
+            max-width: 36rem;
+        }
+    }
+}
+
+// Above a list of courses: the tabs, and next to them a search, the order and the view.
+.diverse-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: .75rem 1rem;
+
+    .diverse-category-strip {
+        flex: 1 1 20rem;
+        min-width: 0;
+    }
+}
+
+.diverse-toolbar-tools {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding-bottom: .375rem;
+
+    @include media-breakpoint-down(md) {
+        width: 100%;
+
+        .diverse-mini-search {
+            flex: 1;
+        }
+    }
+}
+
+.diverse-mini-search {
+    display: flex;
+    align-items: center;
+    gap: .375rem;
+    height: 2.5rem;
+    margin: 0;
+    padding: 0 .875rem;
+    background-color: $white;
+    border: 1px solid $diverse-border-strong;
+    border-radius: 50rem;
+    color: $diverse-grey;
+    font-size: .875rem;
+
+    input {
+        width: 12rem;
+        min-width: 0;
+        background: none;
+        border: 0;
+        outline: 0;
+        color: $diverse-ink;
+
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
+    }
+
+    &:focus-within {
+        outline: 2px solid $diverse-action-orange;
+        outline-offset: 1px;
+    }
+}
+
+.form-select.diverse-select {
+    width: auto;
+    height: 2.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 50rem;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.diverse-view-toggle {
+    display: inline-flex;
+    padding: .1875rem;
+    background-color: $white;
+    border: 1px solid $diverse-border-strong;
+    border-radius: 50rem;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 50%;
+        color: $diverse-grey;
+
+        &[aria-pressed="true"] {
+            background-color: $diverse-soft-orange;
+            color: $diverse-action-orange;
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
 }
 
 .diverse-card-course {
@@ -1245,242 +2038,5 @@ body:has(.diverse-mycourses) .block_myoverview {
 
     .form-select {
         width: auto;
-    }
-}
-
-// Dashboard hero: greeting and what to do next, on the soft brand colour.
-.diverse-dash-hero {
-    position: relative;
-    overflow: hidden;
-    align-items: center;
-    padding: 1.75rem 1.5rem;
-    background-color: $diverse-soft-orange;
-    border: 1px solid $diverse-peach;
-    border-radius: $card-border-radius;
-
-    @include media-breakpoint-up(lg) {
-        padding: 2.25rem 2.5rem;
-    }
-
-    .diverse-dash-welcome,
-    .diverse-dash-avatar,
-    > .btn {
-        position: relative;
-        z-index: 1;
-    }
-}
-
-.diverse-dash-hero-action {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: .5rem 1rem;
-    margin: 1.25rem 0 0;
-
-    span {
-        color: $diverse-grey;
-        font-weight: 600;
-    }
-}
-
-// Student figures: an icon or a progress ring next to each value.
-.diverse-kpi-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.diverse-kpi {
-    display: flex;
-    align-items: center;
-    gap: .875rem;
-    padding: 1rem 1.25rem;
-    background-color: $white;
-    border: 1px solid $diverse-border;
-    border-radius: $card-border-radius;
-}
-
-.diverse-kpi-icon {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    background-color: $diverse-soft-orange;
-    border-radius: $border-radius;
-    color: $diverse-action-orange;
-    font-size: 1.25rem;
-}
-
-.diverse-kpi-text {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-
-    strong {
-        font-family: $headings-font-family;
-        font-size: 1.5rem;
-        line-height: 1.1;
-    }
-
-    span {
-        color: $diverse-grey;
-        font-size: .8125rem;
-    }
-}
-
-.diverse-ring {
-    position: relative;
-    flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
-    background: conic-gradient($diverse-action-orange calc(var(--diverse-ring) * 1%), $diverse-track 0);
-    border-radius: 50%;
-
-    &::after {
-        position: absolute;
-        inset: .375rem;
-        background-color: $white;
-        border-radius: 50%;
-        content: "";
-    }
-}
-
-// The current week above the to-do list: today in the brand colour, a dot under days with something due.
-.diverse-week {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: .25rem;
-    list-style: none;
-    margin: 0 0 1rem;
-    padding: 0 0 1rem;
-    border-bottom: 1px solid $diverse-border;
-
-    li {
-        position: relative;
-        border-radius: $border-radius;
-    }
-
-    // Each day opens the calendar on that day.
-    a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: .25rem;
-        padding: .375rem 0 .625rem;
-        border-radius: $border-radius;
-        color: $diverse-ink;
-        text-decoration: none;
-
-        &:hover {
-            background-color: $diverse-soft-orange;
-        }
-    }
-
-    span {
-        color: $diverse-grey;
-        font-size: .75rem;
-        font-weight: 600;
-        text-transform: capitalize;
-    }
-
-    strong {
-        font-family: $headings-font-family;
-        font-size: 1.0625rem;
-    }
-
-    .busy::after {
-        position: absolute;
-        bottom: .25rem;
-        width: .375rem;
-        height: .375rem;
-        background-color: $diverse-action-orange;
-        border-radius: 50%;
-        content: "";
-    }
-
-    .today,
-    .today a:hover {
-        background-color: $diverse-action-orange;
-
-        span,
-        strong {
-            color: $white;
-        }
-
-        &.busy::after {
-            background-color: $white;
-        }
-    }
-}
-
-// Activity of the week: one bar a day, today in the brand colour.
-.diverse-bars {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: .5rem;
-    align-items: end;
-    height: 8.5rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    li {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: .375rem;
-        height: 100%;
-    }
-
-    .today .diverse-bar > span {
-        background-color: $diverse-action-orange;
-    }
-}
-
-.diverse-bar {
-    display: flex;
-    flex: 1;
-    align-items: flex-end;
-    width: 100%;
-    max-width: 2rem;
-    background-color: $diverse-track;
-    border-radius: $border-radius;
-
-    > span {
-        display: block;
-        width: 100%;
-        background-color: $diverse-peach;
-        border-radius: $border-radius;
-    }
-}
-
-.diverse-bar-label {
-    color: $diverse-grey;
-    font-size: .75rem;
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-// Phones: two figures a row, and no avatar next to the greeting.
-@include media-breakpoint-down(sm) {
-    .diverse-dash-hero .diverse-dash-avatar {
-        display: none;
-    }
-
-    .diverse-kpi-row {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: .75rem;
-    }
-
-    .diverse-kpi {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: .5rem;
-        padding: .875rem 1rem;
     }
 }

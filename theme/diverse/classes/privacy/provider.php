@@ -26,10 +26,11 @@ namespace theme_diverse\privacy;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\writer;
+use theme_diverse\local\goal;
 use theme_diverse\local\palette;
 
 /**
- * Privacy Subsystem: the theme stores only the colour palette each user chooses (a user preference).
+ * Privacy Subsystem: the theme stores only the colour palette and the weekly goal each user chooses (user preferences).
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -46,11 +47,12 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         $collection->add_user_preference(palette::PREFERENCE, 'privacy:metadata:preference:palette');
+        $collection->add_user_preference(goal::PREFERENCE, 'privacy:metadata:preference:weeklygoal');
         return $collection;
     }
 
     /**
-     * Export the palette preference of a user.
+     * Export the palette and the weekly goal of a user.
      *
      * @param int $userid
      */
@@ -62,6 +64,15 @@ class provider implements
                 palette::PREFERENCE,
                 $value,
                 get_string('palette_togreen', 'theme_diverse')
+            );
+        }
+        $value = get_user_preferences(goal::PREFERENCE, null, $userid);
+        if ($value !== null) {
+            writer::export_user_preference(
+                'theme_diverse',
+                goal::PREFERENCE,
+                $value,
+                get_string('dash_goal_title', 'theme_diverse')
             );
         }
     }

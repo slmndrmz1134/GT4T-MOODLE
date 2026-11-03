@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} osiota, {$a->activities} aktiviteettia';
 $string['hero_continue'] = 'Jatka';
 $string['hero_start'] = 'Aloita';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Uutta';
+$string['dash_news_title'] = 'Alustan opas: näin DIVERSE toimii';
+$string['dash_news_text'] = 'Lyhyitä videoita kurssien löytämisestä, live-tunneille liittymisestä ja kurssiavustajan käytöstä.';
+$string['dash_news_action'] = 'Katso nyt';
+$string['dash_progress_title'] = 'Oppimisen edistyminen';
+$string['dash_progress_help'] = 'Kurssiesi aktiviteetit, joiden suorittamista seurataan';
+$string['dash_progress_total'] = 'Aktiviteetteja yhteensä';
+$string['dash_progress_done'] = 'suoritettu';
+$string['dash_state_completed'] = 'Suoritettu';
+$string['dash_state_started'] = 'Kesken';
+$string['dash_state_overdue'] = 'Myöhässä';
+$string['dash_state_notstarted'] = 'Aloittamatta';
+$string['dash_week_help'] = 'Joka päivä suorittamasi aktiviteetit';
+$string['dash_week_activities'] = 'Aktiviteetit';
+$string['dash_week_more'] = '{$a} aktiviteettia enemmän kuin viime viikolla';
+$string['dash_week_fewer'] = '{$a} aktiviteettia vähemmän kuin viime viikolla';
+$string['dash_week_same'] = 'Yhtä monta aktiviteettia kuin viime viikolla';
+$string['dash_deadlines'] = 'Määräajat';
+$string['dash_due_in'] = 'Erääntyy: {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Nro';
+$string['dash_col_progress'] = 'Edistyminen';
+$string['dash_col_next'] = 'Seuraavaksi';
+$string['dash_col_teacher'] = 'Opettaja';
+$string['dash_notvisited'] = 'ei vielä avattu';
+$string['dash_goal_title'] = 'Viikkotavoite';
+$string['dash_goal_help'] = 'Montako aktiviteettia haluat suorittaa viikossa';
+$string['dash_goal_change'] = 'Muuta tavoitetta';
+$string['dash_goal_choice'] = '{$a} viikossa';
+$string['dash_goal_this'] = 'Aktiviteetit tällä viikolla';
+$string['dash_goal_reached'] = 'Tavoite saavutettu!';
+$string['dash_goal_keep'] = 'Jatka samaan malliin!';
+$string['dash_goal_left'] = '{$a} jäljellä';
+$string['dash_goal_weeks'] = '{$a} viikkoa';
+$string['dash_goal_total'] = 'Suoritettu yhteensä';
+$string['dash_goal_average'] = 'Viikkokeskiarvo';
+$string['dash_goal_streak'] = 'Putki';
+$string['dash_nothing_to_grade'] = 'Mitään ei odota arviointia.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Avaa';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Hae omista kursseista';
+$string['mycourses_nomatch'] = 'Mikään kurssi ei vastaa hakua.';
+$string['mycourses_lastvisited'] = 'Viimeksi avattu';
+$string['mycourses_view'] = 'Näkymä';
+$string['mycourses_cards'] = 'Kortit';
+$string['mycourses_list'] = 'Luettelo';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE-teema ei tallenna henkilökohtaisia tietoja käyttäjistä.';
 $string['privacy:metadata:preference:palette'] = 'Käyttäjän alustalle valitsema väripaletti.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Käyttäjän kojelaudalla valitsema viikkotavoite: montako aktiviteettia viikossa.';

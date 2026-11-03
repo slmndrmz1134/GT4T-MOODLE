@@ -180,6 +180,57 @@ $string['hero_stats'] = 'Skyrių: {$a->sections}, veiklų: {$a->activities}';
 $string['hero_continue'] = 'Tęsti';
 $string['hero_start'] = 'Pradėti';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Naujienos';
+$string['dash_news_title'] = 'Platformos gidas: kaip veikia DIVERSE';
+$string['dash_news_text'] = 'Trumpi vaizdo įrašai apie kursų paiešką, tiesiogines pamokas ir kurso asistentą.';
+$string['dash_news_action'] = 'Žiūrėti';
+$string['dash_progress_title'] = 'Mokymosi pažanga';
+$string['dash_progress_help'] = 'Jūsų kursų veiklos, kurių atlikimas sekamas';
+$string['dash_progress_total'] = 'Iš viso veiklų';
+$string['dash_progress_done'] = 'atlikta';
+$string['dash_state_completed'] = 'Atlikta';
+$string['dash_state_started'] = 'Vykdoma';
+$string['dash_state_overdue'] = 'Pavėluota';
+$string['dash_state_notstarted'] = 'Nepradėta';
+$string['dash_week_help'] = 'Kiekvieną dieną atliktos veiklos';
+$string['dash_week_activities'] = 'Veiklos';
+$string['dash_week_more'] = '{$a} veiklomis daugiau nei praėjusią savaitę';
+$string['dash_week_fewer'] = '{$a} veiklomis mažiau nei praėjusią savaitę';
+$string['dash_week_same'] = 'Tiek pat veiklų kaip praėjusią savaitę';
+$string['dash_deadlines'] = 'Terminai';
+$string['dash_due_in'] = 'Liko {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Nr.';
+$string['dash_col_progress'] = 'Pažanga';
+$string['dash_col_next'] = 'Toliau';
+$string['dash_col_teacher'] = 'Dėstytojas';
+$string['dash_notvisited'] = 'dar neaplankyta';
+$string['dash_goal_title'] = 'Savaitės tikslas';
+$string['dash_goal_help'] = 'Kiek veiklų norite atlikti kas savaitę';
+$string['dash_goal_change'] = 'Keisti tikslą';
+$string['dash_goal_choice'] = '{$a} per savaitę';
+$string['dash_goal_this'] = 'Veiklos šią savaitę';
+$string['dash_goal_reached'] = 'Tikslas pasiektas!';
+$string['dash_goal_keep'] = 'Taip ir toliau!';
+$string['dash_goal_left'] = 'liko {$a}';
+$string['dash_goal_weeks'] = '{$a} sav.';
+$string['dash_goal_total'] = 'Iš viso atlikta';
+$string['dash_goal_average'] = 'Savaitės vidurkis';
+$string['dash_goal_streak'] = 'Serija';
+$string['dash_nothing_to_grade'] = 'Nieko nereikia vertinti.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Atidaryti';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Ieškoti mano kursuose';
+$string['mycourses_nomatch'] = 'Paieškos atitinkančių kursų nėra.';
+$string['mycourses_lastvisited'] = 'Paskutinis apsilankymas';
+$string['mycourses_view'] = 'Rodinys';
+$string['mycourses_cards'] = 'Kortelės';
+$string['mycourses_list'] = 'Sąrašas';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE tema nesaugo jokių asmens duomenų apie jokį naudotoją.';
 $string['privacy:metadata:preference:palette'] = 'Naudotojo platformai pasirinkta spalvų paletė.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Naudotojo valdymo skydelyje pasirinktas savaitės tikslas: kiek veiklų atlikti per savaitę.';

@@ -106,6 +106,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         if ($this->page->pagelayout === 'mycourses' && shell::applies($this->page) &&
                 class_exists(\local_diverse_catalog\catalog::class)) {
             $courses = \local_diverse_catalog\catalog::mine(optional_param('filter', 'all', PARAM_ALPHA));
+            $stats = $courses['stats'];
+            $courses['tiles'] = [
+                ['value' => $stats['enrolled'], 'label' => get_string('dash_kpi_courses', 'theme_diverse'), 'icon' => 'fa-book'],
+                ['value' => $stats['inprogress'], 'label' => get_string('mycourses_inprogress', 'theme_diverse'),
+                    'icon' => 'fa-arrow-trend-up'],
+                ['value' => $stats['completed'], 'label' => get_string('mycourses_completed', 'theme_diverse'),
+                    'icon' => 'fa-circle-check'],
+                ['value' => $stats['average'] === null ? '–' : $stats['average'] . '%',
+                    'label' => get_string('dash_kpi_progress', 'theme_diverse'), 'icon' => 'fa-award'],
+            ];
             return $this->render_from_template('theme_diverse/my_courses', $courses) . $maincontent;
         }
         if ($this->page->pagetype === 'message-index' && shell::applies($this->page)) {

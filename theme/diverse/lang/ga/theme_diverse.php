@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} rannán, {$a->activities} gníomhaíocht
 $string['hero_continue'] = 'Lean ar aghaidh';
 $string['hero_start'] = 'Tosaigh';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Nua';
+$string['dash_news_title'] = 'Treoir an ardáin: conas a oibríonn DIVERSE';
+$string['dash_news_text'] = 'Físeáin ghearra faoi chúrsaí a aimsiú, páirt a ghlacadh i ranganna beo agus ceist a chur ar an gcúntóir.';
+$string['dash_news_action'] = 'Féach anois';
+$string['dash_progress_title'] = 'Dul chun cinn foghlama';
+$string['dash_progress_help'] = 'Gníomhaíochtaí le rianú críochnaithe i do chúrsaí';
+$string['dash_progress_total'] = 'Gníomhaíochtaí san iomlán';
+$string['dash_progress_done'] = 'críochnaithe';
+$string['dash_state_completed'] = 'Críochnaithe';
+$string['dash_state_started'] = 'Ar siúl';
+$string['dash_state_overdue'] = 'Thar téarma';
+$string['dash_state_notstarted'] = 'Gan tosú';
+$string['dash_week_help'] = 'Gníomhaíochtaí a chríochnaigh tú gach lá';
+$string['dash_week_activities'] = 'Gníomhaíochtaí';
+$string['dash_week_more'] = '{$a} ghníomhaíocht níos mó ná an tseachtain seo caite';
+$string['dash_week_fewer'] = '{$a} ghníomhaíocht níos lú ná an tseachtain seo caite';
+$string['dash_week_same'] = 'An oiread gníomhaíochtaí leis an tseachtain seo caite';
+$string['dash_deadlines'] = 'Spriocdhátaí';
+$string['dash_due_in'] = 'Le déanamh i gceann {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Uimh.';
+$string['dash_col_progress'] = 'Dul chun cinn';
+$string['dash_col_next'] = 'Ar aghaidh';
+$string['dash_col_teacher'] = 'Múinteoir';
+$string['dash_notvisited'] = 'gan cuairt fós';
+$string['dash_goal_title'] = 'Sprioc seachtainiúil';
+$string['dash_goal_help'] = 'Cé mhéad gníomhaíocht is mian leat a chríochnú gach seachtain';
+$string['dash_goal_change'] = 'Athraigh an sprioc';
+$string['dash_goal_choice'] = '{$a} sa tseachtain';
+$string['dash_goal_this'] = 'Gníomhaíochtaí an tseachtain seo';
+$string['dash_goal_reached'] = 'Sprioc bainte amach!';
+$string['dash_goal_keep'] = 'Coinnigh ort!';
+$string['dash_goal_left'] = '{$a} fágtha';
+$string['dash_goal_weeks'] = '{$a} seachtain';
+$string['dash_goal_total'] = 'Críochnaithe san iomlán';
+$string['dash_goal_average'] = 'Meán seachtainiúil';
+$string['dash_goal_streak'] = 'Sraith';
+$string['dash_nothing_to_grade'] = 'Níl aon rud ag fanacht le grádú.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Oscail';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Cuardaigh mo chúrsaí';
+$string['mycourses_nomatch'] = 'Níl aon chúrsa ag teacht le do chuardach.';
+$string['mycourses_lastvisited'] = 'An chuairt dheireanach';
+$string['mycourses_view'] = 'Amharc';
+$string['mycourses_cards'] = 'Cártaí';
+$string['mycourses_list'] = 'Liosta';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'Ní stórálann téama DIVERSE aon sonraí pearsanta faoi aon úsáideoir.';
 $string['privacy:metadata:preference:palette'] = 'An pailéad dathanna a roghnaigh an t-úsáideoir don ardán.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'An sprioc seachtainiúil a roghnaigh an t-úsáideoir ar an deais: cé mhéad gníomhaíocht in aghaidh na seachtaine.';

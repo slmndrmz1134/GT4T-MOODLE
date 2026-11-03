@@ -140,7 +140,7 @@ class catalog {
      * The courses someone teaches have no status: they are listed under All and Favourites only.
      *
      * @param string $filter all, notstarted, inprogress, completed or favourites.
-     * @return array courses, hascourses, tabs
+     * @return array courses (each with lastaccess), hascourses, tabs, stats (enrolled, inprogress, completed, average)
      */
     public static function mine(string $filter): array {
         global $DB, $USER;
@@ -151,6 +151,7 @@ class catalog {
 
         $filters = ['all' => [], 'notstarted' => [], 'inprogress' => [], 'completed' => [], 'favourites' => []];
         foreach ($cards as $card) {
+            $card['lastaccess'] = (int)($visited[$card['id']] ?? 0);
             $filters['all'][] = $card;
             if ($card['favourite']) {
                 $filters['favourites'][] = $card;
@@ -179,7 +180,19 @@ class catalog {
                 ];
             }
         }
-        return ['courses' => $filters[$filter], 'hascourses' => !empty($filters[$filter]), 'tabs' => $tabs];
+        $tracked = array_filter($cards, fn($card) => $card['hasprogress']);
+        $average = $tracked ? (int)round(array_sum(array_column($tracked, 'progress')) / count($tracked)) : null;
+        return [
+            'courses' => $filters[$filter],
+            'hascourses' => !empty($filters[$filter]),
+            'tabs' => $tabs,
+            'stats' => [
+                'enrolled' => count($cards),
+                'inprogress' => count($filters['inprogress']),
+                'completed' => count($filters['completed']),
+                'average' => $average,
+            ],
+        ];
     }
 
     /**

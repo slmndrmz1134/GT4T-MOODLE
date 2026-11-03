@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} sections, {$a->activities} activités';
 $string['hero_continue'] = 'Continuer';
 $string['hero_start'] = 'Commencer';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Nouveautés';
+$string['dash_news_title'] = 'Guide de la plateforme : comment fonctionne DIVERSE';
+$string['dash_news_text'] = 'De courtes vidéos pour trouver des cours, rejoindre les classes en direct et interroger l\'assistant.';
+$string['dash_news_action'] = 'Regarder';
+$string['dash_progress_title'] = 'Progression';
+$string['dash_progress_help'] = 'Activités avec suivi d\'achèvement dans vos cours';
+$string['dash_progress_total'] = 'Activités au total';
+$string['dash_progress_done'] = 'terminé';
+$string['dash_state_completed'] = 'Terminées';
+$string['dash_state_started'] = 'En cours';
+$string['dash_state_overdue'] = 'En retard';
+$string['dash_state_notstarted'] = 'Non commencées';
+$string['dash_week_help'] = 'Activités terminées chaque jour';
+$string['dash_week_activities'] = 'Activités';
+$string['dash_week_more'] = '{$a} activités de plus que la semaine dernière';
+$string['dash_week_fewer'] = '{$a} activités de moins que la semaine dernière';
+$string['dash_week_same'] = 'Autant d\'activités que la semaine dernière';
+$string['dash_deadlines'] = 'Échéances';
+$string['dash_due_in'] = 'Dans {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'N°';
+$string['dash_col_progress'] = 'Progression';
+$string['dash_col_next'] = 'Ensuite';
+$string['dash_col_teacher'] = 'Enseignant·e';
+$string['dash_notvisited'] = 'pas encore visité';
+$string['dash_goal_title'] = 'Objectif de la semaine';
+$string['dash_goal_help'] = 'Le nombre d\'activités que vous voulez terminer chaque semaine';
+$string['dash_goal_change'] = 'Modifier l\'objectif';
+$string['dash_goal_choice'] = '{$a} par semaine';
+$string['dash_goal_this'] = 'Activités cette semaine';
+$string['dash_goal_reached'] = 'Objectif atteint !';
+$string['dash_goal_keep'] = 'Continuez !';
+$string['dash_goal_left'] = 'encore {$a}';
+$string['dash_goal_weeks'] = '{$a} semaines';
+$string['dash_goal_total'] = 'Terminées au total';
+$string['dash_goal_average'] = 'Moyenne par semaine';
+$string['dash_goal_streak'] = 'Série';
+$string['dash_nothing_to_grade'] = 'Rien n\'attend d\'être évalué.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Ouvrir';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Rechercher dans mes cours';
+$string['mycourses_nomatch'] = 'Aucun cours ne correspond à votre recherche.';
+$string['mycourses_lastvisited'] = 'Dernière visite';
+$string['mycourses_view'] = 'Affichage';
+$string['mycourses_cards'] = 'Cartes';
+$string['mycourses_list'] = 'Liste';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Couleurs vertes (GT4T)';
 $string['palette_toorange'] = 'Couleurs orange (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Couleurs orange (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'Le thème DIVERSE ne stocke aucune donnée personnelle sur les utilisateurs.';
 $string['privacy:metadata:preference:palette'] = 'La palette de couleurs choisie par l\'utilisateur pour la plateforme.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'L\'objectif hebdomadaire choisi sur le tableau de bord : le nombre d\'activités à terminer chaque semaine.';

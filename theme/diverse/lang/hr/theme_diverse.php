@@ -180,6 +180,57 @@ $string['hero_stats'] = 'Odjeljaka: {$a->sections}, aktivnosti: {$a->activities}
 $string['hero_continue'] = 'Nastavi';
 $string['hero_start'] = 'Započni';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Novo';
+$string['dash_news_title'] = 'Vodič za platformu: kako DIVERSE radi';
+$string['dash_news_text'] = 'Kratki videozapisi o pronalaženju kolegija, nastavi uživo i pitanjima asistentu kolegija.';
+$string['dash_news_action'] = 'Pogledaj';
+$string['dash_progress_title'] = 'Napredak u učenju';
+$string['dash_progress_help'] = 'Aktivnosti s praćenjem dovršenosti u tvojim kolegijima';
+$string['dash_progress_total'] = 'Ukupno aktivnosti';
+$string['dash_progress_done'] = 'dovršeno';
+$string['dash_state_completed'] = 'Dovršeno';
+$string['dash_state_started'] = 'U tijeku';
+$string['dash_state_overdue'] = 'Zakašnjelo';
+$string['dash_state_notstarted'] = 'Nije započeto';
+$string['dash_week_help'] = 'Aktivnosti koje si dovršio/la svaki dan';
+$string['dash_week_activities'] = 'Aktivnosti';
+$string['dash_week_more'] = '{$a} aktivnosti više nego prošli tjedan';
+$string['dash_week_fewer'] = '{$a} aktivnosti manje nego prošli tjedan';
+$string['dash_week_same'] = 'Jednako aktivnosti kao prošli tjedan';
+$string['dash_deadlines'] = 'Rokovi';
+$string['dash_due_in'] = 'Rok za {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Br.';
+$string['dash_col_progress'] = 'Napredak';
+$string['dash_col_next'] = 'Sljedeće';
+$string['dash_col_teacher'] = 'Nastavnik';
+$string['dash_notvisited'] = 'još nije otvoreno';
+$string['dash_goal_title'] = 'Tjedni cilj';
+$string['dash_goal_help'] = 'Koliko aktivnosti želiš dovršiti svaki tjedan';
+$string['dash_goal_change'] = 'Promijeni cilj';
+$string['dash_goal_choice'] = '{$a} tjedno';
+$string['dash_goal_this'] = 'Aktivnosti ovaj tjedan';
+$string['dash_goal_reached'] = 'Cilj postignut!';
+$string['dash_goal_keep'] = 'Samo naprijed!';
+$string['dash_goal_left'] = 'još {$a}';
+$string['dash_goal_weeks'] = '{$a} tjedana';
+$string['dash_goal_total'] = 'Ukupno dovršeno';
+$string['dash_goal_average'] = 'Tjedni prosjek';
+$string['dash_goal_streak'] = 'Niz';
+$string['dash_nothing_to_grade'] = 'Ništa ne čeka ocjenjivanje.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Otvori';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Pretraži moje kolegije';
+$string['mycourses_nomatch'] = 'Nijedan kolegij ne odgovara pretrazi.';
+$string['mycourses_lastvisited'] = 'Zadnji posjet';
+$string['mycourses_view'] = 'Prikaz';
+$string['mycourses_cards'] = 'Kartice';
+$string['mycourses_list'] = 'Popis';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE ne pohranjuje osobne podatke o korisnicima.';
 $string['privacy:metadata:preference:palette'] = 'Paleta boja koju je korisnik odabrao za platformu.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Tjedni cilj koji je korisnik odabrao na nadzornoj ploči: koliko aktivnosti tjedno.';

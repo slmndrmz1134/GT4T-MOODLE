@@ -1,5 +1,6 @@
 /****************************************************************
- * DIVERSE icons: Lucide (pix/icons, ISC licence), plus an oval message bubble drawn for DIVERSE.
+ * DIVERSE icons: Lucide (pix/icons, ISC licence), plus a few drawn for DIVERSE in the same style (an oval message
+ * bubble, play, trend, flame, live, sparkles, globe, upload, page).
  * Moodle's Font Awesome icons are replaced without changing Moodle's markup: an icon keeps its class, only the
  * picture changes. An icon not listed here stays Moodle's. To add one: copy its SVG to pix/icons and list it here.
  ***************************************************************/
@@ -20,6 +21,7 @@ $diverse-icons: (
     "arrow-down": "arrow-down",
     "arrow-left": "arrow-left",
     "arrow-right": "arrow-right",
+    "arrow-trend-up": "trending-up",
     "arrow-up": "arrow-up",
     "arrow-up-right-from-square": "external-link",
     "award": "award",
@@ -35,6 +37,7 @@ $diverse-icons: (
     "circle-check": "circle-check",
     "circle-exclamation": "circle-alert",
     "circle-info": "info",
+    "circle-play": "circle-play",
     "circle-question": "circle-question-mark",
     "circle-xmark": "circle-x",
     "clock": "clock",
@@ -50,9 +53,12 @@ $diverse-icons: (
     "eye": "eye",
     "eye-slash": "eye-off",
     "face-smile": "smile",
+    "file-lines": "file-text",
     "filter": "funnel",
+    "fire": "flame",
     "flag": "flag",
     "gear": "settings",
+    "globe": "globe",
     "graduation-cap": "graduation-cap",
     "house": "house",
     "life-ring": "life-buoy",
@@ -67,9 +73,12 @@ $diverse-icons: (
     "sliders": "sliders-vertical",
     "star": "star-filled",
     "table-cells-large": "layout-grid",
+    "tower-broadcast": "radio",
     "trash-can": "trash-2",
+    "upload": "upload",
     "user": "user",
     "users": "users",
+    "wand-magic-sparkles": "sparkles",
     "xmark": "x",
 );
 

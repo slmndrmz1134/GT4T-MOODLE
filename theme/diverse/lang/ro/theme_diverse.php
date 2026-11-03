@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} secțiuni, {$a->activities} activități
 $string['hero_continue'] = 'Continuă';
 $string['hero_start'] = 'Începe';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Noutăți';
+$string['dash_news_title'] = 'Ghidul platformei: cum funcționează DIVERSE';
+$string['dash_news_text'] = 'Videoclipuri scurte despre găsirea cursurilor, orele live și întrebările către asistentul cursului.';
+$string['dash_news_action'] = 'Vezi acum';
+$string['dash_progress_title'] = 'Progresul învățării';
+$string['dash_progress_help'] = 'Activități cu urmărirea finalizării din cursurile tale';
+$string['dash_progress_total'] = 'Total activități';
+$string['dash_progress_done'] = 'finalizat';
+$string['dash_state_completed'] = 'Finalizate';
+$string['dash_state_started'] = 'În desfășurare';
+$string['dash_state_overdue'] = 'Întârziate';
+$string['dash_state_notstarted'] = 'Neîncepute';
+$string['dash_week_help'] = 'Activitățile finalizate în fiecare zi';
+$string['dash_week_activities'] = 'Activități';
+$string['dash_week_more'] = 'Cu {$a} activități mai mult decât săptămâna trecută';
+$string['dash_week_fewer'] = 'Cu {$a} activități mai puțin decât săptămâna trecută';
+$string['dash_week_same'] = 'Tot atâtea activități ca săptămâna trecută';
+$string['dash_deadlines'] = 'Termene';
+$string['dash_due_in'] = 'Termen în {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Nr.';
+$string['dash_col_progress'] = 'Progres';
+$string['dash_col_next'] = 'Următorul pas';
+$string['dash_col_teacher'] = 'Profesor';
+$string['dash_notvisited'] = 'nevizitat încă';
+$string['dash_goal_title'] = 'Obiectiv săptămânal';
+$string['dash_goal_help'] = 'Câte activități vrei să termini în fiecare săptămână';
+$string['dash_goal_change'] = 'Schimbă obiectivul';
+$string['dash_goal_choice'] = '{$a} pe săptămână';
+$string['dash_goal_this'] = 'Activități săptămâna aceasta';
+$string['dash_goal_reached'] = 'Obiectiv atins!';
+$string['dash_goal_keep'] = 'Ține-o tot așa!';
+$string['dash_goal_left'] = 'mai sunt {$a}';
+$string['dash_goal_weeks'] = '{$a} săptămâni';
+$string['dash_goal_total'] = 'Finalizate în total';
+$string['dash_goal_average'] = 'Media săptămânală';
+$string['dash_goal_streak'] = 'Serie';
+$string['dash_nothing_to_grade'] = 'Nimic nu așteaptă notarea.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Deschide';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Caută în cursurile mele';
+$string['mycourses_nomatch'] = 'Niciun curs nu se potrivește căutării.';
+$string['mycourses_lastvisited'] = 'Ultima vizită';
+$string['mycourses_view'] = 'Vizualizare';
+$string['mycourses_cards'] = 'Carduri';
+$string['mycourses_list'] = 'Listă';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'Tema DIVERSE nu stochează niciun fel de date personale despre utilizatori.';
 $string['privacy:metadata:preference:palette'] = 'Paleta de culori aleasă de utilizator pentru platformă.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Obiectivul săptămânal ales pe panou: câte activități de terminat în fiecare săptămână.';

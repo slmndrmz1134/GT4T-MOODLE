@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} bölüm, {$a->activities} etkinlik';
 $string['hero_continue'] = 'Devam et';
 $string['hero_start'] = 'Başla';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Yenilikler';
+$string['dash_news_title'] = 'Platform rehberi: DIVERSE nasıl kullanılır';
+$string['dash_news_text'] = 'Ders bulma, canlı derslere katılma ve ders asistanına soru sorma üzerine kısa videolar.';
+$string['dash_news_action'] = 'Şimdi izle';
+$string['dash_progress_title'] = 'Öğrenme ilerlemesi';
+$string['dash_progress_help'] = 'Derslerindeki tamamlanma takibi olan etkinlikler';
+$string['dash_progress_total'] = 'Toplam etkinlik';
+$string['dash_progress_done'] = 'tamamlandı';
+$string['dash_state_completed'] = 'Tamamlandı';
+$string['dash_state_started'] = 'Devam ediyor';
+$string['dash_state_overdue'] = 'Gecikti';
+$string['dash_state_notstarted'] = 'Başlanmadı';
+$string['dash_week_help'] = 'Her gün tamamladığın etkinlikler';
+$string['dash_week_activities'] = 'Etkinlik';
+$string['dash_week_more'] = 'Geçen haftadan {$a} etkinlik fazla';
+$string['dash_week_fewer'] = 'Geçen haftadan {$a} etkinlik az';
+$string['dash_week_same'] = 'Geçen haftayla aynı sayıda etkinlik';
+$string['dash_deadlines'] = 'Teslimler';
+$string['dash_due_in'] = '{$a} içinde';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'No';
+$string['dash_col_progress'] = 'İlerleme';
+$string['dash_col_next'] = 'Sıradaki';
+$string['dash_col_teacher'] = 'Öğretmen';
+$string['dash_notvisited'] = 'henüz açılmadı';
+$string['dash_goal_title'] = 'Haftalık hedef';
+$string['dash_goal_help'] = 'Her hafta kaç etkinlik bitirmek istediğin';
+$string['dash_goal_change'] = 'Hedefi değiştir';
+$string['dash_goal_choice'] = 'Haftada {$a}';
+$string['dash_goal_this'] = 'Bu haftaki etkinlikler';
+$string['dash_goal_reached'] = 'Hedefe ulaştın!';
+$string['dash_goal_keep'] = 'Devam et!';
+$string['dash_goal_left'] = '{$a} kaldı';
+$string['dash_goal_weeks'] = '{$a} hafta';
+$string['dash_goal_total'] = 'Toplam tamamlanan';
+$string['dash_goal_average'] = 'Haftalık ortalama';
+$string['dash_goal_streak'] = 'Seri';
+$string['dash_nothing_to_grade'] = 'Notlanmayı bekleyen bir şey yok.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Aç';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Derslerimde ara';
+$string['mycourses_nomatch'] = 'Aramana uyan ders yok.';
+$string['mycourses_lastvisited'] = 'Son ziyaret';
+$string['mycourses_view'] = 'Görünüm';
+$string['mycourses_cards'] = 'Kartlar';
+$string['mycourses_list'] = 'Liste';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'DIVERSE teması kullanıcılar hakkında hiçbir kişisel veri depolamaz.';
 $string['privacy:metadata:preference:palette'] = 'Kullanıcının platform için seçtiği renk paleti.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Kullanıcının dashboard\'da seçtiği haftalık hedef: her hafta kaç etkinlik bitirmek istediği.';

@@ -17,22 +17,114 @@
 {{!
     @template theme_diverse/my_courses
 
-    The courses of the user, by status, with the same cards as the dashboard and the catalogue.
+    The courses of the user, by status, with the same cards as the dashboard and the catalogue: four figures on top,
+    then the tabs, a search, the order and the choice between cards and a list. Search, order and view work in the
+    browser on the courses of the current tab.
 
     Example context (json):
     {
         "courses": [], "hascourses": false,
-        "tabs": [{"label": "All", "count": 3, "url": "#", "current": true}]
+        "tabs": [{"label": "All", "count": 3, "url": "#", "current": true}],
+        "tiles": [{"value": 3, "label": "Enrolled courses", "icon": "fa-book"}]
     }
 }}
-<div class="diverse-mycourses">
-    <nav class="diverse-category-strip" aria-label="{{#str}}mycourses{{/str}}">
-        {{#tabs}}<a href="{{url}}"{{#current}} class="active" aria-current="page"{{/current}}>{{label}} <span>{{count}}</span></a>{{/tabs}}
-    </nav>
+<div class="diverse-mycourses" id="diverse-mycourses">
+    <ul class="diverse-stat-row">
+        {{#tiles}}
+        <li class="diverse-stat-tile"><span class="diverse-stat-icon" aria-hidden="true"><i class="fa {{icon}}"></i></span><span><strong>{{value}}</strong><span>{{label}}</span></span></li>
+        {{/tiles}}
+    </ul>
+    <div class="diverse-toolbar">
+        <nav class="diverse-category-strip" aria-label="{{#str}}mycourses{{/str}}">
+            {{#tabs}}<a href="{{url}}"{{#current}} class="active" aria-current="page"{{/current}}>{{label}} <span>{{count}}</span></a>{{/tabs}}
+        </nav>
+        {{#hascourses}}
+        <div class="diverse-toolbar-tools">
+            <label class="diverse-mini-search">
+                <i class="fa fa-magnifying-glass" aria-hidden="true"></i>
+                <span class="visually-hidden">{{#str}}mycourses_search, theme_diverse{{/str}}</span>
+                <input type="search" data-action="search" placeholder="{{#str}}mycourses_search, theme_diverse{{/str}}">
+            </label>
+            <label class="visually-hidden" for="diverse-mycourses-sort">{{#str}}sort, local_diverse_catalog{{/str}}</label>
+            <select class="form-select diverse-select" id="diverse-mycourses-sort" data-action="sort">
+                <option value="lastaccess">{{#str}}mycourses_lastvisited, theme_diverse{{/str}}</option>
+                <option value="name">{{#str}}sort_name, local_diverse_catalog{{/str}}</option>
+                <option value="progress">{{#str}}dash_col_progress, theme_diverse{{/str}}</option>
+            </select>
+            <div class="diverse-view-toggle" role="group" aria-label="{{#str}}mycourses_view, theme_diverse{{/str}}">
+                <button type="button" data-view="grid" aria-pressed="true" title="{{#str}}mycourses_cards, theme_diverse{{/str}}"><i class="fa fa-table-cells-large" aria-hidden="true"></i><span class="visually-hidden">{{#str}}mycourses_cards, theme_diverse{{/str}}</span></button>
+                <button type="button" data-view="list" aria-pressed="false" title="{{#str}}mycourses_list, theme_diverse{{/str}}"><i class="fa fa-list" aria-hidden="true"></i><span class="visually-hidden">{{#str}}mycourses_list, theme_diverse{{/str}}</span></button>
+            </div>
+        </div>
+        {{/hascourses}}
+    </div>
     {{#hascourses}}
     <ul class="diverse-card-grid">
         {{#courses}}{{> theme_diverse/course_card }}{{/courses}}
     </ul>
+    <p class="diverse-empty" data-region="nomatch" hidden>{{#str}}mycourses_nomatch, theme_diverse{{/str}}</p>
     {{/hascourses}}
     {{^hascourses}}<p class="diverse-empty">{{#str}}mycourses_none, theme_diverse{{/str}}</p>{{/hascourses}}
 </div>
+{{#js}}
+(function() {
+    var root = document.getElementById('diverse-mycourses');
+    var list = root && root.querySelector('.diverse-card-grid');
+    if (!list) {
+        return;
+    }
+    var cards = Array.prototype.slice.call(list.children);
+    var search = root.querySelector('[data-action="search"]');
+    var sort = root.querySelector('[data-action="sort"]');
+    var empty = root.querySelector('[data-region="nomatch"]');
+
+    function order() {
+        var by = sort.value;
+        cards.slice().sort(function(a, b) {
+            if (by === 'name') {
+                return a.dataset.name.localeCompare(b.dataset.name);
+            }
+            return (parseInt(b.dataset[by], 10) || 0) - (parseInt(a.dataset[by], 10) || 0);
+        }).forEach(function(card) {
+            list.appendChild(card);
+        });
+    }
+
+    function filter() {
+        var words = search.value.trim().toLowerCase();
+        var shown = 0;
+        cards.forEach(function(card) {
+            card.hidden = words !== '' && card.dataset.name.toLowerCase().indexOf(words) === -1;
+            shown += card.hidden ? 0 : 1;
+        });
+        empty.hidden = shown > 0;
+    }
+
+    // The chosen view is remembered in this browser; without storage it simply starts with the cards.
+    function view(name) {
+        list.classList.toggle('diverse-card-list', name === 'list');
+        root.querySelectorAll('[data-view]').forEach(function(button) {
+            button.setAttribute('aria-pressed', String(button.dataset.view === name));
+        });
+        try {
+            window.localStorage.setItem('theme_diverse_mycourses_view', name);
+        } catch (e) {
+            // Storage blocked: the view is not remembered.
+        }
+    }
+
+    search.addEventListener('input', filter);
+    sort.addEventListener('change', order);
+    root.querySelectorAll('[data-view]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            view(button.dataset.view);
+        });
+    });
+    try {
+        view(window.localStorage.getItem('theme_diverse_mycourses_view') || 'grid');
+    } catch (e) {
+        view('grid');
+    }
+    order();
+})();
+{{/js}}

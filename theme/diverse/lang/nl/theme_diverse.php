@@ -180,6 +180,57 @@ $string['hero_stats'] = '{$a->sections} secties, {$a->activities} activiteiten';
 $string['hero_continue'] = 'Verdergaan';
 $string['hero_start'] = 'Starten';
 
+// Dashboard cards.
+$string['dash_news_label'] = 'Nieuw';
+$string['dash_news_title'] = 'Platformgids: zo werkt DIVERSE';
+$string['dash_news_text'] = 'Korte video\'s over cursussen vinden, live lessen volgen en de cursusassistent iets vragen.';
+$string['dash_news_action'] = 'Nu bekijken';
+$string['dash_progress_title'] = 'Leervoortgang';
+$string['dash_progress_help'] = 'Activiteiten met voltooiingsregistratie in je cursussen';
+$string['dash_progress_total'] = 'Activiteiten totaal';
+$string['dash_progress_done'] = 'voltooid';
+$string['dash_state_completed'] = 'Voltooid';
+$string['dash_state_started'] = 'Bezig';
+$string['dash_state_overdue'] = 'Te laat';
+$string['dash_state_notstarted'] = 'Niet begonnen';
+$string['dash_week_help'] = 'Activiteiten die je elke dag voltooide';
+$string['dash_week_activities'] = 'Activiteiten';
+$string['dash_week_more'] = '{$a} activiteiten meer dan vorige week';
+$string['dash_week_fewer'] = '{$a} activiteiten minder dan vorige week';
+$string['dash_week_same'] = 'Evenveel activiteiten als vorige week';
+$string['dash_deadlines'] = 'Deadlines';
+$string['dash_due_in'] = 'Over {$a}';
+$string['strftimedaydateshort'] = '%a %d %b';
+$string['dash_col_number'] = 'Nr.';
+$string['dash_col_progress'] = 'Voortgang';
+$string['dash_col_next'] = 'Volgende';
+$string['dash_col_teacher'] = 'Docent';
+$string['dash_notvisited'] = 'nog niet bezocht';
+$string['dash_goal_title'] = 'Weekdoel';
+$string['dash_goal_help'] = 'Hoeveel activiteiten je elke week wilt afronden';
+$string['dash_goal_change'] = 'Doel wijzigen';
+$string['dash_goal_choice'] = '{$a} per week';
+$string['dash_goal_this'] = 'Activiteiten deze week';
+$string['dash_goal_reached'] = 'Doel bereikt!';
+$string['dash_goal_keep'] = 'Ga zo door!';
+$string['dash_goal_left'] = 'nog {$a}';
+$string['dash_goal_weeks'] = '{$a} weken';
+$string['dash_goal_total'] = 'Totaal voltooid';
+$string['dash_goal_average'] = 'Weekgemiddelde';
+$string['dash_goal_streak'] = 'Reeks';
+$string['dash_nothing_to_grade'] = 'Er wacht niets op beoordeling.';
+
+// Dashboard cards: button of a deadline.
+$string['dash_open'] = 'Openen';
+
+// My courses: search, order and view.
+$string['mycourses_search'] = 'Zoek in mijn cursussen';
+$string['mycourses_nomatch'] = 'Geen cursus komt overeen met je zoekopdracht.';
+$string['mycourses_lastvisited'] = 'Laatst bezocht';
+$string['mycourses_view'] = 'Weergave';
+$string['mycourses_cards'] = 'Kaarten';
+$string['mycourses_list'] = 'Lijst';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';
@@ -187,3 +238,6 @@ $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';
 // Privacy API.
 $string['privacy:metadata'] = 'Het DIVERSE-thema slaat geen persoonlijke gegevens op over gebruikers.';
 $string['privacy:metadata:preference:palette'] = 'Het kleurenpalet dat de gebruiker voor het platform heeft gekozen.';
+
+// Privacy API: weekly goal.
+$string['privacy:metadata:preference:weeklygoal'] = 'Het weekdoel dat de gebruiker op het dashboard koos: hoeveel activiteiten per week.';
