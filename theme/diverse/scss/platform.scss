@@ -2732,3 +2732,62 @@ body#page-local-diverse_catalog-index .diverse-navbar-search {
         display: none;
     }
 }
+
+// All courses (course/index.php) and the course search: the categories as quiet rows, the courses as the same cards as
+// in Discover (classes/output/core/course_renderer.php).
+body#page-course-index,
+body#page-course-index-category,
+body#page-course-search {
+    .course_category_tree {
+        .collapsible-actions {
+            margin-bottom: .75rem;
+        }
+
+        .category {
+            margin-bottom: .75rem;
+            padding: .875rem 1.25rem;
+            background-color: $white;
+            border: 1px solid $diverse-border;
+            border-radius: $card-border-radius;
+
+            // Subcategories inside their parent: indented, without a second box.
+            .category {
+                margin: .5rem 0 0;
+                padding: .5rem 0 0 1rem;
+                border: 0;
+                border-top: 1px solid $diverse-border;
+                border-radius: 0;
+            }
+        }
+
+        .categoryname {
+            margin: 0;
+            font-size: 1.0625rem;
+            font-weight: 700;
+
+            a {
+                color: $diverse-ink;
+                text-decoration: none;
+
+                &:hover {
+                    color: $diverse-action-orange;
+                }
+            }
+        }
+
+        .numberofcourse {
+            margin-left: .375rem;
+            color: $diverse-grey;
+            font-weight: 400;
+        }
+    }
+
+    .diverse-category-courses {
+        margin-top: 1rem;
+
+        .paging {
+            margin-top: 1.25rem;
+            text-align: center;
+        }
+    }
+}
