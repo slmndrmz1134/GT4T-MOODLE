@@ -19,6 +19,7 @@ namespace theme_diverse\output;
 use core\output\renderable;
 use core\output\renderer_base;
 use core\output\templatable;
+use theme_diverse\local\palette;
 use theme_diverse\local\partners;
 
 /**
@@ -55,6 +56,7 @@ class shell implements renderable, templatable {
         'guide' => 'fa-circle-question',
         'manage' => 'fa-gear',
         'help' => 'fa-life-ring',
+        'mode' => 'fa-moon',
         'preferences' => 'fa-sliders',
     ];
 
@@ -169,7 +171,16 @@ class shell implements renderable, templatable {
 
         // The top of the rail: the university's square logo (DIVERSE's without one); its full logo once the rail opens.
         $brand = $tenant ? $tenant->name : format_string(get_site()->shortname);
-        $bottom = [];
+        // Light or dark, above the help: the label names the mode it switches to (the script corrects it when the
+        // device decides).
+        $dark = palette::mode() === 'dark';
+        $bottom = [$this->link('mode', get_string($dark ? 'mode_light' : 'mode_dark', 'theme_diverse'),
+            (new \core\url('/theme/diverse/palette.php', ['mode' => $dark ? 'light' : 'dark', 'sesskey' => sesskey(),
+                'returnurl' => $this->page->url->out_as_local_url(false)]))->out_as_local_url(false), []) + [
+            'mode' => $dark ? 'light' : 'dark',
+            'labeldark' => get_string('mode_dark', 'theme_diverse'),
+            'labellight' => get_string('mode_light', 'theme_diverse'),
+        ]];
         if (($CFG->supportavailability ?? CONTACT_SUPPORT_AUTHENTICATED) != CONTACT_SUPPORT_DISABLED) {
             $bottom[] = $this->link('help', get_string('contactsitesupport', 'admin'), '/user/contactsitesupport.php',
                 ['/user/contactsitesupport.php']);

@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Rochtain thapa';
 $string['rail_expand'] = 'Taispeáin ainmneacha an roghchláir';
 $string['privacy:metadata:preference:railopen'] = 'Cé acu a choinníonn an t-úsáideoir an roghchlár ar chlé oscailte, leis na hainmneacha in aice lena n-íocóin.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Mód dorcha';
+$string['mode_light'] = 'Mód geal';
+$string['privacy:metadata:preference:mode'] = 'Cé acu mód a roghnaigh an t-úsáideoir, geal nó dorcha; gan rogha, socraíonn an gléas.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

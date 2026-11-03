@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Greitoji prieiga';
 $string['rail_expand'] = 'Rodyti meniu pavadinimus';
 $string['privacy:metadata:preference:railopen'] = 'Ar naudotojas laiko kairįjį meniu atvertą, su pavadinimais šalia piktogramų.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Tamsus režimas';
+$string['mode_light'] = 'Šviesus režimas';
+$string['privacy:metadata:preference:mode'] = 'Ar naudotojas pasirinko šviesų ar tamsų režimą; nepasirinkus sprendžia įrenginys.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

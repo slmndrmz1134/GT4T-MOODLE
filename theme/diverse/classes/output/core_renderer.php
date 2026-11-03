@@ -186,6 +186,10 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             if (shell::rail_open()) {
                 $additionalclasses[] = 'diverse-rail-open';
             }
+            $additionalclasses[] = 'diverse-mode-' . palette::mode();
+            if (palette::is_green()) {
+                $additionalclasses[] = 'diverse-palette-green';
+            }
         }
         return parent::body_attributes($additionalclasses);
     }
@@ -375,6 +379,7 @@ JS);
         if (shell::applies($this->page)) {
             $home = json_encode((new \core\url('/', ['redirect' => 0]))->out(false));
             $this->page->requires->js_amd_inline("document.querySelectorAll('a.navbar-brand').forEach(a => { a.href = {$home}; });");
+            $this->page->requires->js_amd_inline(self::THEME_SWITCH_JS);
             $html .= $this->render_from_template(
                 'theme_diverse/shell_nav',
                 (new shell($this->page))->export_for_template($this)
@@ -525,6 +530,134 @@ JS);
         ];
     }
 
+    /** @var string Palette and mode switches: swap the page's stylesheets at once and save the choice in the background. */
+    const THEME_SWITCH_JS = <<<'JS'
+(function() {
+    var body = document.body;
+    var PATTERN = /\/theme\/(?:styles\.php|diverse\/styles_palette\.php)((?:\/_s)?\/diverse\/[^/?]+\/all(?:-rtl)?)/;
+    var dark = window.matchMedia('(prefers-color-scheme: dark)');
+    var state = {
+        green: body.classList.contains('diverse-palette-green'),
+        mode: body.classList.contains('diverse-mode-dark') ? 'dark' : (body.classList.contains('diverse-mode-light') ? 'light' : 'auto'),
+    };
+    var isDark = function() {
+        return state.mode === 'dark' || (state.mode === 'auto' && dark.matches);
+    };
+    var address = function(slash, green, darkmode) {
+        var variant = [green ? 'green' : '', darkmode ? 'dark' : ''].filter(Boolean).join('-');
+        return M.cfg.wwwroot + (variant ? '/theme/diverse/styles_palette.php' + slash + '?variant=' + variant :
+            '/theme/styles.php' + slash);
+    };
+    var sheets = function() {
+        return Array.prototype.filter.call(document.querySelectorAll('link[rel="stylesheet"]'), function(link) {
+            return PATTERN.test(link.getAttribute('href') || '');
+        });
+    };
+    // The new sheet goes in next to the old one, which leaves once the new one is loaded: no flash.
+    var replace = function(old, href) {
+        if (old.href === href) {
+            return;
+        }
+        var next = old.cloneNode();
+        next.href = href;
+        next.addEventListener('load', function() {
+            old.remove();
+        });
+        old.after(next);
+    };
+    var swap = function() {
+        sheets().forEach(function(link) {
+            var slash = link.getAttribute('href').match(PATTERN)[1];
+            if (link.dataset.diverseAuto) {
+                if (state.mode === 'auto') {
+                    replace(link, address(slash, state.green, true));
+                } else {
+                    link.remove();
+                }
+            } else {
+                replace(link, address(slash, state.green, state.mode === 'dark'));
+            }
+        });
+    };
+    var prefetch = function(green, darkmode) {
+        sheets().forEach(function(link) {
+            if (!link.dataset.diverseAuto) {
+                var hint = document.createElement('link');
+                hint.rel = 'prefetch';
+                hint.as = 'style';
+                hint.href = address(link.getAttribute('href').match(PATTERN)[1], green, darkmode);
+                document.head.appendChild(hint);
+            }
+        });
+    };
+    var save = function(params) {
+        fetch(M.cfg.wwwroot + '/theme/diverse/palette.php?ajax=1&sesskey=' + M.cfg.sesskey + '&' + params,
+            {credentials: 'same-origin'});
+    };
+    // The switches show the state: the active palette, and the mode the mode switch leads to.
+    var show = function() {
+        body.classList.toggle('diverse-palette-green', state.green);
+        ['auto', 'dark', 'light'].forEach(function(mode) {
+            body.classList.toggle('diverse-mode-' + mode, state.mode === mode);
+        });
+        document.querySelectorAll('.diverse-palette-switch a[data-green]').forEach(function(item) {
+            var current = (item.dataset.green === '1') === state.green;
+            item.classList.toggle('active', current);
+            if (current) {
+                item.setAttribute('aria-current', 'true');
+            } else {
+                item.removeAttribute('aria-current');
+            }
+        });
+        document.querySelectorAll('[data-diverse-mode]').forEach(function(item) {
+            var target = isDark() ? 'light' : 'dark';
+            var label = target === 'dark' ? item.dataset.labelDark : item.dataset.labelLight;
+            item.dataset.diverseMode = target;
+            item.querySelector('span').textContent = label;
+            var icon = item.querySelector('.fa');
+            icon.classList.toggle('fa-moon', target === 'dark');
+            icon.classList.toggle('fa-sun', target === 'light');
+        });
+    };
+    document.querySelectorAll('.diverse-palette-switch').forEach(function(group) {
+        group.addEventListener('pointerenter', function() {
+            prefetch(!state.green, state.mode === 'dark');
+        }, {once: true});
+        group.addEventListener('click', function(e) {
+            var link = e.target.closest('a[data-green]');
+            if (!link || !window.fetch) {
+                return;
+            }
+            e.preventDefault();
+            var green = link.dataset.green === '1';
+            if (green !== state.green) {
+                state.green = green;
+                swap();
+                show();
+                save('green=' + (green ? 1 : 0));
+            }
+        });
+    });
+    document.querySelectorAll('[data-diverse-mode]').forEach(function(item) {
+        item.addEventListener('pointerenter', function() {
+            prefetch(state.green, !isDark());
+        }, {once: true});
+        item.addEventListener('click', function(e) {
+            if (!window.fetch) {
+                return;
+            }
+            e.preventDefault();
+            state.mode = isDark() ? 'light' : 'dark';
+            swap();
+            show();
+            save('mode=' + state.mode);
+        });
+    });
+    dark.addEventListener('change', show);
+    show();
+})();
+JS;
+
     /** @var string Activity pages: the first video of the content goes above the title, its description stays below. */
     const PLAYER_JS = <<<'JS'
 (function() {
@@ -666,6 +799,18 @@ JS;
     public function standard_head_html() {
         $this->add_landing_navigation_nodes();
         $html = parent::standard_head_html();
+
+        // Users who did not choose a mode: the dark stylesheet on top of the light one when the device is set to dark.
+        if (shell::applies($this->page) && palette::mode() === 'auto' && palette::available()) {
+            $variant = palette::variant(palette::is_green(), true);
+            foreach ($this->page->theme->css_urls($this->page) as $url) {
+                $darkurl = palette::variant_url($url, $variant);
+                if ($darkurl) {
+                    $html .= \html_writer::empty_tag('link', ['rel' => 'stylesheet', 'href' => $darkurl->out(false),
+                        'media' => '(prefers-color-scheme: dark)', 'data-diverse-auto' => '1']) . "\n";
+                }
+            }
+        }
 
         $logourl = $this->image_url('favicon', 'theme_diverse')->out(false);
 

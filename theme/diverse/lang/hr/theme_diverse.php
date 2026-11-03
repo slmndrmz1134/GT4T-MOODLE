@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Brzi pristup';
 $string['rail_expand'] = 'Prikaži nazive izbornika';
 $string['privacy:metadata:preference:railopen'] = 'Drži li korisnik izbornik lijevo otvorenim, s nazivima pokraj ikona.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Tamni način';
+$string['mode_light'] = 'Svijetli način';
+$string['privacy:metadata:preference:mode'] = 'Je li korisnik odabrao svijetli ili tamni način; bez odabira odlučuje uređaj.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';

@@ -161,7 +161,8 @@ $diverse-tabbar-height: 4rem;
         height: 2.75rem;
         margin-bottom: .75rem;
         padding: .25rem;
-        background-color: $white;
+        // White in both modes: the logos are drawn for a white background.
+        background-color: $diverse-logo-bg;
         border: 1px solid $diverse-border;
         border-radius: $border-radius;
 

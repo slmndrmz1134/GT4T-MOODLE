@@ -80,6 +80,9 @@ function theme_diverse_get_pre_scss($theme) {
     if (\theme_diverse\local\palette::$compilinggreen) {
         $scss .= '$diverse-palette: green;';
     }
+    if (\theme_diverse\local\palette::$compilingdark) {
+        $scss .= '$diverse-mode: dark;';
+    }
     $scss .= file_get_contents($CFG->dirroot . '/theme/diverse/scss/pre.scss');
 
     /**********************************************************

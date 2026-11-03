@@ -20,8 +20,8 @@
     In the top bar of application pages, in front of the notifications: the choice between the orange and the green
     palette, and the language menu (the same links as the language menu of Moodle's user menu).
 
-    The palette changes at once: the script swaps the page's stylesheet for the other palette's (Moodle's styles.php and
-    styles_palette.php take the same arguments) and saves the choice in the background. The links still work without it.
+    The palette changes at once (core_renderer::THEME_SWITCH_JS swaps the page's stylesheet and saves the choice in
+    the background); the links still work without it.
 
     Example context (json):
     {
@@ -45,85 +45,3 @@
     </div>
     {{/haslanguages}}
 </div>
-{{#js}}
-(function() {
-    var ORANGE = '/theme/styles.php/';
-    var GREEN = '/theme/diverse/styles_palette.php/';
-    var switches = document.querySelectorAll('.diverse-palette-switch');
-    if (!switches.length) {
-        return;
-    }
-
-    /**
-     * The page's theme stylesheets with their address for one palette.
-     *
-     * @param {Boolean} green
-     * @return {Array} [link element, address]
-     */
-    var sheets = function(green) {
-        var result = [];
-        document.querySelectorAll('link[rel="stylesheet"]').forEach(function(link) {
-            var href = link.getAttribute('href') || '';
-            if (href.indexOf(ORANGE) !== -1 || href.indexOf(GREEN) !== -1) {
-                result.push([link, green ? href.replace(ORANGE, GREEN) : href.replace(GREEN, ORANGE)]);
-            }
-        });
-        return result;
-    };
-
-    // The other palette is fetched ahead, so the switch has nothing left to wait for.
-    var prefetched = false;
-    var prefetch = function() {
-        if (prefetched) {
-            return;
-        }
-        prefetched = true;
-        var green = !document.querySelector('.diverse-palette-switch [data-green="1"].active');
-        sheets(green).forEach(function(sheet) {
-            var hint = document.createElement('link');
-            hint.rel = 'prefetch';
-            hint.as = 'style';
-            hint.href = sheet[1];
-            document.head.appendChild(hint);
-        });
-    };
-
-    switches.forEach(function(group) {
-        group.addEventListener('pointerenter', prefetch);
-        group.addEventListener('focusin', prefetch);
-        group.addEventListener('click', function(e) {
-            var link = e.target.closest('a[data-green]');
-            if (!link || !window.fetch) {
-                return;
-            }
-            e.preventDefault();
-            if (link.classList.contains('active')) {
-                return;
-            }
-            var green = link.dataset.green === '1';
-
-            // The new sheet goes in next to the old one, which leaves once the new one is loaded: no flash.
-            sheets(green).forEach(function(sheet) {
-                var old = sheet[0];
-                var next = old.cloneNode();
-                next.href = sheet[1];
-                next.addEventListener('load', function() {
-                    old.remove();
-                });
-                old.after(next);
-            });
-            document.querySelectorAll('.diverse-palette-switch a[data-green]').forEach(function(item) {
-                var current = item.dataset.green === link.dataset.green;
-                item.classList.toggle('active', current);
-                if (current) {
-                    item.setAttribute('aria-current', 'true');
-                } else {
-                    item.removeAttribute('aria-current');
-                }
-            });
-            prefetched = false;
-            fetch(link.href + '&ajax=1', {credentials: 'same-origin'});
-        });
-    });
-})();
-{{/js}}

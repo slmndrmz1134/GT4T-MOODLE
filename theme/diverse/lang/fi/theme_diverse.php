@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Pikalinkit';
 $string['rail_expand'] = 'Näytä valikon nimet';
 $string['privacy:metadata:preference:railopen'] = 'Pitääkö käyttäjä vasemman valikon auki niin, että nimet näkyvät kuvakkeiden vieressä.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Tumma tila';
+$string['mode_light'] = 'Vaalea tila';
+$string['privacy:metadata:preference:mode'] = 'Valitsiko käyttäjä vaalean vai tumman tilan; ilman valintaa laite päättää.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Vihreät värit (GT4T)';
 $string['palette_toorange'] = 'Oranssit värit (DIVERSE)';

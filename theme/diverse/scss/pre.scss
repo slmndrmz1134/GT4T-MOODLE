@@ -48,6 +48,74 @@ $diverse-palette: orange !default;
     $diverse-track: #E6EEE9;
 }
 
+// Dark mode (project owner's approval, November 2026; drafts in docs/design/mockups): the same roles on dark surfaces,
+// for each palette. The theme is compiled once more with $diverse-mode set to dark (classes/local/palette.php).
+// "$white" becomes the colour of cards and fields and "ink" the colour of text, so every rule of the theme and of
+// Bootstrap follows; the action colours are lighter, so that links reach 4.5:1 on the cards and buttons take the
+// card colour as their text.
+$diverse-mode: light !default;
+$diverse-logo-bg: #FFFFFF;                 // Behind logos in both modes: they are drawn for a white background.
+@if $diverse-mode == dark {
+    $white: #1A1D21 !global;                       // Cards, fields, menus.
+    $diverse-brand-orange: #FF671F;
+    $diverse-action-orange: #FF7A3D;       // 6.6:1 on the cards; card-coloured text on it: 6.6:1.
+    $diverse-action-orange-hover: #FF9B6B;
+    $diverse-home-hover: #FF9B6B;
+    $diverse-ink: #ECEDEF;                 // Text (14.6:1 on the cards).
+    $diverse-grey: #A3A7AD;                // Secondary text (7.4:1 on the cards).
+    $diverse-soft-orange: #2B1C14;
+    $diverse-peach: #4A2B1B;
+    $diverse-surface: #111316;             // Page background.
+    $diverse-border: #2C3036;
+    $diverse-border-strong: #3F444C;
+    $diverse-success: #4CC38A;
+    $diverse-success-soft: #13301F;
+    $diverse-danger: #F97066;
+    $diverse-on-dark-muted: #4B5058;       // Secondary text on the light "ink" surfaces (7.2:1).
+    $diverse-track: #2C3036;
+    @if $diverse-palette == green {
+        $white: #161D1A !global;
+        $diverse-brand-orange: #19B35C;
+        $diverse-action-orange: #3DD27F;   // 9.1:1 on the cards.
+        $diverse-action-orange-hover: #6EE2A1;
+        $diverse-home-hover: #6EE2A1;
+        $diverse-ink: #E8EFEB;
+        $diverse-grey: #9DABA4;            // 7.3:1 on the cards.
+        $diverse-soft-orange: #14261B;
+        $diverse-peach: #1F3B24;
+        $diverse-surface: #0E1311;
+        $diverse-border: #26302B;
+        $diverse-border-strong: #38443E;
+        $diverse-on-dark-muted: #46524C;
+        $diverse-track: #26302B;
+    }
+
+    // Bootstrap's greys run the other way, from the darkest surface to the lightest text.
+    $gray-100: #1F2226 !global;
+    $gray-200: #2C3036 !global;
+    $gray-300: #3F444C !global;
+    $gray-400: #5A5F67 !global;
+    $gray-500: #7A7F86 !global;
+    $gray-600: #A3A7AD !global;
+    $gray-700: #C3C6CA !global;
+    $gray-800: #DADCDF !global;
+    $gray-900: #ECEDEF !global;
+    $body-bg: $diverse-surface !global;
+    $body-emphasis-color: $diverse-ink !global;
+    // Moodle tints the primary colour towards white for its light backgrounds (toggles, selected rows): on dark,
+    // the soft and peach colours of the palette.
+    $primary-light-background: $diverse-soft-orange !global;
+    $primary-light-hover: $diverse-peach !global;
+    $primary-light-border: $diverse-border-strong !global;
+    // Alerts: a dark tint of their colour with a light text, instead of a light tint with a dark text.
+    $alert-bg-scale: 75% !global;
+    $alert-border-scale: 55% !global;
+    $alert-color-scale: -55% !global;
+    $collapse-list-item-hover-bg: $diverse-soft-orange !global;
+    $collapse-list-item-hover-border: $diverse-border-strong !global;
+    $courseindex-item-dragging-bg: $diverse-soft-orange !global;
+}
+
 $diverse-photo-shade: rgba($diverse-ink, .82);      // Ink over photos, so white text stays readable.
 $diverse-photo-shade-soft: rgba($diverse-ink, .35);
 
@@ -61,6 +129,11 @@ $activity-icon-collaboration-bg: $diverse-action-orange;
 $activity-icon-communication-bg: $diverse-action-orange;
 $activity-icon-content-bg: $diverse-ink;
 $activity-icon-interactivecontent-bg: $diverse-ink;
+@if $diverse-mode == dark {
+    // The icons are drawn in white on these: the light ink would hide them.
+    $activity-icon-content-bg: $diverse-border-strong;
+    $activity-icon-interactivecontent-bg: $diverse-border-strong;
+}
 $success: $diverse-success;
 $danger: $diverse-danger;
 $body-color: $diverse-ink;

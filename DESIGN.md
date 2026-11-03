@@ -69,6 +69,32 @@ Kurs kartı desenlerinin yeşil renkleri `classes/local/palette.php` içindedir.
 
 Başarı, hata ve diğer renkler iki palette aynıdır.
 
+### Koyu tema (kullanıcı seçer, iki palette de)
+
+Proje sahibinin onayı, Kasım 2026 (taslak: `docs/design/mockups/*-wide.html`, sol menüdeki ay düğmesi). Sol menüde
+yardımın üstündeki ay/güneş düğmesi, telefonda kullanıcı menüsü açık ve koyu arasında geçirir; seçim kullanıcı
+tercihi `theme_diverse_mode` olarak saklanır. Seçim yoksa cihazın ayarı geçerlidir (koyu CSS
+`prefers-color-scheme: dark` koşuluyla eklenir). Koyu tema yalnızca giriş yapılmış uygulama sayfalarındadır;
+ziyaretçi ana sayfası ve giriş sayfası açık kalır.
+
+Tema her palet için bir kez daha derlenir (`styles_palette.php?variant=dark|green-dark`): `pre.scss` içindeki
+`@if $diverse-mode == dark` bloğu aynı değişkenlere koyu değerler verir. `$white` kartların ve alanların rengi olur,
+"ink" yazının rengi; Bootstrap'in gri tonları ters çevrilir. Logoların arkası her iki modda beyazdır
+(`$diverse-logo-bg`).
+
+| SCSS değişkeni | Koyu turuncu | Koyu yeşil | Kontrast (kartta) |
+|---|---|---|---|
+| `$white` (kart) | `#1A1D21` | `#161D1A` | — |
+| `$diverse-surface` (sayfa) | `#111316` | `#0E1311` | — |
+| `$diverse-ink` (yazı) | `#ECEDEF` | `#E8EFEB` | 14.6:1 / 14.9:1 |
+| `$diverse-grey` | `#A3A7AD` | `#9DABA4` | 7.4:1 / 7.3:1 |
+| `$diverse-action-orange` | `#FF7A3D` | `#3DD27F` | 6.6:1 / 9.1:1; düğme yazısı kart renginde |
+| `$diverse-action-orange-hover` | `#FF9B6B` | `#6EE2A1` | — |
+| `$diverse-soft-orange` / `$diverse-peach` | `#2B1C14` / `#4A2B1B` | `#14261B` / `#1F3B24` | — |
+| `$diverse-border` / `-strong` | `#2C3036` / `#3F444C` | `#26302B` / `#38443E` | — |
+| `$diverse-success` / `$diverse-danger` | `#4CC38A` / `#F97066` | aynı | — |
+| `$diverse-on-dark-muted` | `#4B5058` | `#46524C` | Açık "ink" zeminde 7.2:1 |
+
 ## Fontlar
 
 | Kullanım | Font | Kalınlık | Dosya |

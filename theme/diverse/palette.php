@@ -30,14 +30,20 @@ if (isguestuser()) {
     throw new \core\exception\moodle_exception('noguest');
 }
 
-$green = required_param('green', PARAM_BOOL);
+$green = optional_param('green', null, PARAM_BOOL);
+$mode = optional_param('mode', '', PARAM_ALPHA);
 $returnurl = optional_param('returnurl', '/my/', PARAM_LOCALURL);
 $ajax = optional_param('ajax', false, PARAM_BOOL);
 
-\theme_diverse\local\palette::set($green);
+if ($green !== null) {
+    \theme_diverse\local\palette::set($green);
+}
+if ($mode !== '') {
+    \theme_diverse\local\palette::set_mode($mode);
+}
 // The switch in the top bar changes the stylesheet in the page itself and only saves the choice here.
 if ($ajax) {
-    echo json_encode(['green' => $green]);
+    echo json_encode(['green' => \theme_diverse\local\palette::is_green(), 'mode' => \theme_diverse\local\palette::mode()]);
     die;
 }
 redirect(new \core\url($returnurl ?: '/my/'));

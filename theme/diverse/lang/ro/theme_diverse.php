@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Acces rapid';
 $string['rail_expand'] = 'Afișează numele meniului';
 $string['privacy:metadata:preference:railopen'] = 'Dacă utilizatorul ține meniul din stânga deschis, cu numele lângă pictograme.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Mod întunecat';
+$string['mode_light'] = 'Mod luminos';
+$string['privacy:metadata:preference:mode'] = 'Dacă utilizatorul a ales modul luminos sau întunecat; fără alegere decide dispozitivul.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';

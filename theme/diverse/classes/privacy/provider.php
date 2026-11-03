@@ -31,8 +31,8 @@ use theme_diverse\local\palette;
 use theme_diverse\output\shell;
 
 /**
- * Privacy Subsystem: the theme stores only the colour palette, the weekly goal and whether the menu shows its names,
- * as each user chooses them (user preferences).
+ * Privacy Subsystem: the theme stores only the colour palette, light or dark mode, the weekly goal and whether the menu
+ * shows its names, as each user chooses them (user preferences).
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -51,6 +51,7 @@ class provider implements
         $collection->add_user_preference(palette::PREFERENCE, 'privacy:metadata:preference:palette');
         $collection->add_user_preference(goal::PREFERENCE, 'privacy:metadata:preference:weeklygoal');
         $collection->add_user_preference(shell::RAIL_PREFERENCE, 'privacy:metadata:preference:railopen');
+        $collection->add_user_preference(palette::MODE_PREFERENCE, 'privacy:metadata:preference:mode');
         return $collection;
     }
 
@@ -77,6 +78,11 @@ class provider implements
                 $value,
                 get_string('dash_goal_title', 'theme_diverse')
             );
+        }
+        $value = get_user_preferences(palette::MODE_PREFERENCE, null, $userid);
+        if ($value !== null) {
+            writer::export_user_preference('theme_diverse', palette::MODE_PREFERENCE, $value,
+                get_string('mode_dark', 'theme_diverse'));
         }
         $value = get_user_preferences(shell::RAIL_PREFERENCE, null, $userid);
         if ($value !== null) {

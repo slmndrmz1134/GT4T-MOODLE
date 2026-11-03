@@ -25,7 +25,8 @@
       one), which opens the rail with the names of the places and then shows the full logo
     * railopen - whether the user keeps the rail open
     * main - the main places, the platform guide last: key, label, url, icon (icon class), current, nophone
-    * bottom - help and preferences at the bottom of the rail; the user menu shows under them (shell.scss)
+    * bottom - the light/dark switch, help and preferences at the bottom of the rail; the user menu shows under them
+      (shell.scss). The switch has mode (the mode it switches to), labeldark and labellight.
     * manage, hasmanage, manageicon - management places of partner managers and site administrators
     * managecurrent - whether one of the management places is open
 
@@ -66,7 +67,7 @@
     {{/hasmanage}}
     <ul class="diverse-nav-list diverse-nav-bottom">
         {{#bottom}}
-        <li class="diverse-nav-item-{{key}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}>
+        <li class="diverse-nav-item-{{key}}"><a class="diverse-nav-link{{#current}} active{{/current}}" href="{{url}}"{{#current}} aria-current="page"{{/current}}{{#mode}} role="button" data-diverse-mode="{{mode}}" data-label-dark="{{labeldark}}" data-label-light="{{labellight}}"{{/mode}}>
             <i class="fa {{icon}}" aria-hidden="true"></i>
             <span>{{label}}</span>
         </a></li>

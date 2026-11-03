@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Acceso rápido';
 $string['rail_expand'] = 'Mostrar los nombres del menú';
 $string['privacy:metadata:preference:railopen'] = 'Si el usuario mantiene abierto el menú de la izquierda, con los nombres junto a sus iconos.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Modo oscuro';
+$string['mode_light'] = 'Modo claro';
+$string['privacy:metadata:preference:mode'] = 'Si el usuario eligió el modo claro u oscuro; sin elección decide el dispositivo.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Colores verdes (GT4T)';
 $string['palette_toorange'] = 'Colores naranjas (DIVERSE)';

@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Snelle toegang';
 $string['rail_expand'] = 'Menunamen tonen';
 $string['privacy:metadata:preference:railopen'] = 'Of de gebruiker het menu links open houdt, met de namen naast de pictogrammen.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Donkere modus';
+$string['mode_light'] = 'Lichte modus';
+$string['privacy:metadata:preference:mode'] = 'Of de gebruiker de lichte of donkere modus koos; zonder keuze beslist het apparaat.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';

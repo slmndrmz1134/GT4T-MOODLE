@@ -272,6 +272,11 @@ $string['admin_shortcuts'] = 'Hızlı erişim';
 $string['rail_expand'] = 'Menü adlarını göster';
 $string['privacy:metadata:preference:railopen'] = 'Kullanıcının soldaki menüyü, yerlerin adları simgelerin yanında görünecek şekilde açık tutup tutmadığı.';
 
+// Light or dark mode (rail, user menu).
+$string['mode_dark'] = 'Koyu tema';
+$string['mode_light'] = 'Açık tema';
+$string['privacy:metadata:preference:mode'] = 'Kullanıcının platformun açık mı koyu mu temasını seçtiği; seçim yoksa cihaz karar verir.';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';
