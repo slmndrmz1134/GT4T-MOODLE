@@ -126,7 +126,7 @@ class shell implements renderable, templatable {
      * @return array
      */
     public function export_for_template(renderer_base $output): array {
-        global $CFG;
+        global $CFG, $USER;
 
         $main = [
             $this->link('dashboard', get_string('myhome'), '/my/', ['/my/index.php']),
@@ -192,6 +192,7 @@ class shell implements renderable, templatable {
             'squarelogo' => $output->rail_logo_url()->out(false),
             'fulllogo' => ($output->get_logo_url() ?? $output->image_url('logo', 'theme_diverse'))->out(false),
             'railopen' => self::rail_open(),
+            'username' => fullname($USER),
             'bottom' => $bottom,
             'manageicon' => self::ICONS['manage'],
             'main' => $main,

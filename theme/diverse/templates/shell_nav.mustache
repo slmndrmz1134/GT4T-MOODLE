@@ -24,6 +24,7 @@
     * brand, squarelogo, fulllogo - the top of the rail: the square logo of the user's university (DIVERSE's without
       one), which opens the rail with the names of the places and then shows the full logo
     * railopen - whether the user keeps the rail open
+    * username - the name of the user, shown next to the user menu's picture while the rail is open
     * main - the main places, the platform guide last: key, label, url, icon (icon class), current, nophone
     * bottom - the light/dark switch, help and preferences at the bottom of the rail; the user menu shows under them
       (shell.scss). The switch has mode (the mode it switches to), labeldark and labellight.
@@ -32,7 +33,7 @@
 
     Example context (json):
     {
-        "brand": "DIVERSE", "squarelogo": "#", "fulllogo": "#", "railopen": false,
+        "brand": "DIVERSE", "squarelogo": "#", "fulllogo": "#", "railopen": false, "username": "Ali Yilmaz",
         "main": [{"key": "dashboard", "label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
         "bottom": [], "manage": [], "hasmanage": false, "manageicon": "fa-gear", "managecurrent": false
     }
@@ -73,6 +74,7 @@
         </a></li>
         {{/bottom}}
     </ul>
+    <span class="diverse-nav-username">{{username}}</span>
 </nav>
 {{#js}}
 // The logo opens and closes the rail with the names of the places; the choice follows the user to the next pages.

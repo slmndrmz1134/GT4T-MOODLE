@@ -433,6 +433,23 @@ $diverse-tabbar-height: 4rem;
                         min-height: 5.75rem;
                     }
                 }
+
+                // Where the page has tabs, its search stands at the right end of their row.
+                #topofscroll:has(.secondary-navigation) #page-header {
+                    position: relative;
+
+                    .w-100 > .d-flex.align-items-center:has(.header-actions-container) {
+                        align-items: center !important;
+                        min-height: 0;
+                    }
+
+                    .header-actions-container {
+                        position: absolute;
+                        top: calc(100% + 1.25rem + .6875rem);
+                        right: 0;
+                        margin: 0 !important;
+                    }
+                }
             }
         }
 
@@ -1043,9 +1060,35 @@ body.diverse-shell:not(.diverse-title-row):not(.diverse-course-tab) {
 // The open rail: as wide as the names of the places, which show next to their icons; the page moves over for it.
 $diverse-rail-open-width: 15rem;
 
+// Phones have no rail.
+.diverse-nav-username {
+    display: none;
+}
+
 @include media-breakpoint-up(md) {
     .diverse-nav {
         transition: width .25s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    // Next to the user menu's picture (fixed at the bottom of the rail, see #usernavigation .usermenu-container).
+    .diverse-nav-username {
+        position: fixed;
+        bottom: 1rem;
+        left: calc((#{$diverse-rail-width} - 2.25rem) / 2 + 2.25rem + .75rem);
+        display: flex;
+        align-items: center;
+        max-width: calc(#{$diverse-rail-open-width} - #{$diverse-rail-width} / 2 - 2.25rem / 2 - 2.25rem - 1.5rem);
+        height: 2.25rem;
+        overflow: hidden;
+        color: $diverse-ink;
+        font-size: .9375rem;
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        text-overflow: ellipsis;
+        transition: opacity .2s ease .1s;
+        visibility: hidden;
+        white-space: nowrap;
     }
 
     body.diverse-shell #page-wrapper,
@@ -1056,8 +1099,6 @@ $diverse-rail-open-width: 15rem;
     body.diverse-rail-open {
         .diverse-nav {
             align-items: stretch;
-            // The names are cut off by the edge while the rail grows.
-            overflow: hidden;
             width: $diverse-rail-open-width;
             padding-right: .875rem;
         }
@@ -1084,6 +1125,10 @@ $diverse-rail-open-width: 15rem;
 
         .diverse-nav-link {
             width: 100%;
+            // The names are cut off by the edge of the link while the rail grows; the line next to the current place
+            // and the menus stay visible outside it.
+            overflow: clip;
+            overflow-clip-margin: .875rem;
 
             // The name stays next to the icon instead of showing as a label on hover.
             > span {
@@ -1099,6 +1144,12 @@ $diverse-rail-open-width: 15rem;
                 translate: none;
                 visibility: visible;
             }
+        }
+
+        // The name of the user next to the picture of the user menu.
+        .diverse-nav-username {
+            opacity: 1;
+            visibility: visible;
         }
 
         &.diverse-shell #page-wrapper {
