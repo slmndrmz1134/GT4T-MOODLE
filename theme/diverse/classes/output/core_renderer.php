@@ -156,6 +156,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 ['class' => 'diverse-message-empty']
             );
         }
+        // The month of the calendar with the coming events next to it.
+        if (shell::applies($this->page) && $this->page->pagetype === 'calendar-view' &&
+                optional_param('view', 'month', PARAM_ALPHA) === 'month') {
+            $agenda = (new calendar_agenda((int)$this->page->course->id))->export_for_template($this);
+            return \html_writer::div(
+                \html_writer::div($maincontent, 'diverse-calendar-main') .
+                    $this->render_from_template('theme_diverse/calendar_agenda', $agenda),
+                'diverse-calendar-layout'
+            );
+        }
         if (!$this->is_landing_page()) {
             return $maincontent;
         }

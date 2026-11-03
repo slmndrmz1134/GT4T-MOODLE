@@ -1,15 +1,35 @@
 /****************************************************************
  * DIVERSE calendar (/calendar/view.php).
- * Only styles Moodle's own markup: the month as a white card like the rest of the platform, the month switch as two
- * round buttons around the name, events as soft pills. The day and upcoming views get the same cards.
+ * Only styles Moodle's own markup: the month as a white card like the rest of the platform, each day a rounded tile
+ * with its events as short lines, today in the brand colour; the month switch as two round buttons around the name.
+ * Next to the month, the coming events as cards (templates/calendar_agenda.mustache). The day and upcoming views get
+ * the same cards. Light and dark follow the palette (scss/pre.scss).
  ***************************************************************/
 
-$diverse-calendar-day-height: 7.5rem;
+$diverse-calendar-day-height: 7rem;
+$diverse-calendar-gap: .5rem;
+$diverse-calendar-agenda-width: 21rem;
+
+// The month and the agenda side by side on wide screens, one under the other below.
+.diverse-calendar-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: start;
+
+    @include media-breakpoint-up(xl) {
+        grid-template-columns: minmax(0, 1fr) $diverse-calendar-agenda-width;
+    }
+}
+
+.diverse-calendar-main {
+    min-width: 0;
+}
 
 body#page-calendar-view.diverse-shell {
     .maincalendar {
         .calendarwrapper {
-            padding: 1rem 1.25rem 1.25rem;
+            padding: 1.25rem;
             background-color: $white;
             border: 1px solid $diverse-border;
             border-radius: $card-border-radius;
@@ -21,7 +41,7 @@ body#page-calendar-view.diverse-shell {
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: .75rem;
 
             .previous,
             .next,
@@ -63,44 +83,47 @@ body#page-calendar-view.diverse-shell {
             }
         }
 
+        // The month: a grid of rounded tiles with room between them.
         .calendarmonth {
             width: 100%;
             margin: 0;
             border-collapse: separate;
-            border-spacing: 0;
+            border-spacing: $diverse-calendar-gap;
+            table-layout: fixed;
 
             th {
-                padding: .5rem .75rem;
+                padding: 0 .625rem;
                 border: 0;
-                border-bottom: 1px solid $diverse-border;
                 color: $diverse-grey;
                 font-size: .75rem;
                 font-weight: 600;
                 letter-spacing: .04em;
+                text-align: left;
                 text-transform: uppercase;
             }
 
             td {
-                padding: .5rem;
-                border: 0;
-                border-bottom: 1px solid $diverse-border;
+                padding: .5rem .625rem;
+                vertical-align: top;
+                background-color: $diverse-surface;
+                border: 1px solid $diverse-border;
+                border-radius: $border-radius-lg;
+                transition: border-color .15s ease, background-color .15s ease;
 
-                &:not(:last-child) {
-                    border-right: 1px solid $diverse-border;
-                }
-
-                &.weekend,
                 &.dayblank {
-                    background-color: $diverse-surface;
+                    background-color: transparent;
+                    border-style: dashed;
                 }
 
                 &.clickable:hover {
-                    background-color: $diverse-soft-orange;
+                    border-color: $diverse-action-orange;
                 }
-            }
 
-            tr:last-child td {
-                border-bottom: 0;
+                // Today: the tile in the soft brand colour, its number in a full circle.
+                &.today {
+                    background-color: $diverse-soft-orange;
+                    border-color: $diverse-action-orange;
+                }
             }
 
             .day-number-circle {
@@ -109,26 +132,41 @@ body#page-calendar-view.diverse-shell {
                 justify-content: center;
                 min-width: 1.75rem;
                 height: 1.75rem;
-                font-size: .875rem;
-                font-weight: 600;
+                color: $diverse-ink;
+                font-size: 1rem;
+                font-weight: 700;
             }
 
-            // Events: one soft pill each, the dot keeps the colour of the event type.
-            ul li {
+            td.today .day-number-circle {
+                background-color: $diverse-action-orange;
+                border-radius: 50%;
+                color: $white;
+            }
+
+            td.weekend .day-number-circle {
+                color: $diverse-grey;
+            }
+
+            // Events: a short line each, the bar on the left in the colour of the event type.
+            ul {
                 margin-top: .25rem;
+            }
+
+            ul li {
+                margin-top: .125rem;
                 line-height: 1.3;
 
                 > a {
-                    display: block;
-                    padding: .1875rem .5rem;
-                    background-color: $diverse-soft-orange;
-                    border-radius: .5rem;
+                    display: flex;
+                    align-items: center;
+                    padding: .125rem .25rem;
+                    border-radius: .375rem;
                     color: $diverse-ink;
-                    font-size: .8125rem;
+                    font-size: .75rem;
                     text-decoration: none;
 
                     &:hover {
-                        background-color: $diverse-peach;
+                        background-color: $white;
                         text-decoration: none;
 
                         .eventname {
@@ -137,12 +175,50 @@ body#page-calendar-view.diverse-shell {
                     }
                 }
 
-                .calendar-circle {
-                    width: .5rem;
-                    height: .5rem;
-                    margin-right: .25rem;
-                    border: 0;
+                .eventname {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
+
+                // The bar in the palette, the same colour as the event's card in the agenda; Moodle's pastels
+                // disappear on the tiles.
+                .calendar-circle {
+                    flex-shrink: 0;
+                    width: .1875rem;
+                    height: .75rem;
+                    margin-right: .375rem;
+                    background-color: $diverse-border-strong;
+                    border: 0;
+                    border-radius: 1rem;
+
+                    &.calendar_event_course {
+                        background-color: $diverse-action-orange;
+                    }
+
+                    &.calendar_event_category {
+                        background-color: $diverse-brand-orange;
+                    }
+
+                    &.calendar_event_site {
+                        background-color: $diverse-ink;
+                    }
+
+                    &.calendar_event_group {
+                        background-color: $diverse-success;
+                    }
+
+                    &.calendar_event_user {
+                        background-color: $diverse-grey;
+                    }
+                }
+            }
+
+            [data-action="view-more-events"] a,
+            .view-more {
+                color: $diverse-action-orange;
+                font-size: .75rem;
+                font-weight: 600;
             }
         }
     }
@@ -175,10 +251,10 @@ body#page-calendar-view.diverse-shell {
         margin-top: .75rem;
     }
 
-    // Phones: the month keeps its grid, the day numbers stay readable.
+    // Phones: the month keeps its grid, the tiles close together, the day numbers readable.
     @include media-breakpoint-down(md) {
         .maincalendar .calendarwrapper {
-            padding: .75rem;
+            padding: .5rem;
         }
 
         .maincalendar .calendar-controls .current {
@@ -194,8 +270,174 @@ body#page-calendar-view.diverse-shell {
             }
         }
 
-        .maincalendar .calendarmonth td {
-            padding: .25rem 0;
+        .maincalendar .calendarmonth {
+            border-spacing: .1875rem;
+
+            th {
+                padding: 0;
+                text-align: center;
+            }
+
+            td {
+                padding: .25rem;
+                border-radius: $border-radius;
+                text-align: center;
+            }
+        }
+
+        #region-main .maincalendar .calendarwrapper td > div {
+            height: 3.5rem;
         }
     }
+}
+
+// The agenda: today's date, then the coming events day by day, each a card with a bar in its colour.
+.diverse-agenda {
+    padding: 1.25rem;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+
+    @include media-breakpoint-up(xl) {
+        position: sticky;
+        top: 1.25rem;
+    }
+
+    ul {
+        display: grid;
+        gap: .625rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.diverse-agenda-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    h2 {
+        margin: 0;
+        font-size: 1.125rem;
+    }
+
+    small {
+        color: $diverse-grey;
+        font-size: .8125rem;
+    }
+}
+
+.diverse-agenda-more {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid $diverse-border-strong;
+    border-radius: 50%;
+    color: $diverse-ink;
+
+    &:hover,
+    &:focus-visible {
+        border-color: $diverse-action-orange;
+        color: $diverse-action-orange;
+    }
+}
+
+.diverse-agenda-day {
+    + .diverse-agenda-day {
+        margin-top: 1.25rem;
+    }
+
+    // The day as a line across, like the hours of the draft.
+    h3 {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        margin: 0 0 .625rem;
+        color: $diverse-grey;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+
+        &::after {
+            flex: 1;
+            height: 1px;
+            background-color: $diverse-border;
+            content: "";
+        }
+    }
+}
+
+.diverse-agenda-event {
+    a {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+        padding: .875rem 1rem 1rem;
+        background-color: $diverse-surface;
+        border: 1px solid $diverse-border;
+        border-top: .25rem solid var(--diverse-agenda-colour);
+        border-radius: $border-radius-lg;
+        color: $diverse-ink;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--diverse-agenda-colour);
+            color: $diverse-ink;
+            text-decoration: none;
+        }
+    }
+}
+
+.diverse-agenda-kind-course {
+    --diverse-agenda-colour: #{$diverse-action-orange};
+}
+
+.diverse-agenda-kind-site {
+    --diverse-agenda-colour: #{$diverse-ink};
+}
+
+.diverse-agenda-kind-category {
+    --diverse-agenda-colour: #{$diverse-brand-orange};
+}
+
+.diverse-agenda-kind-group {
+    --diverse-agenda-colour: #{$diverse-success};
+}
+
+.diverse-agenda-kind-user {
+    --diverse-agenda-colour: #{$diverse-grey};
+}
+
+.diverse-agenda-name {
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.diverse-agenda-event .diverse-agenda-course {
+    color: $diverse-grey;
+    font-size: .8125rem;
+}
+
+.diverse-agenda-time {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .25rem .75rem;
+    margin-top: .375rem;
+    padding-top: .5rem;
+    border-top: 1px solid $diverse-border;
+    color: $diverse-grey;
+    font-size: .8125rem;
+}
+
+.diverse-agenda-empty {
+    margin: 0;
+    color: $diverse-grey;
 }

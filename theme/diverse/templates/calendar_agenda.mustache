@@ -1,0 +1,58 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_diverse/calendar_agenda
+
+    The agenda next to the month of the calendar: the coming events day by day, each a card with a bar in the colour
+    of its kind (classes/output/calendar_agenda.php).
+
+    Example context (json):
+    {
+        "today": "Tuesday, 3 November", "upcomingurl": "#", "hasevents": true,
+        "days": [{"label": "Today", "events": [{"name": "Weekly lecture", "url": "#", "course": "Business Law",
+            "time": "10:00 – 11:00", "duration": "1 hour", "kind": "course"}]}]
+    }
+}}
+<aside class="diverse-agenda" aria-labelledby="diverse-agenda-title">
+    <div class="diverse-agenda-head">
+        <div>
+            <h2 id="diverse-agenda-title">{{#str}}upcomingevents, calendar{{/str}}</h2>
+            <small>{{today}}</small>
+        </div>
+        <a class="diverse-agenda-more" href="{{upcomingurl}}" aria-label="{{#str}}upcomingevents, calendar{{/str}}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
+    {{#days}}
+    <section class="diverse-agenda-day">
+        <h3>{{label}}</h3>
+        <ul>
+            {{#events}}
+            <li class="diverse-agenda-event diverse-agenda-kind-{{kind}}">
+                <a href="{{url}}">
+                    <span class="diverse-agenda-name">{{name}}</span>
+                    {{#course}}<span class="diverse-agenda-course">{{course}}</span>{{/course}}
+                    <span class="diverse-agenda-time">
+                        <span><i class="fa fa-clock" aria-hidden="true"></i> {{time}}</span>
+                        {{#duration}}<span>{{duration}}</span>{{/duration}}
+                    </span>
+                </a>
+            </li>
+            {{/events}}
+        </ul>
+    </section>
+    {{/days}}
+    {{^hasevents}}<p class="diverse-agenda-empty">{{#str}}noupcomingevents, calendar{{/str}}</p>{{/hasevents}}
+</aside>
