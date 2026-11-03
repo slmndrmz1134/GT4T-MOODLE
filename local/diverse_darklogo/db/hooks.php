@@ -26,6 +26,10 @@ defined('MOODLE_INTERNAL') || die();
 
 $callbacks = [
     [
+        'hook' => \core\hook\output\before_footer_html_generation::class,
+        'callback' => \local_diverse_darklogo\hook_callbacks::class . '::before_footer_html_generation',
+    ],
+    [
         'hook' => \tool_mutenancy\hook\tenant_management_menu::class,
         'callback' => \local_diverse_darklogo\hook_callbacks::class . '::tenant_management_menu',
     ],

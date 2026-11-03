@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Donkere logo’s bewerken';
 $string['intro'] = 'Deze logo’s worden op de donkere pagina’s van het platform getoond in plaats van de gewone. Ze zijn gemaakt voor een donkere achtergrond, met lichte letters. Zonder worden de gewone logo’s automatisch lichter gemaakt.';
 $string['logo'] = 'Donker logo';
 $string['logo_desc'] = 'Het volledige logo, getoond als het menu open is.';

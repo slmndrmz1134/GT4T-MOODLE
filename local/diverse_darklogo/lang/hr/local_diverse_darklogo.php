@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Uredi tamne logotipe';
 $string['intro'] = 'Ovi se logotipi prikazuju na tamnim stranicama platforme umjesto uobičajenih. Izrađeni su za tamnu pozadinu, sa svijetlim tekstom. Bez njih se uobičajeni logotipi automatski posvjetljuju.';
 $string['logo'] = 'Tamni logotip';
 $string['logo_desc'] = 'Puni logotip, prikazan kad je izbornik otvoren.';

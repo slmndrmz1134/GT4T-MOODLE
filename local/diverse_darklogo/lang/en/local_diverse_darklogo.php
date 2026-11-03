@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Edit dark logos';
 $string['intro'] = 'These logos show on the dark pages of the platform instead of the normal ones. They are drawn for a dark background, with light lettering. Without them, the normal logos are lightened automatically.';
 $string['logo'] = 'Dark logo';
 $string['logo_desc'] = 'The full logo, shown when the menu is open.';

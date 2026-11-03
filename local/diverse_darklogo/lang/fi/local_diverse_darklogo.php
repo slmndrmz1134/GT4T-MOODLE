@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Muokkaa tummia logoja';
 $string['intro'] = 'Nämä logot näytetään alustan tummilla sivuilla tavallisten sijaan. Ne on tehty tummalle taustalle vaalealla tekstillä. Ilman niitä tavalliset logot vaalennetaan automaattisesti.';
 $string['logo'] = 'Tumma logo';
 $string['logo_desc'] = 'Koko logo, joka näkyy valikon ollessa auki.';

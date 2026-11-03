@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Koyu tema logolarını düzenle';
 $string['intro'] = 'Bu logolar platformun koyu sayfalarında normal logoların yerine gösterilir. Koyu zemin için, açık renkli yazıyla hazırlanmalıdır. Yüklenmezse normal logolar otomatik olarak açılaştırılır.';
 $string['logo'] = 'Koyu tema logosu';
 $string['logo_desc'] = 'Menü açıkken gösterilen tam logo.';

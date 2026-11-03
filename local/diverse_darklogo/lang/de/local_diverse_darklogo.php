@@ -24,6 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['appearance_edit'] = 'Dunkle Logos bearbeiten';
 $string['intro'] = 'Diese Logos erscheinen auf den dunklen Seiten der Plattform anstelle der normalen. Sie sind für einen dunklen Hintergrund gestaltet, mit heller Schrift. Ohne sie werden die normalen Logos automatisch aufgehellt.';
 $string['logo'] = 'Dunkles Logo';
 $string['logo_desc'] = 'Das vollständige Logo bei geöffnetem Menü.';
