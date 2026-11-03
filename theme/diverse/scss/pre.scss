@@ -27,6 +27,8 @@ $diverse-success-soft: #EAF5EF;
 $diverse-danger: #B42318;              // Errors only; clearly darker and redder than the brand orange (6.57:1).
 $diverse-on-dark-muted: #D4D4D8;       // Secondary text on the dark ink footer (9.9:1 on ink).
 $diverse-track: #EDEDEF;               // Progress bar track.
+$diverse-photo-shade: rgba($diverse-ink, .82);      // Ink over photos, so white text stays readable.
+$diverse-photo-shade-soft: rgba($diverse-ink, .35);
 
 // Bootstrap / Moodle theme colours.
 $primary: $diverse-action-orange;

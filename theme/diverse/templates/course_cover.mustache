@@ -17,21 +17,14 @@
 {{!
     @template theme_diverse/course_cover
 
-    Cover of a course: its image, or a DIVERSE pattern when it has none.
+    Cover of a course: its image, or its initials on a brand colour when it has none.
 
     Example context (json):
     {
-        "hasimage": false, "imageurl": "", "coverstyle": "brand", "isplus": true
+        "hasimage": false, "imageurl": "", "coverstyle": "brand", "initials": "BL"
     }
 }}
 <span class="diverse-course-cover diverse-course-cover-{{coverstyle}}" aria-hidden="true">
     {{#hasimage}}<img class="diverse-course-img" src="{{imageurl}}" alt="">{{/hasimage}}
-    {{^hasimage}}
-    <svg class="diverse-course-shape" viewBox="0 0 100 100">
-        {{#isring}}<circle cx="50" cy="50" r="30" fill="none" stroke="currentColor" stroke-width="12"></circle>{{/isring}}
-        {{#isplus}}<path d="M50 20v60M20 50h60" stroke="currentColor" stroke-width="14" stroke-linecap="round" fill="none"></path>{{/isplus}}
-        {{#ishalf}}<path d="M10 72a40 40 0 0 1 80 0z" fill="currentColor"></path>{{/ishalf}}
-        {{#ishash}}<path d="M40 18L34 82M68 18L62 82M20 38h64M16 62h64" stroke="currentColor" stroke-width="10" stroke-linecap="round" fill="none"></path>{{/ishash}}
-    </svg>
-    {{/hasimage}}
+    {{^hasimage}}<span class="diverse-course-initials">{{initials}}</span>{{/hasimage}}
 </span>

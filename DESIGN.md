@@ -101,6 +101,11 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
 - **İkonlar:** Lucide (`pix/icons`, `icons.scss`), mesaj balonu DIVERSE'e özel oval çizim. Moodle'ın işaretlemesi değişmez, yalnızca
   çizim değişir; listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.
 - **Ders kartları:** kayıtlı olunan derste sağ üstte favori yıldızı, kapakta etkinlik sayacı, üstte tür etiketi, altta ilerleme ve eylem düğmesi (Başla, Devam et, Görüntüle). Başlık 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
+- **Etiketler (eyebrow, rozet, ders kodu):** butonlarla aynı köşe (`$btn-border-radius`), oval değil.
+- **Landing hero'su:** `pix/hero.jpg` (amfide öğrenciler, Vitaly Gariev, Unsplash lisansı; proje sahibinin seçimi), üzerinde
+  `$diverse-photo-shade` koyu katmanı ve beyaz yazı. Partner kampüs fotoğrafları partner kartlarında görünür. Altında partner logoları şeridi. Platformda ve landing'de dekoratif kare desen kullanılmaz
+  (proje sahibinin kararı, Kasım 2026); kare desen yalnızca giriş sayfasında kalır.
+- **Ders kapakları:** dersin görseli, yoksa marka renkli zemin üzerinde dersin baş harfleri.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
   (ink/turuncu, soft/ink, turuncu/ink, şeftali/ink...). Yeni zemin/yazı eşleşmesi kontrast ölçülmeden eklenmez.
 

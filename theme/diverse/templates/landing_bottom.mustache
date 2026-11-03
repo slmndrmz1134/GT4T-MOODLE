@@ -21,10 +21,25 @@
 
     Example context (json):
     {
-        "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#"
+        "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#",
+        "ctatext": "Courses from 8 partners in 5 countries, in one place."
     }
 }}
 <div class="diverse-landing">
+    <section class="diverse-cta" aria-labelledby="diverse-cta-title">
+        <div class="diverse-cta-inner">
+            <div>
+                <h2 class="diverse-cta-title" id="diverse-cta-title">{{#str}}cta_title, theme_diverse{{/str}}</h2>
+                <p class="diverse-cta-text">{{ctatext}}</p>
+            </div>
+            <div class="diverse-hero-actions">
+                <a class="btn btn-lg diverse-btn-ink" href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
+                    {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}{{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
+                </a>
+                <a class="btn btn-lg diverse-btn-outline-ink" href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
+            </div>
+        </div>
+    </section>
     <div class="diverse-landing-footer-wrap">
         <div class="diverse-landing-footer">
             <div class="diverse-landing-footer-about">
