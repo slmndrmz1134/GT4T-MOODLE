@@ -439,7 +439,9 @@ if (!$guide) {
             if ($section->section == 0 || !str_contains($name, $info['section'])) {
                 continue;
             }
-            if (!empty($section->availability)) {
+            // Moodle keeps an empty tree ({"op":"&","c":[],...}) once a section's restrictions were edited: no restriction.
+            $restriction = json_decode((string)$section->availability);
+            if (!empty($restriction->c)) {
                 diverse_setup_report('OK', "Guide section \"{$section->name}\" already has a restriction: left as is.");
             } else if ($dryrun) {
                 diverse_setup_report('WOULD', "Show the guide section \"{$section->name}\" only to {$info['name']}.");
