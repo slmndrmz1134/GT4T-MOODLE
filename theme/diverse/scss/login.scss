@@ -54,15 +54,6 @@ $diverse-login-panel-width: 42vw;
     margin-block: auto;
 }
 
-.diverse-pattern-small {
-    display: grid;
-    grid-template-columns: repeat(4, 5.5rem);
-
-    .diverse-tile {
-        min-height: 5.5rem;
-    }
-}
-
 .diverse-login-brand-title {
     margin: 0;
     max-width: 30rem;
@@ -124,11 +115,6 @@ $diverse-login-panel-width: 42vw;
 
     .diverse-login-brand-body {
         margin-bottom: 0;
-    }
-
-    // The pattern stands in for a missing photo only (it stays in the markup for the signup page's partner switch).
-    .diverse-pattern-small {
-        display: none;
     }
 }
 
@@ -201,5 +187,56 @@ $diverse-login-panel-width: 42vw;
     .btn-primary {
         padding: .625rem 1.75rem;
         font-weight: 600;
+    }
+}
+
+// The form itself: tall fields, a full-width button and quieter section headings.
+.login-form {
+    .form-control {
+        min-height: 3rem;
+    }
+
+    #loginbtn {
+        width: 100%;
+        padding: .75rem 1.75rem;
+    }
+}
+
+.loginform {
+    .login-heading:not(.visually-hidden) {
+        font-size: 1.125rem;
+    }
+
+    .login-divider {
+        margin: 1.5rem 0;
+        border-top: 1px solid $diverse-border;
+    }
+
+    .login-signup .btn,
+    #guestlogin .btn {
+        width: 100%;
+    }
+}
+
+// Large screens: no card next to the photo; the page title becomes visible above the fields.
+@include media-breakpoint-up(lg) {
+    body.pagelayout-login .login-container {
+        width: 100%;
+        max-width: 28rem;
+        padding: 2rem 0;
+        border: 0;
+        box-shadow: none;
+    }
+
+    .loginform h1.login-heading.visually-hidden {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        margin: 1.5rem 0 1.75rem !important;
+        overflow: visible !important;
+        clip: auto !important;
+        white-space: normal !important;
+        font-size: 2rem;
+        line-height: 1.15;
     }
 }

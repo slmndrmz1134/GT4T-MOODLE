@@ -296,7 +296,8 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
      * @return array name, intro, photourl, ispartner
      */
     protected function login_brand_content(?\stdClass $partner, bool $signup): array {
-        $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0);
+        // Without an uploaded photo the panel shows the landing page's photo, so it never falls back to a bare colour.
+        $photo = partners::file_url(partners::PHOTO_AREA, $partner ? $partner->id : 0) ?? $this->image_url('hero', 'theme_diverse');
         if ($partner) {
             $intro = get_string($signup ? 'signup_partner_intro' : 'login_partner_intro', 'theme_diverse', $partner->name);
         } else {
