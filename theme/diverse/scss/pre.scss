@@ -122,6 +122,9 @@ $diverse-photo-shade-soft: rgba($diverse-ink, .35);
 
 // Bootstrap / Moodle theme colours.
 $primary: $diverse-action-orange;
+// Bootstrap picks the text colour of buttons and badges by contrast; at its 4.5:1 the brand orange gets black text.
+// 2.5:1 gives it white text (2.9:1, the project owner's choice), and card-coloured text in dark mode.
+$min-contrast-ratio: 2.5;
 
 // Activity icons in the palette instead of Moodle's own pink, blue and purple.
 $activity-icon-administration-bg: $diverse-action-orange;
