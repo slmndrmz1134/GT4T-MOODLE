@@ -1,8 +1,29 @@
 /****************************************************************
- * DIVERSE Site administration overview (admin/search.php):
- * every category as a card; the tabs are the common ones in platform.scss.
+ * DIVERSE Site administration and Preferences.
+ * - Overview (admin/search.php): quick-access tiles (templates/admin_shortcuts.mustache), then every category as a
+ *   card; the tabs are the common ones in platform.scss.
+ * - Search results: every settings page found as one card, its place in the menu above its settings.
+ * - Settings pages: one white card, each setting a row with its name above the field, like a form.
+ * - Preferences (user/preferences.php): the same cards as the overview.
  * Only restyles Moodle's own markup; no admin page, plugin or setting is changed.
  ***************************************************************/
+
+// The overview and the preferences: cards of links that flow in columns, so long and short lists pack tightly.
+@mixin diverse-link-cards {
+    padding: 0;
+    column-width: 19rem;
+    column-gap: 1.25rem;
+}
+
+@mixin diverse-link-card {
+    display: block;
+    margin: 0 0 1.25rem;
+    padding: 1.25rem 1.5rem;
+    break-inside: avoid;
+    background-color: $white;
+    border: 1px solid $diverse-border;
+    border-radius: $card-border-radius;
+}
 
 #page-admin-search {
     // Cards sit on the light surface instead of one long white sheet.
@@ -20,22 +41,14 @@
     // Each category becomes a card. Cards flow in columns, so long and short
     // link lists pack tightly without gaps.
     .tab-pane > .container-fluid {
-        padding: 0;
-        column-width: 19rem;
-        column-gap: 1.25rem;
+        @include diverse-link-cards;
 
         > hr {
             display: none;
         }
 
         > .row {
-            display: block;
-            margin: 0 0 1.25rem;
-            padding: 1.25rem 1.5rem;
-            break-inside: avoid;
-            background-color: $white;
-            border: 1px solid $diverse-border;
-            border-radius: $card-border-radius;
+            @include diverse-link-card;
 
             // A tab's own top category often has no direct links: no empty card for it.
             &:not(:has(li)) {
@@ -82,4 +95,251 @@
             }
         }
     }
+}
+
+// Quick access above the overview.
+.diverse-admin-shortcuts {
+    margin-bottom: 1.5rem;
+
+    h2 {
+        margin: 0 0 .75rem;
+        font-size: 1.125rem;
+    }
+
+    ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        gap: .75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        height: 100%;
+        padding: .875rem 1rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+        color: $diverse-ink;
+        font-weight: 600;
+        line-height: 1.3;
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            border-color: $diverse-action-orange;
+            color: $diverse-action-orange;
+        }
+    }
+
+    .diverse-stat-icon {
+        flex-shrink: 0;
+    }
+}
+
+// Search results: each page found is one card. Moodle writes its title, its path and its settings one after the
+// other, so the three pieces draw one card together.
+#page-admin-search {
+    form > fieldset > h2.main {
+        margin: 1.5rem 0 1rem;
+        font-size: 1.25rem;
+    }
+
+    .adminpagetitle,
+    .adminpagepath,
+    fieldset.adminsettings {
+        margin: 0;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+    }
+
+    .adminpagetitle {
+        padding: 1.25rem 1.5rem .25rem;
+        border-bottom: 0;
+        border-radius: $card-border-radius $card-border-radius 0 0;
+        font-size: 1.125rem;
+
+        a {
+            color: $diverse-ink;
+            text-decoration: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $diverse-action-orange;
+            }
+        }
+    }
+
+    // Where the page is in the menu, as a quiet breadcrumb under its title.
+    .adminpagepath {
+        padding: 0 1.5rem 1rem;
+        border-top: 0;
+        border-bottom: 0;
+
+        li {
+            color: $diverse-grey !important;
+        }
+    }
+
+    fieldset.adminsettings {
+        margin-bottom: 1.25rem;
+        padding: 0 1.5rem .5rem;
+        border-top: 1px solid $diverse-border;
+        border-radius: 0 0 $card-border-radius $card-border-radius;
+
+        &:not(:has(.form-item)) {
+            padding-bottom: 0;
+        }
+    }
+
+    // The highlighted search words.
+    .highlight,
+    .highlight2 {
+        padding: 0 .125rem;
+        background-color: $diverse-peach;
+        border-radius: .25rem;
+        color: $diverse-ink;
+    }
+}
+
+// Settings, on their page and in the search results: the name above the field, one row per setting.
+#adminsettings {
+    // A settings page: its title, then its settings in one card.
+    .settingsform > h2 {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+    }
+
+    .settingsform > fieldset {
+        padding: .5rem 2rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+    }
+
+    .form-item.row {
+        margin: 0;
+        padding: 1.25rem 0;
+        border-top: 1px solid $diverse-border;
+
+        > .form-label,
+        > .form-setting {
+            flex: 0 0 100%;
+            width: 100%;
+            max-width: 100%;
+            padding-right: 0;
+            padding-left: 0;
+            text-align: left !important;
+        }
+
+        > .form-label {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: .25rem .75rem;
+            margin-bottom: .5rem;
+
+            label {
+                margin: 0;
+                color: $diverse-ink;
+                font-weight: 700;
+            }
+
+            .form-shortname {
+                display: inline !important;
+                color: $diverse-grey !important;
+                font-family: $font-family-monospace;
+                font-size: .75rem;
+            }
+        }
+
+        .form-text,
+        .form-defaultinfo {
+            color: $diverse-grey !important;
+            font-size: .875rem;
+        }
+
+        // Long lists and wide fields stay inside the card on small screens.
+        select,
+        input,
+        textarea,
+        .defaultsnext {
+            max-width: 100%;
+        }
+    }
+
+    // No line above the first setting of a card.
+    fieldset > .clearer:first-child + .form-item.row {
+        border-top: 0;
+    }
+
+    // Section headings inside a page.
+    .form-item.row:has(> .col-sm-9 > h3),
+    h3.main {
+        margin-top: 1rem;
+        font-size: 1.125rem;
+    }
+
+    // The save button under the settings, on the left like the fields.
+    .row:has(> .offset-sm-3) {
+        margin: 1.25rem 0 0;
+
+        > .offset-sm-3 {
+            margin-left: 0;
+            padding: 0;
+        }
+    }
+}
+
+// Preferences: the same cards as the site administration.
+#page-user-preferences #region-main {
+    .container-fluid > .row {
+        @include diverse-link-cards;
+        display: block;
+        margin: 0;
+
+        > .col-md-4 {
+            width: auto;
+            max-width: none;
+            padding: 0;
+        }
+    }
+
+    .card {
+        @include diverse-link-card;
+        box-shadow: none;
+
+        .card-body {
+            padding: 0;
+        }
+
+        .card-title {
+            margin: 0 0 .75rem;
+            font-size: 1.25rem;
+        }
+
+        li + li {
+            margin-top: .375rem;
+        }
+
+        a {
+            color: $diverse-ink;
+            text-decoration: none;
+
+            &:hover,
+            &:focus-visible {
+                color: $diverse-action-orange;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// Moodle offers the users a message button to themselves above their own preferences.
+#page-user-preferences .page-context-header .header-button-group {
+    display: none;
 }

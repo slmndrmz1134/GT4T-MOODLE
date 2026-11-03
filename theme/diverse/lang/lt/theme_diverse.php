@@ -265,6 +265,9 @@ $string['course_section_done'] = 'Atlikta {$a->done} iš {$a->total}';
 // Login page: the way back to the public site.
 $string['login_back'] = 'Atgal į pradžią';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Greitoji prieiga';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Žalios spalvos (GT4T)';
 $string['palette_toorange'] = 'Oranžinės spalvos (DIVERSE)';

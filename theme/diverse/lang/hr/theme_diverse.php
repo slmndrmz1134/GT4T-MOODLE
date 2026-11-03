@@ -265,6 +265,9 @@ $string['course_section_done'] = '{$a->done} od {$a->total} dovršeno';
 // Login page: the way back to the public site.
 $string['login_back'] = 'Natrag na početnu';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Brzi pristup';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Zelene boje (GT4T)';
 $string['palette_toorange'] = 'Narančaste boje (DIVERSE)';

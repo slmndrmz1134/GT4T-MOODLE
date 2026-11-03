@@ -265,6 +265,9 @@ $string['course_section_done'] = '{$a->done} van {$a->total} voltooid';
 // Login page: the way back to the public site.
 $string['login_back'] = 'Terug naar home';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Snelle toegang';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Groene kleuren (GT4T)';
 $string['palette_toorange'] = 'Oranje kleuren (DIVERSE)';

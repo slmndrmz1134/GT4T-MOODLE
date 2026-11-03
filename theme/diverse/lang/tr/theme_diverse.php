@@ -265,6 +265,9 @@ $string['course_section_done'] = '{$a->total} etkinlikten {$a->done} tamamlandı
 // Login page: the way back to the public site.
 $string['login_back'] = 'Ana sayfaya dön';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Hızlı erişim';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Yeşil renkler (GT4T)';
 $string['palette_toorange'] = 'Turuncu renkler (DIVERSE)';

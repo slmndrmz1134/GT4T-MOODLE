@@ -265,6 +265,9 @@ $string['course_section_done'] = '{$a->done} as {$a->total} críochnaithe';
 // Login page: the way back to the public site.
 $string['login_back'] = 'Ar ais go dtí an baile';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Rochtain thapa';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Dathanna glasa (GT4T)';
 $string['palette_toorange'] = 'Dathanna oráiste (DIVERSE)';

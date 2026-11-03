@@ -265,6 +265,9 @@ $string['course_section_done'] = '{$a->done} din {$a->total} finalizate';
 // Login page: the way back to the public site.
 $string['login_back'] = 'Înapoi la pagina principală';
 
+// Site administration: the tiles above the menu.
+$string['admin_shortcuts'] = 'Acces rapid';
+
 // Colour palette (user menu).
 $string['palette_togreen'] = 'Culori verzi (GT4T)';
 $string['palette_toorange'] = 'Culori portocalii (DIVERSE)';

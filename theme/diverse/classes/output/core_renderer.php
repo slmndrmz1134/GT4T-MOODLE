@@ -128,6 +128,12 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 (new course_aside($this->page->course))->export_for_template($this));
             return \html_writer::div(\html_writer::div($maincontent, 'diverse-course-main') . $aside, 'diverse-course-layout');
         }
+        // Site administration: the pages opened most as tiles above Moodle's full menu, not above search results.
+        if ($this->page->pagetype === 'admin-search' && optional_param('query', '', PARAM_RAW) === '' &&
+                has_capability('moodle/site:config', \context_system::instance())) {
+            return $this->render_from_template('theme_diverse/admin_shortcuts', ['items' => $this->admin_shortcuts()]) .
+                $maincontent;
+        }
         // Messages and notifications: the page's title in the title row, the app in a card under it.
         if ($this->is_messaging_page()) {
             $message = $this->page->pagetype === 'message-index';
@@ -246,6 +252,40 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         }
         return $this->page->pagetype === 'my-index' || $this->page->pagelayout === 'mycourses' ||
             $this->page->pagetype === 'local-diverse_catalog-index' || $this->is_course_tab() || $this->is_messaging_page();
+    }
+
+    /**
+     * The tiles above the site administration: the pages of the plugins this site has.
+     *
+     * @return array label, url, icon
+     */
+    protected function admin_shortcuts(): array {
+        $pages = [
+            ['/admin/user.php', get_string('userlist', 'admin'), 'fa-users'],
+            ['/user/editadvanced.php?id=-1', get_string('addnewuser'), 'fa-user-plus'],
+            ['/course/management.php', get_string('coursemgmt', 'admin'), 'fa-book'],
+            ['/cohort/index.php', get_string('cohorts', 'cohort'), 'fa-people-group'],
+        ];
+        if (\core_component::get_component_directory('tool_mutenancy')) {
+            $pages[] = ['/admin/tool/mutenancy/index.php', get_string('tenants', 'tool_mutenancy'), 'fa-building'];
+        }
+        $pages[] = ['/admin/settings.php?section=theme_diverse', get_string('appearance', 'admin'), 'fa-palette'];
+        if (\core_component::get_component_directory('mod_bigbluebuttonbn')) {
+            $pages[] = ['/admin/settings.php?section=modsettingbigbluebuttonbn', get_string('modulename', 'bigbluebuttonbn'),
+                'fa-video'];
+        }
+        if (\core_component::get_component_directory('local_diverse_assistant')) {
+            $pages[] = ['/admin/settings.php?section=local_diverse_assistant',
+                get_string('pluginname', 'local_diverse_assistant'), 'fa-wand-magic-sparkles'];
+        }
+        $pages[] = ['/admin/plugins.php', get_string('pluginsoverview', 'core_admin'), 'fa-puzzle-piece'];
+        $pages[] = ['/admin/index.php', get_string('notifications', 'admin'), 'fa-bell'];
+
+        return array_map(fn($page) => [
+            'url' => (new \core\url($page[0]))->out(false),
+            'label' => $page[1],
+            'icon' => $page[2],
+        ], $pages);
     }
 
     /**
