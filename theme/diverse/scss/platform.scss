@@ -1791,7 +1791,7 @@ body.path-mod-book #region-main .book_content {
 
     @include media-breakpoint-up(xl) {
         position: sticky;
-        top: calc(#{$navbar-height} + 1.25rem);
+        top: 1.25rem;
         grid-template-columns: minmax(0, 1fr);
     }
 
@@ -2575,12 +2575,17 @@ body#page-local-diverse_catalog-index .diverse-navbar-search {
     align-items: start;
     gap: 1rem;
 
+    // The courses first, the filters on the right of them.
     @include media-breakpoint-up(lg) {
-        grid-template-columns: 17.5rem minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 17.5rem;
     }
 }
 
 .diverse-catalog-filters {
+    @include media-breakpoint-up(lg) {
+        order: 2;
+    }
+
     display: flex;
     flex-direction: column;
     background-color: $white;
