@@ -80,6 +80,16 @@ class dashboard implements renderable, templatable {
         }
         if ($learning) {
             $data['learning'] = $this->export_learning($learning, $output);
+            $data['learning']['kpis'] = $this->export_kpis($data['learning']['allcards'], $todo['duethisweek']);
+            unset($data['learning']['allcards']);
+            $first = $data['learning']['resume'][0] ?? null;
+            if ($first) {
+                $data['hero'] = [
+                    'url' => $first['url'],
+                    'label' => $first['action'],
+                    'next' => get_string('dash_hero_next', 'theme_diverse', $first['next'] ?: $first['name']),
+                ];
+            }
         }
         // A site administrator is usually enrolled for support, not to teach: the site comes first for them.
         if ($teaching && !$isadmin) {
@@ -125,6 +135,69 @@ class dashboard implements renderable, templatable {
     }
 
     /**
+     * Four figures at the top of a student's dashboard, all from the user's own courses and calendar.
+     *
+     * @param array $cards Course cards (see catalog::cards()).
+     * @param int $due Number of activities due from now until the end of the week.
+     * @return array[] value, label, icon, ring, progress
+     */
+    protected function export_kpis(array $cards, int $due): array {
+        $tracked = array_filter($cards, fn($card) => !empty($card['hasprogress']));
+        $completed = count(array_filter($tracked, fn($card) => $card['progress'] >= 100));
+        $average = $tracked ? (int)round(array_sum(array_column($tracked, 'progress')) / count($tracked)) : null;
+        $kpis = [
+            ['value' => count($cards), 'label' => get_string('dash_kpi_courses', 'theme_diverse'), 'icon' => 'fa-book'],
+            ['value' => $completed . ' / ' . count($cards), 'label' => get_string('dash_kpi_completed', 'theme_diverse'),
+                'icon' => 'fa-circle-check'],
+            ['value' => $due, 'label' => get_string('dash_kpi_due', 'theme_diverse'), 'icon' => 'fa-calendar'],
+        ];
+        // Without completion tracking there is no progress to average: the figure is left out rather than shown as 0.
+        if ($average !== null) {
+            $kpis[] = ['value' => $average . '%', 'label' => get_string('dash_kpi_progress', 'theme_diverse'),
+                'ring' => true, 'progress' => $average];
+        }
+        return $kpis;
+    }
+
+    /**
+     * How much the user did on each day of the current week, counted from the standard log.
+     *
+     * @return array|null bars (label, count, height, today, description), or null without a readable log.
+     */
+    protected function get_activity(): ?array {
+        global $USER;
+
+        $readers = get_log_manager()->get_readers('\core\log\sql_reader');
+        $reader = reset($readers);
+        if (!$reader) {
+            return null;
+        }
+        $now = time();
+        $monday = usergetmidnight($now) - ((int)userdate($now, '%u') - 1) * DAYSECS;
+        $bars = [];
+        for ($day = 0; $day < 7; $day++) {
+            $start = usergetmidnight($monday + $day * DAYSECS + 12 * HOURSECS);
+            $end = usergetmidnight($start + DAYSECS + 12 * HOURSECS);
+            $count = $start > $now ? 0 : $reader->get_events_select_count(
+                'userid = :userid AND timecreated >= :start AND timecreated < :end',
+                ['userid' => $USER->id, 'start' => $start, 'end' => $end]
+            );
+            $label = userdate($start, '%a');
+            $bars[] = [
+                'label' => $label,
+                'count' => $count,
+                'today' => $start <= $now && $now < $end,
+                'description' => get_string('dash_activity_day', 'theme_diverse', (object)['day' => $label, 'count' => $count]),
+            ];
+        }
+        $max = max(array_column($bars, 'count'));
+        foreach ($bars as &$bar) {
+            $bar['height'] = $max ? max(4, (int)round($bar['count'] / $max * 100)) : 4;
+        }
+        return ['bars' => $bars, 'empty' => $max === 0];
+    }
+
+    /**
      * The student part: where to continue, course progress and recent grades.
      *
      * @param \stdClass[] $courses
@@ -159,8 +232,12 @@ class dashboard implements renderable, templatable {
         }
 
         $recentgrades = $this->get_recent_grades($courses);
+        $activity = $this->get_activity();
         return [
             'resume' => $resume,
+            'allcards' => $cards,
+            'activity' => $activity,
+            'hasactivity' => $activity !== null,
             'courses' => array_slice($cards, 0, self::MAX_COURSES),
             'hascourses' => !empty($cards),
             'more' => count($cards) > self::MAX_COURSES,
@@ -318,6 +395,10 @@ class dashboard implements renderable, templatable {
         $overdue = 0;
         $total = 0;
         $courses = [];
+        $monday = usergetmidnight($now) - ((int)userdate($now, '%u') - 1) * DAYSECS;
+        $sunday = usergetmidnight($monday + 6 * DAYSECS + 12 * HOURSECS) + DAYSECS;
+        $busy = [];
+        $duethisweek = 0;
         foreach ($events as $event) {
             $action = $event->get_action();
             if (!$action || !$event->get_course()) {
@@ -325,6 +406,10 @@ class dashboard implements renderable, templatable {
             }
             $time = $event->get_times()->get_sort_time()->getTimestamp();
             $key = $time < $now ? 'overdue' : ($time < $endoftoday ? 'today' : ($time < $endofweek ? 'week' : 'later'));
+            if ($time >= $monday && $time < $sunday) {
+                $busy[usergetmidnight($time)] = true;
+                $duethisweek += $time >= $now ? 1 : 0;
+            }
             $total++;
             $overdue += $key === 'overdue' ? 1 : 0;
             if ($total > self::MAX_TODO) {
@@ -347,8 +432,22 @@ class dashboard implements renderable, templatable {
             ];
         }
 
+        // The current week, Monday first, with a mark on the days that have something due.
+        $week = [];
+        for ($day = 0; $day < 7; $day++) {
+            $start = usergetmidnight($monday + $day * DAYSECS + 12 * HOURSECS);
+            $week[] = [
+                'weekday' => userdate($start, '%a'),
+                'day' => userdate($start, '%d'),
+                'today' => $start === usergetmidnight($now),
+                'busy' => isset($busy[$start]),
+            ];
+        }
+
         $visible = array_values(array_filter($groups, fn($group) => !empty($group['items'])));
         return [
+            'week' => $week,
+            'duethisweek' => $duethisweek,
             'todo' => $visible,
             'hastodo' => !empty($visible),
             'todototal' => $total,

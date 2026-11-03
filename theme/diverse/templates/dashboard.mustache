@@ -26,14 +26,33 @@
     }
 }}
 <div class="diverse-dash">
-    <header class="diverse-dash-head">
+    <header class="diverse-dash-head diverse-dash-hero">
         <div class="diverse-dash-avatar">{{{avatar}}}</div>
         <div class="diverse-dash-welcome">
+            <p class="diverse-dash-date">{{today}}</p>
             <h1 class="diverse-dash-title">{{greeting}}</h1>
             <p class="diverse-dash-summary">{{summary}}</p>
+            {{#hero}}
+            <p class="diverse-dash-hero-action">
+                <a class="btn btn-primary" href="{{url}}">{{label}}</a>
+                <span>{{next}}</span>
+            </p>
+            {{/hero}}
         </div>
         {{#isadmin}}<a class="btn btn-primary" href="{{admin.actions.0.url}}">{{admin.actions.0.label}}</a>{{/isadmin}}
     </header>
+
+    {{#learning}}
+    <ul class="diverse-kpi-row" aria-label="{{#str}}dash_resume, theme_diverse{{/str}}">
+        {{#kpis}}
+        <li class="diverse-kpi">
+            {{#ring}}<span class="diverse-ring" style="--diverse-ring: {{progress}};" aria-hidden="true"></span>{{/ring}}
+            {{^ring}}<span class="diverse-kpi-icon" aria-hidden="true"><i class="fa {{icon}}"></i></span>{{/ring}}
+            <span class="diverse-kpi-text"><strong>{{value}}</strong><span>{{label}}</span></span>
+        </li>
+        {{/kpis}}
+    </ul>
+    {{/learning}}
 
     {{#hascategories}}
     <nav class="diverse-category-strip" aria-label="{{#str}}nav_discover, theme_diverse{{/str}}">
@@ -163,6 +182,11 @@
         <section class="diverse-dash-section" aria-labelledby="diverse-dash-todo">
             <h2 class="diverse-dash-heading" id="diverse-dash-todo">{{#str}}dash_todo, theme_diverse{{/str}}</h2>
             <div class="diverse-panel">
+                <ol class="diverse-week">
+                    {{#week}}
+                    <li class="{{#today}}today{{/today}}{{#busy}} busy{{/busy}}"><span>{{weekday}}</span><strong>{{day}}</strong></li>
+                    {{/week}}
+                </ol>
                 {{#todo}}
                 <h3 class="diverse-todo-group{{#overdue}} overdue{{/overdue}}">{{title}}</h3>
                 <ul class="diverse-work-list">
@@ -179,6 +203,7 @@
             </div>
         </section>
         {{#learning}}
+        <div class="diverse-dash-side">
         <section class="diverse-dash-section" aria-labelledby="diverse-dash-grades">
             <h2 class="diverse-dash-heading" id="diverse-dash-grades">{{#str}}dash_recentgrades, theme_diverse{{/str}}</h2>
             <div class="diverse-panel">
@@ -197,6 +222,26 @@
                 {{^hasgrades}}<p class="diverse-empty">{{#str}}dash_nogrades, theme_diverse{{/str}}</p>{{/hasgrades}}
             </div>
         </section>
+        {{#hasactivity}}
+        <section class="diverse-dash-section" aria-labelledby="diverse-dash-activity">
+            <h2 class="diverse-dash-heading" id="diverse-dash-activity">{{#str}}dash_activity, theme_diverse{{/str}}</h2>
+            <div class="diverse-panel">
+                {{#activity}}
+                <ol class="diverse-bars">
+                    {{#bars}}
+                    <li class="{{#today}}today{{/today}}" title="{{description}}">
+                        <span class="diverse-bar"><span style="height: {{height}}%;"></span></span>
+                        <span class="diverse-bar-label">{{label}}</span>
+                        <span class="visually-hidden">{{description}}</span>
+                    </li>
+                    {{/bars}}
+                </ol>
+                {{#empty}}<p class="diverse-empty">{{#str}}dash_activity_none, theme_diverse{{/str}}</p>{{/empty}}
+                {{/activity}}
+            </div>
+        </section>
+        {{/hasactivity}}
+        </div>
         {{/learning}}
     </div>
     {{/showtodo}}
