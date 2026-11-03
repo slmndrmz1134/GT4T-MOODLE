@@ -192,10 +192,20 @@ class shell implements renderable, templatable {
         $squarelogo = $output->rail_logo_url()->out(false);
         $fulllogo = ($output->get_logo_url() ?? $output->image_url('logo', 'theme_diverse'))->out(false);
 
+        // The logos a partner has for dark pages (local_diverse_darklogo); the stylesheet of the dark mode shows them
+        // instead of the normal ones.
+        $squaredark = $fulldark = null;
+        if ($tenant && class_exists(\local_diverse_darklogo\local\logos::class)) {
+            $squaredark = \local_diverse_darklogo\local\logos::url($tenant->id, \local_diverse_darklogo\local\logos::COMPACT);
+            $fulldark = \local_diverse_darklogo\local\logos::url($tenant->id, \local_diverse_darklogo\local\logos::LOGO);
+        }
+
         return [
             'brand' => $brand,
             'squarelogo' => $squarelogo,
             'fulllogo' => $fulllogo,
+            'squaredark' => $squaredark ? $squaredark->out(false) : null,
+            'fulldark' => $fulldark ? $fulldark->out(false) : null,
             'squareown' => str_contains($squarelogo, '/theme/image.php/'),
             'fullown' => str_contains($fulllogo, '/theme/image.php/'),
             'railopen' => self::rail_open(),

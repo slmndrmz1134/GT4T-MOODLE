@@ -23,6 +23,7 @@
     Context variables required for this template:
     * brand, squarelogo, fulllogo - the top of the rail: the square logo of the user's university (DIVERSE's without
       one), which opens the rail with the names of the places and then shows the full logo
+    * squaredark, fulldark - the partner's logos for dark pages, if it has them (local_diverse_darklogo)
     * squareown, fullown - whether the logo is DIVERSE's own (not a partner's): it turns white in dark mode
     * railopen - whether the user keeps the rail open
     * username - the name of the user, shown next to the user menu's picture while the rail is open
@@ -42,8 +43,10 @@
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
     <button type="button" class="diverse-nav-brand" data-action="diverse-rail-toggle" aria-expanded="{{#railopen}}true{{/railopen}}{{^railopen}}false{{/railopen}}"
             title="{{brand}}">
-        <img class="diverse-nav-brand-square{{#squareown}} diverse-logo-own{{/squareown}}" src="{{squarelogo}}" alt="">
-        <img class="diverse-nav-brand-full{{#fullown}} diverse-logo-own{{/fullown}}" src="{{fulllogo}}" alt="">
+        <img class="diverse-nav-brand-square{{#squareown}} diverse-logo-own{{/squareown}}{{#squaredark}} diverse-has-dark{{/squaredark}}" src="{{squarelogo}}" alt="">
+        {{#squaredark}}<img class="diverse-nav-brand-square diverse-nav-brand-dark" src="{{squaredark}}" alt="">{{/squaredark}}
+        <img class="diverse-nav-brand-full{{#fullown}} diverse-logo-own{{/fullown}}{{#fulldark}} diverse-has-dark{{/fulldark}}" src="{{fulllogo}}" alt="">
+        {{#fulldark}}<img class="diverse-nav-brand-full diverse-nav-brand-dark" src="{{fulldark}}" alt="">{{/fulldark}}
         <span class="visually-hidden">{{brand}}: {{#str}}rail_expand, theme_diverse{{/str}}</span>
     </button>
     <ul class="diverse-nav-list">

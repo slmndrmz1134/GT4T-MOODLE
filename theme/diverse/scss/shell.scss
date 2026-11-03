@@ -198,9 +198,32 @@ $diverse-tabbar-height: 4rem;
         }
 
         // A partner's full logo: the dark lettering turns light, the colours of the emblem stay.
-        .diverse-nav-brand img.diverse-nav-brand-full:not(.diverse-logo-own) {
+        .diverse-nav-brand img.diverse-nav-brand-full:not(.diverse-logo-own, .diverse-nav-brand-dark) {
             filter: invert(1) hue-rotate(180deg);
         }
+
+        // The logos a partner made for dark pages (local_diverse_darklogo) replace its normal ones.
+        .diverse-nav-brand img.diverse-has-dark {
+            display: none !important;
+        }
+
+        .diverse-nav-brand img.diverse-nav-brand-square.diverse-nav-brand-dark {
+            display: block;
+        }
+
+        body.diverse-rail-open .diverse-nav-brand img.diverse-nav-brand-square.diverse-nav-brand-dark {
+            display: none;
+        }
+
+        body.diverse-rail-open .diverse-nav-brand img.diverse-nav-brand-full.diverse-nav-brand-dark {
+            display: block;
+            max-height: 1.75rem;
+        }
+    }
+
+    // The logos a partner made for dark pages show only in the dark mode (below).
+    :where(.diverse-nav-brand-dark) {
+        display: none;
     }
 
     .diverse-nav-list {
@@ -1119,7 +1142,7 @@ $diverse-rail-open-width: 15rem;
                 display: none;
             }
 
-            .diverse-nav-brand-full {
+            .diverse-nav-brand-full:not(.diverse-nav-brand-dark) {
                 display: block;
                 max-height: 1.75rem;
             }
