@@ -95,28 +95,171 @@ body#page-message-index.diverse-shell {
             max-width: none;
         }
 
-        // Starred, group and private conversations: headings between dividers.
-        .section,
-        .section .card-header {
-            background-color: $white;
-        }
+        // The list of conversations: a search field, then the starred, group and private conversations under quiet
+        // headings, each conversation a row with its picture, name and last message.
+        .conversationcontainer {
+            [data-region="panel-header-container"] > [data-region="view-overview"] {
+                padding: 1rem 1rem .75rem !important;
+                border-bottom: 1px solid $diverse-border !important;
+            }
 
-        .section .card-header {
-            border-bottom: 1px solid $diverse-border;
-        }
+            // Search: one round field with the magnifier inside, the settings next to it.
+            .simplesearchform {
+                position: relative;
 
-        .section .btn-link {
-            color: $diverse-ink;
-            text-decoration: none;
-        }
+                .form-control {
+                    height: 2.5rem;
+                    padding-left: 2.5rem;
+                    background-color: $diverse-surface;
+                    border-color: transparent;
+                    border-radius: 50rem !important;
 
-        .list-group-item {
-            border-width: 0 0 1px;
-            border-color: $diverse-border;
+                    &:focus {
+                        background-color: $white;
+                        border-color: $diverse-action-orange;
+                    }
+                }
 
-            &:hover,
-            &:focus {
-                background-color: $diverse-soft-orange;
+                .btn-submit {
+                    position: absolute;
+                    top: 50%;
+                    left: .75rem;
+                    z-index: 5;
+                    padding: 0;
+                    background: none;
+                    border: 0;
+                    color: $diverse-grey;
+                    pointer-events: none;
+                    transform: translateY(-50%);
+                }
+            }
+
+            [data-region="view-overview"] .ms-2 > a,
+            [data-region="view-overview"] .text-end > a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: $diverse-grey;
+                text-decoration: none;
+
+                &:hover,
+                &:focus-visible {
+                    color: $diverse-action-orange;
+                }
+            }
+
+            [data-region="view-overview"] .ms-2 > a {
+                width: 2.5rem;
+                height: 2.5rem;
+                border: 1px solid $diverse-border;
+                border-radius: 50%;
+            }
+
+            // Contacts: a quiet link under the search.
+            [data-region="view-overview"] .text-end {
+                margin-top: .625rem !important;
+                text-align: left !important;
+
+                > a {
+                    gap: .375rem;
+                    font-size: .875rem;
+                    font-weight: 600;
+                }
+            }
+
+            .section,
+            .section .card-header {
+                background-color: $white;
+                border: 0;
+            }
+
+            // Section headings: small grey capitals with the number in a pill.
+            .section .card-header .btn-link {
+                padding: 1rem 1rem .375rem !important;
+                color: $diverse-grey;
+                font-size: .75rem;
+                letter-spacing: .04em;
+                text-decoration: none;
+                text-transform: uppercase;
+
+                .fw-bold {
+                    font-weight: 700 !important;
+                }
+
+                &:hover,
+                &:focus-visible {
+                    color: $diverse-ink;
+                }
+            }
+
+            [data-region="section-total-count-container"] {
+                padding: 0 .4375rem;
+                background-color: $diverse-surface;
+                border-radius: 50rem;
+                color: $diverse-grey;
+                font-size: .6875rem;
+                text-transform: none;
+            }
+
+            .lazy-load-list {
+                border: 0 !important;
+            }
+
+            .list-group-item {
+                gap: .75rem;
+                margin: 0 .5rem;
+                padding: .625rem .5rem !important;
+                border: 0;
+                border-radius: .75rem;
+
+                img.rounded-circle {
+                    width: 2.5rem;
+                    height: 2.5rem !important;
+                    margin-top: 0 !important;
+                    align-self: center !important;
+                    object-fit: cover;
+                }
+
+                .contact-status {
+                    position: absolute;
+                    bottom: .5rem;
+                    left: 2.375rem;
+                    font-size: .625rem;
+                }
+
+                > .w-100 {
+                    margin: 0 !important;
+                }
+
+                strong {
+                    color: $diverse-ink;
+                    font-weight: 600;
+                }
+
+                .last-message {
+                    color: $diverse-grey;
+                    font-size: .8125rem;
+                    font-weight: 400 !important;
+                }
+
+                // The arrow says nothing a row does not: the unread count stays.
+                .text-muted.ms-auto {
+                    display: none;
+                }
+
+                [data-region="unread-count"] {
+                    background-color: $diverse-action-orange !important;
+                }
+
+                &:hover,
+                &:focus {
+                    background-color: $diverse-surface;
+                }
+
+                &.active,
+                &[aria-current="true"] {
+                    background-color: $diverse-soft-orange;
+                }
             }
         }
 
@@ -201,7 +344,8 @@ body#page-message-index.diverse-shell {
     }
 }
 
-// Notifications: the list on the left, the chosen one next to it.
+// Notifications: the list on the left like the conversations of the messages page, with "Mark all as read" and the
+// preferences at its top (core_renderer::notification_actions()), the chosen one next to it.
 body#page-message-output-popup-notifications.diverse-shell .notification-area {
     display: flex;
     margin-bottom: 0;
@@ -212,6 +356,23 @@ body#page-message-output-popup-notifications.diverse-shell .notification-area {
         height: 100%;
         overflow-y: auto;
         border-right: 1px solid $diverse-border;
+
+        > .content {
+            padding: .5rem;
+        }
+    }
+
+    .control-area > .header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding: 1rem;
+        background-color: $white;
+        border-bottom: 1px solid $diverse-border;
+
+        &:empty {
+            display: none;
+        }
     }
 
     .content-area {
@@ -227,34 +388,107 @@ body#page-message-output-popup-notifications.diverse-shell .notification-area {
         text-align: center;
     }
 
-    .content-area > .empty-text {
+    .content-area .content:empty + .empty-text {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
     }
 
-    .content-item-container {
-        padding: .875rem 1.25rem;
-        border-bottom: 1px solid $diverse-border;
+    // One notification: its icon in a soft circle, the text, how long ago.
+    .control-area .content-item-container {
+        margin-bottom: .125rem;
+        padding: .75rem;
+        border: 0;
+        border-radius: .75rem;
+        color: $diverse-ink;
         cursor: pointer;
+
+        .content-item-body {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+        }
+
+        .notification-image {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            margin: 0;
+            background-color: $diverse-soft-orange;
+            border-radius: 50%;
+            color: $diverse-action-orange;
+
+            img,
+            .icon {
+                width: 1rem;
+                height: 1rem;
+                margin: 0;
+                font-size: 1rem;
+            }
+        }
+
+        .notification-message {
+            padding: 0;
+            color: $diverse-ink;
+            font-size: .875rem;
+            line-height: 1.4;
+        }
+
+        .content-item-footer {
+            padding: .25rem 0 0 3rem;
+            text-align: left;
+
+            .timestamp {
+                margin-left: 0;
+                color: $diverse-grey;
+                font-size: .75rem;
+            }
+        }
 
         &:hover {
             background-color: $diverse-surface;
         }
 
+        // Unread: the text in bold with a dot, as in the messages.
         &.unread {
-            background-color: $diverse-soft-orange;
+            background-color: transparent;
+
+            .notification-message {
+                font-weight: 600;
+            }
+
+            .notification-image {
+                position: relative;
+
+                &::after {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: .5rem;
+                    height: .5rem;
+                    background-color: $diverse-action-orange;
+                    border: 2px solid $white;
+                    border-radius: 50%;
+                    content: "";
+                }
+            }
         }
 
         // Moodle writes the chosen one in white on its primary colour: here ink on the soft one.
         &.selected {
             background-color: $diverse-soft-orange;
-            box-shadow: inset 3px 0 0 $diverse-action-orange;
             color: $diverse-ink;
 
             .notification-message {
                 color: $diverse-ink;
+            }
+
+            .notification-image {
+                background-color: $white;
             }
 
             .timestamp {
@@ -283,5 +517,27 @@ body#page-message-output-popup-notifications.diverse-shell .notification-area {
         .content-area {
             padding: 1rem;
         }
+    }
+}
+
+// The actions at the top of the list: "Mark all as read" on the left, the preferences as a round button on the right.
+.diverse-app-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .diverse-app-action-icon {
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        padding: 0;
+        border-radius: 50%;
     }
 }

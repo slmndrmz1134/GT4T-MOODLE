@@ -141,7 +141,7 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                 get_string($message ? 'messages' : 'notifications', 'message'), ['class' => 'diverse-dash-title']),
                 ['class' => 'diverse-title-bar diverse-app-title']);
             if (!$message) {
-                return $title . $maincontent;
+                return $title . $maincontent . $this->notification_actions();
             }
             return $title . $maincontent . \html_writer::tag(
                 'p',
@@ -286,6 +286,56 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
             'label' => $page[1],
             'icon' => $page[2],
         ], $pages);
+    }
+
+    /**
+     * At the top of the list of the notifications page: mark them all as read, and the notification preferences.
+     *
+     * The page itself only marks a notification as read when it is opened; the popover of the bell has these two.
+     * Moodle's list has an empty header, which the script fills with them.
+     *
+     * @return string
+     */
+    protected function notification_actions(): string {
+        global $USER;
+
+        $markall = \html_writer::tag('button',
+            \html_writer::tag('i', '', ['class' => 'fa fa-check-double', 'aria-hidden' => 'true']) . get_string('markallread'),
+            ['type' => 'button', 'class' => 'btn btn-secondary', 'data-action' => 'diverse-mark-all-read']);
+        $label = get_string('notificationpreferences', 'message');
+        $preferences = \html_writer::link(new \core\url('/message/notificationpreferences.php'),
+            \html_writer::tag('i', '', ['class' => 'fa fa-gear', 'aria-hidden' => 'true']) .
+            \html_writer::span($label, 'visually-hidden'),
+            ['class' => 'btn btn-secondary diverse-app-action-icon', 'title' => $label]);
+
+        $userid = (int)$USER->id;
+        $this->page->requires->js_amd_inline(<<<JS
+require(['message_popup/notification_repository'], function(Repository) {
+    var actions = document.querySelector('.diverse-app-actions');
+    var header = document.querySelector('.notification-area .control-area > .header');
+    if (!actions || !header) {
+        return;
+    }
+    header.appendChild(actions);
+    actions.hidden = false;
+    var button = actions.querySelector('[data-action="diverse-mark-all-read"]');
+    button.addEventListener('click', function() {
+        button.disabled = true;
+        Repository.markAllAsRead({useridto: {$userid}}).then(function() {
+            document.querySelectorAll('.notification-area .unread').forEach(function(item) {
+                item.classList.remove('unread');
+            });
+            document.querySelectorAll('.popover-region-notifications .count-container').forEach(function(count) {
+                count.classList.add('hidden');
+            });
+            return null;
+        }).always(function() {
+            button.disabled = false;
+        });
+    });
+});
+JS);
+        return \html_writer::div($markall . $preferences, 'diverse-app-actions', ['hidden' => 'hidden']);
     }
 
     /**
