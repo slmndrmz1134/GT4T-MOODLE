@@ -60,11 +60,18 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
                     'diverse_about'
                 );
                 $primarynav->add(
-                    get_string('nav_partners', 'theme_diverse'),
-                    new \moodle_url('/#diverse-partners'),
+                    get_string('nav_platform', 'theme_diverse'),
+                    new \moodle_url('/#diverse-platform'),
                     \navigation_node::TYPE_CUSTOM,
                     null,
-                    'diverse_partners'
+                    'diverse_platform'
+                );
+                $primarynav->add(
+                    get_string('steps_eyebrow', 'theme_diverse'),
+                    new \moodle_url('/#diverse-steps'),
+                    \navigation_node::TYPE_CUSTOM,
+                    null,
+                    'diverse_steps'
                 );
                 $primarynav->add(
                     get_string('nav_courses', 'theme_diverse'),

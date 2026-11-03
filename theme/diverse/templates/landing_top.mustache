@@ -17,134 +17,303 @@
 {{!
     @template theme_diverse/landing_top
 
-    Landing page sections shown above the site home content.
+    Landing page sections shown above the site home content (full-width draft of November 2026,
+    docs/design/mockups/Landing-wide.html): the photo hero with a picture of the dashboard, the key figures, about,
+    the platform, the three steps and a row of courses.
+
+    The top bar is transparent on the hero and white once the page scrolls; the sections come in as they reach the
+    screen. Both only with JavaScript: without it the bar stays white and every section is shown (scss/landing.scss).
 
     Context variables required for this template:
     * loggedin - whether the viewer is logged in (not a guest)
     * loginurl, dashboardurl - where the main button leads visitors and logged-in users
-    * hasheroimage, heroimage - the photo behind the hero (pix/hero.jpg); without it the hero is the plain brand colour
-    * partnercount, countrycount - number of GT4T project partners and of their countries
-    * coursecount - live number of visible courses
-    * hascourses, courses, allcoursesurl - featured courses
+    * heroimage - the photo behind the hero (pix/hero.jpg)
+    * headline - the hero title, HTML: the highlighted word in a span
+    * preview - the dashboard picture next to the title: course, live, deadlines
+    * partnercount, countrycount, coursecount, languagecount - key figures
+    * languages - name and current of each installed language
+    * hascourses, courses, coursefilters, allcoursesurl - the course row and its filter buttons
 
     Example context (json):
     {
-        "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#",
-        "hasheroimage": false, "heroimage": null,
-        "partnercount": 1, "countrycount": 1,
-        "coursecount": 17,
+        "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "heroimage": "",
+        "headline": "Learn across <span>Europe.</span> From one place.",
+        "preview": {"course": {"fullname": "Business Law", "initials": "BL", "coverstyle": "brand", "hasimage": false},
+            "live": "Marketing Management",
+            "deadlines": [{"day": "12", "month": "Nov", "name": "Assignment", "course": "Business Law"}]},
+        "partnercount": 8, "countrycount": 5, "coursecount": 17, "languagecount": 6,
+        "languages": [{"name": "English", "current": true}, {"name": "Türkçe", "current": false}],
         "hascourses": true,
-        "courses": [{"fullname": "Business Law", "shortname": "LAW202", "category": "Istanbul Beykent University",
-            "url": "#", "hasimage": false, "coverstyle": "brand", "initials": "BL"}]
+        "coursefilters": [{"name": "All", "categoryid": 0, "current": true}, {"name": "Shared Courses", "categoryid": 3, "current": false}],
+        "courses": [{"fullname": "Business Law", "shortname": "LAW202", "category": "Shared Courses", "categoryid": 3,
+            "activities": 7, "url": "#", "hasimage": false, "coverstyle": "brand", "initials": "BL"}]
     }
 }}
-<div class="diverse-landing">
-    <section class="diverse-hero{{#hasheroimage}} diverse-hero-image{{/hasheroimage}}">
-        {{#hasheroimage}}<img class="diverse-hero-bg" src="{{heroimage}}" alt="">{{/hasheroimage}}
-        <div class="diverse-hero-inner">
-            <div class="diverse-hero-text">
-                <p class="diverse-eyebrow">{{#str}}landing_eyebrow, theme_diverse{{/str}}</p>
-                <h1 class="diverse-hero-title">{{#str}}landing_title, theme_diverse{{/str}}</h1>
-                <p class="diverse-hero-tagline">{{#str}}landing_tagline, theme_diverse{{/str}}</p>
-                <p class="diverse-hero-intro">{{#str}}landing_intro, theme_diverse{{/str}}</p>
-                <div class="diverse-hero-actions">
-                    <a class="btn btn-lg {{#hasheroimage}}btn-primary{{/hasheroimage}}{{^hasheroimage}}diverse-btn-ink{{/hasheroimage}}"
-                        href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
-                        {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}
-                        {{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
-                    </a>
-                    <a class="btn btn-lg {{#hasheroimage}}diverse-btn-outline-light{{/hasheroimage}}{{^hasheroimage}}diverse-btn-outline-ink{{/hasheroimage}}"
-                        href="#diverse-partners">{{#str}}landing_meetpartners, theme_diverse{{/str}}</a>
+<script>
+// The top bar: transparent on the hero, white once the page scrolls. Here and not in the js block below, which runs
+// only once Moodle's modules are loaded: the bar would first show white.
+(function() {
+    var onScroll = function() {
+        document.body.classList.toggle('diverse-landing-scrolled', window.scrollY > 40);
+    };
+    document.body.classList.add('diverse-landing-bar');
+    window.addEventListener('scroll', onScroll, {passive: true});
+    onScroll();
+})();
+</script>
+<div class="diverse-landing" id="diverse-landing">
+    <section class="diverse-hero" aria-labelledby="diverse-hero-title">
+        <img class="diverse-hero-bg" src="{{heroimage}}" alt="">
+        <div class="diverse-hero-text">
+            <p class="diverse-hero-eyebrow diverse-reveal"><i aria-hidden="true"></i>{{#str}}landing_eyebrow, theme_diverse{{/str}}</p>
+            <h1 class="diverse-hero-title diverse-reveal" id="diverse-hero-title" style="--diverse-i: 1">{{{headline}}}</h1>
+            <p class="diverse-hero-intro diverse-reveal" style="--diverse-i: 2">{{#str}}landing_intro, theme_diverse{{/str}}</p>
+            <div class="diverse-hero-actions diverse-reveal" style="--diverse-i: 3">
+                <a class="btn btn-primary btn-lg" href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
+                    {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}{{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-lg diverse-btn-outline-light" href="#diverse-courses">{{#str}}landing_browse, theme_diverse{{/str}}</a>
+            </div>
+        </div>
+        {{#preview}}
+        <div class="diverse-preview diverse-reveal" style="--diverse-i: 2" aria-hidden="true">
+            <span class="diverse-preview-live"><i></i><span>{{#str}}preview_live, theme_diverse{{/str}} · {{live}}</span></span>
+            <div class="diverse-preview-card diverse-preview-next">
+                {{#course}}{{> theme_diverse/course_cover }}{{/course}}
+                <div>
+                    <small>{{#str}}step3_title, theme_diverse{{/str}}</small>
+                    <b>{{course.fullname}}</b>
+                    <span class="diverse-preview-meter"><span><i style="width: 64%"></i></span><b>64%</b></span>
                 </div>
             </div>
-            <dl class="diverse-hero-stats">
-                <div><dt>{{#str}}stat_projectpartners, theme_diverse{{/str}}</dt><dd>{{partnercount}}</dd></div>
-                <div><dt>{{#str}}stat_countries, theme_diverse{{/str}}</dt><dd>{{countrycount}}</dd></div>
-                <div><dt>{{#str}}stat_courses, theme_diverse{{/str}}</dt><dd>{{coursecount}}</dd></div>
-            </dl>
+            <div class="diverse-preview-pair">
+                <div class="diverse-preview-card">
+                    <p class="diverse-preview-head">{{#str}}preview_deadlines, theme_diverse{{/str}}</p>
+                    {{#deadlines}}
+                    <div class="diverse-preview-row">
+                        <span class="diverse-preview-date">{{day}}<small>{{month}}</small></span>
+                        <span><b>{{name}}</b><small>{{course}}</small></span>
+                    </div>
+                    {{/deadlines}}
+                </div>
+                <div class="diverse-preview-card diverse-preview-center">
+                    <p class="diverse-preview-head">{{#str}}preview_term, theme_diverse{{/str}}</p>
+                    <span class="diverse-preview-ring"><b>72%</b></span>
+                    <small>{{#str}}preview_done, theme_diverse{{/str}}</small>
+                </div>
+            </div>
         </div>
+        {{/preview}}
     </section>
 
-    <section class="diverse-section diverse-about" id="diverse-about" aria-labelledby="diverse-about-title">
-        <div class="diverse-split">
-            <div class="diverse-section-head">
+    <dl class="diverse-figures diverse-reveal" aria-label="{{#str}}landing_keyfigures, theme_diverse{{/str}}">
+        <div><span class="diverse-figure-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M9 7h1M14 7h1M9 11h1M14 11h1M9 15h1M14 15h1M10 21v-3h4v3"></path></svg></span>
+            <dt>{{#str}}stat_projectpartners, theme_diverse{{/str}}</dt><dd data-diverse-count="{{partnercount}}">{{partnercount}}</dd></div>
+        <div><span class="diverse-figure-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg></span>
+            <dt>{{#str}}stat_countries, theme_diverse{{/str}}</dt><dd data-diverse-count="{{countrycount}}">{{countrycount}}</dd></div>
+        <div><span class="diverse-figure-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v15H6.5A2.5 2.5 0 0 0 4 20.5 2.5 2.5 0 0 0 6.5 23H20"></path></svg></span>
+            <dt>{{#str}}stat_courses, theme_diverse{{/str}}</dt><dd data-diverse-count="{{coursecount}}">{{coursecount}}</dd></div>
+        <div><span class="diverse-figure-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8M8 3v2M6 5c0 4 3 7 6 8M10 5c0 4-3 7-6 8M13 21l4-9 4 9M14.5 18h5"></path></svg></span>
+            <dt>{{#str}}stat_languages, theme_diverse{{/str}}</dt><dd data-diverse-count="{{languagecount}}">{{languagecount}}</dd></div>
+    </dl>
+
+    <section class="diverse-section" id="diverse-about" aria-labelledby="diverse-about-title">
+        <div class="diverse-about">
+            <div class="diverse-reveal">
                 <p class="diverse-eyebrow">{{#str}}about_eyebrow, theme_diverse{{/str}}</p>
                 <h2 class="diverse-section-title" id="diverse-about-title">{{#str}}about_title, theme_diverse{{/str}}</h2>
                 <p class="diverse-lead">{{#str}}about_intro, theme_diverse{{/str}}</p>
-                <p class="diverse-muted">{{#str}}about_support, theme_diverse{{/str}}</p>
+                <p class="diverse-about-support">{{#str}}about_support, theme_diverse{{/str}}</p>
             </div>
-            <ul class="diverse-feature-list">
-                <li>
-                    <span class="diverse-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.2M3 12a9 9 0 0 1 15.5-6.2"></path><path d="M18.5 2v4h-4M5.5 22v-4h4"></path></svg></span>
+            <ol class="diverse-focus">
+                <li class="diverse-reveal" style="--diverse-i: 1"><span class="diverse-focus-number" aria-hidden="true">01</span>
                     <div><h3>{{#str}}focus_item1_title, theme_diverse{{/str}}</h3><p>{{#str}}focus_item1_desc, theme_diverse{{/str}}</p></div>
-                </li>
-                <li>
-                    <span class="diverse-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
+                    <span class="diverse-focus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.2M3 12a9 9 0 0 1 15.5-6.2"></path><path d="M18.5 2v4h-4M5.5 22v-4h4"></path></svg></span></li>
+                <li class="diverse-reveal" style="--diverse-i: 2"><span class="diverse-focus-number" aria-hidden="true">02</span>
                     <div><h3>{{#str}}focus_item2_title, theme_diverse{{/str}}</h3><p>{{#str}}focus_item2_desc, theme_diverse{{/str}}</p></div>
-                </li>
-                <li>
-                    <span class="diverse-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"></path></svg></span>
+                    <span class="diverse-focus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"></rect><rect x="9" y="9" width="6" height="6" rx="1"></rect><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"></path></svg></span></li>
+                <li class="diverse-reveal" style="--diverse-i: 3"><span class="diverse-focus-number" aria-hidden="true">03</span>
                     <div><h3>{{#str}}focus_item3_title, theme_diverse{{/str}}</h3><p>{{#str}}focus_item3_desc, theme_diverse{{/str}}</p></div>
-                </li>
-            </ul>
+                    <span class="diverse-focus-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"></path></svg></span></li>
+            </ol>
         </div>
     </section>
 
-    <section class="diverse-section diverse-steps" aria-labelledby="diverse-steps-title">
-        <div class="diverse-section-head">
-            <p class="diverse-eyebrow">{{#str}}steps_eyebrow, theme_diverse{{/str}}</p>
-            <h2 class="diverse-section-title" id="diverse-steps-title">{{#str}}steps_title, theme_diverse{{/str}}</h2>
+    <section class="diverse-section diverse-section-grey" id="diverse-platform" aria-labelledby="diverse-platform-title">
+        <div class="diverse-section-head diverse-reveal">
+            <div>
+                <p class="diverse-eyebrow">{{#str}}platform_eyebrow, theme_diverse{{/str}}</p>
+                <h2 class="diverse-section-title" id="diverse-platform-title">{{#str}}platform_title, theme_diverse{{/str}}</h2>
+            </div>
+            <p class="diverse-lead">{{#str}}platform_intro, theme_diverse{{/str}}</p>
         </div>
-        <ol class="diverse-step-list">
-            <li><span class="diverse-step-number" aria-hidden="true">01</span>
-                <h3>{{#str}}step1_title, theme_diverse{{/str}}</h3><p>{{#str}}step1_desc, theme_diverse{{/str}}</p></li>
-            <li><span class="diverse-step-number" aria-hidden="true">02</span>
-                <h3>{{#str}}step2_title, theme_diverse{{/str}}</h3><p>{{#str}}step2_desc, theme_diverse{{/str}}</p></li>
-            <li><span class="diverse-step-number" aria-hidden="true">03</span>
-                <h3>{{#str}}step3_title, theme_diverse{{/str}}</h3><p>{{#str}}step3_desc, theme_diverse{{/str}}</p></li>
+        <div class="diverse-bento">
+            <article class="diverse-tile diverse-tile-live diverse-reveal">
+                <h3>{{#str}}tile_live_title, theme_diverse{{/str}}</h3>
+                <p>{{#str}}tile_live_desc, theme_diverse{{/str}}</p>
+                <div class="diverse-tile-demo diverse-tile-faces" aria-hidden="true"><span class="on">AY</span><span>MK</span><span>LS</span><span>JV</span></div>
+            </article>
+            <article class="diverse-tile diverse-tile-ai diverse-reveal" style="--diverse-i: 1">
+                <h3>{{#str}}tile_ai_title, theme_diverse{{/str}}</h3>
+                <p>{{#str}}tile_ai_desc, theme_diverse{{/str}}</p>
+                <div class="diverse-tile-demo diverse-tile-bubbles" aria-hidden="true">
+                    <span class="me">{{#str}}tile_ai_question, theme_diverse{{/str}}</span>
+                    <span class="bot">{{#str}}tile_ai_answer, theme_diverse{{/str}}</span>
+                </div>
+            </article>
+            <article class="diverse-tile diverse-tile-lang diverse-reveal">
+                <h3>{{#str}}tile_lang_title, theme_diverse, {{languagecount}}{{/str}}</h3>
+                <p>{{#str}}tile_lang_desc, theme_diverse{{/str}}</p>
+                <div class="diverse-tile-demo diverse-tile-chips" aria-hidden="true">
+                    {{#languages}}<span{{#current}} class="on"{{/current}}>{{name}}</span>{{/languages}}
+                </div>
+            </article>
+            <article class="diverse-tile diverse-tile-track diverse-reveal" style="--diverse-i: 1">
+                <h3>{{#str}}tile_progress_title, theme_diverse{{/str}}</h3>
+                <p>{{#str}}tile_progress_desc, theme_diverse{{/str}}</p>
+                <div class="diverse-tile-demo diverse-tile-bars" aria-hidden="true">
+                    <div><span>{{#str}}focus_item1_title, theme_diverse{{/str}}</span><span class="diverse-preview-meter"><span><i style="width: 64%"></i></span><b>64%</b></span></div>
+                    <div><span>{{#str}}focus_item2_title, theme_diverse{{/str}}</span><span class="diverse-preview-meter"><span><i style="width: 88%"></i></span><b>88%</b></span></div>
+                    <div><span>{{#str}}focus_item3_title, theme_diverse{{/str}}</span><span class="diverse-preview-meter"><span><i style="width: 35%"></i></span><b>35%</b></span></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="diverse-section" id="diverse-steps" aria-labelledby="diverse-steps-title">
+        <div class="diverse-section-head diverse-reveal">
+            <div>
+                <p class="diverse-eyebrow">{{#str}}steps_eyebrow, theme_diverse{{/str}}</p>
+                <h2 class="diverse-section-title" id="diverse-steps-title">{{#str}}steps_title, theme_diverse{{/str}}</h2>
+            </div>
+        </div>
+        <ol class="diverse-steps">
+            <li class="diverse-reveal"><h3>{{#str}}step1_title, theme_diverse{{/str}}</h3><p>{{#str}}step1_desc, theme_diverse{{/str}}</p></li>
+            <li class="diverse-reveal" style="--diverse-i: 1"><h3>{{#str}}step2_title, theme_diverse{{/str}}</h3><p>{{#str}}step2_desc, theme_diverse{{/str}}</p></li>
+            <li class="diverse-reveal" style="--diverse-i: 2"><h3>{{#str}}step3_title, theme_diverse{{/str}}</h3><p>{{#str}}step3_desc, theme_diverse{{/str}}</p></li>
         </ol>
     </section>
 
     {{#hascourses}}
-    <section class="diverse-section diverse-courses" id="diverse-courses" aria-labelledby="diverse-courses-title">
-        <div class="diverse-section-head diverse-section-head-row">
-            <h2 class="diverse-section-title" id="diverse-courses-title">{{#str}}courses_title, theme_diverse{{/str}}</h2>
-            <a class="diverse-link-strong" href="{{allcoursesurl}}">{{#str}}courses_all, theme_diverse, {{coursecount}}{{/str}} <span aria-hidden="true">&rarr;</span></a>
+    <section class="diverse-section diverse-section-grey" id="diverse-courses" aria-labelledby="diverse-courses-title">
+        <div class="diverse-section-head diverse-reveal">
+            <div>
+                <p class="diverse-eyebrow">{{#str}}nav_courses, theme_diverse{{/str}}</p>
+                <h2 class="diverse-section-title" id="diverse-courses-title">{{#str}}courses_title, theme_diverse{{/str}}</h2>
+            </div>
+            <div class="diverse-row-arrows">
+                <button type="button" class="diverse-row-back" data-diverse-scroll="-1" aria-label="{{#str}}previous{{/str}}"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                <button type="button" data-diverse-scroll="1" aria-label="{{#str}}next{{/str}}"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+            </div>
         </div>
-        <div class="diverse-cards diverse-cards-4">
-            {{#courses}}
-            <a class="diverse-course" href="{{url}}">
-                <span class="diverse-course-top">
-                    {{> theme_diverse/course_cover }}
-                    <span class="diverse-chip">{{shortname}}</span>
-                </span>
-                <div class="diverse-course-body">
-                    <span class="diverse-muted diverse-small">{{category}}</span>
-                    <span class="diverse-course-title">{{fullname}}</span>
-                </div>
-            </a>
-            {{/courses}}
+        {{#coursefilters.0}}
+        <div class="diverse-row-filters diverse-reveal" role="group" aria-label="{{#str}}category{{/str}}">
+            {{#coursefilters}}<button type="button" data-diverse-category="{{categoryid}}" aria-pressed="{{#current}}true{{/current}}{{^current}}false{{/current}}">{{name}}</button>{{/coursefilters}}
         </div>
+        {{/coursefilters.0}}
+        <div class="diverse-row-wrap diverse-reveal">
+            <ul class="diverse-row" id="diverse-course-row">
+                {{#courses}}
+                <li data-diverse-category="{{categoryid}}">
+                    <a class="diverse-course" href="{{url}}">
+                        <span class="diverse-course-top">
+                            {{> theme_diverse/course_cover }}
+                            {{#activities}}<span class="diverse-chip">{{#str}}card_activities, theme_diverse, {{activities}}{{/str}}</span>{{/activities}}
+                        </span>
+                        <span class="diverse-course-body">
+                            <span class="diverse-course-code">{{shortname}}</span>
+                            <span class="diverse-course-title">{{fullname}}</span>
+                            <span class="diverse-course-partner"><i aria-hidden="true"></i>{{category}}</span>
+                        </span>
+                    </a>
+                </li>
+                {{/courses}}
+            </ul>
+        </div>
+        <a class="btn btn-secondary btn-lg diverse-reveal" href="{{allcoursesurl}}">{{#str}}courses_all, theme_diverse, {{coursecount}}{{/str}} <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
     </section>
     {{/hascourses}}
-
 </div>
 {{#js}}
-document.querySelectorAll('.primary-navigation a[href*="#diverse-"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
-        var href = this.getAttribute('href');
-        var hashIndex = href.indexOf('#');
-        if (hashIndex !== -1) {
-            var hash = href.substring(hashIndex + 1);
-            var target = document.getElementById(hash);
+(function() {
+    var landing = document.getElementById('diverse-landing');
+    if (!landing) {
+        return;
+    }
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Sections come in as they reach the screen; the figures count up once.
+    var count = function(el) {
+        var to = Number(el.getAttribute('data-diverse-count'));
+        var start = performance.now();
+        var step = function(now) {
+            var t = Math.min(1, (now - start) / 1200);
+            el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3)));
+            if (t < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+        requestAnimationFrame(step);
+    };
+    if ('IntersectionObserver' in window && !reduced) {
+        document.querySelectorAll('.diverse-landing').forEach(function(part) {
+            part.classList.add('diverse-reveal-ready');
+        });
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+                entry.target.classList.add('diverse-in');
+                entry.target.querySelectorAll('[data-diverse-count]').forEach(count);
+                observer.unobserve(entry.target);
+            });
+        }, {threshold: 0.15});
+        document.querySelectorAll('.diverse-landing .diverse-reveal').forEach(function(el) {
+            observer.observe(el);
+        });
+    }
+
+    // The course row: the filter buttons and the arrows.
+    var row = document.getElementById('diverse-course-row');
+    if (row) {
+        landing.querySelectorAll('.diverse-row-filters button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var id = button.getAttribute('data-diverse-category');
+                landing.querySelectorAll('.diverse-row-filters button').forEach(function(other) {
+                    other.setAttribute('aria-pressed', String(other === button));
+                });
+                row.querySelectorAll('li').forEach(function(item) {
+                    item.hidden = id !== '0' && item.getAttribute('data-diverse-category') !== id;
+                });
+                row.scrollLeft = 0;
+            });
+        });
+        landing.querySelectorAll('[data-diverse-scroll]').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var direction = Number(button.getAttribute('data-diverse-scroll'));
+                if (document.dir === 'rtl') {
+                    direction = -direction;
+                }
+                row.scrollBy({left: direction * row.clientWidth * 0.8, behavior: reduced ? 'auto' : 'smooth'});
+            });
+        });
+    }
+
+    // Links of the top bar to the sections: a smooth scroll instead of a jump.
+    document.querySelectorAll('.primary-navigation a[href*="#diverse-"], .diverse-landing a[href^="#diverse-"]').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+            var href = this.getAttribute('href');
+            var target = document.getElementById(href.substring(href.indexOf('#') + 1));
             if (target) {
                 e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
+                target.scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
                 if (history.pushState) {
-                    history.pushState(null, null, '#' + hash);
+                    history.pushState(null, '', '#' + target.id);
                 }
             }
-        }
+        });
     });
-});
+})();
 {{/js}}

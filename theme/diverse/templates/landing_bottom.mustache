@@ -17,7 +17,7 @@
 {{!
     @template theme_diverse/landing_bottom
 
-    Closing band of the landing page, shown below the site home content, and the partners' logos above the footer.
+    Below the site home content: the partners' logos, the closing band in the brand colour and the footer.
 
     The logos slide from right to left without end: the list is there twice, the copy hidden from screen readers, and
     the strip moves by the width of one list (scss/landing.scss). Without motion the copy is hidden and the logos wrap.
@@ -27,26 +27,14 @@
         "homeurl": "#", "gt4turl": "#", "loggedin": false, "loginurl": "#", "dashboardurl": "#", "allcoursesurl": "#", "privacyurl": "#",
         "ctatext": "Courses from 8 partners in 5 countries, in one place.",
         "supporturl": "#", "copyright": "© 2026 DIVERSE European University Alliance",
+        "policies": [{"name": "Privacy Policy", "url": "#"}, {"name": "Terms of Use", "url": "#"}],
         "haslogos": true, "logos": [{"name": "Griffith College", "url": "#", "logourl": "#"}]
     }
 }}
 <div class="diverse-landing">
-    <section class="diverse-cta" aria-labelledby="diverse-cta-title">
-        <div class="diverse-cta-inner">
-            <div>
-                <h2 class="diverse-cta-title" id="diverse-cta-title">{{#str}}cta_title, theme_diverse{{/str}}</h2>
-                <p class="diverse-cta-text">{{ctatext}}</p>
-            </div>
-            <div class="diverse-hero-actions">
-                <a class="btn btn-lg diverse-btn-ink" href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
-                    {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}{{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
-                </a>
-                <a class="btn btn-lg diverse-btn-outline-ink" href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
-            </div>
-        </div>
-    </section>
     {{#haslogos}}
-    <section class="diverse-logos" id="diverse-partners" aria-label="{{#str}}partners_eyebrow, theme_diverse{{/str}}">
+    <section class="diverse-logos" id="diverse-partners" aria-labelledby="diverse-partners-title">
+        <p id="diverse-partners-title">{{#str}}partners_intro, theme_diverse{{/str}}</p>
         <div class="diverse-logos-track">
             <ul>
                 {{#logos}}<li><a href="{{url}}" target="_blank" rel="noopener"><img src="{{logourl}}" alt="{{name}}"></a></li>{{/logos}}
@@ -57,6 +45,19 @@
         </div>
     </section>
     {{/haslogos}}
+
+    <section class="diverse-cta" aria-labelledby="diverse-cta-title">
+        <h2 class="diverse-cta-title diverse-reveal" id="diverse-cta-title">{{#str}}cta_title, theme_diverse{{/str}}</h2>
+        <p class="diverse-cta-text diverse-reveal" style="--diverse-i: 1">{{ctatext}}</p>
+        <div class="diverse-hero-actions diverse-reveal" style="--diverse-i: 2">
+            <a class="btn btn-lg diverse-btn-white" href="{{#loggedin}}{{dashboardurl}}{{/loggedin}}{{^loggedin}}{{loginurl}}{{/loggedin}}">
+                {{#loggedin}}{{#str}}myhome{{/str}}{{/loggedin}}{{^loggedin}}{{#str}}landing_getstarted, theme_diverse{{/str}}{{/loggedin}}
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-lg diverse-btn-outline-light" href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
+        </div>
+    </section>
+
     <footer class="diverse-landing-footer-wrap">
         <div class="diverse-landing-footer">
             <div class="diverse-landing-footer-about">
@@ -77,6 +78,7 @@
             <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_explore, theme_diverse{{/str}}">
                 <span class="diverse-landing-footer-heading">{{#str}}footer_explore, theme_diverse{{/str}}</span>
                 <a href="{{homeurl}}#diverse-about">{{#str}}nav_about, theme_diverse{{/str}}</a>
+                <a href="{{homeurl}}#diverse-platform">{{#str}}nav_platform, theme_diverse{{/str}}</a>
                 <a href="{{homeurl}}#diverse-partners">{{#str}}nav_partners, theme_diverse{{/str}}</a>
                 <a href="{{homeurl}}#diverse-courses">{{#str}}nav_courses, theme_diverse{{/str}}</a>
             </nav>
@@ -85,8 +87,12 @@
                 {{#loggedin}}<a href="{{dashboardurl}}">{{#str}}myhome{{/str}}</a>{{/loggedin}}
                 {{^loggedin}}<a href="{{loginurl}}">{{#str}}login{{/str}}</a>{{/loggedin}}
                 <a href="{{allcoursesurl}}">{{#str}}courses{{/str}}</a>
-                <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
                 <a href="{{supporturl}}">{{#str}}contactsitesupport, admin{{/str}}</a>
+            </nav>
+            <nav class="diverse-landing-footer-links" aria-label="{{#str}}footer_legal, theme_diverse{{/str}}">
+                <span class="diverse-landing-footer-heading">{{#str}}footer_legal, theme_diverse{{/str}}</span>
+                {{#policies}}<a href="{{url}}" target="_blank" rel="noopener">{{name}}</a>{{/policies}}
+                <a href="{{privacyurl}}">{{#str}}footer_privacy, theme_diverse{{/str}}</a>
             </nav>
         </div>
         <div class="diverse-landing-footer-bottom">

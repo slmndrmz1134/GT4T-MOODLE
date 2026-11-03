@@ -34,8 +34,11 @@ use theme_diverse\local\partners;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class landing implements renderable, templatable {
-    /** @var int Number of courses shown in the "Explore courses" section. */
-    const FEATURED_COURSES = 4;
+    /** @var int Number of courses in the row of the "Explore courses" section. */
+    const FEATURED_COURSES = 12;
+
+    /** @var int[] Days from today of the sample deadlines in the dashboard preview of the hero. */
+    const PREVIEW_DAYS = [3, 6, 12];
 
     /** @var string[] Cover styles cycled through for courses without a readable overview image. */
     const COVER_STYLES = ['ink', 'brand', 'peach', 'soft'];
@@ -75,6 +78,7 @@ class landing implements renderable, templatable {
         $courses = $this->get_featured_courses();
         $coursecount = $DB->count_records_select('course', 'id <> :siteid AND visible = 1', ['siteid' => SITEID]);
         $countrycount = count(array_unique(array_column(self::PROJECT_PARTNERS, 'country')));
+        $languages = get_string_manager()->get_list_of_translations();
 
         return [
             // Students in a lecture hall (Vitaly Gariev, Unsplash licence), chosen by the project owner.
@@ -88,11 +92,19 @@ class landing implements renderable, templatable {
             'coursecount' => $coursecount,
             'courses' => $courses,
             'hascourses' => !empty($courses),
+            'coursefilters' => $this->get_course_filters($courses),
+            'languagecount' => count($languages),
+            'languages' => array_map(fn($name, $code) => ['name' => $name, 'current' => $code === current_language()],
+                array_values($languages), array_keys($languages)),
+            'headline' => get_string('landing_headline', 'theme_diverse',
+                \html_writer::span(get_string('landing_headline_word', 'theme_diverse'))),
+            'preview' => $this->get_preview($courses),
             'loggedin' => isloggedin() && !isguestuser(),
             'loginurl' => (new \core\url('/login/index.php'))->out(false),
             'dashboardurl' => (new \core\url('/my/'))->out(false),
             'allcoursesurl' => (new \core\url('/course/index.php'))->out(false),
             'privacyurl' => (new \core\url('/admin/tool/dataprivacy/summary.php'))->out(false),
+            'policies' => $this->get_policies(),
             'supporturl' => (new \core\url('/user/contactsitesupport.php'))->out(false),
             'copyright' => get_string('footer_copyright', 'theme_diverse', userdate(time(), '%Y')),
             'homeurl' => (new \core\url('/'))->out(false),
@@ -153,6 +165,8 @@ class landing implements renderable, templatable {
      * @return array
      */
     protected function get_featured_courses(): array {
+        global $DB;
+
         $groups = [];
         $courses = core_course_category::top()->get_courses(['recursive' => true, 'sort' => ['sortorder' => 1]]);
         foreach ($courses as $course) {
@@ -161,7 +175,7 @@ class landing implements renderable, templatable {
                 continue;
             }
             $topcategoryid = explode('/', trim($category->path, '/'))[0];
-            $groups[$topcategoryid][] = [$course, $category];
+            $groups[$topcategoryid][] = [$course, core_course_category::get($topcategoryid, IGNORE_MISSING) ?: $category];
         }
 
         $picked = [];
@@ -177,18 +191,97 @@ class landing implements renderable, templatable {
             }
         }
 
+        $activities = [];
+        if ($picked) {
+            [$insql, $params] = $DB->get_in_or_equal(array_map(fn($item) => $item[0]->id, $picked), SQL_PARAMS_NAMED);
+            $activities = $DB->get_records_sql_menu(
+                "SELECT course, COUNT(id) FROM {course_modules}
+                  WHERE course $insql AND visible = 1 AND deletioninprogress = 0
+               GROUP BY course",
+                $params
+            );
+        }
+
         $items = [];
         foreach ($picked as $index => [$course, $category]) {
             $items[] = [
                 'fullname' => $course->get_formatted_fullname(),
                 'shortname' => $course->get_formatted_shortname(),
                 'category' => $category->get_formatted_name(),
+                'categoryid' => (int)$category->id,
+                'activities' => (int)($activities[$course->id] ?? 0),
                 'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
                 // Neighbours get different colours, whatever their ids.
                 'coverstyle' => self::COVER_STYLES[$index % count(self::COVER_STYLES)],
             ] + self::course_cover($course);
         }
         return $items;
+    }
+
+    /**
+     * The buttons above the course row: all courses, then one per partner (top category) that has a course in the row.
+     *
+     * @param array $courses See get_featured_courses().
+     * @return array[] name, categoryid (0 for all), current
+     */
+    protected function get_course_filters(array $courses): array {
+        $filters = array_column($courses, 'category', 'categoryid');
+        if (count($filters) < 2) {
+            return [];
+        }
+        $items = [['name' => get_string('mycourses_all', 'theme_diverse'), 'categoryid' => 0, 'current' => true]];
+        foreach ($filters as $id => $name) {
+            $items[] = ['name' => $name, 'categoryid' => $id, 'current' => false];
+        }
+        return $items;
+    }
+
+    /**
+     * The dashboard preview next to the hero title: featured courses with sample deadlines in the next days.
+     *
+     * Only a picture of the dashboard (the template hides it from screen readers): the course names are real, the
+     * progress and the deadlines are examples.
+     *
+     * @param array $courses See get_featured_courses().
+     * @return array|null
+     */
+    protected function get_preview(array $courses): ?array {
+        if (!$courses) {
+            return null;
+        }
+        $types = ['assign', 'quiz', 'forum'];
+        $deadlines = [];
+        foreach (self::PREVIEW_DAYS as $index => $days) {
+            $time = time() + $days * DAYSECS;
+            $deadlines[] = [
+                'day' => userdate($time, '%d'),
+                'month' => userdate($time, '%b'),
+                'name' => get_string('modulename', $types[$index]),
+                'course' => $courses[($index + 1) % count($courses)]['fullname'],
+            ];
+        }
+        return [
+            'course' => $courses[0],
+            'live' => $courses[min(1, count($courses) - 1)]['fullname'],
+            'deadlines' => $deadlines,
+        ];
+    }
+
+    /**
+     * The Privacy Policy and the Terms of Use of local_diverse_policy, for the footer.
+     *
+     * @return array[] name, url
+     */
+    protected function get_policies(): array {
+        if (!class_exists(\local_diverse_policy\policies::class)) {
+            return [];
+        }
+        return [
+            ['name' => get_string('privacypolicy', 'local_diverse_policy'),
+                'url' => \local_diverse_policy\policies::url(\local_diverse_policy\policies::PRIVACY)->out(false)],
+            ['name' => get_string('termspolicy', 'local_diverse_policy'),
+                'url' => \local_diverse_policy\policies::url(\local_diverse_policy\policies::TERMS)->out(false)],
+        ];
     }
 
     /**

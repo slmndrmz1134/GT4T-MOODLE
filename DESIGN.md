@@ -165,8 +165,13 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   çizim değişir; listede olmayan ikon Moodle'ınki kalır. Zil okunmamış bildirim varken dolu görünür.
 - **Ders kartları:** kayıtlı olunan derste sağ üstte favori yıldızı, kapakta etkinlik sayacı, üstte tür etiketi, altta ilerleme ve eylem düğmesi (Başla, Devam et, Görüntüle). Başlık 700, `1.125rem`, ink renk. Hover'da etkileşim turuncusu.
 - **Etiketler (eyebrow, rozet, ders kodu):** butonlarla aynı köşe (`$btn-border-radius`), oval değil.
-- **Landing hero'su:** `pix/hero.jpg` (amfide öğrenciler, Vitaly Gariev, Unsplash lisansı; proje sahibinin seçimi), üzerinde
-  `$diverse-photo-shade` koyu katmanı ve beyaz yazı. Partner kampüs fotoğrafları partner kartlarında görünür. Altında partner logoları şeridi. Platformda ve landing'de dekoratif kare desen kullanılmaz
+- **Landing hero'su:** `pix/hero.jpg` (amfide öğrenciler, Vitaly Gariev, Unsplash lisansı; proje sahibinin seçimi), tüm ekran,
+  üzerinde soldan sağa açılan ink katmanı (`$diverse-photo-shade-strong` → `$diverse-photo-shade` → `$diverse-photo-shade-soft`)
+  ve beyaz yazı (`$diverse-on-photo`), sağda panonun bir resmi. Sayfa tam genişlik (Bilal'in taslağı, Kasım 2026:
+  `docs/design/mockups/Landing-wide.html`), yan boşluk `clamp(1rem, 5vw, 6rem)`; üst menü de aynı boşlukla hizalanır.
+  Üst menü hero'da şeffaf, logo ve linkler beyaz (logonun arkasında beyaz kutu yok); sayfa kayınca beyaz olur.
+  Fotoğraf ve turuncu bant üzerindeki çizgi/yarı saydam beyazlar `$diverse-on-photo-*`, fotoğraf üstünde yüzen kartların
+  gölgesi `$diverse-float-shadow` (hepsi `pre.scss`). Platformda ve landing'de dekoratif kare desen kullanılmaz
   (proje sahibinin kararı, Kasım 2026); kare desen yalnızca giriş sayfasında kalır.
 - **Ders kapakları:** dersin görseli, yoksa marka renkli zemin üzerinde dersin baş harfleri.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
