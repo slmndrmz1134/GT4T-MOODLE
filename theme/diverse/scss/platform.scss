@@ -2918,3 +2918,40 @@ body#page-course-view-participants #region-main {
         margin-top: .5rem;
     }
 }
+
+// Activity with a video, like a video site: the player on the whole width above the title, the description and the rest
+// below it (core_renderer::PLAYER_JS). The contents of the course on the right push it narrower and give the room back
+// when they close.
+.diverse-player {
+    margin: 0 0 1.25rem;
+    overflow: hidden;
+    background-color: $diverse-ink;
+    border-radius: $card-border-radius;
+
+    .mediaplugin,
+    .mediaplugin > div {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+    }
+
+    video,
+    iframe,
+    .video-js {
+        display: block;
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: calc(100vh - 10rem);
+        aspect-ratio: 16 / 9;
+        border: 0;
+    }
+
+    .video-js .vjs-tech {
+        height: 100% !important;
+    }
+}
+
+body.diverse-has-player #page.drawers {
+    transition: margin-right .25s ease, padding-right .25s ease;
+}

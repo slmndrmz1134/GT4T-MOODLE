@@ -393,7 +393,10 @@ JS);
         }
         if (shell::applies($this->page) && $this->page->course->id != SITEID && $this->page->cm) {
             $bar = course_hero::lesson_bar($this->page->course, $this->page->cm);
-            return $this->render_from_template('theme_diverse/lesson_bar', $bar) . $header;
+            // Like a video site: the activity's first video above its title (PLAYER_JS moves it here).
+            $this->page->requires->js_amd_inline(self::PLAYER_JS);
+            return $this->render_from_template('theme_diverse/lesson_bar', $bar) .
+                \html_writer::div('', 'diverse-player', ['hidden' => 'hidden']) . $header;
         }
         return $header;
     }
@@ -518,6 +521,24 @@ JS);
             'ispartner' => (bool)$partner,
         ];
     }
+
+    /** @var string Activity pages: the first video of the content goes above the title, its description stays below. */
+    const PLAYER_JS = <<<'JS'
+(function() {
+    var player = document.querySelector('.diverse-player');
+    var main = document.querySelector('#region-main [role="main"]');
+    if (!player || !main) {
+        return;
+    }
+    var media = main.querySelector('.mediaplugin, video, iframe[src*="youtube"], iframe[src*="youtu.be"], iframe[src*="vimeo"]');
+    if (!media) {
+        return;
+    }
+    player.appendChild(media.closest('.mediaplugin') || media);
+    player.hidden = false;
+    document.body.classList.add('diverse-has-player');
+})();
+JS;
 
     /** @var string Signup page: show the brand of the university chosen in the form's "University" field. */
     const SIGNUP_BRAND_JS = <<<'JS'
