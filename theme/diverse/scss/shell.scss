@@ -371,6 +371,19 @@ $diverse-tabbar-height: 4rem;
                 max-height: calc(100vh - 2rem);
                 overflow-y: auto;
             }
+
+            // Next to the rail and the top bar the menu keeps only what they do not have. Phones hide those, so there
+            // the menu stays whole.
+            #carousel-item-main {
+                > a[href*="/grade/report/overview/"],
+                > a[href*="/calendar/view.php"],
+                > a[href*="/theme/diverse/palette.php"],
+                > a[href*="/user/preferences.php"],
+                > .carousel-navigation-link,
+                > .dropdown-divider:has(+ a[href*="/user/preferences.php"]) {
+                    display: none;
+                }
+            }
         }
 
         #page-wrapper {
