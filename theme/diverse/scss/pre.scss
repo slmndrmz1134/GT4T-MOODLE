@@ -55,7 +55,6 @@ $diverse-palette: orange !default;
 // Bootstrap follows; the action colours are lighter, so that links reach 4.5:1 on the cards and buttons take the
 // card colour as their text.
 $diverse-mode: light !default;
-$diverse-logo-bg: #FFFFFF;                 // Behind logos in both modes: they are drawn for a white background.
 @if $diverse-mode == dark {
     $white: #1A1D21 !global;                       // Cards, fields, menus.
     $diverse-brand-orange: #FF671F;

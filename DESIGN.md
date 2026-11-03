@@ -80,8 +80,8 @@ ziyaretçi ana sayfası ve giriş sayfası açık kalır.
 
 Tema her palet için bir kez daha derlenir (`styles_palette.php?variant=dark|green-dark`): `pre.scss` içindeki
 `@if $diverse-mode == dark` bloğu aynı değişkenlere koyu değerler verir. `$white` kartların ve alanların rengi olur,
-"ink" yazının rengi; Bootstrap'in gri tonları ters çevrilir. Logoların arkası her iki modda beyazdır
-(`$diverse-logo-bg`).
+"ink" yazının rengi; Bootstrap'in gri tonları ters çevrilir. Sol menüdeki logonun arkasında zemin yoktur; koyu temada logo beyaz çizilir
+(landing sayfasındaki gibi, `filter: brightness(0) invert(1)`).
 
 | SCSS değişkeni | Koyu turuncu | Koyu yeşil | Kontrast (kartta) |
 |---|---|---|---|

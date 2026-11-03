@@ -167,9 +167,9 @@ $diverse-tabbar-height: 4rem;
         height: 2.75rem;
         margin-bottom: .75rem;
         padding: .25rem;
-        // White in both modes: the logos are drawn for a white background.
-        background-color: $diverse-logo-bg;
-        border: 1px solid $diverse-border;
+        // No plate behind the logo; in dark mode the logo is drawn in white (see below).
+        background-color: transparent;
+        border: 1px solid transparent;
         border-radius: $border-radius;
 
         &:hover,
@@ -185,6 +185,13 @@ $diverse-tabbar-height: 4rem;
 
         .diverse-nav-brand-full {
             display: none;
+        }
+    }
+
+    // The logos are drawn for a light page: on the dark one they turn white, like the logo of the landing page.
+    @if $diverse-mode == dark {
+        .diverse-nav-brand img {
+            filter: brightness(0) invert(1);
         }
     }
 
