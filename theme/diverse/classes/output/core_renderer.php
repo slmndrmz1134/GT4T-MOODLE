@@ -158,11 +158,17 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
     /**
      * Add the application navigation at the top of the page.
      *
+     * The logo leads to the public site home, which introduces the platform: Moodle points it to the dashboard,
+     * which the navigation already has. Moodle takes the logo's address from the root of the breadcrumb, so the
+     * link itself is changed here and the breadcrumb keeps the dashboard.
+     *
      * @return string
      */
     public function standard_top_of_body_html() {
         $html = parent::standard_top_of_body_html();
         if (shell::applies($this->page)) {
+            $home = json_encode((new \core\url('/', ['redirect' => 0]))->out(false));
+            $this->page->requires->js_amd_inline("document.querySelectorAll('a.navbar-brand').forEach(a => { a.href = {$home}; });");
             $html .= $this->render_from_template(
                 'theme_diverse/shell_nav',
                 (new shell($this->page))->export_for_template($this)

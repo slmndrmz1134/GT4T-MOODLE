@@ -20,16 +20,14 @@
     Application navigation for logged-in users: a row of links under the top bar, a tab bar at the bottom on phones.
 
     Context variables required for this template:
-    * main - the main places: label, url, icon (icon class), current
+    * main - the main places, the platform guide last: label, url, icon (icon class), current, nophone
     * manage, hasmanage - management places of partner managers and site administrators
     * managecurrent - whether one of the management places is open
-    * home - the public site home
 
     Example context (json):
     {
         "main": [{"label": "Dashboard", "url": "#", "icon": "fa-book", "current": true}],
-        "manage": [], "hasmanage": false, "managecurrent": false,
-        "home": {"label": "Home", "url": "#", "icon": "fa-house", "current": false}
+        "manage": [], "hasmanage": false, "managecurrent": false
     }
 }}
 <nav class="diverse-nav" aria-label="{{#str}}shell_nav, theme_diverse{{/str}}">
@@ -53,12 +51,4 @@
         </ul>
     </div>
     {{/hasmanage}}
-    <ul class="diverse-nav-list diverse-nav-end">
-        {{#home}}
-        <li><a class="diverse-nav-link" href="{{url}}">
-            <i class="fa {{icon}}" aria-hidden="true"></i>
-            <span>{{label}}</span>
-        </a></li>
-        {{/home}}
-    </ul>
 </nav>

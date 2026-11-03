@@ -33,6 +33,9 @@ use theme_diverse\local\partners;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class shell implements renderable, templatable {
+    /** @var string Short name of the course with the platform's how-to videos. */
+    const GUIDE_SHORTNAME = 'DIVERSE-GUIDE';
+
     /** @var string[] Page layouts without the navigation: pages that are not part of the application. */
     const EXCLUDED_LAYOUTS = ['embedded', 'frametop', 'frontpage', 'login', 'maintenance', 'popup', 'print', 'redirect', 'secure'];
 
@@ -47,11 +50,14 @@ class shell implements renderable, templatable {
         'partner' => 'fa-building',
         'users' => 'fa-users',
         'admin' => 'fa-sliders',
-        'home' => 'fa-house',
+        'guide' => 'fa-circle-question',
     ];
 
     /** @var \moodle_page */
     protected $page;
+
+    /** @var int|null Id of the guide course, if the site has one the user can open. */
+    protected $guideid;
 
     /**
      * Constructor.
@@ -59,7 +65,13 @@ class shell implements renderable, templatable {
      * @param \moodle_page $page
      */
     public function __construct(\moodle_page $page) {
+        global $DB;
+
         $this->page = $page;
+        $guide = $DB->get_record('course', ['shortname' => self::GUIDE_SHORTNAME], 'id, visible');
+        if ($guide && ($guide->visible || has_capability('moodle/course:viewhiddencourses', \context_course::instance($guide->id)))) {
+            $this->guideid = (int)$guide->id;
+        }
     }
 
     /**
@@ -108,6 +120,11 @@ class shell implements renderable, templatable {
         if (!empty($CFG->messaging)) {
             $main[] = $this->link('messages', get_string('messages', 'message'), '/message/index.php', ['/message/']);
         }
+        // The how-to videos. On phones the tab bar has no room left for it.
+        if ($this->guideid) {
+            $main[] = $this->link('guide', get_string('nav_guide', 'theme_diverse'), '/course/view.php?id=' . $this->guideid, [])
+                + ['nophone' => true];
+        }
 
         $manage = [];
         $tenant = partners::current();
@@ -134,7 +151,6 @@ class shell implements renderable, templatable {
             'manage' => $manage,
             'hasmanage' => !empty($manage),
             'managecurrent' => in_array(true, array_column($manage, 'current'), true),
-            'home' => $this->link('home', get_string('sitehome'), '/?redirect=0', []),
         ];
     }
 
@@ -153,9 +169,10 @@ class shell implements renderable, templatable {
         foreach ($paths as $path) {
             $iscurrent = $iscurrent || str_starts_with($current, $path);
         }
-        // Every tab of a course belongs to My courses; the information page of another course is still browsing.
+        // Every tab of a course belongs to My courses (the guide to itself); the information page of another course
+        // is still browsing.
         if ($this->page->course->id != SITEID && !str_starts_with($current, '/course/info.php')) {
-            $iscurrent = $icon === 'courses';
+            $iscurrent = $icon === ($this->page->course->id == $this->guideid ? 'guide' : 'courses');
         }
         return [
             'label' => $label,

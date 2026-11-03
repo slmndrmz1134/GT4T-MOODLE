@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Taispeánann do dheais do chéad ghníomhaíocht eile, 
 $string['cta_title'] = 'Réidh le foghlaim?';
 $string['cta_text'] = 'Cúrsaí ó {$a->partners} comhpháirtí i {$a->countries} tír, in aon áit amháin.';
 $string['nav_discover'] = 'Faigh amach';
+$string['nav_guide'] = 'Treoir an ardáin';
 $string['nav_search'] = 'Cad ba mhaith leat a fhoghlaim?';
 $string['dash_resume'] = 'Lean ort ag foghlaim';
 $string['dash_recommended'] = 'Tuilleadh cúrsaí duit';

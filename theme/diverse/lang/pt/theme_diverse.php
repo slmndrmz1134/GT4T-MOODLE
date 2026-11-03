@@ -123,6 +123,7 @@ $string['step3_desc'] = 'O seu painel mostra a próxima atividade, os prazos e a
 $string['cta_title'] = 'Pronto para aprender?';
 $string['cta_text'] = 'Cursos de {$a->partners} parceiros em {$a->countries} países, num só lugar.';
 $string['nav_discover'] = 'Descobrir';
+$string['nav_guide'] = 'Guia da plataforma';
 $string['nav_search'] = 'O que quer aprender?';
 $string['dash_resume'] = 'Continue a aprender';
 $string['dash_recommended'] = 'Mais cursos para si';

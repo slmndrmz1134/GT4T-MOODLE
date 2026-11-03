@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Dein Dashboard zeigt die nächste Aktivität, Fristen u
 $string['cta_title'] = 'Bereit zum Lernen?';
 $string['cta_text'] = 'Kurse von {$a->partners} Partnern aus {$a->countries} Ländern an einem Ort.';
 $string['nav_discover'] = 'Entdecken';
+$string['nav_guide'] = 'Plattform-Leitfaden';
 $string['nav_search'] = 'Was möchten Sie lernen?';
 $string['dash_resume'] = 'Weiterlernen';
 $string['dash_recommended'] = 'Weitere Kurse für Sie';

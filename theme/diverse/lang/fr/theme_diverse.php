@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Votre tableau de bord affiche votre prochaine activité
 $string['cta_title'] = 'Prêt à apprendre ?';
 $string['cta_text'] = 'Des cours de {$a->partners} partenaires dans {$a->countries} pays, au même endroit.';
 $string['nav_discover'] = 'Découvrir';
+$string['nav_guide'] = 'Guide de la plateforme';
 $string['nav_search'] = 'Que voulez-vous apprendre ?';
 $string['dash_resume'] = 'Continuez à apprendre';
 $string['dash_recommended'] = 'Plus de cours pour vous';

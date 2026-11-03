@@ -63,7 +63,6 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
     }
 
     .diverse-nav-manage,
-    .diverse-nav-end,
     .diverse-nav-nophone {
         display: none;
     }
@@ -159,14 +158,6 @@ $diverse-header-height: calc(#{$navbar-height} + #{$diverse-nav-height});
     .diverse-nav-manage {
         display: flex;
         margin-left: auto;
-    }
-
-    .diverse-nav-end {
-        margin-left: auto;
-    }
-
-    .diverse-nav-manage + .diverse-nav-end {
-        margin-left: 0;
     }
 
     .diverse-nav-link {

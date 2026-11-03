@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Je dashboard toont je volgende activiteit, deadlines en
 $string['cta_title'] = 'Klaar om te leren?';
 $string['cta_text'] = 'Cursussen van {$a->partners} partners uit {$a->countries} landen op één plek.';
 $string['nav_discover'] = 'Ontdekken';
+$string['nav_guide'] = 'Platformgids';
 $string['nav_search'] = 'Wat wil je leren?';
 $string['dash_resume'] = 'Verder leren';
 $string['dash_recommended'] = 'Meer cursussen voor jou';

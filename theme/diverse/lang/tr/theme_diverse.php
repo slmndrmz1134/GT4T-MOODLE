@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Panonuz sıradaki etkinliğinizi, teslim tarihlerinizi 
 $string['cta_title'] = 'Öğrenmeye hazır mısınız?';
 $string['cta_text'] = '{$a->countries} ülkeden {$a->partners} ortağın dersleri tek bir yerde.';
 $string['nav_discover'] = 'Keşfet';
+$string['nav_guide'] = 'Platform rehberi';
 $string['nav_search'] = 'Ne öğrenmek istiyorsunuz?';
 $string['dash_resume'] = 'Öğrenmeye devam edin';
 $string['dash_recommended'] = 'Sizin için diğer dersler';

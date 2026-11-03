@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Panoul îți arată următoarea activitate, termenele �
 $string['cta_title'] = 'Gata să înveți?';
 $string['cta_text'] = 'Cursuri de la {$a->partners} parteneri din {$a->countries} țări, într-un singur loc.';
 $string['nav_discover'] = 'Descoperă';
+$string['nav_guide'] = 'Ghidul platformei';
 $string['nav_search'] = 'Ce vrei să înveți?';
 $string['dash_resume'] = 'Continuă să înveți';
 $string['dash_recommended'] = 'Mai multe cursuri pentru tine';

@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Skydelis rodo kitą veiklą, terminus ir įvertinimus.'
 $string['cta_title'] = 'Pasiruošęs mokytis?';
 $string['cta_text'] = '{$a->partners} partnerių iš {$a->countries} šalių kursai vienoje vietoje.';
 $string['nav_discover'] = 'Atrasti';
+$string['nav_guide'] = 'Platformos gidas';
 $string['nav_search'] = 'Ko norite išmokti?';
 $string['dash_resume'] = 'Tęskite mokymąsi';
 $string['dash_recommended'] = 'Daugiau kursų jums';

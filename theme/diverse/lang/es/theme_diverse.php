@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Tu panel muestra tu siguiente actividad, tus plazos y t
 $string['cta_title'] = '¿Listo para aprender?';
 $string['cta_text'] = 'Cursos de {$a->partners} socios de {$a->countries} países, en un solo lugar.';
 $string['nav_discover'] = 'Descubrir';
+$string['nav_guide'] = 'Guía de la plataforma';
 $string['nav_search'] = '¿Qué quieres aprender?';
 $string['dash_resume'] = 'Sigue aprendiendo';
 $string['dash_recommended'] = 'Más cursos para ti';

@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Työpöytäsi näyttää seuraavan aktiviteetin, määr
 $string['cta_title'] = 'Valmis aloittamaan?';
 $string['cta_text'] = 'Kursseja {$a->partners} kumppanilta {$a->countries} maasta yhdessä paikassa.';
 $string['nav_discover'] = 'Löydä';
+$string['nav_guide'] = 'Alustan opas';
 $string['nav_search'] = 'Mitä haluat oppia?';
 $string['dash_resume'] = 'Jatka oppimista';
 $string['dash_recommended'] = 'Lisää kursseja sinulle';

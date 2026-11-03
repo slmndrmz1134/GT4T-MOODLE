@@ -123,6 +123,7 @@ $string['step3_desc'] = 'Nadzorna ploča prikazuje sljedeću aktivnost, rokove i
 $string['cta_title'] = 'Spreman za učenje?';
 $string['cta_text'] = 'Kolegiji {$a->partners} partnera iz {$a->countries} zemalja na jednom mjestu.';
 $string['nav_discover'] = 'Otkrij';
+$string['nav_guide'] = 'Vodič za platformu';
 $string['nav_search'] = 'Što želite naučiti?';
 $string['dash_resume'] = 'Nastavite učiti';
 $string['dash_recommended'] = 'Još kolegija za vas';
