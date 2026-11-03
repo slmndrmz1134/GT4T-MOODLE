@@ -22,8 +22,8 @@ namespace theme_diverse\local;
  * Every choice but orange and light is the same theme compiled once more with other colours (scss/pre.scss): green,
  * dark, green-dark. Pages of users who chose one load that stylesheet instead of the normal one (styles_palette.php).
  * The choices are user preferences, set from the top bar, the rail or the user menu (palette.php). Without a choice
- * of mode, the dark stylesheet follows the device's setting (core_renderer::standard_head_html()). Visitors always
- * see orange and light; the dark mode is for the application pages only.
+ * of mode the platform is light. Visitors always see orange and light; the dark mode is for the application pages
+ * only.
  *
  * @package    theme_diverse
  * @copyright  2026 DIVERSE European University
@@ -77,7 +77,10 @@ class palette {
     }
 
     /**
-     * The mode the current user chose: light, dark, or auto (follow the device).
+     * The mode the current user chose: light or dark.
+     *
+     * Without a choice the platform opens light, whatever the device's setting (project owner, November 2026); the
+     * 'auto' mode of the switches and the head (follow the device) is then never used.
      *
      * @return string
      */
@@ -86,7 +89,7 @@ class palette {
             return 'light';
         }
         $mode = get_user_preferences(self::MODE_PREFERENCE);
-        return in_array($mode, self::MODES, true) ? $mode : 'auto';
+        return in_array($mode, self::MODES, true) ? $mode : 'light';
     }
 
     /**
