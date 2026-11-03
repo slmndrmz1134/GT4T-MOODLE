@@ -358,6 +358,15 @@ $diverse-tabbar-height: 4rem;
             .usermenu .login {
                 display: none;
             }
+
+            // Popper places the menu below the avatar, off the bottom of the screen: it opens to the right, upwards.
+            #user-action-menu {
+                position: absolute !important;
+                inset: auto auto 0 calc(100% + .75rem) !important;
+                transform: none !important;
+                max-height: calc(100vh - 2rem);
+                overflow-y: auto;
+            }
         }
 
         #page-wrapper {
