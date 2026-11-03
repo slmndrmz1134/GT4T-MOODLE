@@ -1,6 +1,6 @@
 # AI Ders Asistanı (`local_diverse_assistant`)
 
-Öğrenciler her dersin sağ kenarındaki **AI asistan** sekmesinden açılan panelde, o dersin içeriği hakkında bir yapay
+Öğrenciler her dersin sağ alt köşesindeki yuvarlak **AI asistan** düğmesinden açılan panelde, o dersin içeriği hakkında bir yapay
 zekâ modeliyle yazışır: özet, açıklama, örnek, kendini sınama soruları. Dersi düzenleyebilen **öğretmenler** aynı
 panelde içerik asistanını görür: AI yeni sayfa, metin düzeltme, çeviri önerir; öğretmen onaylayınca derse uygulanır.
 Bu belge eklentinin ne yaptığını, verinin nereye gittiğini, nasıl kurulup test edildiğini anlatır.
@@ -11,7 +11,7 @@ Bu belge eklentinin ne yaptığını, verinin nereye gittiğini, nasıl kurulup 
 
 ## Öğrenci ne görür
 
-- Ders sayfasında ve dersin etkinlik sayfalarında sağ kenarda dikey **AI asistan** sekmesi. Tıklayınca sağda panel
+- Ders sayfasında ve dersin etkinlik sayfalarında sağ alt köşede yuvarlak **AI asistan** düğmesi. Tıklayınca sağda panel
   açılır; geniş ekranda sayfa kayar, telefonda panel tam ekran açılır. Panel açık kalırsa sayfa değişince de açık gelir.
 - İlk kullanımda bilgilendirme: hangi servisin kullanıldığı, AI'ın hata yapabileceği, kişisel bilgi yazılmaması,
   saklama tercihinin öğrenciye ait olduğu. "Anladım, başla" ile sohbet açılır. Sunucu da bunu denetler: bilgilendirmeyi
@@ -119,7 +119,7 @@ Site yönetimi > Eklentiler > Yerel eklentiler > **DIVERSE AI asistan** (`/admin
    **Düşünme düzeyi:** Düşük önerilir; yalnızca destekleyen modellere gönderilir (OpenAI'da `reasoning_effort`, Claude'da
    `effort`, Gemini'de `reasoning_effort`). **Öğretmen modunda düşünme düzeyi** ayrı bir ayardır (varsayılan: Yüksek):
    öneriler tüm sayfaları ve çevirileri içerdiği için daha dikkatli düşünmek gerekir.
-5. **Asistanı aç** kutusunu işaretleyip kaydedin. Sekme, `local/diverse_assistant:use` yetkisi olan herkese görünür
+5. **Asistanı aç** kutusunu işaretleyip kaydedin. Düğme, `local/diverse_assistant:use` yetkisi olan herkese görünür
    (varsayılan: öğrenci, öğretmen, yönetici).
 
 Diğer ayarlar: kullanıcı başına saatlik soru (varsayılan 30), gönderilen ders içeriği uzunluğu (varsayılan 60.000
