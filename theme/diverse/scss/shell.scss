@@ -800,3 +800,15 @@ $diverse-tabbar-height: 4rem;
     border-left: 1px solid $diverse-border;
     box-shadow: $box-shadow-lg;
 }
+
+// Edit mode switch of the top bar: until the bar has room (xl), the switch alone, its name for screen readers only.
+@include media-breakpoint-down(xl) {
+    body.diverse-shell .editmode-switch-form label {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+    }
+}
