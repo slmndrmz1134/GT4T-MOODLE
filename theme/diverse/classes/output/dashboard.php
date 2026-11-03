@@ -439,6 +439,8 @@ class dashboard implements renderable, templatable {
             $week[] = [
                 'weekday' => userdate($start, '%a'),
                 'day' => userdate($start, '%d'),
+                'date' => userdate($start, get_string('strftimedaydate', 'langconfig')),
+                'url' => (new \core\url('/calendar/view.php', ['view' => 'day', 'time' => $start]))->out(false),
                 'today' => $start === usergetmidnight($now),
                 'busy' => isset($busy[$start]),
             ];

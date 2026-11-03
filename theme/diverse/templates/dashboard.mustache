@@ -184,7 +184,7 @@
             <div class="diverse-panel">
                 <ol class="diverse-week">
                     {{#week}}
-                    <li class="{{#today}}today{{/today}}{{#busy}} busy{{/busy}}"><span>{{weekday}}</span><strong>{{day}}</strong></li>
+                    <li class="{{#today}}today{{/today}}{{#busy}} busy{{/busy}}"><a href="{{url}}" aria-label="{{date}}"{{#today}} aria-current="date"{{/today}}><span>{{weekday}}</span><strong>{{day}}</strong></a></li>
                     {{/week}}
                 </ol>
                 {{#todo}}

@@ -1361,12 +1361,23 @@ body:has(.diverse-mycourses) .block_myoverview {
 
     li {
         position: relative;
+        border-radius: .75rem;
+    }
+
+    // Each day opens the calendar on that day.
+    a {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: .25rem;
         padding: .375rem 0 .625rem;
         border-radius: .75rem;
+        color: $diverse-ink;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $diverse-soft-orange;
+        }
     }
 
     span {
@@ -1391,7 +1402,8 @@ body:has(.diverse-mycourses) .block_myoverview {
         content: "";
     }
 
-    .today {
+    .today,
+    .today a:hover {
         background-color: $diverse-action-orange;
 
         span,
