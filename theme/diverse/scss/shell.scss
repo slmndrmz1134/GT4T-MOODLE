@@ -47,7 +47,12 @@ $diverse-tabbar-height: 4rem;
         left: 0;
         height: $diverse-tabbar-height;
         padding-bottom: env(safe-area-inset-bottom);
-        background-color: $diverse-ink;
+        background-color: $diverse-contrast;
+
+        // In dark mode the bar has the page's colour: a line sets it apart.
+        @if $diverse-mode == dark {
+            border-top: 1px solid $diverse-border;
+        }
 
         .fa {
             flex-shrink: 0;
@@ -79,17 +84,17 @@ $diverse-tabbar-height: 4rem;
         gap: .25rem;
         height: 100%;
         padding: 0 .125rem;
-        color: $diverse-on-dark-muted;
+        color: $diverse-on-contrast-muted;
         line-height: 1.2;
         text-align: center;
 
         &:hover,
         &:focus {
-            color: $white;
+            color: $diverse-on-contrast;
         }
 
         &:focus-visible {
-            outline: 2px solid $white;
+            outline: 2px solid $diverse-on-contrast;
             outline-offset: -2px;
         }
 

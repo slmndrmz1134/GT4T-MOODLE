@@ -174,6 +174,14 @@ ilgilendirir. Renkler ise her zaman `pre.scss` içindedir.
   gölgesi `$diverse-float-shadow` (hepsi `pre.scss`). Platformda ve landing'de dekoratif kare desen kullanılmaz
   (proje sahibinin kararı, Kasım 2026); kare desen yalnızca giriş sayfasında kalır.
 - **Ders kapakları:** dersin görseli, yoksa marka renkli zemin üzerinde dersin baş harfleri.
+- **Sayfanın tek koyu yüzeyi** (sıradaki canlı ders kartı, telefondaki alt sekme çubuğu, video oynatıcı, ink ders kapağı):
+  `$diverse-contrast` üzerinde `$diverse-on-contrast` yazı. Açık temada ink ve beyaz; koyu temada ink yazı rengi olduğundan
+  sayfanın en koyu rengi (`$diverse-surface`) ve açık yazı, beyaz leke olmaz (Kasım 2026).
+- **Takvim:** her gün yuvarlak köşeli bir kutu (`$diverse-surface`), bugün yumuşak turuncu zeminde, numarası turuncu dairede;
+  etkinlikler türünün renginde kısa çizgili satırlar (ders: turuncu, site: ink, grup: yeşil, kişisel: gri). Ay görünümünün
+  yanında, geniş ekranda, yaklaşan etkinlikler gün gün kartlar halinde, üstte aynı renkte çizgi (`calendar_agenda`).
+- **Başlıklar:** kendi başlık satırı olmayan sayfalarda (takvim, tercihler, profil, notlar...) Moodle'ın sayfa başlığı geniş
+  ekranda arama ile aynı satırda, pano ve Derslerim başlığıyla aynı boyutta (`1.5rem`) ve yükseklikte durur.
 - **Landing kareleri:** yalnızca `landing.scss` içindeki `$diverse-tiles` eşleşmeleri kullanılır
   (ink/turuncu, soft/ink, turuncu/ink, şeftali/ink...). Yeni zemin/yazı eşleşmesi kontrast ölçülmeden eklenmez.
 

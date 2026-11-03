@@ -1809,12 +1809,12 @@ body.path-mod-book #region-main .book_content {
 
 // The next live class: the one dark card of the page.
 .diverse-card.diverse-live {
-    background-color: $diverse-ink;
-    border-color: $diverse-ink;
-    color: $white;
+    background-color: $diverse-contrast;
+    border-color: $diverse-contrast;
+    color: $diverse-on-contrast;
 
     small {
-        color: $diverse-on-dark-muted;
+        color: $diverse-on-contrast-muted;
         font-size: .75rem;
         font-weight: 700;
         letter-spacing: .06em;
@@ -1827,7 +1827,7 @@ body.path-mod-book #region-main .book_content {
     }
 
     p {
-        color: $diverse-on-dark-muted;
+        color: $diverse-on-contrast-muted;
     }
 
     .btn {
@@ -2925,7 +2925,7 @@ body#page-course-view-participants #region-main {
 .diverse-player {
     margin: 0 0 1.25rem;
     overflow: hidden;
-    background-color: $diverse-ink;
+    background-color: $diverse-contrast;
     border-radius: $card-border-radius;
 
     .mediaplugin,

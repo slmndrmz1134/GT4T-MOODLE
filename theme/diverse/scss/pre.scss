@@ -117,6 +117,18 @@ $diverse-logo-bg: #FFFFFF;                 // Behind logos in both modes: they a
     $courseindex-item-dragging-bg: $diverse-soft-orange !global;
 }
 
+// The one dark surface of a page (the next live class, the phone tab bar, the video player, ink course covers): ink
+// with white text in light mode. In dark mode ink is the text colour, so these take the page's darkest colour with
+// the light text instead of turning into white patches.
+$diverse-contrast: $diverse-ink;
+$diverse-on-contrast: #FFFFFF;
+$diverse-on-contrast-muted: $diverse-on-dark-muted;
+@if $diverse-mode == dark {
+    $diverse-contrast: $diverse-surface;
+    $diverse-on-contrast: $diverse-ink;
+    $diverse-on-contrast-muted: $diverse-grey;     // 7.9:1 on the page colour.
+}
+
 $diverse-photo-shade: rgba($diverse-ink, .82);      // Ink over photos, so white text stays readable.
 $diverse-photo-shade-soft: rgba($diverse-ink, .35);
 $diverse-photo-shade-strong: rgba($diverse-ink, .94);
