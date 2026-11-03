@@ -43,6 +43,7 @@ ayrılmasın diye burada tekrar edilmez.
 | `Main.dc.html` | Landing page (ziyaretçi) |
 | `Login.dc.html` | Giriş: önce üniversite seçimi |
 | `Dashboard.dc.html` | Öğrenci dashboard'u |
+| `Dashboard-wide.html` | Öğrenci dashboard'u, tam genişlik: sol ikon menüsü ve kart ızgarası (Kasım 2026 taslağı, düz HTML; sağ üstte turuncu/yeşil palet anahtarı, sayılar örnek) |
 | `Course.dc.html` | Ders sayfası (Business Law) |
 | `Mobile.dc.html` | Mobil dashboard |
 | `Style.dc.html` | Renk ve tipografi sayfası |
