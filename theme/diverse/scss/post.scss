@@ -85,6 +85,12 @@ body.pagelayout-mycourses #page {
     --#{$prefix}btn-active-border-color: #{$diverse-action-orange};
 }
 
+// Small buttons are fully round (see $btn-border-radius-sm): Moodle sets them back to the general radius after Bootstrap.
+.btn-sm,
+.btn-group-sm > .btn {
+    --#{$prefix}btn-border-radius: #{$btn-border-radius-sm};
+}
+
 // Buttons without a colour of their own (user menu, action menus): Bootstrap leaves their pressed and open state undefined,
 // and the browser then draws a border in the text colour.
 .btn:not([class*="btn-"]),

@@ -60,7 +60,7 @@ rengi bu değerleri ezmez. Renk değişikliği admin panelinden değil, `pre.scs
 
 | Öğe | Değer | SCSS değişkeni |
 |---|---|---|
-| Butonlar (her boy) | `.875rem` (14 px) | `$diverse-control-radius`, `$btn-border-radius` |
+| Butonlar | `.875rem` (14 px); küçük butonlar (`btn-sm`) tam yuvarlak | `$diverse-control-radius`, `$btn-border-radius`, `$btn-border-radius-sm` |
 | Kartlar | `1.25rem` (20 px) | `$card-border-radius`, `$border-radius-xl` |
 | Form alanları | `.875rem` (14 px), butonlarla aynı | `$diverse-control-radius`, `$input-border-radius` |
 | Genel (menü, uyarı, küçük kutu) | `.875rem` / büyük `1rem` | `$border-radius`, `$border-radius-lg` |
