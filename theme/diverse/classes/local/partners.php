@@ -51,12 +51,23 @@ class partners {
      * kept in LOGO_TRIMMED_AREA; the upload itself is left as it is. SVG files and images this server cannot read
      * are used as uploaded.
      *
+     * The logo the partner's administrator uploaded in tool_mutenancy (Appearance tab) comes first, so that changing
+     * it there changes it on the login form and on the landing page too; the logo of the theme settings is used
+     * for a partner without one.
+     *
      * @param int $tenantid
      * @return \core\url|null
      */
     public static function logo_url(int $tenantid): ?\core\url {
         $context = \core\context\system::instance();
         $fs = get_file_storage();
+        $own = self::own_logo_file($tenantid);
+        if ($own) {
+            $url = self::trimmed_url($own, self::LOGO_TRIMMED_AREA, $tenantid);
+            if ($url) {
+                return $url;
+            }
+        }
         $files = $fs->get_area_files($context->id, 'theme_diverse', self::LOGO_AREA, $tenantid, 'filename', false);
         $original = reset($files);
         if (!$original) {
@@ -64,6 +75,29 @@ class partners {
             return null;
         }
         return self::trimmed_url($original, self::LOGO_TRIMMED_AREA, $tenantid) ?? self::file_url(self::LOGO_AREA, $tenantid);
+    }
+
+    /**
+     * The logo a partner's administrator uploaded in tool_mutenancy: a file of the partner's own context.
+     *
+     * @param int $tenantid
+     * @return \stored_file|null Null if the partner has none, or the file is not available on this site.
+     */
+    protected static function own_logo_file(int $tenantid): ?\stored_file {
+        if (!class_exists(\context_tenant::class)) {
+            return null;
+        }
+        $context = \context_tenant::instance($tenantid, IGNORE_MISSING);
+        if (!$context) {
+            return null;
+        }
+        $fs = get_file_storage();
+        foreach ($fs->get_area_files($context->id, 'core_admin', 'logo', 0, 'id DESC', false) as $file) {
+            if ($fs->get_file_system()->is_file_readable_locally_by_storedfile($file)) {
+                return $file;
+            }
+        }
+        return null;
     }
 
     /**
