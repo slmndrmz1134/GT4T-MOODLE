@@ -40,6 +40,9 @@ class partners {
     /** @var string File area of the trimmed copies of the partners' own top bar logos (item id = their context id). */
     const NAVBAR_LOGO_AREA = 'navbarlogo';
 
+    /** @var string The same for the partners' own compact logos: in an area of their own, see navbar_logo_url(). */
+    const NAVBAR_COMPACT_AREA = 'navbarlogocompact';
+
     /** @var int Height in pixels of the trimmed logo copies: four times the 2.5rem the login form shows. */
     const LOGO_HEIGHT = 160;
 
@@ -107,14 +110,17 @@ class partners {
      * @return \core\url|null Null if the image cannot be trimmed (e.g. SVG).
      */
     public static function navbar_logo_url(\stored_file $original): ?\core\url {
-        return self::trimmed_url($original, self::NAVBAR_LOGO_AREA, $original->get_contextid());
+        // The logo and the compact logo of a partner each keep their copy: in one area, each would delete the other's
+        // as a replaced upload, and the page would point to a copy that is gone.
+        $area = $original->get_filearea() === 'logocompact' ? self::NAVBAR_COMPACT_AREA : self::NAVBAR_LOGO_AREA;
+        return self::trimmed_url($original, $area, $original->get_contextid());
     }
 
     /**
      * URL of the copy of an image cut to its visible part, made once per file and kept in the given area.
      *
      * @param \stored_file $original
-     * @param string $filearea LOGO_TRIMMED_AREA or NAVBAR_LOGO_AREA (system context).
+     * @param string $filearea LOGO_TRIMMED_AREA, NAVBAR_LOGO_AREA or NAVBAR_COMPACT_AREA (system context).
      * @param int $itemid
      * @return \core\url|null Null if the image cannot be trimmed.
      */
