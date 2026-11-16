@@ -1,0 +1,114 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_diverse_partnerstats/index
+
+    The students of a partner university: figures, their courses, and each student. Uses the dashboard's classes of
+    theme_diverse (figures, cards, tables), so it looks like the dashboard.
+
+    Example context (json):
+    {
+        "days": 30, "choose": false, "tenants": [], "action": "#",
+        "tiles": [{"icon": "fa-user-graduate", "value": 12, "label": "Students"}],
+        "hascourses": true,
+        "courses": [{"name": "Business Law", "shortname": "LAW202", "url": "#", "reporturl": "#", "gradesurl": "#",
+            "enrolled": 10, "active": 7, "completed": 3, "completedpercent": 30, "averagetext": "72%"}],
+        "hasstudents": true,
+        "students": [{"name": "Ali Yilmaz", "email": "ali@example.com", "url": "#", "lastaccess": "2 days",
+            "active": true, "suspended": false, "courses": 3, "completed": 1, "averagetext": "68%"}]
+    }
+}}
+<div class="local-diverse-partnerstats">
+    {{#choose}}
+    <form class="local-diverse-partnerstats-choose" method="get" action="{{action}}">
+        <label for="local-diverse-partnerstats-tenant">{{#str}}choose, local_diverse_partnerstats{{/str}}</label>
+        <select id="local-diverse-partnerstats-tenant" name="tenant" class="form-select" onchange="this.form.submit()">
+            {{#tenants}}<option value="{{id}}"{{#selected}} selected{{/selected}}>{{name}}</option>{{/tenants}}
+        </select>
+        <noscript><button type="submit" class="btn btn-secondary">{{#str}}go{{/str}}</button></noscript>
+    </form>
+    {{/choose}}
+
+    <ul class="diverse-stat-row">
+        {{#tiles}}
+        <li class="diverse-stat-tile"><span class="diverse-stat-icon" aria-hidden="true"><i class="fa {{icon}}"></i></span><span><strong>{{value}}</strong><span>{{label}}</span></span></li>
+        {{/tiles}}
+    </ul>
+
+    <section class="diverse-card" aria-labelledby="local-diverse-partnerstats-courses">
+        <div class="diverse-card-head"><h2 id="local-diverse-partnerstats-courses">{{#str}}courses, local_diverse_partnerstats{{/str}}</h2></div>
+        {{#hascourses}}
+        <div class="diverse-table-wrap">
+            <table class="diverse-table">
+                <thead><tr>
+                    <th scope="col">{{#str}}col_course, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_enrolled, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_active, local_diverse_partnerstats, {{days}}{{/str}}</th>
+                    <th scope="col">{{#str}}col_completed, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_average, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col"><span class="visually-hidden">{{#str}}col_reports, local_diverse_partnerstats{{/str}}</span></th>
+                </tr></thead>
+                <tbody>
+                {{#courses}}
+                <tr>
+                    <td><a href="{{url}}">{{name}}</a><span class="diverse-table-meta">{{shortname}}</span></td>
+                    <td>{{enrolled}}</td>
+                    <td>{{active}}</td>
+                    <td>{{completed}} <span class="diverse-table-meta">{{completedpercent}}%</span></td>
+                    <td>{{averagetext}}</td>
+                    <td class="local-diverse-partnerstats-links">
+                        <a href="{{reporturl}}">{{#str}}link_completion, local_diverse_partnerstats{{/str}}</a>
+                        <a href="{{gradesurl}}">{{#str}}grades{{/str}}</a>
+                    </td>
+                </tr>
+                {{/courses}}
+                </tbody>
+            </table>
+        </div>
+        {{/hascourses}}
+        {{^hascourses}}<p class="diverse-empty">{{#str}}nocourses, local_diverse_partnerstats{{/str}}</p>{{/hascourses}}
+    </section>
+
+    <section class="diverse-card" aria-labelledby="local-diverse-partnerstats-students">
+        <div class="diverse-card-head"><h2 id="local-diverse-partnerstats-students">{{#str}}students, local_diverse_partnerstats{{/str}}</h2></div>
+        {{#hasstudents}}
+        <div class="diverse-table-wrap">
+            <table class="diverse-table">
+                <thead><tr>
+                    <th scope="col">{{#str}}col_student, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_lastaccess, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_courses, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_completed, local_diverse_partnerstats{{/str}}</th>
+                    <th scope="col">{{#str}}col_average, local_diverse_partnerstats{{/str}}</th>
+                </tr></thead>
+                <tbody>
+                {{#students}}
+                <tr>
+                    <td><a href="{{url}}">{{name}}</a><span class="diverse-table-meta">{{email}}{{#suspended}} · {{#str}}suspended{{/str}}{{/suspended}}</span></td>
+                    <td><span class="local-diverse-partnerstats-dot{{#active}} active{{/active}}" aria-hidden="true"></span>{{lastaccess}}</td>
+                    <td>{{courses}}</td>
+                    <td>{{completed}}</td>
+                    <td>{{averagetext}}</td>
+                </tr>
+                {{/students}}
+                </tbody>
+            </table>
+        </div>
+        {{/hasstudents}}
+        {{^hasstudents}}<p class="diverse-empty">{{#str}}nostudents, local_diverse_partnerstats{{/str}}</p>{{/hasstudents}}
+    </section>
+</div>

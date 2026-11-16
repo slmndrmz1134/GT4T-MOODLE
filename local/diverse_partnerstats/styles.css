@@ -1,0 +1,45 @@
+/**
+ * DIVERSE partner statistics. The page uses the dashboard's classes of theme_diverse; this only lays them out.
+ *
+ * Colours come only from the theme's Bootstrap variables (set in theme/diverse/scss/pre.scss, see DESIGN.md),
+ * so this file has no colour codes of its own.
+ */
+
+.local-diverse-partnerstats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.local-diverse-partnerstats-choose {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.local-diverse-partnerstats-choose .form-select {
+    width: auto;
+    min-width: 16rem;
+}
+
+.local-diverse-partnerstats-links {
+    white-space: nowrap;
+}
+
+.local-diverse-partnerstats-links a + a {
+    margin-left: .75rem;
+}
+
+.local-diverse-partnerstats-dot {
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    margin-right: .5rem;
+    border-radius: 50%;
+    background-color: var(--bs-border-color);
+    vertical-align: middle;
+}
+
+.local-diverse-partnerstats-dot.active {
+    background-color: var(--bs-success);
+}

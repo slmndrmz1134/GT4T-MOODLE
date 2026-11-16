@@ -51,6 +51,7 @@ class shell implements renderable, templatable {
         'calendar' => 'fa-calendar',
         'grades' => 'fa-award',
         'partner' => 'fa-building',
+        'stats' => 'fa-chart-column',
         'users' => 'fa-users',
         'admin' => 'fa-sliders',
         'guide' => 'fa-circle-question',
@@ -157,6 +158,16 @@ class shell implements renderable, templatable {
                 get_string('shell_mypartner', 'theme_diverse'),
                 '/admin/tool/mutenancy/tenant.php?id=' . $tenant->id,
                 ['/admin/tool/mutenancy/']
+            );
+        }
+        // The figures of the partner's students (local_diverse_partnerstats), for its administrators and the site's.
+        if (class_exists(\local_diverse_partnerstats\local\stats::class) &&
+                \local_diverse_partnerstats\local\stats::viewable_tenants()) {
+            $manage[] = $this->link(
+                'stats',
+                get_string('navlabel', 'local_diverse_partnerstats'),
+                '/local/diverse_partnerstats/index.php',
+                ['/local/diverse_partnerstats/']
             );
         }
         if (has_capability('moodle/site:config', \context_system::instance())) {
