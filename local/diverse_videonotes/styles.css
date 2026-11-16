@@ -1,0 +1,131 @@
+/**
+ * DIVERSE video bookmarks: the panel under the video of an activity.
+ *
+ * Colours come only from the theme's Bootstrap variables (set in theme/diverse/scss/pre.scss, see DESIGN.md),
+ * so this file has no colour codes of its own.
+ */
+
+.local-diverse-videonotes {
+    margin: 0 0 1.25rem;
+    padding: 1.25rem;
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 1.25rem;
+}
+
+.local-diverse-videonotes[hidden] {
+    display: none;
+}
+
+.local-diverse-videonotes-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem 1rem;
+    margin-bottom: .75rem;
+}
+
+.local-diverse-videonotes-head h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.local-diverse-videonotes-head .fa {
+    color: var(--bs-primary);
+}
+
+.local-diverse-videonotes-hint,
+.local-diverse-videonotes-empty {
+    color: var(--bs-secondary-color);
+    font-size: .8125rem;
+}
+
+.local-diverse-videonotes-form {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: .75rem;
+}
+
+.local-diverse-videonotes-form .form-control {
+    flex: 1;
+    min-width: 0;
+}
+
+.local-diverse-videonotes-form .btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.local-diverse-videonotes-form [data-region="now"] {
+    font-variant-numeric: tabular-nums;
+}
+
+.local-diverse-videonotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.local-diverse-videonotes-list li {
+    display: flex;
+    align-items: center;
+    gap: .25rem;
+}
+
+.local-diverse-videonotes-jump {
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    gap: .75rem;
+    min-width: 0;
+    padding: .5rem .75rem;
+    background: none;
+    border: 0;
+    border-radius: .625rem;
+    color: var(--bs-body-color);
+    text-align: left;
+}
+
+.local-diverse-videonotes-jump:hover,
+.local-diverse-videonotes-jump:focus-visible {
+    background-color: var(--bs-tertiary-bg);
+}
+
+.local-diverse-videonotes-time {
+    flex-shrink: 0;
+    color: var(--bs-primary);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.local-diverse-videonotes-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.local-diverse-videonotes-delete {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    color: var(--bs-secondary-color);
+}
+
+.local-diverse-videonotes-delete:hover,
+.local-diverse-videonotes-delete:focus-visible {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-danger);
+}
+
+@media (max-width: 575.98px) {
+    .local-diverse-videonotes-form {
+        flex-direction: column;
+    }
+}
