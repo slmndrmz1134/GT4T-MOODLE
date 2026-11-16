@@ -133,6 +133,16 @@ class core_renderer extends \theme_boost_union\output\core_renderer {
         if ($this->is_course_home()) {
             $aside = $this->render_from_template('theme_diverse/course_aside',
                 (new course_aside($this->page->course))->export_for_template($this));
+            // The course page has no block drawer for students: the blocks of the course (e.g. Level Up XP) stand
+            // in its column, as cards under the theme's own.
+            $this->page->requires->js_amd_inline("
+                var aside = document.querySelector('.diverse-course-aside');
+                if (aside) {
+                    document.querySelectorAll('#block-region-side-pre > .block').forEach(function(block) {
+                        aside.appendChild(block);
+                    });
+                }
+            ");
             return \html_writer::div(\html_writer::div($maincontent, 'diverse-course-main') . $aside, 'diverse-course-layout');
         }
         // Site administration: the pages opened most as tiles above Moodle's full menu, not above search results.

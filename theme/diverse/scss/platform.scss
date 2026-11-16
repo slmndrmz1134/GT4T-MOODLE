@@ -1819,6 +1819,26 @@ body.path-mod-book #region-main .book_content {
         color: $diverse-grey;
         font-size: .8125rem;
     }
+
+    // The blocks of the course (core_renderer::main_content() moves them here): cards like the theme's own.
+    > .block {
+        margin: 0;
+        padding: 1.25rem;
+        background-color: $white;
+        border: 1px solid $diverse-border;
+        border-radius: $card-border-radius;
+        box-shadow: $box-shadow-sm;
+
+        .card-body {
+            padding: 0;
+        }
+
+        .card-title {
+            margin-bottom: .75rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+    }
 }
 
 // The next live class: the one dark card of the page.

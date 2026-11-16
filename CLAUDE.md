@@ -227,6 +227,7 @@ Bir adım yapılamadıysa (ör. Docker çalışmıyor) ajan bunu raporda açık�
 | `local/diverse_catalog/` | Keşfet sayfası: görülebilen derslerde arama ve filtre |
 | `local/diverse_chat/` | Mesaj panelinden açılan sohbetin sonraki sayfalarda sağ altta açık kalan penceresi |
 | `local/diverse_darklogo/` | Partnerlerin koyu tema için tam ve kare logoları (dosya deposunda); partner menüsünden ve Görünüm altından yüklenir |
+| `blocks/xp/` | Level Up XP 21.0 (üçüncü taraf, düzenlenmez): oyunlaştırma; ders sayfasında sağ sütunda kart olarak görünür |
 | `auth/diverse_partner/` | Partner giriş kilidi: hesap yalnızca kendi partnerinin giriş sayfasından girer |
 | `local/diverse_policy/`, `docs/policies/` | Gizlilik Politikası ve Kullanım Koşulları: PDF'ler, kayıt formundaki iki onay kutusu |
 | [docs/design/README.md](docs/design/README.md) | Tasarım ilkeleri ve taslak ekranlar |
